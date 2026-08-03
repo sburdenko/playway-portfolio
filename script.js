@@ -54,6 +54,83 @@ window.setInterval(updateTime, 1000);
 
 const trailer = document.querySelector(".hero-stage video");
 const soundToggle = document.querySelector(".sound-toggle");
+const heroImage = document.querySelector(".hero-stage__image");
+const heroFeedProject = document.querySelector(".hero-stage__project");
+const heroFeed = [
+  { label: "01 / Bronze Hoof", video: true },
+  {
+    label: "02 / Welcome to Boon Hill",
+    image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174",
+    alt: "Welcome to Boon Hill gameplay",
+  },
+  {
+    label: "03 / Flower Book",
+    image: "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource114/v4/c5/46/e2/c546e2d0-aa7f-43e0-d7ae-bafb78b3c4e3/af10ce65-f77b-45f5-bf29-10e8473e744a_4.png/784x1392bb.png",
+    alt: "Flower Book match-3 gameplay",
+  },
+  {
+    label: "04 / Box Jam",
+    image: "https://play-lh.googleusercontent.com/dMz5oSX0QQrWP56BnaKvDb8loSp0PS4lR8Y8rfregNBa10GsPX2qpdymBm_46IqrXyOJanzW8vsU7A9zRrvafAM=w886-h1576",
+    alt: "Box Jam gameplay",
+  },
+  {
+    label: "05 / Blob Jam",
+    image: "https://play-lh.googleusercontent.com/-uzwUNNcObwudmHar_01TI8bfwRYzaSz3bfa94xsFLMMWR_-5TJvqZNkn7hu2OX6CHOqxPC4UPYcAmEwwblpew=w1052-h592",
+    alt: "Blob Jam gameplay",
+  },
+  {
+    label: "06 / Word Bend",
+    image: "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/d6/fb/3b/d6fb3ba7-6056-15cb-df7b-64df84741eff/2_1290x2796.png/784x1699bb.png",
+    alt: "Word Bend gameplay",
+  },
+  {
+    label: "07 / Card Match Solitaire",
+    image: "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png",
+    alt: "Card Match Solitaire gameplay",
+  },
+  {
+    label: "08 / Crazy Sapper 3D",
+    image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_09e1355fd7914a6105bfe3de470b37e55f065f85.1920x1080.jpg?t=1782119061",
+    alt: "Crazy Sapper 3D gameplay",
+  },
+  {
+    label: "09 / Astro Lords",
+    image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_c89faa00b8b7bb22d74325a91a936a28abf30b54.1920x1080.jpg?t=1782074241",
+    alt: "Astro Lords gameplay",
+  },
+  {
+    label: "10 / Astro Scavenger",
+    image: "https://play-lh.googleusercontent.com/PaOtmVZl7MtLWlhSz2wMfa7xSdW77od9oHJ6PtRXZmdUm-rACR1QBQ3QC2amJQE1uPnJEGNIYrdBtoAqCj9QYw=w1052-h592",
+    alt: "Astro Scavenger gameplay",
+  },
+];
+let heroFeedIndex = 0;
+
+const showHeroFeed = (index) => {
+  const item = heroFeed[index];
+  heroFeedProject.textContent = item.label;
+
+  if (item.video) {
+    heroImage.classList.remove("is-active");
+    trailer.classList.add("is-active");
+    trailer.play();
+    soundToggle.hidden = false;
+    return;
+  }
+
+  trailer.pause();
+  trailer.classList.remove("is-active");
+  heroImage.src = item.image;
+  heroImage.alt = item.alt;
+  heroImage.classList.add("is-active");
+  soundToggle.hidden = true;
+};
+
+window.setInterval(() => {
+  heroFeedIndex = (heroFeedIndex + 1) % heroFeed.length;
+  showHeroFeed(heroFeedIndex);
+}, 5200);
+
 soundToggle.addEventListener("click", () => {
   trailer.muted = !trailer.muted;
   soundToggle.textContent = `Sound: ${trailer.muted ? "off" : "on"}`;

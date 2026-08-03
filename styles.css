@@ -452,10 +452,19 @@ main {
   border-bottom: 1px solid var(--lime);
 }
 
-.hero-stage video {
+.hero-stage__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   filter: saturate(0.8) contrast(1.15);
+  opacity: 0;
+  transition: opacity 650ms ease;
+}
+
+.hero-stage__media.is-active {
+  opacity: 1;
 }
 
 .hero-stage__topline,
