@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { createHash } from "node:crypto";
 
 const mediaUrl = (url) => {
-  const extension = url.endsWith("movie480.mp4") ? "mp4" : "jpg";
+  const extension = url.endsWith("movie480.mp4") ? "mp4" : "webp";
   const name = createHash("sha256").update(url).digest("hex").slice(0, 16);
   return `./media/${name}.${extension}`;
 };

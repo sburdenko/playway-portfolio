@@ -56,7 +56,7 @@ const trailer = document.querySelector(".hero-stage video");
 const soundToggle = document.querySelector(".sound-toggle");
 const heroImage = document.querySelector(".hero-stage__image");
 const heroFeedProject = document.querySelector(".hero-stage__project");
-const media = (name) => `${import.meta.env.BASE_URL}media/${name}.jpg`;
+const media = (name) => `${import.meta.env.BASE_URL}media/${name}.webp`;
 const heroFeed = [
   { label: "01 / Bronze Hoof", video: true },
   {
