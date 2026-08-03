@@ -1555,6 +1555,15 @@ main {
 .word__link { display:flex; justify-content:space-between; padding:1rem 0; border-block:1px solid rgba(32,27,66,.35); font-size:.56rem; text-transform:uppercase; letter-spacing:.1em; }
 .word__link i { color:#e74c68; font-size:1rem; font-style:normal; }
 
+.solitaire { color:#1f2533; background:#d4e1c3; }
+.solitaire::before { content:"♠"; color:rgba(31,37,51,.1); }
+.solitaire .word__header h2 em,.solitaire .word__header p,.solitaire .word__facts strong,.solitaire .word__link i { color:#246b55; }
+.solitaire .word__header span,.solitaire .word__copy > span,.solitaire .word__facts span { color:#5a726a; }
+.solitaire .word__phones img { border-color:#1f2533; }
+.solitaire .word__facts { border-color:rgba(31,37,51,.25); }
+.solitaire .word__facts div { border-color:rgba(31,37,51,.25); }
+.solitaire .word__link { border-color:rgba(31,37,51,.35); }
+
 .conveyor {
   position: relative;
   z-index: 1;
