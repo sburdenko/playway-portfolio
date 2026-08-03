@@ -1491,6 +1491,30 @@ main {
 .blob__gallery img:nth-child(2) { transform: translateY(3rem); }
 .blob__gallery img:hover { transform: scale(1.04); }
 
+.word { overflow: hidden; color: #201b42; background: #f4d6bd; }
+.word::before { content: "WORD"; position: absolute; right: -2vw; bottom: -0.12em; color: rgba(255,255,255,.3); font-family: var(--display); font-size: min(26vw, 24rem); font-weight: 800; letter-spacing: -.1em; }
+.word__header, .word__body { position: relative; z-index: 1; }
+.word__header { display: grid; grid-template-columns: .45fr 1.1fr .45fr; gap: 4vw; margin-bottom: clamp(5rem,9vw,9rem); }
+.word__header > div { display: flex; align-items: center; gap: 1rem; }
+.word__header img { width: clamp(4rem,7vw,7rem); border-radius: 22%; box-shadow: 0 1rem 2rem rgba(32,27,66,.2); }
+.word__header span, .word__copy > span { color: #76658d; font-size: .56rem; text-transform: uppercase; letter-spacing: .11em; }
+.word__header h2 { margin:0; font-family:var(--display); font-size:clamp(5rem,11vw,11rem); font-weight:800; line-height:.7; letter-spacing:-.1em; text-transform:uppercase; }
+.word__header h2 em { color:#e74c68; font-style:normal; }
+.word__header p { justify-self:end; margin:0; color:#e74c68; font-family:var(--display); font-size:clamp(1rem,1.5vw,1.5rem); font-weight:600; line-height:1.2; text-transform:uppercase; }
+.word__body { display:grid; grid-template-columns:1.1fr .9fr; align-items:center; gap:7vw; }
+.word__phones { display:flex; justify-content:center; align-items:center; min-height:34rem; }
+.word__phones img { width:min(32%,12rem); border:.5rem solid #201b42; border-radius:2rem; box-shadow:0 1.5rem 3rem rgba(32,27,66,.22); }
+.word__phones img:nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
+.word__phones img:nth-child(2) { z-index:1; transform:translateY(-2rem); }
+.word__phones img:nth-child(3) { transform:rotate(10deg) translateX(-2rem); }
+.word__copy > p { margin:1.6rem 0 3rem; font-family:var(--display); font-size:clamp(1.45rem,2.5vw,2.7rem); line-height:1.2; letter-spacing:-.025em; }
+.word__facts { display:grid; grid-template-columns:repeat(2,1fr); margin-bottom:2rem; border-top:1px solid rgba(32,27,66,.25); border-left:1px solid rgba(32,27,66,.25); }
+.word__facts div { display:flex; flex-direction:column; justify-content:space-between; min-height:7.5rem; padding:1.1rem; border-right:1px solid rgba(32,27,66,.25); border-bottom:1px solid rgba(32,27,66,.25); }
+.word__facts strong { color:#e74c68; font-family:var(--display); font-size:clamp(2.3rem,3.7vw,4.3rem); line-height:1; letter-spacing:-.06em; }
+.word__facts span { color:#76658d; font-size:.53rem; text-transform:uppercase; letter-spacing:.1em; }
+.word__link { display:flex; justify-content:space-between; padding:1rem 0; border-block:1px solid rgba(32,27,66,.35); font-size:.56rem; text-transform:uppercase; letter-spacing:.1em; }
+.word__link i { color:#e74c68; font-size:1rem; font-style:normal; }
+
 .conveyor {
   position: relative;
   z-index: 1;
@@ -2264,6 +2288,11 @@ main {
   .blob__header p { grid-column: 2; grid-row: 1; }
   .blob__stage { grid-template-columns: 1fr; }
 
+  .word__header { grid-template-columns: auto 1fr; }
+  .word__header h2 { grid-column: 1 / -1; grid-row: 2; }
+  .word__header p { grid-column: 2; grid-row: 1; }
+  .word__body { grid-template-columns: 1fr; }
+
   .sapper__header {
     grid-template-columns: auto 1fr;
   }
@@ -2356,6 +2385,7 @@ main {
   .flower__header h2,
   .boxjam__header h2,
   .blob__header h2,
+  .word__header h2,
   .sapper__header h2,
   .astro__header h2,
   .about__header h2 {
@@ -2466,6 +2496,14 @@ main {
   .blob__facts div { min-height: 7.5rem; }
   .blob__gallery { display: flex; overflow-x: auto; margin-right: calc(var(--gutter) * -1); margin-top: 7rem; padding: 0 0 2rem; padding-right: var(--gutter); scroll-snap-type: x mandatory; }
   .blob__gallery img, .blob__gallery img:nth-child(2) { flex: 0 0 82vw; transform: none; scroll-snap-align: start; }
+
+  .word__header { margin-bottom: 4rem; }
+  .word__header > div span { display:none; }
+  .word__header p { font-size:.85rem; }
+  .word__phones { min-height: 28rem; }
+  .word__phones img { width:min(34%,10rem); border-width:.35rem; border-radius:1.5rem; }
+  .word__copy > p { font-size:1.35rem; }
+  .word__facts div { min-height:7.5rem; }
 
   .conveyor {
     display: flex;
