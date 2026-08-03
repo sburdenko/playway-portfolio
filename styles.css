@@ -347,7 +347,7 @@ main {
 .hero__title {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(4.4rem, 8.7vw, 9.2rem);
+  font-size: clamp(4.4rem, 7.2vw, 8rem);
   font-weight: 800;
   line-height: 0.72;
   letter-spacing: -0.085em;
@@ -359,7 +359,7 @@ main {
 }
 
 .hero__title span:nth-child(2) {
-  margin-left: 12vw;
+  margin-left: 8vw;
 }
 
 .hero__title span:nth-child(3) {
@@ -379,7 +379,7 @@ main {
   align-items: center;
   gap: 3vw;
   margin-top: 3rem;
-  margin-left: 12vw;
+  margin-left: 8vw;
 }
 
 .hero__intro p {

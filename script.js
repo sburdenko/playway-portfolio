@@ -56,51 +56,52 @@ const trailer = document.querySelector(".hero-stage video");
 const soundToggle = document.querySelector(".sound-toggle");
 const heroImage = document.querySelector(".hero-stage__image");
 const heroFeedProject = document.querySelector(".hero-stage__project");
+const media = (name) => `${import.meta.env.BASE_URL}media/${name}.jpg`;
 const heroFeed = [
   { label: "01 / Bronze Hoof", video: true },
   {
     label: "02 / Welcome to Boon Hill",
-    image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174",
+    image: media("7f1fea861513a859"),
     alt: "Welcome to Boon Hill gameplay",
   },
   {
     label: "03 / Flower Book",
-    image: "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource114/v4/c5/46/e2/c546e2d0-aa7f-43e0-d7ae-bafb78b3c4e3/af10ce65-f77b-45f5-bf29-10e8473e744a_4.png/784x1392bb.png",
+    image: media("c6858267e2b0c8a0"),
     alt: "Flower Book match-3 gameplay",
   },
   {
     label: "04 / Box Jam",
-    image: "https://play-lh.googleusercontent.com/dMz5oSX0QQrWP56BnaKvDb8loSp0PS4lR8Y8rfregNBa10GsPX2qpdymBm_46IqrXyOJanzW8vsU7A9zRrvafAM=w886-h1576",
+    image: media("b2cac326299ec296"),
     alt: "Box Jam gameplay",
   },
   {
     label: "05 / Blob Jam",
-    image: "https://play-lh.googleusercontent.com/-uzwUNNcObwudmHar_01TI8bfwRYzaSz3bfa94xsFLMMWR_-5TJvqZNkn7hu2OX6CHOqxPC4UPYcAmEwwblpew=w1052-h592",
+    image: media("27f410d7ad50c885"),
     alt: "Blob Jam gameplay",
   },
   {
     label: "06 / Word Bend",
-    image: "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/d6/fb/3b/d6fb3ba7-6056-15cb-df7b-64df84741eff/2_1290x2796.png/784x1699bb.png",
+    image: media("09b766a3ab3899cf"),
     alt: "Word Bend gameplay",
   },
   {
     label: "07 / Card Match Solitaire",
-    image: "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png",
+    image: media("a1d3f155bcaa6556"),
     alt: "Card Match Solitaire gameplay",
   },
   {
     label: "08 / Crazy Sapper 3D",
-    image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_09e1355fd7914a6105bfe3de470b37e55f065f85.1920x1080.jpg?t=1782119061",
+    image: media("4f8d0639d0d45e6d"),
     alt: "Crazy Sapper 3D gameplay",
   },
   {
     label: "09 / Astro Lords",
-    image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_c89faa00b8b7bb22d74325a91a936a28abf30b54.1920x1080.jpg?t=1782074241",
+    image: media("9e52bef3e163f1f0"),
     alt: "Astro Lords gameplay",
   },
   {
     label: "10 / Astro Scavenger",
-    image: "https://play-lh.googleusercontent.com/PaOtmVZl7MtLWlhSz2wMfa7xSdW77od9oHJ6PtRXZmdUm-rACR1QBQ3QC2amJQE1uPnJEGNIYrdBtoAqCj9QYw=w1052-h592",
+    image: media("da4dac8bb78f7322"),
     alt: "Astro Scavenger gameplay",
   },
 ];
@@ -196,6 +197,7 @@ const context = canvas.getContext("2d");
 let width;
 let height;
 let pixelRatio;
+let sceneFrame;
 
 const resizeCanvas = () => {
   pixelRatio = Math.min(window.devicePixelRatio, 2);
@@ -230,9 +232,16 @@ const drawScene = () => {
   context.arc(pointer.x, pointer.y, 85, 0, Math.PI * 2);
   context.strokeStyle = "rgba(223, 255, 54, 0.08)";
   context.stroke();
-  requestAnimationFrame(drawScene);
+  sceneFrame = requestAnimationFrame(drawScene);
 };
 
 resizeCanvas();
 drawScene();
 window.addEventListener("resize", resizeCanvas);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    cancelAnimationFrame(sceneFrame);
+  } else {
+    drawScene();
+  }
+});
