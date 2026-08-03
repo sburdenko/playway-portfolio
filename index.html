@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Unity developer portfolio — gameplay systems, prototypes and shipped games."
+    />
+    <meta name="theme-color" content="#0b0b09" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600&family=Syne:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Oleksandr — Unity Developer</title>
+  </head>
+  <body>
+    <div class="loader" aria-hidden="true">
+      <div class="loader__mark">P<span>//</span>W</div>
+      <div class="loader__track"><span></span></div>
+      <p>Building player world</p>
+    </div>
+
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="cursor cursor--dot" aria-hidden="true"></div>
+    <div class="cursor cursor--ring" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand interactive" href="#top" aria-label="Back to top">
+        <span class="brand__glyph">P//W</span>
+        <span class="brand__copy">Oleksandr<br />Unity developer</span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="interactive" href="#work">Work <span>08</span></a>
+        <a class="interactive" href="#about">Profile <span>01</span></a>
+        <a class="interactive" href="#contact">Contact <span>→</span></a>
+      </nav>
+      <div class="availability">
+        <i></i>
+        <span>Available for projects</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero__copy">
+          <div class="eyebrow reveal">
+            <span>Unity developer</span>
+            <span>Gameplay / systems / feel</span>
+          </div>
+          <h1 class="hero__title reveal">
+            <span>I build</span>
+            <span class="hero__title--outline">games</span>
+            <span>with teeth.</span>
+          </h1>
+          <div class="hero__intro reveal">
+            <p>
+              I turn mechanics into momentum — responsive controls, readable systems
+              and worlds that make players lean forward.
+            </p>
+            <a class="round-link interactive magnetic" href="#work" aria-label="Explore selected work">
+              <span>Explore<br />work</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 4v15M6 13l6 6 6-6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-stage reveal" data-tilt>
+          <div class="hero-stage__topline">
+            <span>Live game feed</span>
+            <span>01 / Bronze Hoof</span>
+          </div>
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/header.jpg?t=1598633964"
+          >
+            <source
+              src="https://cdn.akamai.steamstatic.com/steam/apps/256769059/movie480.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <div class="hero-stage__scan"></div>
+          <div class="hero-stage__reticle" aria-hidden="true"><span></span></div>
+          <div class="hero-stage__footer">
+            <span>Unity runtime</span>
+            <button class="sound-toggle interactive" type="button" aria-label="Turn trailer sound on">
+              Sound: off
+            </button>
+          </div>
+        </div>
+
+        <div class="hero__status">
+          <span>Based in Europe</span>
+          <span class="local-time">21:34:07 CET</span>
+          <span>Scroll to enter</span>
+        </div>
+      </section>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>Gameplay programming</span><i>✦</i>
+          <span>Unity development</span><i>✦</i>
+          <span>Rapid prototyping</span><i>✦</i>
+          <span>Optimization</span><i>✦</i>
+          <span>Gameplay programming</span><i>✦</i>
+          <span>Unity development</span><i>✦</i>
+          <span>Rapid prototyping</span><i>✦</i>
+          <span>Optimization</span><i>✦</i>
+        </div>
+      </div>
+
+      <section class="featured section" id="work">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-index">01 / Featured release</span>
+            <h2>Bronze<br />Hoof</h2>
+          </div>
+          <p>
+            A hardcore arcade runner set in an ancient world. Minimal controls,
+            escalating mechanics and bosses built to test mastery.
+          </p>
+        </div>
+
+        <a
+          class="feature-frame interactive reveal"
+          data-tilt
+          href="https://store.steampowered.com/app/1194600/Bronze_Hoof/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Open Bronze Hoof on Steam"
+        >
+          <img
+            src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_00efa63a3c072b34e955cbb5f92f40b2ebbe1568.1920x1080.jpg?t=1598633964"
+            alt="Bronze Hoof gameplay with a centaur running through an ancient city"
+          />
+          <div class="feature-frame__shade"></div>
+          <span class="feature-frame__label">View on Steam</span>
+          <span class="feature-frame__arrow">↗</span>
+          <div class="feature-frame__caption">
+            <span>Persic Games / 2019</span>
+            <span>Indie · Runner · Platformer</span>
+          </div>
+        </a>
+
+        <div class="project-details">
+          <div class="project-quote reveal">
+            <span>Design intent</span>
+            <p>“Simple to control.<br />Challenging to master.”</p>
+          </div>
+          <div class="stats reveal">
+            <div><strong>12</strong><span>handmade levels</span></div>
+            <div><strong>03</strong><span>unique bosses</span></div>
+            <div><strong>81%</strong><span>positive reviews</span></div>
+            <div><strong>12</strong><span>languages</span></div>
+          </div>
+        </div>
+
+        <div class="gallery reveal" aria-label="Bronze Hoof screenshot gallery">
+          <figure class="gallery__item gallery__item--wide">
+            <img
+              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_e8233951b9760a5cea71711a87be6e218614e1c7.1920x1080.jpg?t=1598633964"
+              alt="Bronze Hoof battle scene"
+              loading="lazy"
+            />
+            <figcaption>Encounter / 02</figcaption>
+          </figure>
+          <figure class="gallery__item gallery__item--tall">
+            <img
+              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_c50deea1db5cb2560893ab6d6c99ef70ba8f3a91.1920x1080.jpg?t=1598633964"
+              alt="Bronze Hoof ancient world"
+              loading="lazy"
+            />
+            <figcaption>World / 05</figcaption>
+          </figure>
+          <figure class="gallery__item">
+            <img
+              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_f57382bdd5629440853c8ee397e65074ed6800c3.1920x1080.jpg?t=1598633964"
+              alt="Bronze Hoof boss fight"
+              loading="lazy"
+            />
+            <figcaption>Boss / 03</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="boon section" id="boon-hill">
+        <div class="boon__header reveal">
+          <div>
+            <span class="section-index">02 / Narrative simulation</span>
+            <h2>Welcome to<br /><em>Boon Hill</em></h2>
+          </div>
+          <div class="boon__intro">
+            <span>Oct 31, 2015 / Steam</span>
+            <p>
+              A graveyard simulator with no prescribed goal. Walk, read epitaphs
+              and uncover the quiet connections left behind.
+            </p>
+          </div>
+        </div>
+
+        <a
+          class="boon-screen interactive reveal"
+          href="https://store.steampowered.com/app/406780/Welcome_to_Boon_Hill/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Open Welcome to Boon Hill on Steam"
+        >
+          <img
+            src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174"
+            alt="A monumental crow statue over a gravestone in Welcome to Boon Hill"
+            loading="lazy"
+          />
+          <div class="boon-screen__scan" aria-hidden="true"></div>
+          <div class="boon-screen__hud">
+            <span>Archive feed / 406780</span>
+            <span>Explore on Steam ↗</span>
+          </div>
+          <div class="boon-screen__focus" aria-hidden="true"></div>
+        </a>
+
+        <div class="boon__details">
+          <div class="boon__statement reveal">
+            <span>Experience</span>
+            <p>No victory.<br />No danger.<br /><em>Just stories.</em></p>
+          </div>
+          <div class="boon__facts reveal">
+            <div><strong>1,000+</strong><span>individual epitaphs</span></div>
+            <div><strong>85%</strong><span>positive reviews</span></div>
+            <div><strong>16-bit</strong><span>pixel world</span></div>
+            <div><strong>∞</strong><span>player-led stories</span></div>
+          </div>
+        </div>
+
+        <div class="boon-gallery reveal" aria-label="Welcome to Boon Hill screenshot gallery">
+          <figure>
+            <img
+              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_f655dee7939139fb77a5c18b077f04ee42149532.1920x1080.jpg?t=1498124174"
+              alt="Pixel-art graveyard in Welcome to Boon Hill"
+              loading="lazy"
+            />
+            <figcaption>Grounds / 01</figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_ec3d181ac3809fbbf58620b44eb9172ca8de599b.1920x1080.jpg?t=1498124174"
+              alt="Reading an epitaph in Welcome to Boon Hill"
+              loading="lazy"
+            />
+            <figcaption>Epitaph / 04</figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_e951b1bef3998159c25abe1dec161f8e380f44bb.1920x1080.jpg?t=1498124174"
+              alt="An encounter in the Boon Hill graveyard"
+              loading="lazy"
+            />
+            <figcaption>Story / 06</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="flower section" id="flower-book">
+        <div class="flower__bloom flower__bloom--one" aria-hidden="true"></div>
+        <div class="flower__bloom flower__bloom--two" aria-hidden="true"></div>
+
+        <div class="flower__header reveal">
+          <div class="flower__identity">
+            <img
+              src="https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/c9/bc/fc/c9bcfc3b-4e7a-6721-71ae-41f45b17178b/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg"
+              alt="Flower Book app icon"
+              loading="lazy"
+            />
+            <span>03 / Mobile puzzle</span>
+          </div>
+          <h2>Flower<br /><em>Book</em></h2>
+          <div class="flower__store-mark">
+            <span>Available on</span>
+            <strong>App Store ↗</strong>
+          </div>
+        </div>
+
+        <div class="flower__showcase">
+          <div class="flower__copy reveal">
+            <span>Puzzle / Casual / 2020</span>
+            <p>
+              Match flowers, solve puzzles and grow a living collection.
+              A cozy mobile loop that blends strategy, decoration and real plant facts.
+            </p>
+            <a
+              class="flower__link interactive"
+              href="https://apps.apple.com/ae/app/flower-book-match-3-game/id1543828707"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View on App Store <i>↗</i>
+            </a>
+          </div>
+
+          <a
+            class="phone-stack interactive reveal"
+            href="https://apps.apple.com/ae/app/flower-book-match-3-game/id1543828707"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open Flower Book on the App Store"
+          >
+            <figure class="phone phone--left">
+              <img
+                src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource114/v4/8e/88/03/8e880369-5d9f-f8a0-f55e-7d567d6ebf50/1bc06175-b8fd-429b-85b7-fc45079b6db0_2.png/784x1392bb.png"
+                alt="Flower Book tree-house customization screen"
+                loading="lazy"
+              />
+            </figure>
+            <figure class="phone phone--center">
+              <img
+                src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource114/v4/c5/46/e2/c546e2d0-aa7f-43e0-d7ae-bafb78b3c4e3/af10ce65-f77b-45f5-bf29-10e8473e744a_4.png/784x1392bb.png"
+                alt="Flower Book match-3 gameplay screen"
+                loading="lazy"
+              />
+            </figure>
+            <figure class="phone phone--right">
+              <img
+                src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource124/v4/cd/02/0d/cd020d74-ee9e-eb47-b93d-627f787e2e05/09c6b99b-3572-4bd1-b233-1eaf0c30ab59_5.png/784x1392bb.png"
+                alt="Flower Book plant facts screen"
+                loading="lazy"
+              />
+            </figure>
+          </a>
+        </div>
+
+        <div class="flower__footer reveal">
+          <p>Match.<br />Grow.<br /><em>Discover.</em></p>
+          <div class="flower__facts">
+            <div><strong>5.0</strong><span>App Store rating</span></div>
+            <div><strong>4+</strong><span>age rating</span></div>
+            <div><strong>iOS</strong><span>iPhone + iPad</span></div>
+            <div><strong>1.231</strong><span>latest version</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="boxjam section" id="box-jam">
+        <div class="boxjam__grid" aria-hidden="true"></div>
+
+        <div class="boxjam__header reveal">
+          <div class="boxjam__badge">
+            <img
+              src="https://play-lh.googleusercontent.com/u_U_XDi6xdzmzshS7tgmbKK0LYLz60oQ-GUPl8Zy3ZI_TX9I8NIhcvlMnCS5RDp7bwlXorgIoEcf4R6qAM3B2rk=s512"
+              alt="Box Jam app icon"
+              loading="lazy"
+            />
+            <span>04 / 3D sorting puzzle</span>
+          </div>
+          <h2>Box<br /><em>Jam!</em></h2>
+          <p>Sort the chaos.<br />Feed the flow.</p>
+        </div>
+
+        <div class="boxjam__stage">
+          <a
+            class="boxjam-phone interactive reveal"
+            href="https://play.google.com/store/apps/details?id=com.playoneer.boxjam"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open Box Jam on Google Play"
+          >
+            <img
+              src="https://play-lh.googleusercontent.com/dMz5oSX0QQrWP56BnaKvDb8loSp0PS4lR8Y8rfregNBa10GsPX2qpdymBm_46IqrXyOJanzW8vsU7A9zRrvafAM=w886-h1576"
+              alt="Sorting colorful cans in Box Jam"
+              loading="lazy"
+            />
+            <span>Google Play ↗</span>
+          </a>
+
+          <div class="boxjam__copy reveal">
+            <span>Mobile / Puzzle / Offline</span>
+            <p>
+              A tactile 3D sorting game built around recognition, speed and satisfying
+              object interaction. Drag items into moving boxes and chain fast combos.
+            </p>
+            <div class="boxjam__facts">
+              <div><strong>1M+</strong><span>downloads</span></div>
+              <div><strong>4.8</strong><span>rating</span></div>
+              <div><strong>14K+</strong><span>reviews</span></div>
+              <div><strong>3D</strong><span>object sorting</span></div>
+            </div>
+            <a
+              class="boxjam__link interactive"
+              href="https://play.google.com/store/apps/details?id=com.playoneer.boxjam"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Get it on Google Play <i>↗</i>
+            </a>
+          </div>
+        </div>
+
+        <div class="conveyor reveal" aria-label="Box Jam screenshot gallery">
+          <div class="conveyor__rail" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <figure>
+            <img
+              src="https://play-lh.googleusercontent.com/qqMh6YFqs0R4o15Ob0MrTcP3ZiTecaRbyAdR6A7lTfUpalrufE3adi69aUxxPQraKOSL7uas67tOki7UKY-4Mw=w886-h1576"
+              alt="Sorting letters in Box Jam"
+              loading="lazy"
+            />
+            <figcaption>Recognize / 01</figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://play-lh.googleusercontent.com/dMz5oSX0QQrWP56BnaKvDb8loSp0PS4lR8Y8rfregNBa10GsPX2qpdymBm_46IqrXyOJanzW8vsU7A9zRrvafAM=w886-h1576"
+              alt="Sorting cans in Box Jam"
+              loading="lazy"
+            />
+            <figcaption>Sort / 02</figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://play-lh.googleusercontent.com/ROpSUz4WB_D0Am2mJ6UHyBG449k1ggAuOj26aIDwYCyAUfvGZWJ3D3LGnPK4JmoCTRV28hSiETXpBwQxDC3WjBU=w886-h1576"
+              alt="Sorting colorful screws in Box Jam"
+              loading="lazy"
+            />
+            <figcaption>Boost / 03</figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://play-lh.googleusercontent.com/WtDynvMpW1XUcgZrThtF9yo3h4iVadNvZEd3AspybtTpE3Xj41qs71fTyfVK4kygkp0YmJs2BsQ1xOLyTozEXg=w886-h1576"
+              alt="Sorting objects into moving boxes in Box Jam"
+              loading="lazy"
+            />
+            <figcaption>Flow / 04</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="sapper section" id="crazy-sapper">
+        <div class="sapper__minefield" aria-hidden="true"></div>
+
+        <div class="sapper__header reveal">
+          <span>05 / PC puzzle adventure</span>
+          <h2>Crazy<br /><em>Sapper</em> 3D</h2>
+          <p>Think first.<br />Move second.</p>
+        </div>
+
+        <div class="sapper__stage">
+          <a
+            class="sapper__hero interactive reveal"
+            href="https://store.steampowered.com/app/529420/Crazy_Sapper_3D/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open Crazy Sapper 3D on Steam"
+          >
+            <img
+              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_34038a40ff888e070259ba446b3b1cc5e4bd177a.1920x1080.jpg?t=1782119061"
+              alt="Crazy Sapper 3D gameplay on a minefield"
+              loading="lazy"
+            />
+            <span>Play on Steam ↗</span>
+          </a>
+
+          <div class="sapper__copy reveal">
+            <span>Indie / Strategy / 3D</span>
+            <p>
+              A new 3D spin on the classic minesweeper formula: read the field,
+              outsmart the hazards and guide Max to the finish line.
+            </p>
+            <div class="sapper__facts">
+              <div><strong>30</strong><span>campaign levels</span></div>
+              <div><strong>4</strong><span>difficulty modes</span></div>
+              <div><strong>45</strong><span>Steam achievements</span></div>
+              <div><strong>72%</strong><span>positive reviews</span></div>
+            </div>
+            <a
+              class="sapper__link interactive"
+              href="https://store.steampowered.com/app/529420/Crazy_Sapper_3D/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View on Steam <i>↗</i>
+            </a>
+          </div>
+        </div>
+
+        <div class="sapper__gallery reveal" aria-label="Crazy Sapper 3D screenshot gallery">
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_09e1355fd7914a6105bfe3de470b37e55f065f85.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D action level" loading="lazy" />
+            <figcaption>Scan / 01</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_63412005600e4d0ab1d95dfd3f7590e7902f0567.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D battlefield" loading="lazy" />
+            <figcaption>Plan / 02</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_1baa5be446d3ced57b9902918afb29d4d5a9a0f3.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D puzzle gameplay" loading="lazy" />
+            <figcaption>Advance / 03</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="astro section" id="astro-lords">
+        <div class="astro__stars" aria-hidden="true"></div>
+        <div class="astro__orbit astro__orbit--one" aria-hidden="true"></div>
+        <div class="astro__orbit astro__orbit--two" aria-hidden="true"></div>
+
+        <div class="astro__header reveal">
+          <span>06 / MMORTS / Space</span>
+          <h2>Astro<br /><em>Lords</em></h2>
+          <p>Claim an asteroid.<br />Rule the cloud.</p>
+        </div>
+
+        <div class="astro__stage">
+          <a
+            class="astro__hero interactive reveal"
+            href="https://store.steampowered.com/app/372190/Astro_Lords_Oort_Cloud/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open Astro Lords: Oort Cloud on Steam"
+          >
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_c89faa00b8b7bb22d74325a91a936a28abf30b54.1920x1080.jpg?t=1782074241" alt="Astro Lords space base gameplay" loading="lazy" />
+            <span>Free on Steam ↗</span>
+          </a>
+
+          <div class="astro__copy reveal">
+            <span>Build / Shoot / Raid</span>
+            <p>
+              A science-fiction strategy world where players build asteroid bases,
+              command captains and fight for dominance across the Oort Cloud.
+            </p>
+            <div class="astro__facts">
+              <div><strong>6</strong><span>captains to recruit</span></div>
+              <div><strong>7</strong><span>captain classes</span></div>
+              <div><strong>50+</strong><span>skills to develop</span></div>
+              <div><strong>F2P</strong><span>on Steam</span></div>
+            </div>
+            <a class="astro__link interactive" href="https://store.steampowered.com/app/372190/Astro_Lords_Oort_Cloud/" target="_blank" rel="noreferrer">
+              Enter the Oort Cloud <i>↗</i>
+            </a>
+          </div>
+        </div>
+
+        <div class="astro__gallery reveal" aria-label="Astro Lords screenshot gallery">
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241" alt="Astro Lords cosmic battle" loading="lazy" />
+            <figcaption>Build / 01</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_10293ec7e68d2a446b1fad0ae7523a9c3590025b.1920x1080.jpg?t=1782074241" alt="Astro Lords strategy interface" loading="lazy" />
+            <figcaption>Command / 02</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_377a48a6967bfdfa984e300163550d7a5126c3c7.1920x1080.jpg?t=1782074241" alt="Astro Lords asteroid settlement" loading="lazy" />
+            <figcaption>Raid / 03</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="more-work section">
+        <div class="section-heading section-heading--compact reveal">
+          <div>
+            <span class="section-index">07 / Selected prototypes</span>
+            <h2>More<br />worlds</h2>
+          </div>
+          <p>Two more playable projects. Visual feeds are waiting for source captures.</p>
+        </div>
+
+        <div class="prototype-grid">
+          <a
+            class="prototype prototype--orange interactive reveal"
+            href="https://www.upwork.com/freelancers/~01458517f4004ec416?p=1465561762311757824"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="prototype__number">P_02</span>
+            <div class="prototype__visual">
+              <span class="prototype__orb"></span>
+              <span class="prototype__wire"></span>
+              <span class="prototype__cross">+</span>
+            </div>
+            <div class="prototype__copy">
+              <div>
+                <span>Unity project</span>
+                <span>Upwork portfolio</span>
+              </div>
+              <h3>Classified<br />build 01</h3>
+              <p>Open live project ↗</p>
+            </div>
+          </a>
+
+          <a
+            class="prototype prototype--lime interactive reveal"
+            href="https://www.upwork.com/freelancers/~01458517f4004ec416?p=540544755755450368"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="prototype__number">P_03</span>
+            <div class="prototype__visual">
+              <span class="prototype__orb"></span>
+              <span class="prototype__wire"></span>
+              <span class="prototype__cross">×</span>
+            </div>
+            <div class="prototype__copy">
+              <div>
+                <span>Unity project</span>
+                <span>Upwork portfolio</span>
+              </div>
+              <h3>Classified<br />build 02</h3>
+              <p>Open live project ↗</p>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="about section" id="about">
+        <div class="about__header reveal">
+          <span class="section-index">08 / Player profile</span>
+          <h2>Mechanics first.<br /><em>Feel</em> always.</h2>
+        </div>
+        <div class="about__grid">
+          <p class="about__lead reveal">
+            I’m a Unity developer focused on making interactions feel deliberate:
+            the weight of a jump, the timing of feedback, the architecture underneath it all.
+          </p>
+          <div class="capabilities reveal">
+            <div><span>01</span><p>Gameplay systems</p><i>C# / Unity</i></div>
+            <div><span>02</span><p>Rapid prototypes</p><i>Idea → playable</i></div>
+            <div><span>03</span><p>Performance</p><i>Profiling / polish</i></div>
+            <div><span>04</span><p>Full-cycle delivery</p><i>Build → release</i></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="contact__noise" aria-hidden="true"></div>
+        <div class="contact__top reveal">
+          <span>Have a world in mind?</span>
+          <span>Let’s make it playable.</span>
+        </div>
+        <a
+          class="contact__cta interactive reveal"
+          href="https://www.upwork.com/freelancers/~01458517f4004ec416"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Start<br />a project <span>↗</span>
+        </a>
+        <div class="contact__footer">
+          <span>© 2026 Oleksandr</span>
+          <a class="interactive" href="https://store.steampowered.com/app/1194600/Bronze_Hoof/" target="_blank" rel="noreferrer">Steam</a>
+          <a class="interactive" href="https://www.upwork.com/freelancers/~01458517f4004ec416" target="_blank" rel="noreferrer">Upwork</a>
+          <a class="interactive" href="#top">Back to top ↑</a>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/script.js"></script>
+  </body>
+</html>
