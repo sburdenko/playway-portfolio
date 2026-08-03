@@ -1,7 +1,7 @@
 document.body.classList.add("is-loading");
 
 const loader = document.querySelector(".loader");
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   window.setTimeout(() => {
     loader.classList.add("is-done");
     document.body.classList.remove("is-loading");
