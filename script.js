@@ -108,6 +108,12 @@ document.querySelectorAll(".magnetic").forEach((element) => {
   });
 });
 
+document.querySelectorAll(".project-jump__menu a").forEach((link) => {
+  link.addEventListener("click", () => {
+    link.closest("details").removeAttribute("open");
+  });
+});
+
 const canvas = document.querySelector("#scene");
 const context = canvas.getContext("2d");
 let width;
