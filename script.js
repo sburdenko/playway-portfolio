@@ -121,8 +121,8 @@ const showHeroFeed = (index) => {
 
   trailer.pause();
   trailer.classList.remove("is-active");
-  heroImage.src = item.image;
-  heroImage.alt = item.alt;
+  heroImage.style.backgroundImage = `url("${item.image}")`;
+  heroImage.setAttribute("aria-label", item.alt);
   heroImage.classList.add("is-active");
   soundToggle.hidden = true;
 };

@@ -470,6 +470,12 @@ main {
   opacity: 1;
 }
 
+.hero-stage__image {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
 .hero-stage__topline,
 .hero-stage__footer {
   position: absolute;
