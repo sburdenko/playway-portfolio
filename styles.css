@@ -214,6 +214,16 @@ video {
   line-height: 1.5;
 }
 
+.brand__name {
+  display: inline-block;
+  color: var(--paper);
+}
+
+.brand__name.is-glitching {
+  color: var(--lime);
+  text-shadow: 0.08em 0 var(--orange), -0.06em 0 #80ddff;
+}
+
 .site-nav {
   display: flex;
   align-items: flex-start;

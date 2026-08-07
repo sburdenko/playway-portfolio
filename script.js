@@ -52,6 +52,29 @@ const updateTime = () => {
 updateTime();
 window.setInterval(updateTime, 1000);
 
+const brandName = document.querySelector(".brand__name");
+const glitchBrandName = () => {
+  const name = brandName.dataset.name;
+  const letters = [...name];
+  const positions = letters
+    .map((letter, index) => (letter === " " ? -1 : index))
+    .filter((index) => index !== -1);
+  const position = positions[Math.floor(Math.random() * positions.length)];
+  const glyphs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*";
+
+  letters[position] = glyphs[Math.floor(Math.random() * glyphs.length)];
+  brandName.textContent = letters.join("");
+  brandName.classList.add("is-glitching");
+
+  window.setTimeout(() => {
+    brandName.textContent = name;
+    brandName.classList.remove("is-glitching");
+  }, 100);
+
+  window.setTimeout(glitchBrandName, 1800 + Math.random() * 2600);
+};
+window.setTimeout(glitchBrandName, 1700);
+
 const trailer = document.querySelector(".hero-stage video");
 const soundToggle = document.querySelector(".sound-toggle");
 const heroImage = document.querySelector(".hero-stage__image");
