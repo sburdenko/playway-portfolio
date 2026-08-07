@@ -332,7 +332,8 @@ main {
 
 .eyebrow {
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  gap: 0.55rem;
   margin-bottom: 1.8rem;
   color: var(--muted);
   font-size: 0.66rem;
@@ -344,12 +345,18 @@ main {
   color: var(--lime);
 }
 
+.eyebrow i {
+  color: var(--line);
+  font-style: normal;
+}
+
 .hero__title {
   margin: 0;
+  max-width: 10ch;
   font-family: var(--display);
-  font-size: clamp(4.4rem, 7.2vw, 8rem);
+  font-size: clamp(4.2rem, 6.15vw, 7.3rem);
   font-weight: 800;
-  line-height: 0.72;
+  line-height: 0.76;
   letter-spacing: -0.085em;
   text-transform: uppercase;
 }
@@ -358,19 +365,49 @@ main {
   display: block;
 }
 
-.hero__title span:nth-child(2) {
-  margin-left: 8vw;
-}
-
-.hero__title span:nth-child(3) {
+.hero__title--teeth {
   position: relative;
-  z-index: 3;
-  white-space: nowrap;
+  color: var(--lime);
+  text-shadow: 0.04em 0 rgba(255, 90, 54, 0.75), -0.025em 0 rgba(120, 221, 255, 0.62);
+  animation: teeth-flicker 6.5s steps(1, end) infinite;
 }
 
-.hero__title--outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(238, 237, 230, 0.7);
+.hero__title--teeth::before,
+.hero__title--teeth::after {
+  position: absolute;
+  inset: 0;
+  content: attr(data-text);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.hero__title--teeth::before {
+  color: #80ddff;
+  clip-path: inset(42% 0 38% 0);
+  animation: teeth-glitch-cyan 6.5s steps(1, end) infinite;
+}
+
+.hero__title--teeth::after {
+  color: var(--orange);
+  clip-path: inset(8% 0 69% 0);
+  animation: teeth-glitch-orange 6.5s steps(1, end) infinite;
+}
+
+@keyframes teeth-flicker {
+  0%, 89%, 100% { opacity: 1; }
+  90%, 92% { opacity: 0.7; }
+  91% { opacity: 1; }
+}
+
+@keyframes teeth-glitch-cyan {
+  0%, 89%, 100% { opacity: 0; transform: translateX(0); }
+  90%, 92% { opacity: 0.85; transform: translateX(-0.05em); }
+  91% { opacity: 0; }
+}
+
+@keyframes teeth-glitch-orange {
+  0%, 90%, 100% { opacity: 0; transform: translateX(0); }
+  91% { opacity: 0.9; transform: translateX(0.055em); }
 }
 
 .hero__intro {
@@ -379,7 +416,7 @@ main {
   align-items: center;
   gap: 3vw;
   margin-top: 3rem;
-  margin-left: 8vw;
+  margin-left: 0;
 }
 
 .hero__intro p {
@@ -2445,7 +2482,6 @@ main {
   }
 
   .eyebrow {
-    justify-content: space-between;
     gap: 1rem;
   }
 
@@ -2454,8 +2490,6 @@ main {
     font-size: clamp(2.9rem, 12vw, 5.3rem);
     line-height: 0.77;
   }
-
-  .hero__title span:nth-child(2) { margin-left: 0; }
 
   .hero__intro {
     grid-template-columns: 1fr;
