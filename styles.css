@@ -2238,6 +2238,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .xr-case__title { grid-column:1; align-self:start; position:sticky; top:7rem; }
 .xr-case__title h2 { margin:0 0 2rem; font-family:var(--display); font-size:clamp(4.4rem,8vw,8rem); font-weight:800; line-height:.72; letter-spacing:-.1em; text-transform:uppercase; }
 .xr-case__title p { max-width:27rem; margin:0; color:#a8beca; font-family:var(--display); font-size:clamp(1.1rem,1.45vw,1.45rem); line-height:1.26; letter-spacing:-.03em; }
+.xr-case__project-link { display:inline-block; margin-top:1.5rem; color:#70f2d1; font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; }
 .xr-case--fife .xr-case__title h2 { font-size:clamp(3.6rem,5.4vw,6.4rem); }
 .xr-case__media { grid-column:2; display:grid; gap:.7rem; }
 .xr-case__media img { width:100%; min-height:17rem; max-height:38rem; border:1px solid rgba(234,247,255,.2); background:#0e2130; object-fit:contain; object-position:center; }
