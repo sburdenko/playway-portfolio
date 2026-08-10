@@ -9,6 +9,9 @@
   --display: "Syne", sans-serif;
   --gutter: clamp(1.25rem, 3.5vw, 4rem);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* One step between blocks inside a section. Section padding and the space
+     under a section heading stay larger; this is only for sibling blocks. */
+  --block-gap: clamp(3rem, 5.5vw, 5.5rem);
 }
 
 * {
@@ -738,7 +741,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   align-content: start;
   column-gap: 3vw;
   row-gap: 1.2rem;
-  margin-top: clamp(5rem, 9vw, 9rem);
+  margin-top: var(--block-gap);
   padding: clamp(1.6rem, 3vw, 3rem);
   border: 1px solid rgba(11, 11, 9, 0.28);
   background: #1b1a16;
@@ -825,30 +828,40 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .runner[data-phase="over"] .runner__hint { color: #c1553a; }
 
-/* Stages laid out as one continuous run, scrolled left to right. */
+/* The stages run past on their own, like the level scrolling under the runner.
+   script.js duplicates the track's cards so translateX(-50%) loops seamlessly;
+   the gap lives on each card's margin rather than in `gap` so that half-way
+   point lands exactly on a card edge. */
 .run-strip {
-  display: flex;
-  gap: 1rem;
-  overflow-x: auto;
-  margin-top: clamp(4rem, 7vw, 7rem);
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--block-gap);
   margin-right: calc(var(--gutter) * -1);
-  padding-right: var(--gutter);
+  margin-left: calc(var(--gutter) * -1);
   padding-bottom: 1.4rem;
-  scroll-snap-type: x proximity;
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
+
+.run-strip__track {
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+  animation: run-strip 70s linear infinite;
+}
+
+.run-strip:hover .run-strip__track { animation-play-state: paused; }
+
+@keyframes run-strip { to { transform: translateX(-50%); } }
 
 .run-strip figure {
   position: relative;
-  flex: 0 0 clamp(17rem, 26vw, 26rem);
+  flex: 0 0 clamp(20rem, 32vw, 34rem);
   aspect-ratio: 16 / 9;
-  margin: 0;
+  margin: 0 1rem 0 0;
   overflow: hidden;
   border: 1px solid rgba(11, 11, 9, 0.3);
   background: #191916;
-  scroll-snap-align: start;
 }
-
-.run-strip figure:nth-child(even) { margin-top: 2.2rem; }
 
 .run-strip img {
   height: 100%;
@@ -1264,7 +1277,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   align-items: end;
-  margin-top: clamp(5rem, 9vw, 9rem);
+  margin-top: var(--block-gap);
 }
 
 .boon-gallery figure {
@@ -1349,7 +1362,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   align-content: start;
   column-gap: 3vw;
   row-gap: 1.4rem;
-  margin-top: clamp(5rem, 9vw, 9rem);
+  margin-top: var(--block-gap);
   padding: clamp(1.6rem, 3vw, 3rem);
   border: 1px solid rgba(185, 196, 180, 0.24);
   background: rgba(9, 13, 11, 0.6);
@@ -2046,7 +2059,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-  margin-top: clamp(8rem, 14vw, 14rem);
+  margin-top: var(--block-gap);
   padding-bottom: 5rem;
 }
 
@@ -2312,7 +2325,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   grid-template-columns: minmax(18rem, 1fr) clamp(17rem, 28vw, 26rem);
   align-items: center;
   gap: 6vw;
-  margin-top: clamp(6rem, 10vw, 10rem);
+  margin-top: var(--block-gap);
   padding: clamp(2rem, 3.5vw, 3.4rem);
   border: 1px solid rgba(255, 247, 231, 0.22);
   background: rgba(18, 18, 14, 0.66);
@@ -2463,7 +2476,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .sapper__gallery {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  margin-top: clamp(7rem, 12vw, 12rem);
+  margin-top: var(--block-gap);
 }
 
 /* Recon photos dropped on a table: cards share columns so they overlap, and
@@ -2730,7 +2743,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   display: grid;
   grid-template-columns: 1fr 1.1fr 0.9fr;
   gap: 1rem;
-  margin-top: clamp(7rem, 12vw, 12rem);
+  margin-top: var(--block-gap);
 }
 
 .astro__gallery figure {
@@ -2916,7 +2929,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   gap: 10vw;
-  margin-top: clamp(5rem, 10vw, 10rem);
+  margin-top: var(--block-gap);
   margin-left: 18vw;
 }
 

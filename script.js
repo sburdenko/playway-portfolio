@@ -268,3 +268,11 @@ document.addEventListener("visibilitychange", () => {
     drawScene();
   }
 });
+
+document.querySelectorAll(".run-strip__track").forEach((track) => {
+  [...track.children].forEach((card) => {
+    const copy = card.cloneNode(true);
+    copy.setAttribute("aria-hidden", "true");
+    track.append(copy);
+  });
+});
