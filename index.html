@@ -167,11 +167,20 @@
           rel="noreferrer"
           aria-label="Open Bronze Hoof on Steam"
         >
-          <img
-            src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_00efa63a3c072b34e955cbb5f92f40b2ebbe1568.1920x1080.jpg?t=1598633964"
-            alt="Bronze Hoof gameplay with a centaur running through an ancient city"
-            loading="lazy"
-          />
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label="Bronze Hoof gameplay"
+            poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_00efa63a3c072b34e955cbb5f92f40b2ebbe1568.1920x1080.jpg?t=1598633964"
+          >
+            <source
+              src="https://cdn.akamai.steamstatic.com/steam/apps/256769059/movie_max.mp4"
+              type="video/mp4"
+            />
+          </video>
           <div class="feature-frame__shade"></div>
           <span class="feature-frame__label">View on Steam</span>
           <span class="feature-frame__arrow">↗</span>
@@ -194,35 +203,62 @@
           </div>
         </div>
 
-        <div class="gallery reveal" aria-label="Bronze Hoof screenshot gallery">
-          <figure class="gallery__item gallery__item--wide">
-            <img
-              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_e8233951b9760a5cea71711a87be6e218614e1c7.1920x1080.jpg?t=1598633964"
-              alt="Bronze Hoof battle scene"
-              loading="lazy"
-            />
-            <figcaption>Encounter / 02</figcaption>
+        <div class="runner reveal" data-phase="ready">
+          <div class="runner__brief">
+            <span>Playable fragment</span>
+            <h3>Two buttons.<br /><em>That's the whole game.</em></h3>
+            <p>
+              Bronze Hoof runs on nothing but the left and right mouse buttons —
+              left to leap an obstacle, right to loose an arrow. Same rule here.
+            </p>
+          </div>
+          <canvas class="runner__canvas" tabindex="0" aria-label="Bronze Hoof runner. Left click to jump, right click to shoot."></canvas>
+          <div class="runner__hud">
+            <span><b data-score>0</b><i>distance</i></span>
+            <span><b data-best>0</b><i>best run</i></span>
+            <p class="runner__hint">Click the strip to start</p>
+          </div>
+        </div>
+
+        <div class="run-strip reveal" aria-label="Bronze Hoof stage gallery">
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_2541116e7c8fbb4bb946e12b0d6755cecea50b38.1920x1080.jpg?t=1598633964" alt="Bronze Hoof temple ascent under a clear sky" loading="lazy" />
+            <figcaption>Ascent / 01</figcaption>
           </figure>
-          <figure class="gallery__item gallery__item--tall">
-            <img
-              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_c50deea1db5cb2560893ab6d6c99ef70ba8f3a91.1920x1080.jpg?t=1598633964"
-              alt="Bronze Hoof ancient world"
-              loading="lazy"
-            />
-            <figcaption>World / 05</figcaption>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_00efa63a3c072b34e955cbb5f92f40b2ebbe1568.1920x1080.jpg?t=1598633964" alt="Bronze Hoof running through a sunlit grove" loading="lazy" />
+            <figcaption>Grove / 02</figcaption>
           </figure>
-          <figure class="gallery__item">
-            <img
-              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_f57382bdd5629440853c8ee397e65074ed6800c3.1920x1080.jpg?t=1598633964"
-              alt="Bronze Hoof boss fight"
-              loading="lazy"
-            />
-            <figcaption>Boss / 03</figcaption>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_e8233951b9760a5cea71711a87be6e218614e1c7.1920x1080.jpg?t=1598633964" alt="Bronze Hoof boss idol in a dark hall" loading="lazy" />
+            <figcaption>Idol / 03 · boss</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_7f6cacf2d860e89342cf0566ffeab2a614167c8e.1920x1080.jpg?t=1598633964" alt="Bronze Hoof snowbound mountain stage" loading="lazy" />
+            <figcaption>Drifts / 04</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_c50deea1db5cb2560893ab6d6c99ef70ba8f3a91.1920x1080.jpg?t=1598633964" alt="Bronze Hoof gilded temple vault" loading="lazy" />
+            <figcaption>Vault / 05</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_06222ad8ab5b99d8d21d07df0bfe672dc20d5e78.1920x1080.jpg?t=1598633964" alt="Bronze Hoof night stage over spikes" loading="lazy" />
+            <figcaption>Nightfall / 06</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_f57382bdd5629440853c8ee397e65074ed6800c3.1920x1080.jpg?t=1598633964" alt="Bronze Hoof sunset stage with pagodas" loading="lazy" />
+            <figcaption>Dusk / 07</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_66a7e86aab36d06be2772429abbdfe3204058428.1920x1080.jpg?t=1598633964" alt="Bronze Hoof volcanic boss stage" loading="lazy" />
+            <figcaption>Forge / 08 · boss</figcaption>
           </figure>
         </div>
       </section>
 
       <section class="boon section" id="boon-hill">
+        <div class="boon__moon" aria-hidden="true"></div>
+
         <div class="boon__header reveal">
           <div>
             <span class="section-index">02 / Narrative simulation</span>
@@ -237,6 +273,7 @@
           </div>
         </div>
 
+        <div class="boon__stage">
         <a
           class="boon-screen interactive reveal"
           href="https://store.steampowered.com/app/406780/Welcome_to_Boon_Hill/"
@@ -244,11 +281,20 @@
           rel="noreferrer"
           aria-label="Open Welcome to Boon Hill on Steam"
         >
-          <img
-            src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174"
-            alt="A monumental crow statue over a gravestone in Welcome to Boon Hill"
-            loading="lazy"
-          />
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label="Welcome to Boon Hill gameplay trailer"
+            poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174"
+          >
+            <source
+              src="https://cdn.akamai.steamstatic.com/steam/apps/256657518/movie_max.mp4"
+              type="video/mp4"
+            />
+          </video>
           <div class="boon-screen__scan" aria-hidden="true"></div>
           <div class="boon-screen__hud">
             <span>Archive feed / 406780</span>
@@ -257,43 +303,78 @@
           <div class="boon-screen__focus" aria-hidden="true"></div>
         </a>
 
-        <div class="boon__details">
           <div class="boon__statement reveal">
             <span>Experience</span>
             <p>No victory.<br />No danger.<br /><em>Just stories.</em></p>
+            <div class="boon__facts">
+              <div><strong>1,000+</strong><span>individual epitaphs</span></div>
+              <div><strong>85%</strong><span>positive reviews</span></div>
+              <div><strong>16-bit</strong><span>pixel world</span></div>
+              <div><strong>∞</strong><span>player-led stories</span></div>
+            </div>
           </div>
-          <div class="boon__facts reveal">
-            <div><strong>1,000+</strong><span>individual epitaphs</span></div>
-            <div><strong>85%</strong><span>positive reviews</span></div>
-            <div><strong>16-bit</strong><span>pixel world</span></div>
-            <div><strong>∞</strong><span>player-led stories</span></div>
+        </div>
+
+        <div class="graveyard reveal">
+          <div class="graveyard__brief">
+            <span>Playable fragment</span>
+            <h3>Walk the hill.<br /><em>Read the stones.</em></h3>
+            <p>
+              Boon Hill has no goal — you wander, and the dead introduce themselves.
+              Walk with the arrow keys or click a plot. Step into a headstone to read it.
+            </p>
+            <p class="graveyard__tally"><b data-read>0</b> of <b data-total>0</b> stones read</p>
+          </div>
+
+          <div
+            class="graveyard__field"
+            tabindex="0"
+            role="application"
+            aria-label="Graveyard. Move with the arrow keys and step into a headstone to read it."
+          ></div>
+
+          <div class="graveyard__stone">
+            <p class="graveyard__name" data-name>Boon Hill</p>
+            <p class="graveyard__years" data-years>est. 1855</p>
+            <p class="graveyard__line" data-line>
+              Nobody is buried here yet. Walk into a headstone and someone will
+              have something to say.
+            </p>
           </div>
         </div>
 
         <div class="boon-gallery reveal" aria-label="Welcome to Boon Hill screenshot gallery">
           <figure>
-            <img
-              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_f655dee7939139fb77a5c18b077f04ee42149532.1920x1080.jpg?t=1498124174"
-              alt="Pixel-art graveyard in Welcome to Boon Hill"
-              loading="lazy"
-            />
-            <figcaption>Grounds / 01</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_612e2bd9d2d77bd1e39b5bbb0988d1d9679c3b5b.1920x1080.jpg?t=1498124174" alt="Reading a headstone epitaph in Welcome to Boon Hill" loading="lazy" />
+            <figcaption>Epitaph / 01</figcaption>
           </figure>
           <figure>
-            <img
-              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_ec3d181ac3809fbbf58620b44eb9172ca8de599b.1920x1080.jpg?t=1498124174"
-              alt="Reading an epitaph in Welcome to Boon Hill"
-              loading="lazy"
-            />
-            <figcaption>Epitaph / 04</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_932b30aca1f9bb9cf64c2447664e234e56b3b21c.1920x1080.jpg?t=1498124174" alt="The road and gates outside the Boon Hill cemetery" loading="lazy" />
+            <figcaption>Gates / 02</figcaption>
           </figure>
           <figure>
-            <img
-              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_e951b1bef3998159c25abe1dec161f8e380f44bb.1920x1080.jpg?t=1498124174"
-              alt="An encounter in the Boon Hill graveyard"
-              loading="lazy"
-            />
-            <figcaption>Story / 06</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_ec3d181ac3809fbbf58620b44eb9172ca8de599b.1920x1080.jpg?t=1498124174" alt="Fenced rows of graves in Welcome to Boon Hill" loading="lazy" />
+            <figcaption>Rows / 03</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_e951b1bef3998159c25abe1dec161f8e380f44bb.1920x1080.jpg?t=1498124174" alt="Empty burial plots marked out on the hill" loading="lazy" />
+            <figcaption>Plots / 04</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_29a43593196232c792a15bf01329bb255171bf98.1920x1080.jpg?t=1498124174" alt="A dry field of unmarked graves" loading="lazy" />
+            <figcaption>Field / 05</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_cd10bd52a3b2804a73a85b64536acb8c6c81ea4d.1920x1080.jpg?t=1498124174" alt="The groundskeeper's shed at the edge of the cemetery" loading="lazy" />
+            <figcaption>Shed / 06</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_db671edff9b7f5f42177e9bfdae98c3d895de31f.1920x1080.jpg?t=1498124174" alt="Paths winding between the graves and trees" loading="lazy" />
+            <figcaption>Paths / 07</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_f655dee7939139fb77a5c18b077f04ee42149532.1920x1080.jpg?t=1498124174" alt="Wide view of the Boon Hill grounds" loading="lazy" />
+            <figcaption>Grounds / 08</figcaption>
           </figure>
         </div>
       </section>
@@ -548,11 +629,20 @@
             rel="noreferrer"
             aria-label="Open Crazy Sapper 3D on Steam"
           >
-            <img
-              src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_34038a40ff888e070259ba446b3b1cc5e4bd177a.1920x1080.jpg?t=1782119061"
-              alt="Crazy Sapper 3D gameplay on a minefield"
-              loading="lazy"
-            />
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="Crazy Sapper 3D gameplay"
+              poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_34038a40ff888e070259ba446b3b1cc5e4bd177a.1920x1080.jpg?t=1782119061"
+            >
+              <source
+                src="https://cdn.akamai.steamstatic.com/steam/apps/256670656/movie_max.mp4"
+                type="video/mp4"
+              />
+            </video>
             <span>Play on Steam ↗</span>
           </a>
 
@@ -580,18 +670,53 @@
           </div>
         </div>
 
+        <div class="minefield reveal" data-phase="ready">
+          <div class="minefield__brief">
+            <span>Playable fragment</span>
+            <h3>Clear the field<br /><em>yourself</em></h3>
+            <p>
+              The core loop of Crazy Sapper 3D, stripped to its logic: every number
+              counts the mines touching that tile. Left click clears, right click
+              plants a flag, and the first click is always safe.
+            </p>
+            <div class="minefield__hud">
+              <span><b data-mines>10</b><i>mines left</i></span>
+              <span><b data-timer>000</b><i>seconds</i></span>
+              <button class="minefield__reset interactive" type="button">Re-arm ↻</button>
+            </div>
+            <p class="minefield__status" role="status">Left click clears. Right click flags.</p>
+          </div>
+          <div class="minefield__grid" role="group" aria-label="Minesweeper field, 9 by 9"></div>
+        </div>
+
         <div class="sapper__gallery reveal" aria-label="Crazy Sapper 3D screenshot gallery">
           <figure>
-            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_09e1355fd7914a6105bfe3de470b37e55f065f85.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D action level" loading="lazy" />
-            <figcaption>Scan / 01</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_63412005600e4d0ab1d95dfd3f7590e7902f0567.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D random level briefing on hard difficulty" loading="lazy" />
+            <figcaption>Deploy / 01</figcaption>
           </figure>
           <figure>
-            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_63412005600e4d0ab1d95dfd3f7590e7902f0567.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D battlefield" loading="lazy" />
-            <figcaption>Plan / 02</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_1baa5be446d3ced57b9902918afb29d4d5a9a0f3.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D radar sweep with an incoming airstrike" loading="lazy" />
+            <figcaption>Scan / 02</figcaption>
           </figure>
           <figure>
-            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_1baa5be446d3ced57b9902918afb29d4d5a9a0f3.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D puzzle gameplay" loading="lazy" />
-            <figcaption>Advance / 03</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_b614803cb5f389c7466ed31798d28f72508373cc.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D marked safe route across the minefield" loading="lazy" />
+            <figcaption>Plan / 03</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_2b01e8dfc757c0b706cf61fc90469cec0df298fa.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D dense minefield with exposed mines" loading="lazy" />
+            <figcaption>Advance / 04</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_033aca55426b241ddc9425ee1c44ade7332ee29a.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D sapper picking a path between rocks and mines" loading="lazy" />
+            <figcaption>Breach / 05</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_09e1355fd7914a6105bfe3de470b37e55f065f85.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D end of level statistics" loading="lazy" />
+            <figcaption>Debrief / 06</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_dec00e63f8cf9b678addb8f43dc23ffd7209fde0.1920x1080.jpg?t=1782119061" alt="Crazy Sapper 3D game over screen" loading="lazy" />
+            <figcaption>Casualty / 07</figcaption>
           </figure>
         </div>
       </section>
@@ -615,7 +740,20 @@
             rel="noreferrer"
             aria-label="Open Astro Lords: Oort Cloud on Steam"
           >
-            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_c89faa00b8b7bb22d74325a91a936a28abf30b54.1920x1080.jpg?t=1782074241" alt="Astro Lords space base gameplay" loading="lazy" />
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label="Astro Lords: Oort Cloud gameplay"
+              poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241"
+            >
+              <source
+                src="https://cdn.akamai.steamstatic.com/steam/apps/256658699/movie_max.mp4"
+                type="video/mp4"
+              />
+            </video>
             <span>Free on Steam ↗</span>
           </a>
 
@@ -638,18 +776,39 @@
           </div>
         </div>
 
-        <div class="astro__gallery reveal" aria-label="Astro Lords screenshot gallery">
+        <div class="astro__gallery astro__gallery--cloud reveal" aria-label="Astro Lords screenshot gallery">
+          <span class="astro__core" aria-hidden="true"></span>
           <figure>
-            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241" alt="Astro Lords cosmic battle" loading="lazy" />
-            <figcaption>Build / 01</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_1da5070c76c635a21535b7ea05c0f4664b2b19be.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud orbital map of the cloud" loading="lazy" />
+            <figcaption>Cloud / 01</figcaption>
           </figure>
           <figure>
-            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_10293ec7e68d2a446b1fad0ae7523a9c3590025b.1920x1080.jpg?t=1782074241" alt="Astro Lords strategy interface" loading="lazy" />
-            <figcaption>Command / 02</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_37f68b9a8bf144968477d58cf66e4d83a44308a2.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud asteroid colony and fleet" loading="lazy" />
+            <figcaption>Colony / 02</figcaption>
           </figure>
           <figure>
-            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_377a48a6967bfdfa984e300163550d7a5126c3c7.1920x1080.jpg?t=1782074241" alt="Astro Lords asteroid settlement" loading="lazy" />
-            <figcaption>Raid / 03</figcaption>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_10293ec7e68d2a446b1fad0ae7523a9c3590025b.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud tactical combat map" loading="lazy" />
+            <figcaption>Siege / 03</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_377a48a6967bfdfa984e300163550d7a5126c3c7.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud asteroid base under construction" loading="lazy" />
+            <figcaption>Forge / 04</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_5e5c396c1fa06510ed75cdf92f40b549b1476de4.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud captain and equipment loadout" loading="lazy" />
+            <figcaption>Captain / 05</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_c89faa00b8b7bb22d74325a91a936a28abf30b54.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud station above a bright nebula" loading="lazy" />
+            <figcaption>Dock / 06</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_865555c616a001e751d0e729404629400bb9397b.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud captain with a docked ship" loading="lazy" />
+            <figcaption>Strike / 07</figcaption>
+          </figure>
+          <figure>
+            <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_070df15ea3a776d6b0431737198a0b772fb44939.1920x1080.jpg?t=1782074241" alt="Astro Lords: Oort Cloud fortified base structures" loading="lazy" />
+            <figcaption>Bastion / 08</figcaption>
           </figure>
         </div>
       </section>
@@ -750,5 +909,8 @@
     </main>
 
     <script type="module" src="/script.js"></script>
+    <script type="module" src="/minesweeper.js"></script>
+    <script type="module" src="/graveyard.js"></script>
+    <script type="module" src="/runner.js"></script>
   </body>
 </html>
