@@ -683,7 +683,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   padding: clamp(7rem, 13vw, 13rem) var(--gutter);
 }
 
+/* The stage strip ends this section as a full-bleed band, so the section's
+   usual bottom padding is cut back to match the space above the band. */
 .featured {
+  padding-bottom: 2.5rem;
   background: linear-gradient(180deg, var(--ink) 0%, #11110e 100%);
 }
 
@@ -835,10 +838,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .run-strip {
   position: relative;
   overflow: hidden;
-  margin-top: var(--block-gap);
+  margin-top: 2.5rem;
   margin-right: calc(var(--gutter) * -1);
   margin-left: calc(var(--gutter) * -1);
-  padding-bottom: 1.4rem;
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
@@ -855,7 +857,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .run-strip figure {
   position: relative;
-  flex: 0 0 clamp(20rem, 32vw, 34rem);
+  flex: 0 0 clamp(24rem, 41vw, 46rem);
   aspect-ratio: 16 / 9;
   margin: 0 1rem 0 0;
   overflow: hidden;
@@ -2741,7 +2743,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .astro__gallery {
   display: grid;
-  grid-template-columns: 1fr 1.1fr 0.9fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-top: var(--block-gap);
 }
@@ -2751,8 +2753,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   border: 1px solid rgba(239, 244, 255, 0.24);
 }
 
-.astro__gallery figure:nth-child(1) { transform: translateY(2.5rem); }
-.astro__gallery figure:nth-child(3) { transform: translateY(4.5rem); }
+.astro__gallery figure:nth-child(even) { transform: translateY(2.4rem); }
 .astro__gallery img {
   aspect-ratio: 16 / 10;
   transition: transform 0.8s var(--ease);
@@ -3487,9 +3488,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     animation: none;
   }
   .astro__core { display: none; }
-  .astro__gallery figure,
-  .astro__gallery figure:nth-child(1),
-  .astro__gallery figure:nth-child(3) {
+  .astro__gallery figure {
     flex: 0 0 82vw;
     transform: none;
     scroll-snap-align: start;
