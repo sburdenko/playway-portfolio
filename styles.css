@@ -1682,7 +1682,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   transform: translateX(-50%);
 }
 
-.phone img {
+.phone img,
+.phone video {
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
@@ -2034,10 +2036,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__header p { justify-self:end; margin:0; color:#e74c68; font-family:var(--display); font-size:clamp(1rem,1.5vw,1.5rem); font-weight:600; line-height:1.2; text-transform:uppercase; }
 .word__body { display:grid; grid-template-columns:1.1fr .9fr; align-items:center; gap:7vw; }
 .word__phones { display:flex; justify-content:center; align-items:center; min-height:34rem; }
-.word__phones img { width:min(32%,12rem); border:.5rem solid #201b42; border-radius:2rem; box-shadow:0 1.5rem 3rem rgba(32,27,66,.22); }
-.word__phones img:nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
-.word__phones img:nth-child(2) { z-index:1; transform:translateY(-2rem); }
-.word__phones img:nth-child(3) { transform:rotate(10deg) translateX(-2rem); }
+.word__phones :is(img,video) { width:min(32%,12rem); border:.5rem solid #201b42; border-radius:2rem; box-shadow:0 1.5rem 3rem rgba(32,27,66,.22); }
+.word__phones :is(img,video):nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
+.word__phones :is(img,video):nth-child(2) { z-index:1; transform:translateY(-2rem); }
+.word__phones :is(img,video):nth-child(3) { transform:rotate(10deg) translateX(-2rem); }
 .word__copy > p { margin:1.6rem 0 3rem; font-family:var(--display); font-size:clamp(1.45rem,2.5vw,2.7rem); line-height:1.2; letter-spacing:-.025em; }
 .word__facts { display:grid; grid-template-columns:repeat(2,1fr); margin-bottom:2rem; border-top:1px solid rgba(32,27,66,.25); border-left:1px solid rgba(32,27,66,.25); }
 .word__facts div { display:flex; flex-direction:column; justify-content:space-between; min-height:7.5rem; padding:1.1rem; border-right:1px solid rgba(32,27,66,.25); border-bottom:1px solid rgba(32,27,66,.25); }
