@@ -79,19 +79,17 @@ const trailer = document.querySelector(".hero-stage video");
 const soundToggle = document.querySelector(".sound-toggle");
 const heroImage = document.querySelector(".hero-stage__image");
 const heroFeedProject = document.querySelector(".hero-stage__project");
-const media = (name) => `${import.meta.env.BASE_URL}media/${name}.webp`;
+const asset = (file) => `${import.meta.env.BASE_URL}media/${file}`;
+const media = (name) => asset(`${name}.webp`);
+
+const CLIP_SECONDS = 4;
+
+// Every title with a trailer takes its turn in the feed; the three without one
+// still get a slot, they just hold on a screenshot.
 const heroFeed = [
-  { label: "01 / Bronze Hoof", video: true },
-  {
-    label: "02 / Welcome to Boon Hill",
-    image: media("7f1fea861513a859"),
-    alt: "Welcome to Boon Hill gameplay",
-  },
-  {
-    label: "03 / Flower Book",
-    image: media("c6858267e2b0c8a0"),
-    alt: "Flower Book match-3 gameplay",
-  },
+  { label: "01 / Bronze Hoof", clip: "4aadf7d9a76ee442.mp4" },
+  { label: "02 / Welcome to Boon Hill", clip: "8852c6915009c678.mp4" },
+  { label: "03 / Flower Book", clip: "flower-book-trailer.mp4" },
   {
     label: "04 / Box Jam",
     image: media("b2cac326299ec296"),
@@ -107,53 +105,56 @@ const heroFeed = [
     image: media("09b766a3ab3899cf"),
     alt: "Word Bend gameplay",
   },
-  {
-    label: "07 / Card Match Solitaire",
-    image: media("a1d3f155bcaa6556"),
-    alt: "Card Match Solitaire gameplay",
-  },
-  {
-    label: "08 / Crazy Sapper 3D",
-    image: media("4f8d0639d0d45e6d"),
-    alt: "Crazy Sapper 3D gameplay",
-  },
-  {
-    label: "09 / Astro Lords",
-    image: media("9e52bef3e163f1f0"),
-    alt: "Astro Lords gameplay",
-  },
-  {
-    label: "10 / Astro Scavenger",
-    image: media("da4dac8bb78f7322"),
-    alt: "Astro Scavenger gameplay",
-  },
+  { label: "07 / Card Match Solitaire", clip: "card-match-trailer.mp4" },
+  { label: "08 / Crazy Sapper 3D", clip: "138d13ef4915dafc.mp4" },
+  { label: "09 / Astro Lords", clip: "d72e113026d3cd75.mp4" },
+  { label: "10 / Astro Scavenger", clip: "334c1bb10a06e058.mp4" },
 ];
+
 let heroFeedIndex = 0;
+let loadedClip = "";
+
+const seekSomewhere = () => {
+  const span = trailer.duration - CLIP_SECONDS;
+  if (!Number.isFinite(span) || span <= 0) return;
+  trailer.currentTime = Math.random() * span;
+};
+
+trailer.addEventListener("loadedmetadata", seekSomewhere);
 
 const showHeroFeed = (index) => {
   const item = heroFeed[index];
   heroFeedProject.textContent = item.label;
 
-  if (item.video) {
-    heroImage.classList.remove("is-active");
-    trailer.classList.add("is-active");
-    trailer.play();
-    soundToggle.hidden = false;
+  if (!item.clip) {
+    trailer.pause();
+    trailer.classList.remove("is-active");
+    heroImage.style.backgroundImage = `url("${item.image}")`;
+    heroImage.setAttribute("aria-label", item.alt);
+    heroImage.classList.add("is-active");
+    soundToggle.hidden = true;
     return;
   }
 
-  trailer.pause();
-  trailer.classList.remove("is-active");
-  heroImage.style.backgroundImage = `url("${item.image}")`;
-  heroImage.setAttribute("aria-label", item.alt);
-  heroImage.classList.add("is-active");
-  soundToggle.hidden = true;
+  heroImage.classList.remove("is-active");
+  trailer.classList.add("is-active");
+  soundToggle.hidden = false;
+
+  if (item.clip === loadedClip) {
+    seekSomewhere();
+  } else {
+    loadedClip = item.clip;
+    trailer.src = asset(item.clip);
+    trailer.load();
+  }
+
+  trailer.play().catch(() => {});
 };
 
 window.setInterval(() => {
   heroFeedIndex = (heroFeedIndex + 1) % heroFeed.length;
   showHeroFeed(heroFeedIndex);
-}, 5200);
+}, CLIP_SECONDS * 1000);
 
 soundToggle.addEventListener("click", () => {
   trailer.muted = !trailer.muted;

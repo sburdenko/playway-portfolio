@@ -2012,6 +2012,77 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .blob__phones figure { position:relative; width:min(32%,12rem); margin:0; overflow:hidden; border:.5rem solid #25175a; border-radius:2rem; background:#25175a; box-shadow:0 1.5rem 3rem rgba(0,0,0,.28); }
 .blob__phones figure::before { content:""; position:absolute; z-index:1; top:.55rem; left:50%; width:28%; height:.9rem; border-radius:2rem; background:#25175a; transform:translateX(-50%); }
 .blob__phones img { display:block; width:100%; }
+
+/* The trailer is portrait footage sitting inside a 16:9 YouTube frame with
+   blurred filler either side. The handset crops that filler away: the poster
+   covers, and the player is laid out 16:9 by height so only its centre column
+   shows through. */
+.blob-film { aspect-ratio: 392 / 696; cursor: pointer; }
+.blob-film > img { height: 100%; object-fit: cover; }
+
+.blob-film__play {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease;
+}
+
+.blob-film__play i {
+  position: relative;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background: rgba(37, 23, 90, 0.5);
+  backdrop-filter: blur(4px);
+  transition: background 0.4s var(--ease), transform 0.4s var(--ease);
+}
+
+.blob-film__play i::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 0.1rem);
+  width: 0;
+  height: 0;
+  border-top: 0.42rem solid transparent;
+  border-bottom: 0.42rem solid transparent;
+  border-left: 0.68rem solid #ffc94e;
+  transform: translate(-50%, -50%);
+}
+
+.blob-film:hover .blob-film__play i { transform: scale(1.08); background: #ffc94e; }
+.blob-film:hover .blob-film__play i::before { border-left-color: #25175a; }
+
+/* The base frame rule pins all four sides, which would stop the player from
+   growing wide enough for its pillars to fall outside the handset. */
+.blob-film .video-embed__frame {
+  position: absolute;
+  inset: 0 auto auto 50%;
+  width: auto;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  transform: translateX(-50%);
+}
+
+.blob-film[data-state="playing"] > img,
+.blob-film[data-state="playing"] .blob-film__play { opacity: 0; pointer-events: none; }
 .blob__phones figure:nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
 .blob__phones figure:nth-child(2) { z-index:1; transform:translateY(-2rem); }
 .blob__phones figure:nth-child(3) { transform:rotate(10deg) translateX(-2rem); }
@@ -3107,7 +3178,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .xr-film:hover > img { transform:scale(1.02); filter:saturate(1) contrast(1.08) brightness(.82); }
 .xr-film__play:hover i,.xr-film__play:focus-visible i { transform:scale(1.06); border-color:#70f2d1; background:#70f2d1; }
 .xr-film__play:hover i::before,.xr-film__play:focus-visible i::before { border-left-color:#07131d; }
-.xr-film__frame { position:absolute; z-index:6; inset:0; width:100%; height:100%; border:0; }
+.video-embed__frame { position:absolute; z-index:6; inset:0; width:100%; height:100%; border:0; }
 .xr-film[data-state="playing"] > img,.xr-film[data-state="playing"] .xr-film__scan,.xr-film[data-state="playing"] .xr-film__bar,.xr-film[data-state="playing"] .xr-film__play,.xr-film[data-state="playing"]::before,.xr-film[data-state="playing"]::after { opacity:0; pointer-events:none; }
 .xr-case--fife { background:linear-gradient(90deg,transparent,rgba(112,242,209,.05)); }.xr-case--brain { background:linear-gradient(90deg,transparent,rgba(169,140,255,.07)); }.xr-case--bp { background:linear-gradient(90deg,transparent,rgba(223,255,54,.06)); }
 .xr-page__footer { display:flex; justify-content:space-between; gap:2rem; padding:2rem var(--gutter); border-top:1px solid rgba(234,247,255,.2); color:#89a8ba; }.xr-page__footer a { color:#eaf7ff; }
