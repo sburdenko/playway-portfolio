@@ -2155,8 +2155,31 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__link { display:flex; justify-content:space-between; padding:1rem 0; border-block:1px solid rgba(32,27,66,.35); font-size:.56rem; text-transform:uppercase; letter-spacing:.1em; }
 .word__link i { color:#e74c68; font-size:1rem; font-style:normal; }
 
-.solitaire { color:#1f2533; background:#d4e1c3; }
+/* The diagonal weave printed on the back of a playing card: a fine cross-hatch
+   with a coarser one over it, so the panel reads as card stock rather than a
+   flat green field. */
+.solitaire {
+  color: #1f2533;
+  background-color: #d4e1c3;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(31, 37, 51, 0.055) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(-45deg, rgba(31, 37, 51, 0.055) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(45deg, rgba(36, 107, 85, 0.06) 0 2px, transparent 2px 52px),
+    repeating-linear-gradient(-45deg, rgba(36, 107, 85, 0.06) 0 2px, transparent 2px 52px);
+}
+
 .solitaire::before { content:"♠"; color:rgba(31,37,51,.1); }
+
+.solitaire::after {
+  content: "♥";
+  position: absolute;
+  top: -0.2em;
+  left: -1.5vw;
+  color: rgba(36, 107, 85, 0.09);
+  font-size: min(20vw, 18rem);
+  line-height: 1;
+  pointer-events: none;
+}
 .solitaire .word__header h2 em,.solitaire .word__header p,.solitaire .word__facts strong,.solitaire .word__link i { color:#246b55; }
 .solitaire .word__header span,.solitaire .word__copy > span,.solitaire .word__facts span { color:#5a726a; }
 .solitaire .word__phones img { border-color:#1f2533; }
