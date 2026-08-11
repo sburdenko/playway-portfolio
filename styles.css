@@ -2017,10 +2017,44 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
    blurred filler either side. The handset crops that filler away: the poster
    covers, and the player is laid out 16:9 by height so only its centre column
    shows through. */
-.blob-film { aspect-ratio: 392 / 696; cursor: pointer; }
-.blob-film > img { height: 100%; object-fit: cover; }
+/* Turquoise shell and a faint halo, so the handset holding the trailer reads as
+   the one to click among three otherwise identical phones. */
+.blob__phones .blob-film {
+  aspect-ratio: 392 / 696;
+  cursor: pointer;
+  border-color: #43dccb;
+  box-shadow:
+    0 1.5rem 3rem rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(67, 220, 203, 0.45),
+    0 0 2.6rem rgba(67, 220, 203, 0.32);
+}
 
-.blob-film__play {
+.blob__phones .blob-film::before { background: #43dccb; }
+
+.boxjam-phone--film {
+  cursor: pointer;
+  border-color: #43dccb;
+  background: #0d2a2a;
+  box-shadow: 1.8rem 2.2rem 0 #43dccb, 0 3rem 6rem rgba(5, 10, 16, 0.5);
+}
+
+.boxjam-phone--film::before { background: #43dccb; }
+
+.boxjam-phone__store {
+  position: absolute;
+  z-index: 3;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.55rem 0.75rem;
+  color: #062020;
+  background: #43dccb;
+  font-size: 0.52rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.film-shell > img { height: 100%; object-fit: cover; }
+
+.film-play {
   position: absolute;
   z-index: 2;
   top: 50%;
@@ -2041,7 +2075,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   transition: opacity 0.4s ease;
 }
 
-.blob-film__play i {
+.film-play i {
   position: relative;
   display: block;
   width: 3rem;
@@ -2053,7 +2087,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   transition: background 0.4s var(--ease), transform 0.4s var(--ease);
 }
 
-.blob-film__play i::before {
+.film-play i::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -2066,12 +2100,12 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   transform: translate(-50%, -50%);
 }
 
-.blob-film:hover .blob-film__play i { transform: scale(1.08); background: #ffc94e; }
-.blob-film:hover .blob-film__play i::before { border-left-color: #25175a; }
+.film-shell:hover .film-play i { transform: scale(1.08); background: #ffc94e; }
+.film-shell:hover .film-play i::before { border-left-color: #25175a; }
 
 /* The base frame rule pins all four sides, which would stop the player from
    growing wide enough for its pillars to fall outside the handset. */
-.blob-film .video-embed__frame {
+.film-shell .video-embed__frame {
   position: absolute;
   inset: 0 auto auto 50%;
   width: auto;
@@ -2081,8 +2115,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   transform: translateX(-50%);
 }
 
-.blob-film[data-state="playing"] > img,
-.blob-film[data-state="playing"] .blob-film__play { opacity: 0; pointer-events: none; }
+.film-shell[data-state="playing"] > img,
+.film-shell[data-state="playing"] .film-play { opacity: 0; pointer-events: none; }
 .blob__phones figure:nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
 .blob__phones figure:nth-child(2) { z-index:1; transform:translateY(-2rem); }
 .blob__phones figure:nth-child(3) { transform:rotate(10deg) translateX(-2rem); }
@@ -2111,6 +2145,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__phones :is(img,video):nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
 .word__phones :is(img,video):nth-child(2) { z-index:1; transform:translateY(-2rem); }
 .word__phones :is(img,video):nth-child(3) { transform:rotate(10deg) translateX(-2rem); }
+/* The handset playing the trailer takes the centre slot and a lighter shell. */
+.word__phones .word-film { border-color:#43dccb; box-shadow:0 1.5rem 3rem rgba(32,27,66,.24), 0 0 0 1px rgba(67,220,203,.45), 0 0 2.4rem rgba(67,220,203,.3); }
 .word__copy > p { margin:1.6rem 0 3rem; font-family:var(--display); font-size:clamp(1.45rem,2.5vw,2.7rem); line-height:1.2; letter-spacing:-.025em; }
 .word__facts { display:grid; grid-template-columns:repeat(2,1fr); margin-bottom:2rem; border-top:1px solid rgba(32,27,66,.25); border-left:1px solid rgba(32,27,66,.25); }
 .word__facts div { display:flex; flex-direction:column; justify-content:space-between; min-height:7.5rem; padding:1.1rem; border-right:1px solid rgba(32,27,66,.25); border-bottom:1px solid rgba(32,27,66,.25); }
@@ -3182,6 +3218,41 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .xr-film[data-state="playing"] > img,.xr-film[data-state="playing"] .xr-film__scan,.xr-film[data-state="playing"] .xr-film__bar,.xr-film[data-state="playing"] .xr-film__play,.xr-film[data-state="playing"]::before,.xr-film[data-state="playing"]::after { opacity:0; pointer-events:none; }
 .xr-case--fife { background:linear-gradient(90deg,transparent,rgba(112,242,209,.05)); }.xr-case--brain { background:linear-gradient(90deg,transparent,rgba(169,140,255,.07)); }.xr-case--bp { background:linear-gradient(90deg,transparent,rgba(223,255,54,.06)); }
 .xr-page__footer { display:flex; justify-content:space-between; gap:2rem; padding:2rem var(--gutter); border-top:1px solid rgba(234,247,255,.2); color:#89a8ba; }.xr-page__footer a { color:#eaf7ff; }
+/* A closing count of what the visitor just scrolled past, in the same
+   number-grid language every section uses. */
+.contact__tally {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: clamp(3rem, 6vw, 6rem);
+  border-top: 1px solid rgba(11, 11, 9, 0.35);
+  border-left: 1px solid rgba(11, 11, 9, 0.35);
+}
+
+.contact__tally div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-height: 7rem;
+  padding: 1rem 1.1rem;
+  border-right: 1px solid rgba(11, 11, 9, 0.35);
+  border-bottom: 1px solid rgba(11, 11, 9, 0.35);
+}
+
+.contact__tally strong {
+  font-family: var(--display);
+  font-size: clamp(2rem, 3.6vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.contact__tally span {
+  font-size: 0.54rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
 .contact__switch { position:relative; display:flex; justify-content:space-between; align-items:end; gap:2rem; margin-top:8vh; padding-top:1.2rem; border-top:1px solid rgba(11,11,9,.35); }
 .contact__switch span { max-width:20rem; font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; }
 .contact__switch a { color:var(--ink); font-family:var(--display); font-size:clamp(1.8rem,3vw,3.3rem); font-weight:800; line-height:.8; letter-spacing:-.07em; text-transform:uppercase; }
@@ -3253,6 +3324,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .contact {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
   min-height: 100svh;
   overflow: hidden;
   padding: clamp(5rem, 10vw, 9rem) var(--gutter) 1.5rem;
@@ -3321,11 +3394,12 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .contact__cta:hover span { transform: rotate(45deg); }
 
+/* Pinning this to the bottom made it collide with the flow above whenever the
+   window was short. It now sits last in the column and is pushed down by the
+   free space instead, so it can never land on top of anything. */
 .contact__footer {
-  position: absolute;
-  right: var(--gutter);
-  bottom: 1.5rem;
-  left: var(--gutter);
+  position: relative;
+  margin-top: auto;
   display: grid;
   grid-template-columns: 1fr auto auto auto;
   gap: 3rem;
@@ -3798,6 +3872,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     margin-top: 20vh;
     font-size: clamp(2.8rem, 11.5vw, 4.75rem);
   }
+
+  .contact__tally { grid-template-columns: repeat(2, 1fr); }
 
   .contact__footer {
     grid-template-columns: 1fr auto;

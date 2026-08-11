@@ -483,20 +483,20 @@
         </div>
 
         <div class="boxjam__stage">
-          <a
-            class="boxjam-phone interactive reveal"
-            href="https://play.google.com/store/apps/details?id=com.playoneer.boxjam"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Open Box Jam on Google Play"
+          <div
+            class="boxjam-phone boxjam-phone--film film-shell reveal"
+            data-state="idle"
+            data-title="Box Jam — trailer"
+            data-embed="https://www.youtube-nocookie.com/embed/Znb62tAJ6ow?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1"
           >
             <img
-              src="https://play-lh.googleusercontent.com/dMz5oSX0QQrWP56BnaKvDb8loSp0PS4lR8Y8rfregNBa10GsPX2qpdymBm_46IqrXyOJanzW8vsU7A9zRrvafAM=w886-h1576"
-              alt="Sorting colorful cans in Box Jam"
+              src="https://i.ytimg.com/vi/Znb62tAJ6ow/maxresdefault.jpg"
+              alt="Box Jam sorting gameplay"
               loading="lazy"
             />
-            <span>Google Play ↗</span>
-          </a>
+            <button class="film-play" type="button" data-embed-play aria-label="Play the Box Jam trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
+            <a class="boxjam-phone__store interactive" href="https://play.google.com/store/apps/details?id=com.playoneer.boxjam" target="_blank" rel="noreferrer">Google Play ↗</a>
+          </div>
 
           <div class="boxjam__copy reveal">
             <span>Mobile / Puzzle / Offline</span>
@@ -574,9 +574,9 @@
         <div class="blob__stage">
           <div class="blob__phones reveal" aria-label="Blob Jam mobile gameplay screens">
             <figure><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b4/ed/bc/b4edbca4-2e11-1b6d-d51a-f97f45036beb/1_1290x2796.png/784x1699bb.png" alt="Blob Jam object sorting gameplay" loading="lazy" /></figure>
-            <figure class="blob-film" data-state="idle" data-title="Blob Jam — trailer" data-embed="https://www.youtube-nocookie.com/embed/kNc590N5Kgo?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1">
+            <figure class="blob-film film-shell" data-state="idle" data-title="Blob Jam — trailer" data-embed="https://www.youtube-nocookie.com/embed/kNc590N5Kgo?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;playsinline=1">
               <img src="https://i.ytimg.com/vi/kNc590N5Kgo/maxresdefault.jpg" alt="Blob Jam trailer" loading="lazy" />
-              <button class="blob-film__play" type="button" data-embed-play aria-label="Play the Blob Jam trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
+              <button class="film-play" type="button" data-embed-play aria-label="Play the Blob Jam trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
             </figure>
             <figure><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/dc/4e/26/dc4e264d-7508-e154-e7c0-a781e6284338/3_1290x2796.png/784x1699bb.png" alt="Blob Jam tactile object interaction" loading="lazy" /></figure>
           </div>
@@ -620,7 +620,7 @@
 
       <section class="word solitaire section" id="card-match">
         <div class="word__header reveal"><div><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/24/eb/06/24eb0604-578f-7515-318b-708e6649b855/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg" alt="Card Match Solitaire app icon" loading="lazy" /><span>07 / Card puzzle</span></div><h2>Card<br /><em>Match</em></h2><p>Stack.<br />Match. Win.</p></div>
-        <div class="word__body reveal"><div class="word__phones"><video autoplay muted loop playsinline preload="metadata" aria-label="Card Match Solitaire gameplay" poster="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png"><source src="./media/card-match-trailer.mp4" type="video/mp4" /></video><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ba/e2/40/bae2404b-a4ee-14a4-3aaa-6f445b6fffbb/Solitaire-Store-Images21242x2208.png/784x1392bb.png" alt="Card Match Solitaire level screen" loading="lazy" /><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/78/87/7b788791-1fa3-a208-d5c8-257233088b42/Solitaire-Store-Images3_1242x2208.png/784x1392bb.png" alt="Card Match Solitaire cards" loading="lazy" /></div><div class="word__copy"><span>iOS / Solitaire / Casual</span><p>A modern, tactile take on solitaire: make quick decisions, clear the board and turn every card into a satisfying move.</p><div class="word__facts"><div><strong>Stack</strong><span>card matching</span></div><div><strong>Flow</strong><span>quick decisions</span></div><div><strong>Clear</strong><span>board progression</span></div><div><strong>iOS</strong><span>casual release</span></div></div><a class="word__link interactive" href="https://apps.apple.com/us/app/card-match-solitaire/id6477757812" target="_blank" rel="noreferrer">Get Card Match <i>↗</i></a></div></div>
+        <div class="word__body reveal"><div class="word__phones"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ba/e2/40/bae2404b-a4ee-14a4-3aaa-6f445b6fffbb/Solitaire-Store-Images21242x2208.png/784x1392bb.png" alt="Card Match Solitaire level screen" loading="lazy" /><video class="word-film" autoplay muted loop playsinline preload="metadata" aria-label="Card Match Solitaire gameplay" poster="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png"><source src="./media/card-match-trailer.mp4" type="video/mp4" /></video><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/78/87/7b788791-1fa3-a208-d5c8-257233088b42/Solitaire-Store-Images3_1242x2208.png/784x1392bb.png" alt="Card Match Solitaire cards" loading="lazy" /></div><div class="word__copy"><span>iOS / Solitaire / Casual</span><p>A modern, tactile take on solitaire: make quick decisions, clear the board and turn every card into a satisfying move.</p><div class="word__facts"><div><strong>Stack</strong><span>card matching</span></div><div><strong>Flow</strong><span>quick decisions</span></div><div><strong>Clear</strong><span>board progression</span></div><div><strong>iOS</strong><span>casual release</span></div></div><a class="word__link interactive" href="https://apps.apple.com/us/app/card-match-solitaire/id6477757812" target="_blank" rel="noreferrer">Get Card Match <i>↗</i></a></div></div>
       </section>
 
       <section class="sapper section" id="crazy-sapper">
@@ -943,6 +943,12 @@
         >
           Send<br />an email <span>↗</span>
         </a>
+        <div class="contact__tally reveal">
+          <div><strong>10</strong><span>games shipped</span></div>
+          <div><strong>08</strong><span>XR cases</span></div>
+          <div><strong>04</strong><span>playable fragments</span></div>
+          <div><strong>1M+</strong><span>installs</span></div>
+        </div>
         <div class="contact__switch reveal">
           <span>Finished the game archive?<br />See the other side of my work.</span>
           <a class="interactive" href="./xr.html">Enter<br />Enterprise XR ↗</a>
