@@ -333,327 +333,19 @@ main {
 
 main > .hero { order: 1; }
 main > .xr { order: 2; }
-main > .marquee { order: 3; }
-main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
-
-.hero {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(26rem, 0.8fr);
-  align-items: center;
-  gap: 4vw;
-  min-height: 100svh;
-  padding: 9rem var(--gutter) 4.5rem;
-}
-
-.hero__copy {
-  position: relative;
-  z-index: 2;
-  min-width: 0;
-}
-
-.eyebrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.55rem;
-  margin-bottom: 1.8rem;
-  color: var(--muted);
-  font-size: 0.66rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-}
-
-.eyebrow span:first-child {
-  color: var(--lime);
-}
-
-.eyebrow i {
-  color: var(--line);
-  font-style: normal;
-}
-
-.hero__title {
-  margin: 0;
-  max-width: 10ch;
-  font-family: var(--display);
-  font-size: clamp(4.2rem, 6.15vw, 7.3rem);
-  font-weight: 800;
-  line-height: 0.76;
-  letter-spacing: -0.085em;
-  text-transform: uppercase;
-}
-
-.hero__title span {
-  display: block;
-}
-
-.hero__title--teeth {
-  position: relative;
-  color: var(--lime);
-  text-shadow: 0.04em 0 rgba(255, 90, 54, 0.75), -0.025em 0 rgba(120, 221, 255, 0.62);
-  animation: teeth-flicker 6.5s steps(1, end) infinite;
-}
-
-.hero__title--teeth::before,
-.hero__title--teeth::after {
-  position: absolute;
-  inset: 0;
-  content: attr(data-text);
-  pointer-events: none;
-  opacity: 0;
-}
-
-.hero__title--teeth::before {
-  color: #80ddff;
-  clip-path: inset(42% 0 38% 0);
-  animation: teeth-glitch-cyan 6.5s steps(1, end) infinite;
-}
-
-.hero__title--teeth::after {
-  color: var(--orange);
-  clip-path: inset(8% 0 69% 0);
-  animation: teeth-glitch-orange 6.5s steps(1, end) infinite;
-}
-
-@keyframes teeth-flicker {
-  0%, 89%, 100% { opacity: 1; }
-  90%, 92% { opacity: 0.7; }
-  91% { opacity: 1; }
-}
-
-@keyframes teeth-glitch-cyan {
-  0%, 89%, 100% { opacity: 0; transform: translateX(0); }
-  90%, 92% { opacity: 0.85; transform: translateX(-0.05em); }
-  91% { opacity: 0; }
-}
-
-@keyframes teeth-glitch-orange {
-  0%, 90%, 100% { opacity: 0; transform: translateX(0); }
-  91% { opacity: 0.9; transform: translateX(0.055em); }
-}
-
-.hero__intro {
-  display: grid;
-  grid-template-columns: minmax(12rem, 25rem) auto;
-  align-items: center;
-  gap: 3vw;
-  margin-top: 3rem;
-  margin-left: 0;
-}
-
-.hero__intro p {
-  margin: 0;
-  color: #c6c5bd;
-  font-family: var(--display);
-  font-size: clamp(1rem, 1.3vw, 1.25rem);
-  line-height: 1.45;
-}
-
-.hero__routes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.7rem;
-  max-width: 46rem;
-  margin-top: 1.15rem;
-}
-
-.hero-route {
-  display: grid;
-  gap: 0.45rem;
-  min-height: 7.1rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--line);
-  background: rgba(11, 11, 9, 0.46);
-  color: var(--text);
-  transition: border-color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
-}
-
-.hero-route:hover { border-color: var(--lime); background: rgba(223, 255, 54, 0.08); transform: translateY(-0.25rem); }
-.hero-route--xr:hover { border-color: #70f2d1; background: rgba(112, 242, 209, 0.08); }
-.hero-route span,.hero-route i { font-size: 0.52rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
-.hero-route span { color: var(--muted); }
-.hero-route strong { align-self: end; font-family: var(--display); font-size: clamp(1.1rem, 1.6vw, 1.55rem); line-height: 0.95; letter-spacing: -0.045em; text-transform: uppercase; }
-.hero-route i { color: var(--lime); }
-.hero-route--xr i { color: #70f2d1; }
-
-.round-link {
-  display: grid;
-  place-items: center;
-  width: 8rem;
-  aspect-ratio: 1;
-  border: 1px solid var(--lime);
-  border-radius: 50%;
-  color: var(--lime);
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  line-height: 1.5;
-  letter-spacing: 0.1em;
-  transition: color 0.4s var(--ease), background 0.4s var(--ease);
-}
-
-.round-link svg {
-  width: 1.1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-}
-
-.round-link:hover {
-  color: var(--ink);
-  background: var(--lime);
-}
-
-.hero-stage {
-  position: relative;
-  align-self: center;
-  aspect-ratio: 0.8;
-  overflow: hidden;
-  border: 1px solid rgba(238, 237, 230, 0.4);
-  background:
-    radial-gradient(circle at 50% 50%, rgba(75, 94, 157, 0.28), transparent 34%),
-    repeating-radial-gradient(circle at 50% 50%, rgba(223, 255, 54, 0.12) 0 1px, transparent 1px 3.2rem),
-    linear-gradient(135deg, #0b0d13, #171713 55%, #101313);
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.hero-stage::before,
-.hero-stage::after {
-  content: "";
-  position: absolute;
-  z-index: 4;
-  width: 2.7rem;
-  height: 2.7rem;
-  pointer-events: none;
-}
-
-.hero-stage::before {
-  top: 2.7rem;
-  left: 0.7rem;
-  border-top: 1px solid var(--lime);
-  border-left: 1px solid var(--lime);
-}
-
-.hero-stage::after {
-  right: 0.7rem;
-  bottom: 2.7rem;
-  border-right: 1px solid var(--lime);
-  border-bottom: 1px solid var(--lime);
-}
-
-.hero-stage__media {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: saturate(0.8) contrast(1.15);
-  opacity: 0;
-  transition: opacity 650ms ease;
-}
-
-.hero-stage__media.is-active {
-  opacity: 1;
-}
-
-.hero-stage__image {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-}
-
-.hero-stage__topline,
-.hero-stage__footer {
-  position: absolute;
-  z-index: 5;
-  left: 0;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0.7rem 0.9rem;
-  color: var(--paper);
-  background: rgba(11, 11, 9, 0.8);
-  font-size: 0.55rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  backdrop-filter: blur(10px);
-}
-
-.hero-stage__topline { top: 0; }
-.hero-stage__footer { bottom: 0; }
-
-.sound-toggle {
-  padding: 0;
-  border: 0;
-  background: none;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.hero-stage__scan {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(to bottom, transparent 0 4px, rgba(11, 11, 9, 0.15) 5px);
-}
-
-.hero-stage__reticle {
-  position: absolute;
-  z-index: 5;
-  top: 50%;
-  left: 50%;
-  width: 6rem;
-  height: 6rem;
-  border: 1px solid rgba(223, 255, 54, 0.5);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.hero-stage__reticle::before,
-.hero-stage__reticle::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background: var(--lime);
-  transform: translate(-50%, -50%);
-}
-
-.hero-stage__reticle::before { width: 130%; height: 1px; }
-.hero-stage__reticle::after { width: 1px; height: 130%; }
-
-.hero-stage__reticle span {
-  position: absolute;
-  inset: 1.5rem;
-  border: 1px dashed rgba(223, 255, 54, 0.6);
-  border-radius: inherit;
-  animation: rotate 8s linear infinite;
-}
-
-@keyframes rotate { to { transform: rotate(360deg); } }
-
-.hero__status {
-  position: absolute;
-  right: var(--gutter);
-  bottom: 1.3rem;
-  left: var(--gutter);
-  display: flex;
-  justify-content: space-between;
-  color: var(--muted);
-  font-size: 0.55rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
+main > /* A neon sign with bad tracking: the text carries a cyan/magenta fringe, the
+   bar runs scanlines, and a tear sweeps down it. Hovering pulls the sign apart
+   and slows the scroll so a line can actually be read. */
 .marquee {
   position: relative;
   z-index: 2;
   overflow: hidden;
-  padding: 1.1rem 0;
-  color: var(--ink);
-  background: var(--lime);
+  padding: 1.2rem 0;
+  color: var(--lime);
+  background: #07070a;
+  border-top: 1px solid rgba(223, 255, 54, 0.45);
+  border-bottom: 1px solid rgba(223, 255, 54, 0.45);
+  box-shadow: 0 0 2.5rem rgba(223, 255, 54, 0.16), inset 0 0 3rem rgba(223, 255, 54, 0.07);
   font-family: var(--display);
   font-size: clamp(1.5rem, 3vw, 3.2rem);
   font-weight: 700;
@@ -670,9 +362,94 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   animation: marquee 24s linear infinite;
 }
 
+.marquee:hover .marquee__track { animation-duration: 70s; }
+
+.marquee span {
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 0 0.5em rgba(223, 255, 54, 0.55);
+}
+
+/* The two halves of the fringe. They sit exactly on the word until the sign
+   glitches, then jump apart. */
+.marquee span::before,
+.marquee span::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  text-shadow: none;
+}
+
+.marquee span::before {
+  color: #00f0ff;
+  animation: sign-tear-a 5.5s steps(1) infinite;
+}
+
+.marquee span::after {
+  color: #ff2e88;
+  animation: sign-tear-b 5.5s steps(1) infinite;
+}
+
 .marquee i {
   font-style: normal;
-  font-size: 0.75em;
+  font-size: 0.7em;
+  color: #ff2e88;
+  text-shadow: 0 0 0.5em rgba(255, 46, 136, 0.6);
+}
+
+.marquee span:nth-of-type(even) { color: #baff2e; }
+.marquee i:nth-of-type(even) { color: #00f0ff; text-shadow: 0 0 0.5em rgba(0, 240, 255, 0.6); }
+
+.marquee__scan {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.45;
+  background: repeating-linear-gradient(to bottom, rgba(7, 7, 10, 0) 0 2px, rgba(7, 7, 10, 0.55) 3px);
+}
+
+.marquee__tear {
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  height: 12%;
+  pointer-events: none;
+  background: linear-gradient(rgba(255, 255, 255, 0.05), rgba(0, 240, 255, 0.12), rgba(255, 255, 255, 0.05));
+  mix-blend-mode: screen;
+  animation: sign-sweep 6.5s linear infinite;
+}
+
+.marquee:hover .marquee__tear { animation-duration: 1.4s; }
+
+.marquee:hover span::before { animation-duration: 0.5s; }
+.marquee:hover span::after { animation-duration: 0.5s; }
+.marquee:hover .marquee__scan { opacity: 0.7; }
+
+@keyframes sign-sweep {
+  from { top: -14%; }
+  to { top: 100%; }
+}
+
+/* Mostly aligned, with brief slips — steps() keeps the jumps digital. */
+@keyframes sign-tear-a {
+  0%, 86% { transform: none; clip-path: none; }
+  88% { transform: translate(-0.05em, -0.02em); clip-path: inset(0 0 62% 0); }
+  92% { transform: translate(0.04em, 0.02em); clip-path: inset(58% 0 0 0); }
+  96% { transform: translate(-0.03em, 0); clip-path: inset(30% 0 38% 0); }
+  100% { transform: none; clip-path: none; }
+}
+
+@keyframes sign-tear-b {
+  0%, 86% { transform: none; clip-path: none; }
+  88% { transform: translate(0.05em, 0.02em); clip-path: inset(0 0 55% 0); }
+  92% { transform: translate(-0.04em, -0.02em); clip-path: inset(64% 0 0 0); }
+  96% { transform: translate(0.03em, 0); clip-path: inset(26% 0 44% 0); }
+  100% { transform: none; clip-path: none; }
 }
 
 @keyframes marquee { to { transform: translateX(-50%); } }
