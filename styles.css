@@ -3490,6 +3490,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .xr-case__title p { grid-column:2; max-width:27rem; margin:0; color:#a8beca; font-family:var(--display); font-size:clamp(1.1rem,1.45vw,1.45rem); line-height:1.26; letter-spacing:-.03em; }
 .xr-case__project-link { grid-column:2; justify-self:start; display:inline-block; margin-top:1.5rem; color:#70f2d1; font-size:.55rem; letter-spacing:.1em; text-transform:uppercase; }
 .xr-case--fife .xr-case__title h2 { font-size:clamp(3.6rem,5.4vw,6.4rem); }
+/* The trail's guide, kept as a mascot beside the title rather than a slide. */
+.xr-case__mark { grid-column:1; display:flex; align-items:flex-end; gap:clamp(.9rem,1.8vw,1.8rem); }
+.xr-case__mark img { flex:none; width:clamp(4.5rem,8vw,8rem); filter:drop-shadow(0 .6rem 1.2rem rgba(0,0,0,.45)); }
 .xr-case__media { grid-column:1/-1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
 .xr-case__media > img { width:100%; min-height:17rem; max-height:38rem; border:1px solid rgba(234,247,255,.2); background:#0e2130; object-fit:contain; object-position:center; }
 .xr-case__media > img:first-child { grid-column:1/-1; min-height:31rem; }
@@ -3928,7 +3931,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .xr-page__header .availability { display:none; }
   .xr-page__hero { grid-template-columns:1fr; min-height:76svh; padding-top:8rem; }
   .xr-page__hero h1 { font-size:clamp(4rem,17vw,6.5rem); }
-  .ar-stage { grid-template-columns: 1fr; gap: 2rem; }
+  .ar-stage,
+  .anatomy { grid-template-columns: 1fr; gap: 2rem; }
   .xr-case { display:block; padding:4rem 0; }
   .xr-case header { margin-bottom:1.4rem; font-size:.48rem; }
   .xr-case__title { display:block; margin-bottom:2rem; }
@@ -4193,3 +4197,199 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   A title does what its game does. Each runs a long quiet cycle with one
+   short event, so these read as gestures rather than loops — and each moves
+   in a different way, not eight versions of the same sweep.
+   ───────────────────────────────────────────────────────────────────────── */
+.featured .section-heading h2 em,
+.boon__header h2 em,
+.flower__header h2 em,
+.boxjam__header h2 em,
+.blob__header h2 em,
+.word__header h2 em,
+.sapper__header h2 em {
+  display: inline-block;
+  font-style: normal;
+  will-change: transform;
+}
+
+/* Bronze Hoof — a runner: the word takes a stride and lands. */
+.featured .section-heading h2 em {
+  color: #e9c46a;
+  transform-origin: 50% 100%;
+  animation: title-stride 7s ease-in-out infinite;
+}
+@keyframes title-stride {
+  0%, 72% { transform: none; }
+  78% { transform: translateY(-0.09em) scaleY(1.03); }
+  84% { transform: translateY(0) scaleY(0.94) scaleX(1.03); }
+  90%, 100% { transform: none; }
+}
+
+/* Boon Hill — no goal, no danger: the name surfaces out of the fog and sinks back. */
+.boon__header h2 em { animation: title-mist 13s ease-in-out infinite; }
+@keyframes title-mist {
+  0%, 100% { opacity: 0.45; filter: blur(0.02em); }
+  50% { opacity: 1; filter: blur(0); }
+}
+
+/* Flower Book — it blooms. */
+.flower__header h2 em {
+  transform-origin: 50% 100%;
+  animation: title-bloom 9s ease-in-out infinite;
+}
+@keyframes title-bloom {
+  0%, 68% { transform: scale(1); }
+  80% { transform: scale(1.045); }
+  92%, 100% { transform: scale(1); }
+}
+
+/* Box Jam — an object dropped into its box, settling on impact. */
+.boxjam__header h2 em {
+  transform-origin: 50% 100%;
+  animation: title-drop 8s ease-in infinite;
+}
+@keyframes title-drop {
+  0%, 66% { transform: none; }
+  76% { transform: translateY(-0.22em); }
+  85% { transform: translateY(0) scaleY(0.9) scaleX(1.05); }
+  93%, 100% { transform: none; }
+}
+
+/* Blob Jam — squash and stretch, because everything in it is soft. */
+.blob__header h2 em {
+  transform-origin: 50% 100%;
+  animation: title-squash 6.5s ease-in-out infinite;
+}
+@keyframes title-squash {
+  0%, 70% { transform: none; }
+  80% { transform: scaleX(1.07) scaleY(0.93); }
+  88% { transform: scaleX(0.96) scaleY(1.05); }
+  96%, 100% { transform: none; }
+}
+
+/* Word Bend — the word bends. */
+.word:not(.solitaire) .word__header h2 em {
+  transform-origin: 0 100%;
+  animation: title-bend 10s ease-in-out infinite;
+}
+@keyframes title-bend {
+  0%, 64% { transform: skewX(0deg); }
+  76% { transform: skewX(-7deg); }
+  88% { transform: skewX(3deg); }
+  96%, 100% { transform: skewX(0deg); }
+}
+
+/* Card Match — a card turned over. */
+.solitaire .word__header h2 em {
+  transform-origin: 50% 50%;
+  animation: title-flip 11s ease-in-out infinite;
+}
+@keyframes title-flip {
+  0%, 70% { transform: perspective(600px) rotateY(0deg); }
+  85% { transform: perspective(600px) rotateY(180deg); }
+  100% { transform: perspective(600px) rotateY(360deg); }
+}
+
+/* Crazy Sapper — something goes off, then dead still. */
+.sapper__header h2 em { animation: title-jolt 9s steps(1) infinite; }
+@keyframes title-jolt {
+  0%, 88% { transform: none; }
+  90% { transform: translate(0.035em, -0.02em); }
+  92% { transform: translate(-0.03em, 0.025em); }
+  94% { transform: translate(0.02em, 0.015em); }
+  96%, 100% { transform: none; }
+}
+
+/* Layered anatomy: the case's app peels a body apart, so this does too.
+   Every layer is drawn as line work and switched from the panel beside it. */
+.anatomy {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.7fr);
+  align-items: center;
+  gap: 4vw;
+  padding: clamp(1.4rem, 2.6vw, 2.6rem);
+  border: 1px solid rgba(234, 247, 255, 0.2);
+  background: #0a1a26;
+}
+
+.anatomy__stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(112, 242, 209, 0.09), transparent 62%),
+    repeating-linear-gradient(0deg, rgba(112, 242, 209, 0.05) 0 1px, transparent 1px 2.4rem),
+    repeating-linear-gradient(90deg, rgba(112, 242, 209, 0.05) 0 1px, transparent 1px 2.4rem);
+}
+
+.anatomy__figure { width: min(100%, 22rem); height: auto; overflow: visible; }
+
+.anatomy__figure g {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 0.45s var(--ease);
+}
+
+.anatomy__figure g[data-hidden] { opacity: 0; }
+
+.anatomy__figure [data-group="skin"] { stroke: rgba(234, 247, 255, 0.4); }
+.anatomy__figure [data-group="vessels"] { stroke: #ff7ab8; stroke-width: 1.4; }
+.anatomy__figure [data-group="skull"] { stroke: #eaf7ff; }
+.anatomy__figure [data-group="brain"] { stroke: #a98cff; }
+.anatomy__figure [data-group="eyes"] { stroke: #70f2d1; }
+.anatomy__figure .anatomy__iris { fill: #70f2d1; stroke: none; }
+
+.anatomy__panel > span {
+  color: #70f2d1;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.anatomy__panel > p {
+  margin: 0.9rem 0 1.4rem;
+  color: #a8beca;
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.anatomy__toggles { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.anatomy__toggles button {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(234, 247, 255, 0.28);
+  background: none;
+  color: #a8beca;
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.anatomy__toggles button:hover { border-color: #70f2d1; color: #eaf7ff; }
+
+.anatomy__toggles button[aria-pressed="true"] {
+  border-color: #70f2d1;
+  background: rgba(112, 242, 209, 0.12);
+  color: #eaf7ff;
+}
+
+.anatomy__hud {
+  display: flex;
+  gap: 1.8rem;
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(234, 247, 255, 0.2);
+}
+
+.anatomy__hud span { display: grid; gap: 0.3rem; }
+.anatomy__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.3rem; font-weight: 800; line-height: 1; text-transform: capitalize; }
+.anatomy__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
