@@ -39,6 +39,28 @@
         </div>
       </section>
 
+      <section class="ar-stage" data-phase="scanning" aria-label="Interactive AR demonstration">
+        <div class="ar-stage__brief">
+          <span>Try it / no headset</span>
+          <h2>Find a surface.<br /><em>Anchor something to it.</em></h2>
+          <p>
+            The loop underneath every project below: read the room, lock onto a
+            plane, and pin content to a point that stays put while the camera
+            moves. Move across to look around, click the floor to drop an anchor.
+          </p>
+          <div class="ar-stage__hud">
+            <span><b data-anchors>0</b><i>anchors placed</i></span>
+            <span><b data-state>Scanning…</b><i>tracking state</i></span>
+          </div>
+          <p class="ar-stage__hint">Finding a surface…</p>
+        </div>
+        <canvas
+          class="ar-stage__canvas"
+          tabindex="0"
+          aria-label="Augmented reality floor. Move the pointer to look around, click to place an anchor."
+        ></canvas>
+      </section>
+
       <section class="xr-feed" id="cases" aria-label="Enterprise XR case studies">
         <article class="xr-case xr-case--raf">
           <header><span>01 / AR public engagement</span><span>Royal Air Force / 2018</span></header>
@@ -88,5 +110,6 @@
       <footer class="xr-page__footer"><span>Finished the XR archive? / Built in Unity, Bonn, Germany</span><a href="./index.html">Enter games portfolio →</a><a href="mailto:sburdenko@gmail.com">sburdenko@gmail.com</a></footer>
     </main>
     <script type="module" src="/video-facade.js"></script>
+    <script type="module" src="/ar-stage.js"></script>
   </body>
 </html>
