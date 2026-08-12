@@ -5,13 +5,39 @@ const IDLE_SPIN = 0.13;
 
 // The massing, as boxes in metres: ground floor, cantilevered upper storey,
 // terrace slab, lift core, and the piers the cantilever sits on.
-const BOXES = [
+const MASSING = [
   { x: [-4.2, 4.2], y: [0, 3.1], z: [-3, 3] },
   { x: [-5.4, 3], y: [3.1, 6], z: [-3.6, 2.2] },
   { x: [-6.4, 5.6], y: [-0.25, 0], z: [-4.6, 5.4] },
   { x: [3, 4.2], y: [0, 6.6], z: [-1.2, 0.6] },
   { x: [-5.2, -4.6], y: [0, 3.1], z: [1.4, 2] },
   { x: [-5.2, -4.6], y: [0, 3.1], z: [-3.4, -2.8] },
+];
+
+// Neighbours, so the scheme is read against a street rather than in a void.
+const CONTEXT = [
+  { x: [-13, -8], y: [0, 4.4], z: [-7, -1] },
+  { x: [-13, -8.6], y: [0, 5.8], z: [1, 6.5] },
+  { x: [8, 12.5], y: [0, 5.2], z: [-6, 0.5] },
+  { x: [8.6, 13], y: [0, 3.6], z: [2, 7] },
+];
+
+const TREES = [
+  { x: -7.4, z: 4.6, h: 2.4, r: 1.3 },
+  { x: -6.2, z: 7.2, h: 1.9, r: 1 },
+  { x: 6.8, z: 5.4, h: 2.6, r: 1.4 },
+  { x: 7.6, z: 8, h: 2, r: 1.1 },
+  { x: 0.4, z: 8.2, h: 2.2, r: 1.2 },
+  { x: -2.6, z: -7.4, h: 2.5, r: 1.35 },
+  { x: 3.4, z: -7.8, h: 2, r: 1.05 },
+];
+
+const ROADS = [
+  [{ x: -14, y: 0, z: 9.6 }, { x: 14, y: 0, z: 9.6 }],
+  [{ x: -14, y: 0, z: 11.2 }, { x: 14, y: 0, z: 11.2 }],
+  [{ x: -7.2, y: 0, z: 9.6 }, { x: -7.2, y: 0, z: 6 }],
+  [{ x: 6.4, y: 0, z: 9.6 }, { x: 6.4, y: 0, z: 6 }],
+  [{ x: -6.4, y: 0, z: 6 }, { x: 6.4, y: 0, z: 6 }],
 ];
 
 const CORNERS = [
@@ -25,9 +51,9 @@ const EDGE_PAIRS = [
   [0, 4], [1, 5], [2, 6], [3, 7],
 ];
 
-const buildEdges = () => {
+const buildEdges = (boxes) => {
   const edges = [];
-  BOXES.forEach((box) => {
+  boxes.forEach((box) => {
     const verts = CORNERS.map(([cx, cy, cz]) => ({
       x: box.x[cx],
       y: box.y[cy],
@@ -38,7 +64,8 @@ const buildEdges = () => {
   return edges;
 };
 
-const EDGES = buildEdges();
+const MASSING_EDGES = buildEdges(MASSING);
+const CONTEXT_EDGES = buildEdges(CONTEXT);
 
 // Ground grid, drawn flat at y = 0 so the massing has something to stand on.
 const GRID = (() => {
@@ -82,6 +109,8 @@ const mount = (root) => {
   canvas.width = WORLD.w;
   canvas.height = WORLD.h;
 
+  const layerButtons = [...root.querySelectorAll("[data-model-layer]")];
+  let shown = new Set(["site", "massing", "context", "trees"]);
   let yaw = -0.7;
   let pitch = 0.22;
   let dragging = false;
@@ -104,11 +133,33 @@ const mount = (root) => {
     ctx.stroke();
   };
 
+  const drawTrees = () => {
+    ctx.strokeStyle = "rgba(112, 242, 209, 0.75)";
+    ctx.lineWidth = 1;
+    TREES.forEach((tree) => {
+      const foot = project({ x: tree.x, y: 0, z: tree.z }, yaw, pitch);
+      const top = project({ x: tree.x, y: tree.h, z: tree.z }, yaw, pitch);
+      if (!foot || !top) return;
+      ctx.beginPath();
+      ctx.moveTo(foot.sx, foot.sy);
+      ctx.lineTo(top.sx, top.sy);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(top.sx, top.sy - (FOCAL * tree.r * 0.5) / top.z, (FOCAL * tree.r) / top.z / 2, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+  };
+
   const draw = () => {
     ctx.fillStyle = "#07131d";
     ctx.fillRect(0, 0, WORLD.w, WORLD.h);
-    stroke(GRID, "rgba(112, 242, 209, 0.16)", 1);
-    stroke(EDGES, "rgba(234, 247, 255, 0.9)", 1.15);
+    if (shown.has("site")) {
+      stroke(GRID, "rgba(112, 242, 209, 0.14)", 1);
+      stroke(ROADS, "rgba(112, 242, 209, 0.5)", 1.4);
+    }
+    if (shown.has("context")) stroke(CONTEXT_EDGES, "rgba(168, 190, 202, 0.45)", 1);
+    if (shown.has("trees")) drawTrees();
+    if (shown.has("massing")) stroke(MASSING_EDGES, "rgba(234, 247, 255, 0.9)", 1.15);
   };
 
   const loop = (now) => {
@@ -151,6 +202,17 @@ const mount = (root) => {
     if (step === 0) return;
     event.preventDefault();
     yaw += step;
+  });
+
+  layerButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(shown.has(button.dataset.modelLayer)));
+    button.addEventListener("click", () => {
+      const layer = button.dataset.modelLayer;
+      shown = new Set(shown);
+      if (shown.has(layer)) shown.delete(layer);
+      else shown.add(layer);
+      button.setAttribute("aria-pressed", String(shown.has(layer)));
+    });
   });
 
   window.requestAnimationFrame(loop);

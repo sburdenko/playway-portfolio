@@ -23,6 +23,8 @@ const mount = (root) => {
 
   const describe = (layer) => {
     nameOut.textContent = layer ? layer : "All layers";
+    if (layer) root.dataset.focus = layer;
+    else delete root.dataset.focus;
   };
 
   buttons.forEach((button) => {
