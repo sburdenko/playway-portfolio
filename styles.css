@@ -4613,3 +4613,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   background: rgba(112, 242, 209, 0.12);
   color: #eaf7ff;
 }
+
+/* Searchlights and stage beams read as light, not structure. */
+.eras__figure .eras__beam { stroke: rgba(112, 242, 209, 0.5); stroke-width: 1.4; }
