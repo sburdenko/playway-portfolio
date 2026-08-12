@@ -3933,7 +3933,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .xr-page__hero h1 { font-size:clamp(4rem,17vw,6.5rem); }
   .ar-stage,
   .anatomy,
-  .eras { grid-template-columns: 1fr; gap: 2rem; }
+  .eras,
+  .model { grid-template-columns: 1fr; gap: 2rem; }
   .xr-case { display:block; padding:4rem 0; }
   .xr-case header { margin-bottom:1.4rem; font-size:.48rem; }
   .xr-case__title { display:block; margin-bottom:2rem; }
@@ -4478,3 +4479,63 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .eras__hud span { display: grid; gap: 0.3rem; }
 .eras__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.15rem; font-weight: 800; line-height: 1.15; }
 .eras__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* Rigby & Rigby build real-time architecture, so the case carries a massing
+   you can walk round rather than a still of one. */
+.model {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.62fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 4vw;
+  margin-top: 0.7rem;
+  padding: clamp(1.4rem, 2.6vw, 2.6rem);
+  border: 1px solid rgba(234, 247, 255, 0.2);
+  background: #0a1a26;
+}
+
+.model__panel > span {
+  color: #70f2d1;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.model__panel > p {
+  margin: 0.9rem 0 1.4rem;
+  color: #a8beca;
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.model__hud {
+  display: flex;
+  gap: 1.8rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(234, 247, 255, 0.2);
+}
+
+.model__hud span { display: grid; gap: 0.3rem; }
+.model__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.3rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.model__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.model__hint {
+  margin: 1rem 0 0;
+  color: #a8beca;
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.model__canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 460 / 320;
+  border: 1px solid rgba(112, 242, 209, 0.28);
+  background: #07131d;
+  cursor: grab;
+  touch-action: none;
+}
+
+.model__canvas:active { cursor: grabbing; }
+.model__canvas:focus-visible { outline: 2px solid #70f2d1; outline-offset: 2px; }
