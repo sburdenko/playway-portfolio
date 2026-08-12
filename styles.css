@@ -333,7 +333,10 @@ main {
 
 main > .hero { order: 1; }
 main > .xr { order: 2; }
-main > /* A neon sign with bad tracking: the text carries a cyan/magenta fringe, the
+main > .marquee { order: 3; }
+main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
+
+/* A neon sign with bad tracking: the text carries a cyan/magenta fringe, the
    bar runs scanlines, and a tear sweeps down it. Hovering pulls the sign apart
    and slows the scroll so a line can actually be read. */
 .marquee {
