@@ -665,6 +665,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.04em;
+  /* Tilted and scaled up, so its corners reach past its own box — the margins
+     clear that overhang before anything else starts. */
+  margin: clamp(1.5rem, 3vw, 3rem) 0 clamp(2.5rem, 5vw, 5rem);
   transform: rotate(-1.2deg) scale(1.02);
 }
 
