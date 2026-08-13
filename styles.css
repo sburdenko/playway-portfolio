@@ -1402,7 +1402,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(24, 1fr);
   align-items: end;
   margin-top: var(--block-gap);
 }
@@ -1418,23 +1418,24 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   border: 1px solid rgba(185, 196, 180, 0.3);
   border-radius: 46% 46% 2px 2px / 22% 22% 0 0;
   background: #10150f;
-  box-shadow: 0 1.6rem 3.4rem rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0.9rem 2rem rgba(0, 0, 0, 0.6);
   transform-origin: 50% 100%;
   rotate: var(--tilt, 0deg);
   transition: rotate 0.8s var(--ease), scale 0.8s var(--ease), box-shadow 0.8s var(--ease);
 }
 
-/* Back rank */
+/* Back rank — four narrow columns of the 24, clustered rather than evenly
+   spaced, so the ground between them reads as plots. */
 .boon-gallery figure:nth-child(1) { --col: 1 / 5;   --row: 1; --depth: 2; --tilt: -4deg;   --stone: 0.7; }
 .boon-gallery figure:nth-child(2) { --col: 4 / 8;   --row: 1; --depth: 4; --tilt: 2.5deg;  --stone: 0.64; }
-.boon-gallery figure:nth-child(3) { --col: 7 / 11;  --row: 1; --depth: 3; --tilt: -2deg;   --stone: 0.72; }
-.boon-gallery figure:nth-child(4) { --col: 9 / 13;  --row: 1; --depth: 5; --tilt: 3.5deg;  --stone: 0.66; }
+.boon-gallery figure:nth-child(3) { --col: 13 / 17; --row: 1; --depth: 3; --tilt: -2deg;   --stone: 0.72; }
+.boon-gallery figure:nth-child(4) { --col: 16 / 20; --row: 1; --depth: 5; --tilt: 3.5deg;  --stone: 0.66; }
 
-/* Front rank — larger, lower, pulled up over the back */
-.boon-gallery figure:nth-child(5) { --col: 1 / 6;   --row: 2; --depth: 7; --tilt: 2deg;    --stone: 0.8;  --lift: -7rem; }
-.boon-gallery figure:nth-child(6) { --col: 4 / 9;   --row: 2; --depth: 9; --tilt: -3.5deg; --stone: 0.86; --lift: -10rem; }
-.boon-gallery figure:nth-child(7) { --col: 7 / 12;  --row: 2; --depth: 8; --tilt: 4deg;    --stone: 0.78; --lift: -6rem; }
-.boon-gallery figure:nth-child(8) { --col: 10 / 13; --row: 2; --depth: 6; --tilt: -1.5deg; --stone: 0.68; --lift: -9rem; }
+/* Front rank — a little wider, lower, pulled up over the back */
+.boon-gallery figure:nth-child(5) { --col: 3 / 8;   --row: 2; --depth: 7; --tilt: 2deg;    --stone: 0.8;  --lift: -3.4rem; }
+.boon-gallery figure:nth-child(6) { --col: 8 / 13;  --row: 2; --depth: 9; --tilt: -3.5deg; --stone: 0.86; --lift: -5rem; }
+.boon-gallery figure:nth-child(7) { --col: 14 / 19; --row: 2; --depth: 8; --tilt: 4deg;    --stone: 0.78; --lift: -2.8rem; }
+.boon-gallery figure:nth-child(8) { --col: 19 / 24; --row: 2; --depth: 6; --tilt: -1.5deg; --stone: 0.68; --lift: -4.4rem; }
 
 /* Haze over the back rank so the group reads as depth, not clutter. */
 .boon-gallery figure:nth-child(-n + 4)::after {
@@ -1450,7 +1451,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   z-index: 20;
   rotate: 0deg;
   scale: 1.05;
-  box-shadow: 0 2.2rem 4.5rem rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(143, 168, 138, 0.75);
+  box-shadow: 0 1.3rem 2.8rem rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(143, 168, 138, 0.75);
 }
 
 .boon-gallery figure:hover::after { opacity: 0; }
@@ -3796,7 +3797,14 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     grid-row: auto;
   }
 
-  .boon-gallery { grid-template-columns: repeat(2, 1fr); }
+  .boon-gallery { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+  .boon-gallery figure {
+    grid-column: auto;
+    grid-row: auto;
+    margin-top: 0;
+    aspect-ratio: 0.74;
+  }
 
   .boon__header {
     grid-template-columns: 1fr;
@@ -4025,12 +4033,12 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   }
 
   .boon-gallery figure {
-    flex: 0 0 62vw;
+    flex: 0 0 46vw;
     grid-column: auto;
     grid-row: auto;
     margin-top: 0;
     aspect-ratio: auto;
-    height: 26rem;
+    height: 17rem;
     rotate: none;
     transform: none;
     scroll-snap-align: start;
