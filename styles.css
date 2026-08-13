@@ -4317,15 +4317,76 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   50% { opacity: 1; filter: blur(0); }
 }
 
-/* Flower Book — it blooms. */
-.flower__header h2 em {
-  transform-origin: 50% 100%;
-  animation: title-bloom 9s ease-in-out infinite;
+/* Flower Book — the title blooms literally. The O of FLOWER turns over and
+   comes back a flower; the two O's of BOOK slide together, merge into one, and
+   part again. Both flowers are the same five-circle motif as the divider, so
+   the page keeps one drawing of a flower. */
+.fl-o,
+.bk-o {
+  position: relative;
+  display: inline-block;
 }
-@keyframes title-bloom {
-  0%, 68% { transform: scale(1); }
-  80% { transform: scale(1.045); }
-  92%, 100% { transform: scale(1); }
+
+.fl-o::after,
+.bk-o--a::after {
+  content: "";
+  position: absolute;
+  bottom: -0.1em;
+  left: 50%;
+  width: 0.92em;
+  height: 0.92em;
+  margin-left: -0.46em;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.fl-o {
+  animation: fl-o-turn 9s linear infinite;
+}
+
+.fl-o::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23fff4d6' stroke-width='6.5'%3E%3Ccircle cx='32' cy='15' r='11'/%3E%3Ccircle cx='32' cy='49' r='11'/%3E%3Ccircle cx='15' cy='32' r='11'/%3E%3Ccircle cx='49' cy='32' r='11'/%3E%3Ccircle cx='32' cy='32' r='11'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='4.5' fill='%23f9d052'/%3E%3C/svg%3E");
+  animation: fl-petal 9s ease-in-out infinite;
+}
+
+@keyframes fl-o-turn {
+  0%, 8% { rotate: 0deg; color: #fff4d6; }
+  13% { rotate: 62deg; color: transparent; }
+  32% { rotate: 300deg; color: transparent; }
+  38%, 100% { rotate: 360deg; color: #fff4d6; }
+}
+
+@keyframes fl-petal {
+  0%, 9% { opacity: 0; scale: 0.25; }
+  15%, 30% { opacity: 1; scale: 1; }
+  36%, 100% { opacity: 0; scale: 0.25; }
+}
+
+/* Each O carries how far it has to travel to meet the other. */
+.bk-o { animation: bk-o-close 9s ease-in-out infinite; }
+.bk-o--a { --merge: 0.417em; }
+.bk-o--b { --merge: -0.417em; }
+
+@keyframes bk-o-close {
+  0%, 46% { translate: 0 0; color: #ff9fbd; }
+  57% { translate: var(--merge) 0; color: #ff9fbd; }
+  61%, 73% { translate: var(--merge) 0; color: transparent; }
+  77% { translate: var(--merge) 0; color: #ff9fbd; }
+  88%, 100% { translate: 0 0; color: #ff9fbd; }
+}
+
+/* The merged flower rides the left O, which by then sits on the seam. */
+.bk-o--a::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ff9fbd' stroke-width='6.5'%3E%3Ccircle cx='32' cy='15' r='11'/%3E%3Ccircle cx='32' cy='49' r='11'/%3E%3Ccircle cx='15' cy='32' r='11'/%3E%3Ccircle cx='49' cy='32' r='11'/%3E%3Ccircle cx='32' cy='32' r='11'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='4.5' fill='%23fff4d6'/%3E%3C/svg%3E");
+  animation: bk-petal 9s ease-in-out infinite;
+}
+
+@keyframes bk-petal {
+  0%, 58% { opacity: 0; scale: 0.2; rotate: -45deg; }
+  64% { opacity: 1; scale: 1.06; rotate: 0deg; }
+  67%, 72% { opacity: 1; scale: 1; rotate: 0deg; }
+  78%, 100% { opacity: 0; scale: 0.2; rotate: 45deg; }
 }
 
 /* Box Jam — an object dropped into its box, settling on impact. */
