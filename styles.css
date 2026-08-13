@@ -2136,7 +2136,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .blob__header { display: grid; grid-template-columns: .45fr 1.15fr .4fr; gap: 4vw; margin-bottom: var(--head-gap); }
 .blob__header > div { display: flex; align-items: center; gap: 1rem; }
 .blob__header img { width: clamp(4rem, 7vw, 7rem); border-radius: 22%; box-shadow: 0 1rem 2rem rgba(0,0,0,.25); }
-.blob__header span, .blob__copy > span { color: #e4d9ff; font-size: .56rem; text-transform: uppercase; letter-spacing: .11em; }
+.blob__header > div span, .blob__copy > span { color: #e4d9ff; font-size: .56rem; text-transform: uppercase; letter-spacing: .11em; }
 .blob__header h2 { margin: 0; font-family: var(--display); font-size: clamp(5rem, 11vw, 11rem); font-weight: 800; line-height: .7; letter-spacing: -.1em; text-transform: uppercase; }
 .blob__header h2 em { color: #ffc94e; font-style: normal; }
 .blob__header p { justify-self: end; margin: 0; color: #70f2d1; font-family: var(--display); font-size: clamp(1rem, 1.5vw, 1.5rem); font-weight: 600; line-height: 1.2; text-transform: uppercase; }
@@ -4391,16 +4391,51 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   93%, 100% { transform: none; }
 }
 
-/* Blob Jam — squash and stretch, because everything in it is soft. */
-.blob__header h2 em {
-  transform-origin: 50% 100%;
-  animation: title-squash 6.5s ease-in-out infinite;
+/* Blob Jam — the word behaves like the thing it names: the letters run
+   together into a blob, the blob turns over, and the word reforms. */
+.blob__header h2 em { position: relative; }
+
+.bl-l {
+  display: inline-block;
+  animation: blob-letter 8s ease-in-out infinite;
 }
-@keyframes title-squash {
-  0%, 70% { transform: none; }
-  80% { transform: scaleX(1.07) scaleY(0.93); }
-  88% { transform: scaleX(0.96) scaleY(1.05); }
-  96%, 100% { transform: none; }
+
+/* How far each letter has to slide to land on the word's centre. */
+.bl-l:nth-child(1) { --pull: 1.27em; }
+.bl-l:nth-child(2) { --pull: 0.288em; }
+.bl-l:nth-child(3) { --pull: -0.982em; }
+
+@keyframes blob-letter {
+  0%, 58% { translate: 0 0; scale: 1; opacity: 1; }
+  66% { translate: var(--pull) 0; scale: 0.8; opacity: 1; }
+  70%, 84% { translate: var(--pull) 0; scale: 0.55; opacity: 0; }
+  88% { translate: var(--pull) 0; scale: 0.8; opacity: 1; }
+  96%, 100% { translate: 0 0; scale: 1; opacity: 1; }
+}
+
+.blob__header h2 em::after {
+  content: "";
+  position: absolute;
+  bottom: 0.02em;
+  left: 50%;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: -0.35em;
+  border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%;
+  background: #ffc94e;
+  opacity: 0;
+  scale: 0.25;
+  pointer-events: none;
+  animation: blob-gather 8s ease-in-out infinite;
+}
+
+@keyframes blob-gather {
+  0%, 64% { opacity: 0; scale: 0.25; rotate: 0deg; }
+  70% { opacity: 1; scale: 1.08; }
+  73% { scale: 1; }
+  78% { scale: 1.05; }
+  84% { opacity: 1; scale: 1; rotate: 360deg; }
+  89%, 100% { opacity: 0; scale: 0.25; rotate: 360deg; }
 }
 
 /* Word Bend — the word bends. */
@@ -4427,11 +4462,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .ace-a::after {
   content: "";
   position: absolute;
-  top: calc(100% + 0.02em);
-  left: 50%;
-  width: 0.26em;
-  height: 0.26em;
-  margin-left: -0.13em;
+  right: 0.02em;
+  bottom: 0.46em;
+  width: 0.24em;
+  height: 0.24em;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 28.8C7 21 2 16.4 2 11.2 2 7 5.4 3.6 9.6 3.6c2.4 0 4.7 1.1 6.4 3 1.7-1.9 4-3 6.4-3C26.6 3.6 30 7 30 11.2c0 5.2-5 9.8-14 17.6z' fill='%23c8102e'/%3E%3C/svg%3E") no-repeat center / contain;
   opacity: 0;
   scale: 0.2;
