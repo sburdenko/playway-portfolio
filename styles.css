@@ -1775,7 +1775,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .phone-stack {
   position: relative;
   display: block;
-  min-height: clamp(42rem, 62vw, 62rem);
+  min-height: calc(clamp(15rem, 24vw, 24rem) * 2.02);
   perspective: 1200px;
 }
 
@@ -2141,7 +2141,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .blob__header h2 em { color: #ffc94e; font-style: normal; }
 .blob__header p { justify-self: end; margin: 0; color: #70f2d1; font-family: var(--display); font-size: clamp(1rem, 1.5vw, 1.5rem); font-weight: 600; line-height: 1.2; text-transform: uppercase; }
 .blob__stage { display: grid; grid-template-columns: minmax(20rem, 1.1fr) minmax(22rem, .9fr); align-items: center; gap: 7vw; }
-.blob__phones { display:flex; align-items:center; justify-content:center; min-height:34rem; }
+.blob__phones { display:flex; align-items:center; justify-content:center; padding:2.2rem 0 0; }
 .blob__phones figure { position:relative; width:min(32%,12rem); margin:0; overflow:hidden; border:.5rem solid #25175a; border-radius:2rem; background:#25175a; box-shadow:0 1.5rem 3rem rgba(0,0,0,.28); }
 .blob__phones figure::before { content:""; position:absolute; z-index:1; top:.55rem; left:50%; width:28%; height:.9rem; border-radius:2rem; background:#25175a; transform:translateX(-50%); }
 .blob__phones img { display:block; width:100%; }
@@ -2286,7 +2286,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__header h2 em { color:#e74c68; font-style:normal; }
 .word__header p { justify-self:end; margin:0; color:#e74c68; font-family:var(--display); font-size:clamp(1rem,1.5vw,1.5rem); font-weight:600; line-height:1.2; text-transform:uppercase; }
 .word__body { display:grid; grid-template-columns:1.1fr .9fr; align-items:center; gap:7vw; }
-.word__phones { display:flex; justify-content:center; align-items:center; min-height:34rem; }
+.word__phones { display:flex; justify-content:center; align-items:center; padding:2.2rem 0 0; }
 .word__phones :is(img,video) { width:min(32%,12rem); border:.5rem solid #201b42; border-radius:2rem; box-shadow:0 1.5rem 3rem rgba(32,27,66,.22); }
 .word__phones :is(img,video):nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
 .word__phones :is(img,video):nth-child(2) { z-index:1; transform:translateY(-2rem); }
@@ -4053,7 +4053,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   }
 
   .phone-stack {
-    min-height: 35rem;
+    min-height: calc(min(58vw, 16rem) * 1.95);
     margin-inline: -1rem;
   }
 
@@ -4093,11 +4093,11 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .blob__header p { font-size: .85rem; }
   .blob__copy > p { font-size: 1.35rem; }
   .blob__facts div { min-height: 7.5rem; }
-  .blob__phones { min-height: 27rem; }
+  .blob__phones { padding: 1.6rem 0 1rem; }
 
   .word__header > div span { display:none; }
   .word__header p { font-size:.85rem; }
-  .word__phones { min-height: 28rem; }
+  .word__phones { padding: 1.6rem 0 1rem; }
   .word__phones img { width:min(34%,10rem); border-width:.35rem; border-radius:1.5rem; }
   .word__copy > p { font-size:1.35rem; }
   .word__facts div { min-height:7.5rem; }
