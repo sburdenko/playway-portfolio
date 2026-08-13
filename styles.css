@@ -2340,27 +2340,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   margin-top: var(--block-gap);
-  padding-bottom: 5rem;
-}
-
-.conveyor__rail {
-  position: absolute;
-  right: calc(var(--gutter) * -1);
-  bottom: 0;
-  left: calc(var(--gutter) * -1);
-  display: flex;
-  justify-content: space-around;
-  height: 2.6rem;
-  border-top: 0.5rem solid #101820;
-  border-bottom: 0.5rem solid #101820;
-  background: #43a0ff;
-}
-
-.conveyor__rail span {
-  width: 1.5rem;
-  margin-block: 0.3rem;
-  border-radius: 50%;
-  background: #101820;
+  padding-bottom: 2.5rem;
 }
 
 .conveyor figure {
