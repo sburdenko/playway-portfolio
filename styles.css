@@ -782,7 +782,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   position: relative;
   z-index: 1;
   height: 3.2rem;
-  margin: calc(var(--section-pad) * -1) calc(var(--gutter) * -1) clamp(1.4rem, 2.2vw, 2.2rem);
+  margin: calc(var(--section-pad) * -1) calc(var(--gutter) * -1) clamp(2.2rem, 3.8vw, 3.8rem);
   opacity: 0.55;
   background-repeat: repeat-x;
   background-position: 0 50%;
@@ -792,7 +792,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* Each game also signs off on its own ground, so a boundary reads as one
    chapter closing and the next opening rather than a single seam. */
 .game-rule--end {
-  margin-top: clamp(1.6rem, 2.6vw, 2.6rem);
+  margin-top: clamp(2.2rem, 3.8vw, 3.8rem);
   margin-bottom: calc(var(--section-pad) * -1);
 }
 
