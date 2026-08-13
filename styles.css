@@ -4236,17 +4236,81 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   will-change: transform;
 }
 
-/* Bronze Hoof — a runner: the word takes a stride and lands. */
+/* Bronze Hoof — the game is a runner you shoot from: the word strides, an
+   enemy letter creeps in from the right, and the F takes the shot. All four
+   animations share the 7s period so the beats stay in order. */
 .featured .section-heading h2 em {
+  position: relative;
   color: #e9c46a;
   transform-origin: 50% 100%;
   animation: title-stride 7s ease-in-out infinite;
 }
 @keyframes title-stride {
-  0%, 72% { transform: none; }
-  78% { transform: translateY(-0.09em) scaleY(1.03); }
-  84% { transform: translateY(0) scaleY(0.94) scaleX(1.03); }
-  90%, 100% { transform: none; }
+  0%, 6% { transform: none; }
+  11% { transform: translateY(-0.09em) scaleY(1.03); }
+  16% { transform: translateY(0) scaleY(0.94) scaleX(1.03); }
+  21%, 100% { transform: none; }
+}
+
+.hoof__f {
+  display: inline-block;
+  animation: hoof-recoil 7s linear infinite;
+}
+@keyframes hoof-recoil {
+  0%, 53% { translate: 0 0; }
+  55% { translate: -0.055em 0; }
+  63%, 100% { translate: 0 0; }
+}
+
+/* The duel lives outside the word but takes no space, and is clipped so it can
+   never reach the paragraph in the next column. */
+.hoof__duel {
+  position: absolute;
+  top: -0.4em;
+  bottom: -0.1em;
+  left: 100%;
+  width: 2.4em;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hoof__foe {
+  position: absolute;
+  bottom: 0.1em;
+  left: 0.7em;
+  color: #d8382c;
+  animation: hoof-foe 7s linear infinite;
+}
+@keyframes hoof-foe {
+  0%, 19% { translate: 2.2em 0; scale: 1; rotate: 0deg; opacity: 0; color: #d8382c; }
+  23% { opacity: 1; }
+  40% { translate: 0 0; }
+  46% { translate: 0 -0.07em; }
+  52% { translate: 0 0; }
+  57% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; color: #d8382c; }
+  59% { scale: 1.28; color: #fff3d0; }
+  64% { translate: 0.12em 0.14em; scale: 0.12; rotate: 38deg; opacity: 0; }
+  100% { translate: 2.2em 0; opacity: 0; }
+}
+
+.hoof__shot {
+  position: absolute;
+  bottom: 0.42em;
+  left: 0.04em;
+  width: 0.3em;
+  height: 0.05em;
+  border-radius: 0.025em;
+  background: #ffe9a8;
+  box-shadow: 0 0 0.22em rgba(233, 196, 106, 0.9);
+  animation: hoof-shot 7s linear infinite;
+}
+@keyframes hoof-shot {
+  0%, 53% { translate: 0 0; scale: 1 1; opacity: 0; }
+  54% { translate: 0 0; scale: 0.35 1; opacity: 1; }
+  55% { scale: 1 1; }
+  57.5% { translate: 0.42em 0; opacity: 1; }
+  58.5% { translate: 0.46em 0; scale: 1.7 0.35; opacity: 0; }
+  100% { translate: 0.46em 0; opacity: 0; }
 }
 
 /* Boon Hill — no goal, no danger: the name surfaces out of the fog and sinks back. */
