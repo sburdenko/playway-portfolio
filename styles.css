@@ -2862,11 +2862,20 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .astro__header {
   display: grid;
-  grid-template-columns: 0.45fr 1.15fr 0.45fr;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
-  gap: 4vw;
+  gap: clamp(1.2rem, 2.4vw, 2.4rem) 4vw;
   margin-bottom: var(--head-gap);
+  /* How many em wide the longest line of this title is in this face — the
+     divisor that turns the available measure into a font size. */
+  --wordmark: 5.5;
 }
+
+.astro--scavenger .astro__header { --wordmark: 9.9; }
+
+.astro__header > span { grid-column: 1; grid-row: 1; }
+.astro__header h2 { grid-column: 1 / -1; grid-row: 2; }
+.astro__header p { grid-column: 2; grid-row: 1; }
 
 .astro__header > span,
 .astro__copy > span {
@@ -2880,7 +2889,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   margin: 0;
   color: #eff4ff;
   font-family: var(--display);
-  font-size: clamp(5rem, 11vw, 11rem);
+  font-size: min(11rem, calc((100vw - 2 * var(--gutter)) / var(--wordmark)));
   font-weight: 800;
   line-height: 0.7;
   letter-spacing: -0.1em;
@@ -2892,29 +2901,26 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-style: normal;
 }
 
-/* Far-off sun catching ice: a narrow cold band crosses the word and is gone.
-   Scavenger keeps its nebula wash, so this is scoped away from it. */
+/* Cloud weather inside the letters: three coloured masses, each drifting on
+   its own path over a base of the game's sky, so the word never holds still
+   and never repeats the same mix. Scavenger keeps its own wash. */
 .astro:not(.astro--scavenger) .astro__header h2 em {
   color: transparent;
-  background-image: linear-gradient(
-    100deg,
-    #60d8ff 0%,
-    #60d8ff 40%,
-    #eaf7ff 48%,
-    #ffffff 50%,
-    #eaf7ff 52%,
-    #60d8ff 60%,
-    #60d8ff 100%
-  );
-  background-size: 320% 100%;
+  background-image:
+    radial-gradient(ellipse 62% 130% at 22% 38%, rgba(192, 111, 255, 0.95), rgba(192, 111, 255, 0) 62%),
+    radial-gradient(ellipse 54% 120% at 68% 62%, rgba(122, 255, 226, 0.9), rgba(122, 255, 226, 0) 60%),
+    radial-gradient(ellipse 72% 150% at 46% 18%, rgba(255, 122, 184, 0.72), rgba(255, 122, 184, 0) 58%),
+    linear-gradient(92deg, #4bc3ef, #74e6ff);
+  background-size: 190% 260%, 160% 230%, 210% 280%, 100% 100%;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: oort-glint 11s ease-in-out infinite;
+  animation: nebula-fog 26s ease-in-out infinite;
 }
 
-@keyframes oort-glint {
-  0%, 8% { background-position: 118% 0; }
-  46%, 100% { background-position: -18% 0; }
+@keyframes nebula-fog {
+  0%, 100% { background-position: 6% 30%, 92% 70%, 44% 8%, 0 0; }
+  33% { background-position: 74% 76%, 24% 18%, 88% 62%, 0 0; }
+  66% { background-position: 38% 12%, 62% 92%, 12% 44%, 0 0; }
 }
 
 .astro__header p {
@@ -3868,16 +3874,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     grid-template-columns: auto 1fr;
   }
 
-  .astro__header h2 {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
-
-  .astro__header p {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
   .astro__stage {
     grid-template-columns: 1fr;
   }
@@ -3969,7 +3965,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .blob__header h2,
   .word__header h2,
   .sapper__header h2,
-  .astro__header h2,
   .xr__header h2,
   .about__header h2 {
     font-size: clamp(3.25rem, 13.5vw, 6.2rem);
