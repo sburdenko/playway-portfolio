@@ -2281,7 +2281,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__header { display: grid; grid-template-columns: .45fr 1.1fr .45fr; gap: 4vw; margin-bottom: var(--head-gap); }
 .word__header > div { display: flex; align-items: center; gap: 1rem; }
 .word__header img { width: clamp(4rem,7vw,7rem); border-radius: 22%; box-shadow: 0 1rem 2rem rgba(32,27,66,.2); }
-.word__header span, .word__copy > span { color: #76658d; font-size: .56rem; text-transform: uppercase; letter-spacing: .11em; }
+.word__header > div span, .word__copy > span { color: #76658d; font-size: .56rem; text-transform: uppercase; letter-spacing: .11em; }
 .word__header h2 { margin:0; font-family:var(--display); font-size:clamp(5rem,11vw,11rem); font-weight:800; line-height:.7; letter-spacing:-.1em; text-transform:uppercase; }
 .word__header h2 em { color:#e74c68; font-style:normal; }
 .word__header p { justify-self:end; margin:0; color:#e74c68; font-family:var(--display); font-size:clamp(1rem,1.5vw,1.5rem); font-weight:600; line-height:1.2; text-transform:uppercase; }
@@ -2327,7 +2327,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   pointer-events: none;
 }
 .solitaire .word__header h2 em,.solitaire .word__header p,.solitaire .word__facts strong,.solitaire .word__link i { color:#246b55; }
-.solitaire .word__header span,.solitaire .word__copy > span,.solitaire .word__facts span { color:#5a726a; }
+.solitaire .word__header > div span,.solitaire .word__copy > span,.solitaire .word__facts span { color:#5a726a; }
 .solitaire .word__phones img { border-color:#1f2533; }
 .solitaire .word__facts { border-color:rgba(31,37,51,.25); }
 .solitaire .word__facts div { border-color:rgba(31,37,51,.25); }
@@ -4415,15 +4415,43 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   96%, 100% { transform: skewX(0deg); }
 }
 
-/* Card Match — a card turned over. */
-.solitaire .word__header h2 em {
-  transform-origin: 50% 50%;
-  animation: title-flip 11s ease-in-out infinite;
+/* Card Match — the A of MATCH is dealt as the ace of hearts: it lifts out of
+   the line the way a card lifts off a stack, turns the red of the suit, and
+   takes a pip below it exactly where a card carries its corner index. */
+.ace-a {
+  position: relative;
+  display: inline-block;
+  animation: ace-deal 11s ease-in-out infinite;
 }
-@keyframes title-flip {
-  0%, 70% { transform: perspective(600px) rotateY(0deg); }
-  85% { transform: perspective(600px) rotateY(180deg); }
-  100% { transform: perspective(600px) rotateY(360deg); }
+
+.ace-a::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + 0.02em);
+  left: 50%;
+  width: 0.26em;
+  height: 0.26em;
+  margin-left: -0.13em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 28.8C7 21 2 16.4 2 11.2 2 7 5.4 3.6 9.6 3.6c2.4 0 4.7 1.1 6.4 3 1.7-1.9 4-3 6.4-3C26.6 3.6 30 7 30 11.2c0 5.2-5 9.8-14 17.6z' fill='%23c8102e'/%3E%3C/svg%3E") no-repeat center / contain;
+  opacity: 0;
+  scale: 0.2;
+  pointer-events: none;
+}
+
+@keyframes ace-deal {
+  0%, 60% { color: #246b55; translate: 0 0; rotate: 0deg; }
+  67% { color: #c8102e; translate: 0 -0.055em; rotate: -5deg; }
+  71%, 84% { color: #c8102e; translate: 0 -0.04em; rotate: -4deg; }
+  91%, 100% { color: #246b55; translate: 0 0; rotate: 0deg; }
+}
+
+.ace-a::after { animation: ace-pip 11s ease-in-out infinite; }
+
+@keyframes ace-pip {
+  0%, 63% { opacity: 0; scale: 0.2; }
+  69% { opacity: 1; scale: 1.15; }
+  73%, 84% { opacity: 1; scale: 1; }
+  89%, 100% { opacity: 0; scale: 0.2; }
 }
 
 /* Crazy Sapper — something goes off, then dead still. */
