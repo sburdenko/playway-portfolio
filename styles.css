@@ -2889,7 +2889,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   margin: 0;
   color: #eff4ff;
   font-family: var(--display);
-  font-size: min(11rem, calc((100vw - 2 * var(--gutter)) / var(--wordmark)));
+  font-size: min(14rem, calc((100vw - 2 * var(--gutter)) / var(--wordmark)));
+  text-align: center;
   font-weight: 800;
   line-height: 0.7;
   letter-spacing: -0.1em;
@@ -2897,6 +2898,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .astro__header h2 em {
+  padding-inline: 0.08em;
   color: #60d8ff;
   font-style: normal;
 }
