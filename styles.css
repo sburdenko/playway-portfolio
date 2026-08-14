@@ -1721,10 +1721,13 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   text-align: right;
 }
 
-.flower__store-mark strong {
+.flower__store-mark a {
   font-family: var(--display);
   font-size: 1rem;
+  transition: color 0.4s var(--ease);
 }
+
+.flower__store-mark a:hover { color: #ff9fbd; }
 
 .flower__showcase {
   position: relative;
@@ -2093,11 +2096,17 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   letter-spacing: 0.1em;
 }
 
+.boxjam__links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 42rem;
+}
+
 .boxjam__link {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 42rem;
   padding: 1rem 0;
   border-top: 1px solid rgba(247, 247, 241, 0.35);
   border-bottom: 1px solid rgba(247, 247, 241, 0.35);
