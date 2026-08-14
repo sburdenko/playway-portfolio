@@ -2333,21 +2333,29 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .solitaire .word__facts div { border-color:rgba(31,37,51,.25); }
 .solitaire .word__link { border-color:rgba(31,37,51,.35); }
 
-/* What I actually did on the project, in the order it happened. It rides in
-   the room the shorter column already had, so the block keeps its height. */
-.solitaire .word__body { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); }
-.solitaire .word__phones { grid-column: 1; grid-row: 1; }
-.solitaire .scope { grid-column: 1; grid-row: 2; }
-.solitaire .word__copy { grid-column: 2; grid-row: 1 / -1; }
+/* What I actually did on a project, in the order it happened. Every section
+   that carries one puts it in the room its shorter column already had, and
+   sits it on the baseline of the copy beside it, so no block grows. */
+.scope { display: grid; align-content: end; gap: 0.7rem; }
 
-.scope {
+.scope > h3 {
+  margin: 0;
+  color: var(--scope-note);
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.scope ol {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid rgba(31, 37, 51, 0.25);
-  border-left: 1px solid rgba(31, 37, 51, 0.25);
+  border-top: 1px solid var(--scope-line);
+  border-left: 1px solid var(--scope-line);
 }
 
 .scope li {
@@ -2355,19 +2363,19 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   align-content: start;
   gap: 0.35rem;
   padding: 0.9rem 1rem 1rem;
-  border-right: 1px solid rgba(31, 37, 51, 0.25);
-  border-bottom: 1px solid rgba(31, 37, 51, 0.25);
+  border-right: 1px solid var(--scope-line);
+  border-bottom: 1px solid var(--scope-line);
 }
 
 .scope i {
-  color: #e74c68;
+  color: var(--scope-step);
   font-size: 0.5rem;
   font-style: normal;
   letter-spacing: 0.12em;
 }
 
 .scope b {
-  color: #1f2533;
+  color: var(--scope-title);
   font-family: var(--display);
   font-size: clamp(0.95rem, 1.25vw, 1.25rem);
   font-weight: 700;
@@ -2376,7 +2384,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .scope span {
-  color: #5a726a;
+  color: var(--scope-note);
   font-size: 0.5rem;
   line-height: 1.5;
   text-transform: uppercase;
@@ -2385,8 +2393,46 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 /* Three columns of a phone width each would break every step onto two lines. */
 @media (max-width: 560px) {
-  .scope { grid-template-columns: 1fr; }
+  .scope ol { grid-template-columns: 1fr; }
 }
+
+/* Each section lends the strip its own ink. */
+.solitaire .scope {
+  --scope-line: rgba(31, 37, 51, 0.25);
+  --scope-step: #e74c68;
+  --scope-title: #1f2533;
+  --scope-note: #5a726a;
+}
+
+.boxjam .scope {
+  --scope-line: rgba(247, 247, 241, 0.22);
+  --scope-step: #43a0ff;
+  --scope-title: #f7f7f1;
+  --scope-note: #98a6b5;
+}
+
+.blob .scope {
+  --scope-line: rgba(255, 249, 240, 0.25);
+  --scope-step: #ffc94e;
+  --scope-title: #fff9f0;
+  --scope-note: #e4d9ff;
+}
+
+.solitaire .word__body { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); }
+.solitaire .word__phones { grid-column: 1; grid-row: 1; }
+.solitaire .word__copy { grid-column: 2; grid-row: 1 / -1; }
+
+.boxjam__stage { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); }
+.boxjam-phone { grid-column: 1; grid-row: 1; }
+.boxjam__copy { grid-column: 2; grid-row: 1 / -1; }
+
+.blob__stage { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); }
+.blob__phones { grid-column: 1; grid-row: 1; }
+.blob__copy { grid-column: 2; grid-row: 1 / -1; }
+
+.word__body .scope,
+.boxjam__stage .scope,
+.blob__stage .scope { grid-column: 1; grid-row: 2; align-self: end; }
 
 
 .conveyor {
@@ -3911,8 +3957,12 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .word__body { grid-template-columns: 1fr; }
 
   .solitaire .word__phones,
-  .solitaire .scope,
-  .solitaire .word__copy { grid-column: 1; grid-row: auto; }
+  .boxjam-phone,
+  .blob__phones,
+  .scope,
+  .solitaire .word__copy,
+  .boxjam__copy,
+  .blob__copy { grid-column: 1; grid-row: auto; }
 
   .sapper__header {
     grid-template-columns: auto 1fr;
