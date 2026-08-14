@@ -2369,7 +2369,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .scope ol {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--scope-steps, 3), minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
@@ -2437,6 +2437,16 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   --scope-note: #e4d9ff;
 }
 
+/* Four steps here, in the narrower of the two columns, so they pair up. */
+.astro .scope {
+  --scope-steps: 2;
+  --scope-line: rgba(239, 244, 255, 0.22);
+  --scope-step: #60d8ff;
+  --scope-title: #eff4ff;
+  --scope-note: #9aafd2;
+  margin-bottom: 2rem;
+}
+
 .solitaire .word__body { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); }
 .solitaire .word__phones { grid-column: 1; grid-row: 1; }
 .solitaire .word__copy { grid-column: 2; grid-row: 1 / -1; }
@@ -2448,6 +2458,11 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .blob__stage { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); }
 .blob__phones { grid-column: 1; grid-row: 1; }
 .blob__copy { grid-column: 2; grid-row: 1 / -1; }
+
+.astro__stage:has(.astro__gallery--cloud) { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); align-items: start; }
+.astro__stage .astro__hero { grid-column: 1; grid-row: 1; }
+.astro__stage .astro__gallery--cloud { grid-column: 1; grid-row: 2; margin-bottom: 0; }
+.astro__stage:has(.astro__gallery--cloud) .astro__copy { grid-column: 2; grid-row: 1 / -1; }
 
 .word__body .scope,
 .boxjam__stage .scope,
@@ -3225,7 +3240,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .astro__gallery--cloud figure:hover {
   z-index: 20;
-  scale: 1.12;
+  scale: 1.35;
   box-shadow: 0 0 0 1px #60d8ff, 0 1.6rem 4rem rgba(96, 216, 255, 0.35);
 }
 
@@ -3235,14 +3250,14 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   to { rotate: calc(var(--tilt, 0deg) - 360deg); }
 }
 
-.astro__gallery--cloud figure:nth-child(2) { --x: 22.5%; --y: 38.2%; --w: 21%; --tilt: -3deg;   --depth: 4; }
-.astro__gallery--cloud figure:nth-child(3) { --x: 40.9%; --y: 18.7%; --w: 17%; --tilt: 2.5deg;  --depth: 2; }
-.astro__gallery--cloud figure:nth-child(4) { --x: 65%;   --y: 8.4%;  --w: 19%; --tilt: -2deg;   --depth: 3; }
-.astro__gallery--cloud figure:nth-child(5) { --x: 68.8%; --y: 41.9%; --w: 22%; --tilt: 3deg;    --depth: 6; }
-.astro__gallery--cloud figure:nth-child(6) { --x: 76.6%; --y: 69.9%; --w: 18%; --tilt: -2.5deg; --depth: 5; }
-.astro__gallery--cloud figure:nth-child(7) { --x: 53.8%; --y: 84%;   --w: 20%; --tilt: 2deg;    --depth: 7; }
-.astro__gallery--cloud figure:nth-child(8) { --x: 30.7%; --y: 86.8%; --w: 17%; --tilt: -3deg;   --depth: 3; }
-.astro__gallery--cloud figure:nth-child(9) { --x: 32%;   --y: 57.7%; --w: 19%; --tilt: 2deg;    --depth: 8; }
+.astro__gallery--cloud figure:nth-child(2) { --x: 22.5%; --y: 38.2%; --w: 26.9%; --tilt: -3deg;   --depth: 4; }
+.astro__gallery--cloud figure:nth-child(3) { --x: 40.9%; --y: 18.7%; --w: 21.8%; --tilt: 2.5deg;  --depth: 2; }
+.astro__gallery--cloud figure:nth-child(4) { --x: 65%;   --y: 8.4%;  --w: 24.3%; --tilt: -2deg;   --depth: 3; }
+.astro__gallery--cloud figure:nth-child(5) { --x: 68.8%; --y: 41.9%; --w: 28.2%; --tilt: 3deg;    --depth: 6; }
+.astro__gallery--cloud figure:nth-child(6) { --x: 76.6%; --y: 69.9%; --w: 23.0%; --tilt: -2.5deg; --depth: 5; }
+.astro__gallery--cloud figure:nth-child(7) { --x: 53.8%; --y: 80%;   --w: 25.6%; --tilt: 2deg;    --depth: 7; }
+.astro__gallery--cloud figure:nth-child(8) { --x: 30.7%; --y: 82%;   --w: 21.8%; --tilt: -3deg;   --depth: 3; }
+.astro__gallery--cloud figure:nth-child(9) { --x: 32%;   --y: 57.7%; --w: 24.3%; --tilt: 2deg;    --depth: 8; }
 
 .astro__core {
   position: absolute;
