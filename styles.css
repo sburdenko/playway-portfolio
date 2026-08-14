@@ -2297,7 +2297,15 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__body { display:grid; grid-template-columns:1.1fr .9fr; align-items:center; gap:7vw; }
 .word__phones { display:flex; justify-content:center; align-items:center; padding:2.2rem 0 0; }
 .word__phones > :is(img,video,figure) { width:min(32%,12rem); border:.5rem solid #201b42; border-radius:2rem; box-shadow:0 1.5rem 3rem rgba(32,27,66,.22); }
-.word__phones > figure { position:relative; aspect-ratio:784/1699; margin:0; overflow:hidden; background:#201b42; cursor:pointer; }
+.word__phones > figure { position:relative; aspect-ratio:738/1600; margin:0; overflow:hidden; background:#201b42; cursor:pointer; }
+
+/* A lazy screenshot arrives after the reader does. Holding the handset's shape
+   in CSS means a slow or failed image leaves a dark screen in the right place
+   instead of a line of alt text where a phone should be. */
+.word:not(.solitaire) .word__phones > img { aspect-ratio:738/1600; object-fit:cover; background:#201b42; }
+.solitaire .word__phones > img { aspect-ratio:900/1600; object-fit:cover; background:#1f2533; }
+.blob__phones > figure { aspect-ratio:738/1600; overflow:hidden; }
+.blob__phones > figure > img { width:100%; height:100%; object-fit:cover; }
 .word__phones > :is(img,video,figure):nth-child(1) { transform:rotate(-10deg) translateX(2rem); }
 .word__phones > :is(img,video,figure):nth-child(2) { z-index:1; transform:translateY(-2rem); }
 .word__phones > :is(img,video,figure):nth-child(3) { transform:rotate(10deg) translateX(-2rem); }
