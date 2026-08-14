@@ -4292,6 +4292,121 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .contact__footer a:nth-child(4) { grid-column: 2; grid-row: 1; }
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   A rail of the games down the right gutter. Each stop is the section itself
+   in miniature — its own ground, its own ink, its own picture — so the reader
+   picks the game by how it looks rather than by reading ten names.
+   ───────────────────────────────────────────────────────────────────────── */
+.rail {
+  position: fixed;
+  z-index: 40;
+  top: 50%;
+  right: 0.375rem;
+  display: grid;
+  gap: 0.34rem;
+  translate: 0 -50%;
+  transition: opacity 0.5s var(--ease);
+}
+
+/* Away from the games there is nothing to mark, so the rail steps back. */
+.rail[data-idle] { opacity: 0.5; }
+
+.rail__item {
+  position: relative;
+  display: block;
+  width: 2.75rem;
+  opacity: 0.4;
+  transform-origin: 100% 50%;
+  transition: opacity 0.45s var(--ease), scale 0.45s var(--ease);
+}
+
+.rail__mini {
+  position: relative;
+  display: block;
+  height: 1.85rem;
+  overflow: hidden;
+  border: 1px solid rgba(238, 237, 230, 0.16);
+  border-radius: 0.18rem;
+  background: var(--mini-bg);
+}
+
+/* The picture holds the left of the miniature, the way every section does. */
+.rail__mini img {
+  position: absolute;
+  inset: 0;
+  width: 46%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The title, and the line of copy under it. */
+.rail__mini b {
+  position: absolute;
+  top: 0.42rem;
+  right: 0.26rem;
+  width: 1.05rem;
+  height: 0.2rem;
+  background: var(--mini-accent);
+}
+
+.rail__mini i {
+  position: absolute;
+  top: 0.76rem;
+  right: 0.26rem;
+  width: 0.7rem;
+  height: 0.1rem;
+  background: var(--mini-ink);
+  opacity: 0.55;
+}
+
+.rail__name {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.45rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(238, 237, 230, 0.2);
+  background: rgba(11, 11, 9, 0.92);
+  color: var(--paper);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  translate: 0.4rem 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease), translate 0.35s var(--ease);
+}
+
+.rail__name em {
+  color: var(--mini-accent);
+  font-style: normal;
+}
+
+.rail__item:hover,
+.rail__item:focus-visible { opacity: 1; scale: 1.16; }
+
+.rail__item:hover .rail__name,
+.rail__item:focus-visible .rail__name { opacity: 1; translate: 0 0; }
+
+.rail__item[aria-current="true"] {
+  opacity: 1;
+  scale: 1.1;
+}
+
+.rail__item[aria-current="true"] .rail__mini {
+  border-color: var(--mini-accent);
+  box-shadow: 0 0 0 1px var(--mini-accent);
+}
+
+/* Below this the right gutter is narrower than the rail. */
+@media (max-width: 1300px) {
+  .rail { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
