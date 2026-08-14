@@ -2333,6 +2333,62 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .solitaire .word__facts div { border-color:rgba(31,37,51,.25); }
 .solitaire .word__link { border-color:rgba(31,37,51,.35); }
 
+/* What I actually did on the project, in the order it happened. It rides in
+   the room the shorter column already had, so the block keeps its height. */
+.solitaire .word__body { grid-template-rows: auto auto; row-gap: clamp(1.4rem, 2.6vw, 2.6rem); }
+.solitaire .word__phones { grid-column: 1; grid-row: 1; }
+.solitaire .scope { grid-column: 1; grid-row: 2; }
+.solitaire .word__copy { grid-column: 2; grid-row: 1 / -1; }
+
+.scope {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(31, 37, 51, 0.25);
+  border-left: 1px solid rgba(31, 37, 51, 0.25);
+}
+
+.scope li {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem 1rem;
+  border-right: 1px solid rgba(31, 37, 51, 0.25);
+  border-bottom: 1px solid rgba(31, 37, 51, 0.25);
+}
+
+.scope i {
+  color: #e74c68;
+  font-size: 0.5rem;
+  font-style: normal;
+  letter-spacing: 0.12em;
+}
+
+.scope b {
+  color: #1f2533;
+  font-family: var(--display);
+  font-size: clamp(0.95rem, 1.25vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.scope span {
+  color: #5a726a;
+  font-size: 0.5rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+/* Three columns of a phone width each would break every step onto two lines. */
+@media (max-width: 560px) {
+  .scope { grid-template-columns: 1fr; }
+}
+
+
 .conveyor {
   position: relative;
   z-index: 1;
@@ -3853,6 +3909,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .word__header h2 { grid-column: 1 / -1; grid-row: 2; }
   .word__header p { grid-column: 2; grid-row: 1; }
   .word__body { grid-template-columns: 1fr; }
+
+  .solitaire .word__phones,
+  .solitaire .scope,
+  .solitaire .word__copy { grid-column: 1; grid-row: auto; }
 
   .sapper__header {
     grid-template-columns: auto 1fr;
