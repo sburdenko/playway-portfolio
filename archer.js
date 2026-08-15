@@ -6,6 +6,7 @@ const GROUND = 46;
 const BOW = { x: 13, y: GROUND - 7 };
 const TARGET = { x: 70, y: GROUND - 12, r: 7 };
 const GRAVITY = 24;
+const WIND_STREAKS = 9;
 const DRAW_SECONDS = 0.85;
 const MAX_SPEED = 48;
 const ARROWS = 5;
@@ -64,20 +65,30 @@ const mount = (root) => {
   const sy = (y) => view.offsetY + y * view.scale;
   const su = (u) => u * view.scale;
 
-  // ready → drawing → flying → landed → (next arrow, or done)
+  // The bow is either resting or being drawn; arrows look after themselves,
+  // so the next one can be nocked while the last is still in the air.
   let phase = "ready";
   let aim = { x: 60, y: GROUND - 22 };
   let power = 0;
-  let arrow = null;
+  let flying = [];
   let wind = 0;
   let shots = 0;
   let score = 0;
   let landed = [];
   let last = 0;
-  let settle = 0;
+  let clock = 0;
+  let streaks = [];
 
   const newWind = () => {
     wind = Math.round((Math.random() * 2 - 1) * 5);
+    // Streaks of air, dropped in at random heights and lengths, are the only
+    // honest way to show a wind: the number alone never reads.
+    streaks = Array.from({ length: WIND_STREAKS }, () => ({
+      x: Math.random() * WORLD.w,
+      y: 4 + Math.random() * (GROUND - 12),
+      len: 3 + Math.random() * 7,
+      drift: 0.6 + Math.random() * 0.8,
+    }));
   };
 
   const report = () => {
@@ -91,17 +102,20 @@ const mount = (root) => {
     phase = "done";
     stateOut.textContent = medal.name;
     noteOut.textContent = `${score} of ${ARROWS * 10} points. In the app this is where the stamp goes on your map.`;
-    root.dataset.medal = medal.name.split(" ")[0].toLowerCase();
+    const metal = medal.name.split(" ")[0].toLowerCase();
+    if (metal === "no") delete root.dataset.medal;
+    else root.dataset.medal = metal;
   };
 
   const nextArrow = () => {
     if (shots >= ARROWS) {
-      finish();
+      phase = "spent";
+      stateOut.textContent = "Last arrow away";
+      noteOut.textContent = "Waiting for it to land.";
       return;
     }
     phase = "ready";
     power = 0;
-    arrow = null;
     newWind();
     report();
     stateOut.textContent = `Arrow ${shots + 1} of ${ARROWS}`;
@@ -115,23 +129,22 @@ const mount = (root) => {
   const loose = () => {
     const a = angle();
     const speed = MAX_SPEED * (0.4 + 0.6 * power);
-    arrow = {
+    flying = [...flying, {
       x: BOW.x + Math.cos(a) * 2.4,
       y: BOW.y + Math.sin(a) * 2.4,
       vx: Math.cos(a) * speed,
       vy: Math.sin(a) * speed,
+      wind,
       best: Infinity,
       inside: false,
-    };
-    phase = "flying";
+    }];
     shots += 1;
     report();
+    nextArrow();
   };
 
   const land = (hit) => {
     landed = [...landed, hit];
-    phase = "landed";
-    settle = 0;
     if (hit.ring) {
       score += hit.ring.score;
       stateOut.textContent = `${hit.ring.score} points`;
@@ -143,48 +156,51 @@ const mount = (root) => {
     report();
   };
 
+  // One arrow's flight. Returns the arrow's next state, or null once it has
+  // landed and been scored.
+  const advance = (shaft, dt) => {
+    const next = {
+      ...shaft,
+      x: shaft.x + shaft.vx * dt,
+      y: shaft.y + shaft.vy * dt,
+      vx: shaft.vx + shaft.wind * dt,
+      vy: shaft.vy + GRAVITY * dt,
+    };
+    const heading = Math.atan2(shaft.vy, shaft.vx);
+
+    // Once the arrow is over the target, keep it moving until it stops getting
+    // closer to the middle: where it stops is the ring it scored, not the rim
+    // it happened to cross first.
+    const reach = Math.hypot(next.x - TARGET.x, next.y - TARGET.y);
+    if (reach <= TARGET.r) {
+      if (reach < shaft.best) return { ...next, best: reach, inside: true };
+      land({ x: shaft.x, y: shaft.y, angle: heading, ring: ringFor(shaft.best) });
+      return null;
+    }
+    if (shaft.inside) {
+      land({ x: shaft.x, y: shaft.y, angle: heading, ring: ringFor(shaft.best) });
+      return null;
+    }
+    if (next.y >= GROUND || next.x > WORLD.w + 6) {
+      land({ x: Math.min(next.x, WORLD.w + 4), y: GROUND, angle: heading, ring: null });
+      return null;
+    }
+    return next;
+  };
+
   const step = (dt) => {
+    clock += dt;
     if (phase === "drawing") power = Math.min(1, power + dt / DRAW_SECONDS);
 
-    if (phase === "flying" && arrow) {
-      const next = {
-        x: arrow.x + arrow.vx * dt,
-        y: arrow.y + arrow.vy * dt,
-        vx: arrow.vx + wind * dt,
-        vy: arrow.vy + GRAVITY * dt,
-      };
+    flying = flying.map((shaft) => advance(shaft, dt)).filter(Boolean);
+    if (shots >= ARROWS && flying.length === 0 && phase !== "done") finish();
 
-      // Once the arrow is over the target, keep it moving until it stops
-      // getting closer to the middle: where it stops is the ring it scored,
-      // not the rim it happened to cross first.
-      const reach = Math.hypot(next.x - TARGET.x, next.y - TARGET.y);
-      if (reach <= TARGET.r) {
-        next.inside = true;
-        if (reach < arrow.best) {
-          next.best = reach;
-        } else {
-          land({ x: arrow.x, y: arrow.y, angle: Math.atan2(arrow.vy, arrow.vx), ring: ringFor(arrow.best) });
-          arrow = null;
-          return;
-        }
-      } else if (arrow.inside) {
-        land({ x: arrow.x, y: arrow.y, angle: Math.atan2(arrow.vy, arrow.vx), ring: ringFor(arrow.best) });
-        arrow = null;
-        return;
-      }
-
-      if (next.y >= GROUND || next.x > WORLD.w + 6) {
-        land({ x: Math.min(next.x, WORLD.w + 4), y: GROUND, angle: Math.atan2(arrow.vy, arrow.vx), ring: null });
-        arrow = null;
-        return;
-      }
-      arrow = { ...next, best: Math.min(arrow.best, next.best ?? Infinity), inside: next.inside || arrow.inside };
-    }
-
-    if (phase === "landed") {
-      settle += dt;
-      if (settle > 1.1) nextArrow();
-    }
+    streaks = streaks.map((streak) => {
+      const x = streak.x + wind * streak.drift * dt * 6;
+      if (x > WORLD.w + streak.len) return { ...streak, x: -streak.len, y: 4 + Math.random() * (GROUND - 12) };
+      if (x < -streak.len) return { ...streak, x: WORLD.w + streak.len, y: 4 + Math.random() * (GROUND - 12) };
+      return { ...streak, x };
+    });
   };
 
   const drawTarget = () => {
@@ -202,6 +218,37 @@ const mount = (root) => {
     ctx.beginPath();
     ctx.moveTo(sx(TARGET.x), sy(TARGET.y + TARGET.r));
     ctx.lineTo(sx(TARGET.x), sy(GROUND));
+    ctx.stroke();
+  };
+
+  // A figure holding the bow, rather than a bow floating on its own.
+  const drawArcher = () => {
+    const hip = { x: BOW.x - 0.6, y: BOW.y + 3.4 };
+    const shoulder = { x: BOW.x - 0.6, y: BOW.y + 0.4 };
+    ctx.strokeStyle = "rgba(234, 247, 255, 0.8)";
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(sx(hip.x), sy(hip.y));
+    ctx.lineTo(sx(shoulder.x), sy(shoulder.y));
+    ctx.moveTo(sx(hip.x), sy(hip.y));
+    ctx.lineTo(sx(hip.x - 1.5), sy(GROUND));
+    ctx.moveTo(sx(hip.x), sy(hip.y));
+    ctx.lineTo(sx(hip.x + 1.6), sy(GROUND));
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(sx(shoulder.x), sy(shoulder.y - 1.5), su(1.05), 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Front arm out to the grip, back arm following the string.
+    const a = angle();
+    const pull = 1.6 + power * 2.2;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(sx(shoulder.x), sy(shoulder.y));
+    ctx.lineTo(sx(BOW.x), sy(BOW.y));
+    ctx.moveTo(sx(shoulder.x), sy(shoulder.y));
+    ctx.lineTo(sx(BOW.x - Math.cos(a) * pull), sy(BOW.y - Math.sin(a) * pull));
     ctx.stroke();
   };
 
@@ -231,7 +278,7 @@ const mount = (root) => {
     ctx.lineTo(tipX, tipY);
     ctx.stroke();
 
-    if (phase !== "flying") {
+    if (phase === "ready" || phase === "drawing") {
       ctx.strokeStyle = "#70f2d1";
       ctx.lineWidth = 1.4;
       ctx.beginPath();
@@ -249,6 +296,26 @@ const mount = (root) => {
       ctx.lineTo(sx(4 + 16 * power), sy(GROUND + 4));
       ctx.stroke();
     }
+  };
+
+  // The air itself, moving. Length and speed both come off the wind, and the
+  // heads point the way it blows, so the direction reads without reading.
+  const drawWind = () => {
+    if (wind === 0) return;
+    const strength = Math.min(1, Math.abs(wind) / 5);
+    ctx.strokeStyle = `rgba(112, 242, 209, ${0.16 + strength * 0.3})`;
+    ctx.lineWidth = 1;
+    streaks.forEach((streak) => {
+      const length = streak.len * (0.4 + strength * 0.9);
+      const tail = sx(streak.x - Math.sign(wind) * length);
+      const head = sx(streak.x);
+      const y = sy(streak.y);
+      ctx.beginPath();
+      ctx.moveTo(tail, y);
+      ctx.lineTo(head, y);
+      ctx.lineTo(head - Math.sign(wind) * su(1.1), y - su(0.55));
+      ctx.stroke();
+    });
   };
 
   const drawArrow = (shaft, colour) => {
@@ -275,23 +342,12 @@ const mount = (root) => {
     ctx.lineTo(sx(WORLD.w), sy(GROUND));
     ctx.stroke();
 
+    drawWind();
     drawTarget();
     landed.forEach((shaft) => drawArrow(shaft, shaft.ring ? shaft.ring.colour : "rgba(234, 247, 255, 0.35)"));
-    if (arrow) drawArrow({ ...arrow, angle: Math.atan2(arrow.vy, arrow.vx) }, "#eaf7ff");
+    flying.forEach((shaft) => drawArrow({ ...shaft, angle: Math.atan2(shaft.vy, shaft.vx) }, "#eaf7ff"));
+    drawArcher();
     drawBow();
-
-    if (wind !== 0 && phase !== "done") {
-      ctx.strokeStyle = "rgba(112, 242, 209, 0.5)";
-      ctx.lineWidth = 1;
-      const y = sy(8);
-      const from = sx(42 - wind * 1.4);
-      const to = sx(42 + wind * 1.4);
-      ctx.beginPath();
-      ctx.moveTo(from, y);
-      ctx.lineTo(to, y);
-      ctx.lineTo(to - Math.sign(wind) * su(1.4), y - su(0.9));
-      ctx.stroke();
-    }
   };
 
   const loop = (now) => {
@@ -347,6 +403,7 @@ const mount = (root) => {
     shots = 0;
     score = 0;
     landed = [];
+    flying = [];
     delete root.dataset.medal;
     nextArrow();
   });
