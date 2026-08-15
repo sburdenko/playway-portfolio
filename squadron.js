@@ -38,9 +38,13 @@ const FORMATIONS = [
 const MAX_AIRCRAFT = 6;
 // A metre, in world units, at the size the aircraft are drawn.
 const METRE = 0.42;
-// The trail behind each aircraft, sampled back along the route it has flown.
-const TRAIL_SAMPLES = 18;
-const TRAIL_STEP = 1.1;
+// How each aircraft holds its place: it flies its own machine and steers for
+// its station rather than being pinned to it, so a turn spreads the outside of
+// the formation and tightens the inside the way a real one does.
+const TURN_RATE = 2.6;        // radians a second
+const FORM_GAIN = 2.2;        // how hard an aircraft pulls back onto its station
+const TRAIL_POINTS = 70;
+const TRAIL_SPACING = 0.5;
 const SCREENS = ["squadron", "route", "flight"];
 
 // Each outline is drawn from above in its own frame: x is the span, half either
@@ -191,6 +195,7 @@ const mount = (root) => {
   let path = spline(waypoints);
   let travelled = 0;
   let flying = true;
+  let craft = [];
   let camera = { x: 0, y: 0, zoom: 1 };
   let follow = true;
   let dragging = false;
@@ -262,8 +267,7 @@ const mount = (root) => {
       describe("Route", `${waypoints.length} waypoints. Click the map to add one, drag the map to move it.`);
       hintOut.textContent = "Click to add a waypoint";
     } else {
-      travelled = 0;
-      flying = true;
+      launch();
       follow = true;
       const start = path.length > 1 ? along(path, 0) : { x: 0, y: 0 };
       camera = { x: start.x, y: start.y, zoom: 2.2 };
@@ -405,31 +409,64 @@ const mount = (root) => {
       return;
     }
 
-    const leader = along(path, travelled);
-
-    // Each aircraft leaves its own wake, sampled back down the route it flew,
-    // so a turn shows as a set of parallel curves rather than one line.
-    squadron.forEach((type, index) => {
-      ctx.lineWidth = 1.1;
-      for (let k = 1; k < TRAIL_SAMPLES; k += 1) {
-        const back = travelled - k * TRAIL_STEP;
-        const front = travelled - (k - 1) * TRAIL_STEP;
-        if (back < 0) break;
-        const a = along(path, back);
-        const b = along(path, front);
-        const from = slotAt(a, a.heading, index);
-        const to = slotAt(b, b.heading, index);
-        ctx.strokeStyle = `rgba(112, 242, 209, ${0.3 * (1 - k / TRAIL_SAMPLES)})`;
+    // Each aircraft leaves the wake it actually flew, so a turn shows as a set
+    // of curves that spread on the outside and tighten on the inside.
+    ctx.lineWidth = 1.1;
+    craft.forEach((machine) => {
+      for (let k = 1; k < machine.trail.length; k += 1) {
+        const age = 1 - k / machine.trail.length;
+        ctx.strokeStyle = `rgba(112, 242, 209, ${0.32 * (1 - age)})`;
         ctx.beginPath();
-        ctx.moveTo(px(from.x), py(from.y));
-        ctx.lineTo(px(to.x), py(to.y));
+        ctx.moveTo(px(machine.trail[k - 1].x), py(machine.trail[k - 1].y));
+        ctx.lineTo(px(machine.trail[k].x), py(machine.trail[k].y));
         ctx.stroke();
       }
     });
 
-    placeAircraft(leader, leader.heading).forEach((slot) => {
-      drawAircraft(slot.type, slot.x, slot.y, leader.heading, "#eaf7ff", false);
+    craft.forEach((machine) => {
+      drawAircraft(machine.type, machine.x, machine.y, machine.heading, "#eaf7ff", false);
     });
+  };
+
+  // The flight runs at the slowest aircraft's speed, as a real one would.
+  const flightSpeed = () =>
+    (squadron.length ? Math.min(...squadron.map((type) => type.knots)) : 300) / 26;
+
+  const launch = () => {
+    travelled = 0;
+    flying = true;
+    if (path.length < 2) { craft = []; return; }
+    const lead = along(path, 0);
+    craft = squadron.map((type, index) => {
+      const station = slotAt(lead, lead.heading, index);
+      return { type, x: station.x, y: station.y, heading: lead.heading, trail: [] };
+    });
+  };
+
+  const wrapAngle = (value) => ((value + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+
+  // One aircraft, one frame. It flies the leader's velocity plus a pull back
+  // toward its own station — chasing the station outright makes a wingman
+  // overshoot and circle, which is what a formation never does.
+  const fly = (machine, station, leadHeading, dt) => {
+    const base = flightSpeed();
+    const wantX = Math.cos(leadHeading) * base + (station.x - machine.x) * FORM_GAIN;
+    const wantY = Math.sin(leadHeading) * base + (station.y - machine.y) * FORM_GAIN;
+
+    const swing = wrapAngle(Math.atan2(wantY, wantX) - machine.heading);
+    const heading = machine.heading + Math.max(-TURN_RATE * dt, Math.min(TURN_RATE * dt, swing));
+
+    // Throttle follows the same demand, within what the aircraft has to give.
+    const speed = Math.max(base * 0.5, Math.min(base * 1.8, Math.hypot(wantX, wantY)));
+    const x = machine.x + Math.cos(heading) * speed * dt;
+    const y = machine.y + Math.sin(heading) * speed * dt;
+
+    const last = machine.trail[machine.trail.length - 1];
+    const trail = !last || Math.hypot(x - last.x, y - last.y) > TRAIL_SPACING
+      ? [...machine.trail, { x, y }].slice(-TRAIL_POINTS)
+      : machine.trail;
+
+    return { ...machine, x, y, heading, trail };
   };
 
   const step = (dt) => {
@@ -437,22 +474,31 @@ const mount = (root) => {
     if (screen !== "flight") return;
 
     // The camera rides with the flight until the viewer takes hold of it.
-    if (follow && path.length > 1) {
-      const leader = along(path, travelled);
+    if (follow && craft.length > 0) {
+      const lead = craft[0];
       const ease = Math.min(1, dt * 2.6);
-      camera = { ...camera, x: camera.x + (leader.x - camera.x) * ease, y: camera.y + (leader.y - camera.y) * ease };
+      camera = { ...camera, x: camera.x + (lead.x - camera.x) * ease, y: camera.y + (lead.y - camera.y) * ease };
     }
 
-    if (!flying) return;
+    if (!flying || path.length < 2) return;
     const total = lengthOf(path);
-    // The flight runs at the slowest aircraft's speed, as a real one would.
-    const knots = squadron.length ? Math.min(...squadron.map((type) => type.knots)) : 300;
-    travelled += dt * (knots / 26);
+    travelled = Math.min(total, travelled + dt * flightSpeed());
+    const lead = along(path, travelled);
+
+    craft = craft.map((machine, index) =>
+      fly(machine, slotAt(lead, lead.heading, index), lead.heading, dt));
+
     if (travelled >= total) {
-      travelled = total;
-      flying = false;
-      describe("Flypast complete", "Every aircraft held the shape from the first waypoint to the last.");
-      hintOut.textContent = "Scroll to zoom · drag to pan";
+      // The leader is home; the flight is over once the last one has caught up.
+      const settled = craft.every((machine, index) => {
+        const station = slotAt(lead, lead.heading, index);
+        return Math.hypot(station.x - machine.x, station.y - machine.y) < spacing() * 0.12;
+      });
+      if (settled) {
+        flying = false;
+        describe("Flypast complete", "Each aircraft flew its own machine and held its station through every turn.");
+        hintOut.textContent = "Scroll to zoom · drag to pan";
+      }
     }
   };
 
@@ -509,8 +555,7 @@ const mount = (root) => {
       describe("Route cleared", "Click the map to lay a new one.");
       return;
     }
-    travelled = 0;
-    flying = true;
+    launch();
     follow = true;
     describe("Flypast", "The camera rides with the flight. Scroll to zoom, drag to break away.");
   });
