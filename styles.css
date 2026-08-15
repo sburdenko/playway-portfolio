@@ -5084,15 +5084,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   line-height: 1.5;
 }
 
-/* The one thing a diagram like this has to admit to. */
-.orrery__caveat {
-  display: block;
-  color: #6f8899;
-  font-size: 0.46rem;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
-}
-
 .orrery__hud {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -5118,6 +5109,125 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .orrery__hint { grid-column: 1; }
 .orrery__zoom { grid-column: 2; justify-self: end; }
 .orrery__zoom b { color: #70f2d1; font-family: var(--mono); font-size: 0.44rem; font-weight: 500; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   The Allergan app taught injection procedures on a 3D patient you could walk
+   round. Same lesson here: the film and a screen from the app pair up, and the
+   procedure itself runs the full width under them.
+   ───────────────────────────────────────────────────────────────────────── */
+.xr-case--allergan .xr-film { grid-column: 1; max-width: none; }
+
+.xr-case--allergan .xr-case__media > img {
+  grid-column: 2;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.botox {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.34fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 6.4;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+  border: 1px solid rgba(234, 247, 255, 0.2);
+  background: #0a1a26;
+}
+
+.botox__stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 122, 184, 0.08), transparent 60%),
+    #07131d;
+}
+
+.botox__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.botox__canvas:active { cursor: grabbing; }
+.botox__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
+
+.botox__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.botox__panel > span {
+  color: #ff7ab8;
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.botox__panel > b {
+  color: #eaf7ff;
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 2vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.botox__panel > p {
+  margin: 0;
+  color: #a8beca;
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.botox__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem 1.2rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(234, 247, 255, 0.2);
+}
+
+.botox__hud span { display: grid; gap: 0.25rem; align-content: start; }
+.botox__hud b { color: #ff7ab8; font-family: var(--display); font-size: 1.15rem; font-weight: 800; line-height: 1; }
+.botox__hud i { color: #89a8ba; font-size: 0.42rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.botox__hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #89a8ba;
+  font-size: 0.44rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.botox__reset {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(234, 247, 255, 0.28);
+  background: none;
+  color: #eaf7ff;
+  font-family: var(--mono);
+  font-size: 0.44rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.botox__reset:hover { border-color: #ff7ab8; color: #ff7ab8; }
+
+/* Finished, the count stops being a target and becomes a result. */
+.botox[data-complete] .botox__hud b { color: #70f2d1; }
+
 
 .anatomy__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
 
@@ -5306,7 +5416,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .rig,
   .eras,
   .model,
-  .orrery {
+  .orrery,
+  .botox {
     grid-column: auto;
     grid-template-columns: 1fr;
     aspect-ratio: auto;
@@ -5320,4 +5431,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .anatomy__stage { min-height: 15rem; }
   .rig__stage { aspect-ratio: 16 / 10; }
   .orrery__stage { aspect-ratio: 1 / 1; }
+  .botox__stage { aspect-ratio: 3 / 4; }
+  .xr-case--allergan .xr-case__media > img { grid-column: auto; }
 }
