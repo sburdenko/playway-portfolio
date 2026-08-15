@@ -1,25 +1,27 @@
 // RAF100 put a century of aircraft in the sky over a real place. This is the
 // same job in three steps: pick the squadron and its shape, draw where it goes,
 // then fly it and follow it with the camera.
+// span and length are the real ones in metres, so each aircraft is drawn in
+// its own proportions rather than as a fighter of a different size.
 const TYPES = [
   {
-    id: "camel", name: "Sopwith Camel", year: 1917, span: 8.5, knots: 100,
-    note: "The Great War fighter the service was founded on.",
+    id: "camel", name: "Sopwith Camel", year: 1917, span: 8.5, length: 5.7, knots: 100,
+    note: "The Great War fighter the service was founded on. Two wings, one rotary engine.",
   },
   {
-    id: "spitfire", name: "Spitfire", year: 1938, span: 11.2, knots: 330,
+    id: "spitfire", name: "Spitfire", year: 1938, span: 11.2, length: 9.1, knots: 330,
     note: "Elliptical wing, and the shape everybody draws from memory.",
   },
   {
-    id: "lancaster", name: "Lancaster", year: 1942, span: 31.1, knots: 240,
-    note: "Four engines and the widest span in the flight.",
+    id: "lancaster", name: "Lancaster", year: 1942, span: 31.1, length: 21.2, knots: 240,
+    note: "Four engines, twin fins, and the widest span in the flight.",
   },
   {
-    id: "vulcan", name: "Vulcan", year: 1956, span: 33.8, knots: 540,
+    id: "vulcan", name: "Vulcan", year: 1956, span: 33.8, length: 30.5, knots: 540,
     note: "A delta the size of a house, and the loudest thing here.",
   },
   {
-    id: "typhoon", name: "Typhoon", year: 2003, span: 10.9, knots: 700,
+    id: "typhoon", name: "Typhoon", year: 2003, span: 10.9, length: 15.9, knots: 700,
     note: "Delta and canards — the one that flies the flypast today.",
   },
 ];
@@ -34,43 +36,74 @@ const FORMATIONS = [
 ];
 
 const MAX_AIRCRAFT = 6;
+// A metre, in world units, at the size the aircraft are drawn.
+const METRE = 0.42;
+// The trail behind each aircraft, sampled back along the route it has flown.
+const TRAIL_SAMPLES = 18;
+const TRAIL_STEP = 1.1;
 const SCREENS = ["squadron", "route", "flight"];
 
-// Each aircraft is a top-down outline in wingspan units: half-span across,
-// nose at -1, tail at +1. Different enough to tell apart at thumbnail size.
+// Each outline is drawn from above in its own frame: x is the span, half either
+// side of the centreline; y is the length, nose at -0.5 and tail at +0.5. The
+// caller scales x by the span and y by the length, so a Lancaster comes out
+// wide and stubby and a Typhoon long and narrow, the way they really are.
 const SHAPES = {
+  // Biplane: two staggered wings, a rotary cowling, and a small round tail.
   camel: (ctx) => {
-    ctx.moveTo(0, -1); ctx.lineTo(0.1, 0.9); ctx.lineTo(-0.1, 0.9); ctx.closePath();
-    ctx.moveTo(-0.5, -0.35); ctx.lineTo(0.5, -0.35);
-    ctx.moveTo(-0.5, -0.05); ctx.lineTo(0.5, -0.05);
-    ctx.moveTo(-0.22, 0.85); ctx.lineTo(0.22, 0.85);
+    ctx.moveTo(-0.06, -0.42); ctx.lineTo(0.06, -0.42);
+    ctx.lineTo(0.05, 0.34); ctx.lineTo(-0.05, 0.34); ctx.closePath();
+    ctx.moveTo(-0.5, -0.14); ctx.lineTo(0.5, -0.14);
+    ctx.moveTo(-0.5, -0.02); ctx.lineTo(0.5, -0.02);
+    ctx.moveTo(-0.5, -0.14); ctx.lineTo(-0.5, -0.02);
+    ctx.moveTo(0.5, -0.14); ctx.lineTo(0.5, -0.02);
+    ctx.moveTo(-0.09, -0.5); ctx.lineTo(0.09, -0.5);
+    ctx.moveTo(-0.19, 0.42); ctx.lineTo(0.19, 0.42);
+    ctx.moveTo(0, 0.34); ctx.lineTo(0, 0.5);
   },
+  // The wing everybody knows: an ellipse leading and trailing, tapering to tips.
   spitfire: (ctx) => {
-    ctx.moveTo(0, -1); ctx.lineTo(0.08, 0.85); ctx.lineTo(-0.08, 0.85); ctx.closePath();
-    ctx.moveTo(0, -0.1);
-    ctx.bezierCurveTo(-0.3, -0.35, -0.5, -0.2, -0.5, 0.05);
-    ctx.bezierCurveTo(-0.5, 0.3, -0.25, 0.28, 0, 0.2);
-    ctx.bezierCurveTo(0.25, 0.28, 0.5, 0.3, 0.5, 0.05);
-    ctx.bezierCurveTo(0.5, -0.2, 0.3, -0.35, 0, -0.1);
-    ctx.moveTo(-0.2, 0.8); ctx.lineTo(0.2, 0.8);
+    ctx.moveTo(-0.045, -0.5); ctx.lineTo(0.045, -0.5);
+    ctx.lineTo(0.035, 0.42); ctx.lineTo(-0.035, 0.42); ctx.closePath();
+    ctx.moveTo(0, -0.16);
+    ctx.bezierCurveTo(-0.24, -0.2, -0.46, -0.12, -0.5, 0.02);
+    ctx.bezierCurveTo(-0.46, 0.14, -0.22, 0.14, 0, 0.06);
+    ctx.bezierCurveTo(0.22, 0.14, 0.46, 0.14, 0.5, 0.02);
+    ctx.bezierCurveTo(0.46, -0.12, 0.24, -0.2, 0, -0.16);
+    ctx.moveTo(-0.17, 0.4); ctx.bezierCurveTo(-0.1, 0.46, 0.1, 0.46, 0.17, 0.4);
+    ctx.moveTo(0, 0.42); ctx.lineTo(0, 0.5);
   },
+  // Four engines on a long straight wing, and the twin fins that name it.
   lancaster: (ctx) => {
-    ctx.moveTo(0, -1); ctx.lineTo(0.1, 0.9); ctx.lineTo(-0.1, 0.9); ctx.closePath();
-    ctx.moveTo(-0.5, 0.1); ctx.lineTo(-0.48, -0.14); ctx.lineTo(0.48, -0.14); ctx.lineTo(0.5, 0.1); ctx.closePath();
-    [-0.34, -0.18, 0.18, 0.34].forEach((x) => { ctx.moveTo(x, -0.2); ctx.lineTo(x, 0.06); });
-    ctx.moveTo(-0.26, 0.86); ctx.lineTo(0.26, 0.86);
+    ctx.moveTo(-0.05, -0.5); ctx.lineTo(0.05, -0.5);
+    ctx.lineTo(0.05, 0.4); ctx.lineTo(-0.05, 0.4); ctx.closePath();
+    ctx.moveTo(-0.5, 0.02); ctx.lineTo(-0.47, -0.12);
+    ctx.lineTo(0.47, -0.12); ctx.lineTo(0.5, 0.02); ctx.closePath();
+    [-0.33, -0.19, 0.19, 0.33].forEach((x) => {
+      ctx.moveTo(x - 0.03, -0.2); ctx.lineTo(x + 0.03, -0.2);
+      ctx.lineTo(x + 0.03, 0.0); ctx.lineTo(x - 0.03, 0.0); ctx.closePath();
+    });
+    ctx.moveTo(-0.22, 0.34); ctx.lineTo(0.22, 0.34);
+    ctx.moveTo(-0.22, 0.34); ctx.lineTo(-0.22, 0.46);
+    ctx.moveTo(0.22, 0.34); ctx.lineTo(0.22, 0.46);
   },
+  // One triangle, a needle nose and a single fin.
   vulcan: (ctx) => {
-    ctx.moveTo(0, -1); ctx.lineTo(0.5, 0.75); ctx.lineTo(0.2, 0.9); ctx.lineTo(-0.2, 0.9);
-    ctx.lineTo(-0.5, 0.75); ctx.closePath();
-    ctx.moveTo(0, -0.4); ctx.lineTo(0, 0.9);
+    ctx.moveTo(0, -0.5);
+    ctx.lineTo(0.5, 0.42); ctx.lineTo(0.22, 0.44);
+    ctx.lineTo(0.05, 0.36); ctx.lineTo(-0.05, 0.36);
+    ctx.lineTo(-0.22, 0.44); ctx.lineTo(-0.5, 0.42); ctx.closePath();
+    ctx.moveTo(0, -0.28); ctx.lineTo(0, 0.5);
   },
+  // Delta wing, canards up front, one fin.
   typhoon: (ctx) => {
-    ctx.moveTo(0, -1); ctx.lineTo(0.07, -0.3); ctx.lineTo(0.5, 0.6); ctx.lineTo(0.14, 0.7);
-    ctx.lineTo(0.1, 0.95); ctx.lineTo(-0.1, 0.95); ctx.lineTo(-0.14, 0.7); ctx.lineTo(-0.5, 0.6);
-    ctx.lineTo(-0.07, -0.3); ctx.closePath();
-    ctx.moveTo(-0.28, -0.45); ctx.lineTo(-0.08, -0.2);
-    ctx.moveTo(0.28, -0.45); ctx.lineTo(0.08, -0.2);
+    ctx.moveTo(0, -0.5);
+    ctx.lineTo(0.04, -0.12); ctx.lineTo(0.5, 0.32); ctx.lineTo(0.5, 0.4);
+    ctx.lineTo(0.09, 0.4); ctx.lineTo(0.07, 0.5); ctx.lineTo(-0.07, 0.5);
+    ctx.lineTo(-0.09, 0.4); ctx.lineTo(-0.5, 0.4); ctx.lineTo(-0.5, 0.32);
+    ctx.lineTo(-0.04, -0.12); ctx.closePath();
+    ctx.moveTo(-0.05, -0.26); ctx.lineTo(-0.26, -0.12); ctx.lineTo(-0.05, -0.16);
+    ctx.moveTo(0.05, -0.26); ctx.lineTo(0.26, -0.12); ctx.lineTo(0.05, -0.16);
+    ctx.moveTo(0, 0.12); ctx.lineTo(0, 0.5);
   },
 };
 
@@ -159,6 +192,7 @@ const mount = (root) => {
   let travelled = 0;
   let flying = true;
   let camera = { x: 0, y: 0, zoom: 1 };
+  let follow = true;
   let dragging = false;
   let dragged = 0;
   let lastX = 0;
@@ -230,22 +264,27 @@ const mount = (root) => {
     } else {
       travelled = 0;
       flying = true;
-      camera = { x: 0, y: 0, zoom: 1.6 };
-      describe("Flypast", "Scroll to zoom, drag to pan. The camera stays where you leave it.");
+      follow = true;
+      const start = path.length > 1 ? along(path, 0) : { x: 0, y: 0 };
+      camera = { x: start.x, y: start.y, zoom: 2.2 };
+      describe("Flypast", "The camera rides with the flight. Scroll to zoom, drag to break away.");
       hintOut.textContent = "Scroll to zoom · drag to pan";
     }
+    clearButton.textContent = screen === "route" ? "Clear route" : screen === "flight" ? "Fly again" : "Clear";
     report();
   };
 
-  const drawAircraft = (type, x, y, heading, size, colour, ghost) => {
+  // Drawn at its real span and length, in metres, at whatever the view scale is.
+  const drawAircraft = (type, x, y, heading, colour, ghost) => {
+    const unit = scale() * METRE;
     ctx.save();
     ctx.translate(px(x), py(y));
     ctx.rotate(heading + Math.PI / 2);
-    ctx.scale(size, size);
+    ctx.scale(type.span * unit, type.length * unit);
     ctx.beginPath();
     SHAPES[type.id](ctx);
     ctx.restore();
-    ctx.lineWidth = ghost ? 0.8 : 1.1;
+    ctx.lineWidth = ghost ? 0.9 : 1.2;
     ctx.strokeStyle = colour;
     ctx.stroke();
   };
@@ -285,19 +324,52 @@ const mount = (root) => {
     });
   };
 
-  // The formation, laid out from the leader in the direction of travel.
-  const placeAircraft = (leader, heading) => {
+  // The formation, laid out from the leader in the direction of travel. Every
+  // slot is spaced off the widest aircraft in the flight, not off whichever one
+  // happens to sit in it — otherwise the shape bends around the big ones.
+  const spacing = () => {
+    const widest = squadron.reduce((most, type) => Math.max(most, type.span), 10);
+    return widest * METRE * 1.35;
+  };
+
+  const slotAt = (leader, heading, index) => {
     const across = { x: Math.cos(heading + Math.PI / 2), y: Math.sin(heading + Math.PI / 2) };
     const back = { x: -Math.cos(heading), y: -Math.sin(heading) };
-    return squadron.map((type, index) => {
-      const slot = formation.slots[index % formation.slots.length];
-      const gap = type.span / 10 + 0.8;
-      return {
-        type,
-        x: leader.x + across.x * slot[0] * gap + back.x * slot[1] * gap,
-        y: leader.y + across.y * slot[0] * gap + back.y * slot[1] * gap,
-      };
-    });
+    const gap = spacing();
+    const slot = formation.slots[index % formation.slots.length];
+    return {
+      x: leader.x + across.x * slot[0] * gap + back.x * slot[1] * gap,
+      y: leader.y + across.y * slot[0] * gap + back.y * slot[1] * gap,
+    };
+  };
+
+  const placeAircraft = (leader, heading) =>
+    squadron.map((type, index) => ({ type, ...slotAt(leader, heading, index) }));
+
+  // The same maths for the empty places, so the dashed slots sit exactly where
+  // an aircraft would go rather than on a scale of their own.
+  const emptySlots = (leader, heading) =>
+    formation.slots
+      .map((_, index) => index)
+      .filter((index) => index >= squadron.length)
+      .map((index) => slotAt(leader, heading, index));
+
+  // A Lancaster flight is twenty times the width of a pair of Spitfires, so the
+  // squadron view is framed to whatever is actually in it rather than to a
+  // fixed scale that either shrinks the small flights or loses the big ones.
+  const frameSquadron = (leader, heading) => {
+    const points = [...placeAircraft(leader, heading), ...emptySlots(leader, heading)];
+    if (points.length === 0) return;
+    const margin = Math.max(...squadron.map((type) => type.span), 12) * METRE * 0.9;
+    const xs = points.map((point) => point.x);
+    const ys = points.map((point) => point.y);
+    const minX = Math.min(...xs) - margin;
+    const maxX = Math.max(...xs) + margin;
+    const minY = Math.min(...ys) - margin;
+    const maxY = Math.max(...ys) + margin;
+    const base = Math.min(view.w, view.h) / 70;
+    const zoom = Math.min(view.w / ((maxX - minX) * base), view.h / ((maxY - minY) * base));
+    camera = { x: (minX + maxX) / 2, y: (minY + maxY) / 2, zoom };
   };
 
   const draw = () => {
@@ -306,48 +378,72 @@ const mount = (root) => {
 
     if (screen === "squadron") {
       const heading = -Math.PI / 2;
-      placeAircraft({ x: 0, y: 6 }, heading).forEach((slot) => {
-        drawAircraft(slot.type, slot.x, slot.y, heading, slot.type.span / 6, "#eaf7ff", false);
-      });
-      // The shape itself, drawn faintly behind, including the empty slots.
-      ctx.strokeStyle = "rgba(112, 242, 209, 0.25)";
+      const leader = { x: 0, y: 0 };
+      frameSquadron(leader, heading);
+      ctx.strokeStyle = "rgba(112, 242, 209, 0.28)";
       ctx.setLineDash([3, 4]);
-      formation.slots.forEach((slot, index) => {
-        if (index < squadron.length) return;
+      emptySlots(leader, heading).forEach((slot) => {
         ctx.beginPath();
-        ctx.arc(px(slot[0] * 2), py(6 - slot[1] * 2), 6, 0, Math.PI * 2);
+        ctx.arc(px(slot.x), py(slot.y), Math.max(5, spacing() * scale() * 0.3), 0, Math.PI * 2);
         ctx.stroke();
       });
       ctx.setLineDash([]);
+      placeAircraft(leader, heading).forEach((slot) => {
+        drawAircraft(slot.type, slot.x, slot.y, heading, "#eaf7ff", false);
+      });
       return;
     }
 
     drawRoute(screen === "route");
 
     if (screen === "route") {
+      if (path.length < 2) return;
       const start = along(path, 0);
       placeAircraft(start, start.heading).forEach((slot) => {
-        drawAircraft(slot.type, slot.x, slot.y, start.heading, slot.type.span / 12, "rgba(234, 247, 255, 0.5)", true);
+        drawAircraft(slot.type, slot.x, slot.y, start.heading, "rgba(234, 247, 255, 0.5)", true);
       });
       return;
     }
 
     const leader = along(path, travelled);
+
+    // Each aircraft leaves its own wake, sampled back down the route it flew,
+    // so a turn shows as a set of parallel curves rather than one line.
+    squadron.forEach((type, index) => {
+      ctx.lineWidth = 1.1;
+      for (let k = 1; k < TRAIL_SAMPLES; k += 1) {
+        const back = travelled - k * TRAIL_STEP;
+        const front = travelled - (k - 1) * TRAIL_STEP;
+        if (back < 0) break;
+        const a = along(path, back);
+        const b = along(path, front);
+        const from = slotAt(a, a.heading, index);
+        const to = slotAt(b, b.heading, index);
+        ctx.strokeStyle = `rgba(112, 242, 209, ${0.3 * (1 - k / TRAIL_SAMPLES)})`;
+        ctx.beginPath();
+        ctx.moveTo(px(from.x), py(from.y));
+        ctx.lineTo(px(to.x), py(to.y));
+        ctx.stroke();
+      }
+    });
+
     placeAircraft(leader, leader.heading).forEach((slot) => {
-      // A short trail, so the shape of the turn is readable in flight.
-      ctx.strokeStyle = "rgba(112, 242, 209, 0.25)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(px(slot.x - Math.cos(leader.heading) * 2.4), py(slot.y - Math.sin(leader.heading) * 2.4));
-      ctx.lineTo(px(slot.x), py(slot.y));
-      ctx.stroke();
-      drawAircraft(slot.type, slot.x, slot.y, leader.heading, slot.type.span / 9, "#eaf7ff", false);
+      drawAircraft(slot.type, slot.x, slot.y, leader.heading, "#eaf7ff", false);
     });
   };
 
   const step = (dt) => {
     clock += dt;
-    if (screen !== "flight" || !flying) return;
+    if (screen !== "flight") return;
+
+    // The camera rides with the flight until the viewer takes hold of it.
+    if (follow && path.length > 1) {
+      const leader = along(path, travelled);
+      const ease = Math.min(1, dt * 2.6);
+      camera = { ...camera, x: camera.x + (leader.x - camera.x) * ease, y: camera.y + (leader.y - camera.y) * ease };
+    }
+
+    if (!flying) return;
     const total = lengthOf(path);
     // The flight runs at the slowest aircraft's speed, as a real one would.
     const knots = squadron.length ? Math.min(...squadron.map((type) => type.knots)) : 300;
@@ -415,7 +511,8 @@ const mount = (root) => {
     }
     travelled = 0;
     flying = true;
-    describe("Flypast", "Scroll to zoom, drag to pan.");
+    follow = true;
+    describe("Flypast", "The camera rides with the flight. Scroll to zoom, drag to break away.");
   });
 
   canvas.addEventListener("pointerdown", (event) => {
@@ -431,6 +528,7 @@ const mount = (root) => {
     const dx = event.clientX - lastX;
     const dy = event.clientY - lastY;
     dragged += Math.abs(dx) + Math.abs(dy);
+    if (dragged > 5) follow = false;
     camera = { ...camera, x: camera.x - dx / scale(), y: camera.y - dy / scale() };
     lastX = event.clientX;
     lastY = event.clientY;
