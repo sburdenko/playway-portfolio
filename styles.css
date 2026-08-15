@@ -5008,6 +5008,96 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   object-fit: cover;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   The book this was made for is about space, so the case carries the subject:
+   the film and the page photo pair up on top, and the system itself runs the
+   full width beneath them.
+   ───────────────────────────────────────────────────────────────────────── */
+.xr-case--carlton .xr-film { grid-column: 1; max-width: none; }
+
+.xr-case--carlton .xr-case__media > img {
+  grid-column: 2;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+.orrery {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.32fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 5.6;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+  border: 1px solid rgba(234, 247, 255, 0.2);
+  background: #060d1a;
+}
+
+.orrery__stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(112, 242, 209, 0.07), transparent 62%),
+    #050a14;
+}
+
+.orrery__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.orrery__canvas:active { cursor: grabbing; }
+.orrery__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
+
+.orrery__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.orrery__panel > span {
+  color: #70f2d1;
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.orrery__panel > b {
+  color: #eaf7ff;
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.orrery__panel > p {
+  margin: 0;
+  color: #a8beca;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.orrery__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem 1.2rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(234, 247, 255, 0.2);
+}
+
+.orrery__hud span { display: grid; gap: 0.3rem; }
+.orrery__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.2rem; font-weight: 800; line-height: 1; }
+.orrery__hud i { color: #89a8ba; font-size: 0.44rem; font-style: normal; letter-spacing: 0.11em; text-transform: uppercase; }
+.orrery__hint { grid-column: 1 / -1; margin: 0; color: #89a8ba; font-size: 0.44rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
 .anatomy__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
 
 /* Knebworth's VR piece drops you into the same grounds in five centuries.
@@ -5194,14 +5284,19 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .anatomy,
   .rig,
   .eras,
-  .model {
+  .model,
+  .orrery {
     grid-column: auto;
     grid-template-columns: 1fr;
     aspect-ratio: auto;
     gap: 1.4rem;
   }
 
+  /* Pinned to the second column, this one would starve the first of width. */
+  .xr-case--carlton .xr-case__media > img { grid-column: auto; }
+
   .anatomy__figure { width: min(100%, 14rem); height: auto; }
   .anatomy__stage { min-height: 15rem; }
   .rig__stage { aspect-ratio: 16 / 10; }
+  .orrery__stage { aspect-ratio: 1 / 1; }
 }
