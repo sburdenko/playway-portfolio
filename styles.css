@@ -3535,91 +3535,16 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .xr-page__hero a { color:#70f2d1; font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; }
 /* The XR page had nothing to touch. This is the loop every case below is built
    on, made playable: scan, lock a plane, anchor content to it. */
-.ar-stage {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(16rem, 0.85fr) minmax(0, 1.15fr);
-  align-items: center;
-  gap: 4vw;
-  margin: 0 var(--gutter) 6rem;
-  padding: clamp(1.6rem, 3vw, 3rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: rgba(7, 19, 29, 0.72);
-}
 
-.ar-stage__brief > span {
-  color: #70f2d1;
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
 
-.ar-stage__brief h2 {
-  margin: 0.9rem 0 1.1rem;
-  color: #eaf7ff;
-  font-family: var(--display);
-  font-size: clamp(1.7rem, 2.7vw, 2.7rem);
-  font-weight: 800;
-  line-height: 0.94;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-}
 
-.ar-stage__brief h2 em { color: #a98cff; font-style: normal; }
 
-.ar-stage__brief > p {
-  max-width: 30rem;
-  margin: 0 0 1.4rem;
-  color: #a8beca;
-  font-size: 0.72rem;
-  line-height: 1.6;
-}
 
-.ar-stage__hud {
-  display: flex;
-  gap: 2rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
 
-.ar-stage__hud span { display: grid; gap: 0.3rem; }
-.ar-stage__hud b {
-  color: #70f2d1;
-  font-family: var(--display);
-  font-size: 1.5rem;
-  font-weight: 800;
-  line-height: 1;
-}
-.ar-stage__hud i {
-  color: #a8beca;
-  font-size: 0.5rem;
-  font-style: normal;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
 
-.ar-stage__hint {
-  margin: 1rem 0 0;
-  color: #a8beca;
-  font-size: 0.52rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
 
-.ar-stage[data-phase="tracking"] .ar-stage__hint { color: #70f2d1; }
 
-.ar-stage__canvas {
-  display: block;
-  width: 100%;
-  aspect-ratio: 420 / 240;
-  border: 1px solid rgba(112, 242, 209, 0.28);
-  background: #07131d;
-  cursor: crosshair;
-  touch-action: none;
-}
 
-.ar-stage__canvas:focus-visible { outline: 2px solid #70f2d1; outline-offset: 2px; }
 
 .xr-feed { padding:0 var(--gutter) clamp(3rem,5vw,5rem); background:#07131d; }
 .xr-case { position:relative; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); column-gap:5vw; padding:clamp(3rem,5vw,5rem) 0; border-top:1px solid rgba(234,247,255,.19); }
@@ -4099,7 +4024,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .xr-page__header .availability { display:none; }
   .xr-page__hero { grid-template-columns:1fr; min-height:76svh; padding-top:8rem; }
   .xr-page__hero h1 { font-size:clamp(4rem,17vw,6.5rem); }
-  .ar-stage,
+
   .anatomy,
   .eras,
   .model { grid-template-columns: 1fr; gap: 2rem; }
@@ -5333,6 +5258,182 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .archer[data-medal="silver"] .archer__panel > b { color: #dfe9f2; }
 .archer[data-medal="bronze"] .archer__panel > b { color: #d79a63; }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   RAF100 put a century of aircraft over a real place. Three steps, one tile:
+   build the flight, draw where it goes, then fly it and follow it.
+   ───────────────────────────────────────────────────────────────────────── */
+.squadron {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.36fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  aspect-ratio: 16 / 7.6;
+  gap: clamp(0.7rem, 1.2vw, 1.2rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+  border: 1px solid rgba(234, 247, 255, 0.2);
+  background: #0a1a26;
+}
+
+.squadron__tabs {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.squadron__tabs button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(234, 247, 255, 0.24);
+  background: none;
+  color: #a8beca;
+  font-family: var(--mono);
+  font-size: 0.46rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.4s var(--ease), color 0.4s var(--ease), background 0.4s var(--ease);
+}
+
+.squadron__tabs button:hover { color: #eaf7ff; border-color: rgba(234, 247, 255, 0.5); }
+
+.squadron__tabs button[aria-current="true"] {
+  border-color: #70f2d1;
+  background: rgba(112, 242, 209, 0.12);
+  color: #70f2d1;
+}
+
+.squadron__stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(112, 242, 209, 0.07), transparent 62%),
+    #07131d;
+}
+
+.squadron__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.squadron__canvas:active { cursor: grabbing; }
+.squadron__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
+
+.squadron__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.squadron__panel > b {
+  color: #eaf7ff;
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.squadron__panel > p {
+  margin: 0;
+  color: #a8beca;
+  font-size: 0.62rem;
+  line-height: 1.45;
+  min-height: 2.6em;
+}
+
+.squadron__group { display: grid; gap: 0.35rem; min-height: 0; }
+
+.squadron__group > span {
+  color: #70f2d1;
+  font-size: 0.42rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.squadron__group ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.squadron__group button {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.32rem 0.5rem;
+  border: 1px solid rgba(234, 247, 255, 0.22);
+  background: none;
+  color: #d1e0e8;
+  font-family: var(--mono);
+  font-size: 0.44rem;
+  letter-spacing: 0.06em;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+.squadron__group button:hover:not(:disabled) { border-color: #70f2d1; color: #eaf7ff; }
+.squadron__group button:disabled { opacity: 0.35; cursor: default; }
+.squadron__group button b { font-weight: 500; }
+.squadron__group button i { color: #7e97a6; font-size: 0.4rem; font-style: normal; }
+
+.squadron__shapes button { padding: 0.32rem 0.55rem; text-transform: uppercase; }
+.squadron__shapes button[aria-pressed="true"] { border-color: #70f2d1; color: #70f2d1; }
+
+.squadron__group--roster ul { flex-direction: column; }
+.squadron__group--roster button { width: 100%; }
+.squadron__empty { color: #6f8899; font-size: 0.44rem; letter-spacing: 0.06em; }
+
+.squadron__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  margin-top: auto;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(234, 247, 255, 0.2);
+}
+
+.squadron__hud span { display: grid; gap: 0.2rem; align-content: start; }
+.squadron__hud b { color: #70f2d1; font-family: var(--display); font-size: 1rem; font-weight: 800; line-height: 1; }
+.squadron__hud i { color: #89a8ba; font-size: 0.4rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.squadron__hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #89a8ba;
+  font-size: 0.42rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.squadron__clear {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 0.38rem 0.7rem;
+  border: 1px solid rgba(234, 247, 255, 0.28);
+  background: none;
+  color: #eaf7ff;
+  font-family: var(--mono);
+  font-size: 0.42rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.squadron__clear:hover { border-color: #70f2d1; color: #70f2d1; }
+
+/* Only the step you are on needs its controls. */
+.squadron[data-screen="route"] .squadron__group--pick,
+.squadron[data-screen="flight"] .squadron__group--pick,
+.squadron[data-screen="flight"] .squadron__group--roster { display: none; }
+
 
 .anatomy__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
 
@@ -5523,7 +5624,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .model,
   .orrery,
   .botox,
-  .archer {
+  .archer,
+  .squadron {
     grid-column: auto;
     grid-template-columns: 1fr;
     aspect-ratio: auto;
@@ -5539,5 +5641,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .orrery__stage { aspect-ratio: 1 / 1; }
   .botox__stage { aspect-ratio: 3 / 4; }
   .archer__stage { aspect-ratio: 16 / 10; }
+  .squadron { grid-template-rows: auto auto auto; }
+  .squadron__stage { aspect-ratio: 4 / 3; }
   .xr-case--allergan .xr-case__media > img { grid-column: auto; }
 }

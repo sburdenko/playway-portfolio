@@ -39,33 +39,13 @@
         </div>
       </section>
 
-      <section class="ar-stage" data-phase="scanning" aria-label="Interactive AR demonstration">
-        <div class="ar-stage__brief">
-          <span>Try it / no headset</span>
-          <h2>Find a surface.<br /><em>Anchor something to it.</em></h2>
-          <p>
-            The loop underneath every project below: read the room, lock onto a
-            plane, and pin content to a point that stays put while the camera
-            moves. Move across to look around, click the floor to drop an anchor.
-          </p>
-          <div class="ar-stage__hud">
-            <span><b data-anchors>0</b><i>anchors placed</i></span>
-            <span><b data-state>Scanning…</b><i>tracking state</i></span>
-          </div>
-          <p class="ar-stage__hint">Finding a surface…</p>
-        </div>
-        <canvas
-          class="ar-stage__canvas"
-          tabindex="0"
-          aria-label="Augmented reality floor. Move the pointer to look around, click to place an anchor."
-        ></canvas>
-      </section>
+      
 
       <section class="xr-feed" id="cases" aria-label="Enterprise XR case studies">
         <article class="xr-case xr-case--raf">
           <header><span>01 / AR public engagement</span><span>Royal Air Force / 2018</span></header>
           <div class="xr-case__title"><h2>RAF100</h2><p>Make a formation. Draw the route. Watch a century of aircraft fly above the real world.</p></div>
-          <div class="xr-case__media"><div class="xr-film" data-state="idle" data-title="RAF100 — project film" data-embed="https://player.vimeo.com/video/316142938?dnt=1&amp;autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;color=70f2d1"><img src="https://i.vimeocdn.com/video/758088179-7455df0180be2f2e01be4ed63a20c805b706cae9445af4cfadbc3bc78fea3285-d_1280x720" alt="RAF100 flypast app running on a tablet" loading="eager" /><span class="xr-film__scan" aria-hidden="true"></span><span class="xr-film__bar xr-film__bar--top"><span>Project film</span><span>01:39</span></span><span class="xr-film__bar xr-film__bar--bottom"><span>AR public engagement / Unity</span><span>Plays via Vimeo</span></span><button class="xr-film__play" type="button" data-embed-play aria-label="Play the RAF100 project film"><i aria-hidden="true"></i><span>Play</span></button></div><img src="https://harmony-web.lon1.cdn.digitaloceanspaces.com/uploads/YDY71xaOWiMFa6QwsJL2oCkFFWiU9SEafJE4WQRc.png" alt="RAF100 app screenshot" loading="lazy" /><img src="https://harmony-web.lon1.cdn.digitaloceanspaces.com/uploads/pqyGyJdTgA4I0kBaX2NOlK6yrLUGCWGiGAcdfB0a.png" alt="RAF100 aircraft collection screen" loading="lazy" /></div>
+          <div class="xr-case__media"><div class="xr-film" data-state="idle" data-title="RAF100 — project film" data-embed="https://player.vimeo.com/video/316142938?dnt=1&amp;autoplay=1&amp;title=0&amp;byline=0&amp;portrait=0&amp;color=70f2d1"><img src="https://i.vimeocdn.com/video/758088179-7455df0180be2f2e01be4ed63a20c805b706cae9445af4cfadbc3bc78fea3285-d_1280x720" alt="RAF100 flypast app running on a tablet" loading="eager" /><span class="xr-film__scan" aria-hidden="true"></span><span class="xr-film__bar xr-film__bar--top"><span>Project film</span><span>01:39</span></span><span class="xr-film__bar xr-film__bar--bottom"><span>AR public engagement / Unity</span><span>Plays via Vimeo</span></span><button class="xr-film__play" type="button" data-embed-play aria-label="Play the RAF100 project film"><i aria-hidden="true"></i><span>Play</span></button></div><img src="https://harmony-web.lon1.cdn.digitaloceanspaces.com/uploads/YDY71xaOWiMFa6QwsJL2oCkFFWiU9SEafJE4WQRc.png" alt="RAF100 app screenshot" loading="lazy" /><img src="https://harmony-web.lon1.cdn.digitaloceanspaces.com/uploads/pqyGyJdTgA4I0kBaX2NOlK6yrLUGCWGiGAcdfB0a.png" alt="RAF100 aircraft collection screen" loading="lazy" /><div class="squadron" aria-label="Squadron builder"><div class="squadron__tabs" role="tablist"><button type="button" data-screen="squadron" aria-current="true">1 · Squadron</button><button type="button" data-screen="route" aria-current="false">2 · Route</button><button type="button" data-screen="flight" aria-current="false">3 · Flypast</button></div><div class="squadron__stage"><canvas class="squadron__canvas" tabindex="0" aria-label="Formation, route and flypast view. Drag to pan, scroll to zoom, click the map to add a waypoint."></canvas></div><div class="squadron__panel"><b data-readout>Vic</b><p data-readout-note>Pick a shape, then add aircraft.</p><div class="squadron__group squadron__group--pick"><span>Aircraft</span><ul data-types></ul></div><div class="squadron__group squadron__group--pick"><span>Formation</span><ul class="squadron__shapes" data-shapes></ul></div><div class="squadron__group squadron__group--roster"><span>In the flight</span><ul data-roster></ul></div><div class="squadron__hud"><span><b data-count>0 / 6</b><i>aircraft</i></span><span><b data-leg>0 m</b><i>route</i></span><p class="squadron__hint">Tap an aircraft to add it</p><button class="squadron__clear" type="button" data-clear>Clear</button></div></div></div></div>
           <div class="xr-case__details"><p><b>What I did</b> Unity AR interaction and real-time flypast experience.</p><p><b>Outcome</b> Top 5 in Apple Education; 15K+ downloads in week one; covered by CNET and The Sun.</p><a href="https://www.harmony.co.uk/portfolio/raf100" target="_blank" rel="noreferrer">Original project source ↗</a></div>
         </article>
 
@@ -156,7 +136,6 @@
       <footer class="xr-page__footer"><span>Finished the XR archive? / Built in Unity, Bonn, Germany</span><a href="./index.html">Enter games portfolio →</a><a href="mailto:sburdenko@gmail.com">sburdenko@gmail.com</a></footer>
     </main>
     <script type="module" src="/video-facade.js"></script>
-    <script type="module" src="/ar-stage.js"></script>
     <script type="module" src="/anatomy.js"></script>
     <script type="module" src="/eras.js"></script>
     <script type="module" src="/model.js"></script>
@@ -164,5 +143,6 @@
     <script type="module" src="/orrery.js"></script>
     <script type="module" src="/botox.js"></script>
     <script type="module" src="/archer.js"></script>
+    <script type="module" src="/squadron.js"></script>
   </body>
 </html>
