@@ -5228,6 +5228,111 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* Finished, the count stops being a target and becomes a result. */
 .botox[data-complete] .botox__hud b { color: #70f2d1; }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   Every stop on the Fife trail set the visitor a task and handed out a medal
+   for it. The bow is the one that fits in a tile, so it sits beside the film
+   the way the tasks sat beside the storyteller.
+   ───────────────────────────────────────────────────────────────────────── */
+.xr-case--fife .xr-film { grid-column: 1; max-width: none; }
+
+.archer {
+  grid-column: 2;
+  /* Without this the tile takes its width from its own contents and ends up
+     shorter than the film beside it. */
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.44fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 9;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+  border: 1px solid rgba(234, 247, 255, 0.2);
+  background: #0a1a26;
+}
+
+.archer__stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(112, 242, 209, 0.06), transparent 62%),
+    #07131d;
+}
+
+.archer__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.archer__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
+
+.archer__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.archer__panel > span {
+  color: #70f2d1;
+  font-size: 0.46rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.archer__panel > b {
+  color: #eaf7ff;
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.archer__panel > p {
+  margin: 0;
+  color: #a8beca;
+  font-size: 0.62rem;
+  line-height: 1.45;
+}
+
+.archer__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 0.9rem;
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(234, 247, 255, 0.2);
+}
+
+.archer__hud span { display: grid; gap: 0.2rem; align-content: start; }
+.archer__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.05rem; font-weight: 800; line-height: 1; }
+.archer__hud i { color: #89a8ba; font-size: 0.4rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.archer__again {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(234, 247, 255, 0.28);
+  background: none;
+  color: #eaf7ff;
+  font-family: var(--mono);
+  font-size: 0.42rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.archer__again:hover { border-color: #70f2d1; color: #70f2d1; }
+
+/* The medal the round earned, in the colour it is actually made of. */
+.archer[data-medal="gold"] .archer__panel > b { color: #ffd76a; }
+.archer[data-medal="silver"] .archer__panel > b { color: #dfe9f2; }
+.archer[data-medal="bronze"] .archer__panel > b { color: #d79a63; }
+
 
 .anatomy__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
 
@@ -5417,7 +5522,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .eras,
   .model,
   .orrery,
-  .botox {
+  .botox,
+  .archer {
     grid-column: auto;
     grid-template-columns: 1fr;
     aspect-ratio: auto;
@@ -5432,5 +5538,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .rig__stage { aspect-ratio: 16 / 10; }
   .orrery__stage { aspect-ratio: 1 / 1; }
   .botox__stage { aspect-ratio: 3 / 4; }
+  .archer__stage { aspect-ratio: 16 / 10; }
   .xr-case--allergan .xr-case__media > img { grid-column: auto; }
 }
