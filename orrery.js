@@ -10,25 +10,51 @@ const EARTH_LAP_SECONDS = 14;
 const AU_COMPRESSION = 0.62;
 const RADIUS_SCALE = 6.4;
 
+// Bodies, on the other hand, keep their true proportions to each other: one
+// world unit is 20 000 km, which is why Jupiter is a disc and Mercury a speck.
+// The sun cannot join in — at this scale it would be wider than Mars' orbit.
+const KM_PER_UNIT = 20000;
+
+// au: mean distance. years: orbital period. km: equatorial radius.
+// tilt: inclination to the ecliptic. node: longitude of the ascending node,
+// which is the direction that tilt leans about.
 const PLANETS = [
-  { name: "Mercury", au: 0.39, years: 0.24, size: 1.5, colour: "#9fb4c2", note: "Closest in, and the fastest lap of the eight." },
-  { name: "Venus", au: 0.72, years: 0.62, size: 2.5, colour: "#ffd76a", note: "Turns backwards, and the hottest surface of them all." },
-  { name: "Earth", au: 1, years: 1, size: 2.6, colour: "#70f2d1", note: "One lap of this ring is the year the book is printed in." },
-  { name: "Mars", au: 1.52, years: 1.88, size: 2, colour: "#ff7ab8", note: "Half Earth's width, with the tallest volcano in the system." },
-  { name: "Jupiter", au: 5.2, years: 11.86, size: 5.4, colour: "#f0c08a", note: "Heavier than every other planet put together." },
-  { name: "Saturn", au: 9.54, years: 29.4, size: 4.6, colour: "#eaf7ff", note: "Rings of ice and rock, and barely denser than water.", ring: true },
-  { name: "Uranus", au: 19.2, years: 84, size: 3.4, colour: "#8fd8ff", note: "Tipped on its side, so it rolls round its orbit." },
-  { name: "Neptune", au: 30.1, years: 164.8, size: 3.3, colour: "#7f9dff", note: "Found by arithmetic before anyone saw it." },
+  { name: "Mercury", au: 0.39, years: 0.24, km: 2440, tilt: 7.0, node: 48.3, colour: "#9fb4c2", note: "Closest in, and the fastest lap of the eight." },
+  { name: "Venus", au: 0.72, years: 0.62, km: 6052, tilt: 3.39, node: 76.7, colour: "#ffd76a", note: "Turns backwards, and the hottest surface of them all." },
+  { name: "Earth", au: 1, years: 1, km: 6371, tilt: 0, node: 0, colour: "#70f2d1", note: "Its orbit is the flat one — every other tilt is measured from it." },
+  { name: "Mars", au: 1.52, years: 1.88, km: 3390, tilt: 1.85, node: 49.6, colour: "#ff7ab8", note: "Half Earth's width, with the tallest volcano in the system." },
+  { name: "Jupiter", au: 5.2, years: 11.86, km: 69911, tilt: 1.3, node: 100.5, colour: "#f0c08a", note: "Heavier than every other planet put together." },
+  { name: "Saturn", au: 9.54, years: 29.4, km: 58232, tilt: 2.49, node: 113.7, colour: "#eaf7ff", note: "Rings of ice and rock, and barely denser than water.", ring: true },
+  { name: "Uranus", au: 19.2, years: 84, km: 25362, tilt: 0.77, node: 74, colour: "#8fd8ff", note: "Tipped on its side, so it rolls round its orbit." },
+  { name: "Neptune", au: 30.1, years: 164.8, km: 24622, tilt: 1.77, node: 131.8, colour: "#7f9dff", note: "Found by arithmetic before anyone saw it." },
 ];
 
 const orbitRadius = (au) => Math.pow(au, AU_COMPRESSION) * RADIUS_SCALE;
+const bodySize = (km) => km / KM_PER_UNIT;
+
+// No two of these orbits share a plane. Each ring is built flat, leaned over by
+// its own inclination, and then swung round to where that lean actually points.
+const orbitPoint = (planet, theta) => {
+  const radius = orbitRadius(planet.au);
+  const tilt = (planet.tilt * Math.PI) / 180;
+  const node = (planet.node * Math.PI) / 180;
+
+  const x = Math.cos(theta) * radius;
+  const inPlane = Math.sin(theta) * radius;
+  const y = inPlane * Math.sin(tilt);
+  const z = inPlane * Math.cos(tilt);
+
+  return {
+    x: x * Math.cos(node) + z * Math.sin(node),
+    y,
+    z: -x * Math.sin(node) + z * Math.cos(node),
+  };
+};
 
 const ORBITS = PLANETS.map((planet) => {
-  const radius = orbitRadius(planet.au);
   const ring = [];
-  for (let i = 0; i < 72; i += 1) {
-    const angle = (i / 72) * Math.PI * 2;
-    ring.push({ x: Math.cos(angle) * radius, y: 0, z: Math.sin(angle) * radius });
+  for (let i = 0; i < 96; i += 1) {
+    ring.push(orbitPoint(planet, (i / 96) * Math.PI * 2));
   }
   return ring.map((point, i) => [point, ring[(i + 1) % ring.length]]);
 });
@@ -91,7 +117,7 @@ const mount = (root) => {
   const describe = (planet) => {
     if (!planet) {
       nameOut.textContent = "Solar system";
-      noteOut.textContent = "Eight planets in their real order, each turning at its own rate. Hover one to hold it.";
+      noteOut.textContent = "Sized against each other, and each on its own tilted plane. Hover one to hold it.";
       auOut.textContent = "—";
       periodOut.textContent = "—";
       return;
@@ -121,6 +147,8 @@ const mount = (root) => {
   const drawSun = () => {
     const point = project({ x: 0, y: 0, z: 0 }, yaw, pitch, view);
     if (!point) return;
+    // Out of scale, and it has to be: at the planets' scale the sun would be
+    // 35 units across, swallowing everything inside Jupiter.
     const radius = (view.focal * 1.6) / point.z;
     const glow = ctx.createRadialGradient(point.sx, point.sy, 0, point.sx, point.sy, radius * 5);
     glow.addColorStop(0, "rgba(255, 215, 106, 0.55)");
@@ -136,14 +164,13 @@ const mount = (root) => {
   };
 
   const drawPlanet = (planet, index) => {
-    const radius = orbitRadius(planet.au);
-    const angle = angleOf(planet, index);
-    const position = { x: Math.cos(angle) * radius, y: 0, z: Math.sin(angle) * radius };
-    const point = project(position, yaw, pitch, view);
+    const point = project(orbitPoint(planet, angleOf(planet, index)), yaw, pitch, view);
     screen[index] = point;
     if (!point) return;
 
-    const size = Math.max(2.2, (view.focal * planet.size * 0.035) / point.z);
+    // True proportions leave Mercury under a pixel across, so the floor is the
+    // smallest dot that still reads as a planet rather than as noise.
+    const size = Math.max(1.6, (view.focal * bodySize(planet.km)) / point.z);
     const focused = held === planet;
 
     if (planet.ring) {
