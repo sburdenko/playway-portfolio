@@ -6,7 +6,7 @@ const GROUND = 46;
 const BOW = { x: 13, y: GROUND - 7 };
 const TARGET = { x: 70, y: GROUND - 12, r: 7 };
 const GRAVITY = 24;
-const WIND_STREAKS = 9;
+const WIND_LINES = 7;
 const DRAW_SECONDS = 0.85;
 const MAX_SPEED = 48;
 const ARROWS = 5;
@@ -81,13 +81,18 @@ const mount = (root) => {
 
   const newWind = () => {
     wind = Math.round((Math.random() * 2 - 1) * 5);
-    // Streaks of air, dropped in at random heights and lengths, are the only
-    // honest way to show a wind: the number alone never reads.
-    streaks = Array.from({ length: WIND_STREAKS }, () => ({
+    // Streamlines rather than specks: a long line that undulates as it travels
+    // and curls at its head reads as moving air, where a short dash reads as an
+    // insect.
+    streaks = Array.from({ length: WIND_LINES }, () => ({
       x: Math.random() * WORLD.w,
-      y: 4 + Math.random() * (GROUND - 12),
-      len: 3 + Math.random() * 7,
-      drift: 0.6 + Math.random() * 0.8,
+      y: 4 + Math.random() * (GROUND - 13),
+      len: 16 + Math.random() * 22,
+      amp: 0.5 + Math.random() * 1.3,
+      wave: 0.18 + Math.random() * 0.22,
+      phase: Math.random() * Math.PI * 2,
+      drift: 0.75 + Math.random() * 0.6,
+      curl: 0.7 + Math.random() * 0.8,
     }));
   };
 
@@ -196,10 +201,12 @@ const mount = (root) => {
     if (shots >= ARROWS && flying.length === 0 && phase !== "done") finish();
 
     streaks = streaks.map((streak) => {
-      const x = streak.x + wind * streak.drift * dt * 6;
-      if (x > WORLD.w + streak.len) return { ...streak, x: -streak.len, y: 4 + Math.random() * (GROUND - 12) };
-      if (x < -streak.len) return { ...streak, x: WORLD.w + streak.len, y: 4 + Math.random() * (GROUND - 12) };
-      return { ...streak, x };
+      const x = streak.x + wind * streak.drift * dt * 5;
+      const phase = streak.phase + dt * (1.4 + Math.abs(wind) * 0.5);
+      const reborn = { ...streak, phase, y: 4 + Math.random() * (GROUND - 13) };
+      if (x > WORLD.w + streak.len) return { ...reborn, x: -streak.len };
+      if (x < -streak.len) return { ...reborn, x: WORLD.w + streak.len };
+      return { ...streak, x, phase };
     });
   };
 
@@ -298,22 +305,52 @@ const mount = (root) => {
     }
   };
 
-  // The air itself, moving. Length and speed both come off the wind, and the
-  // heads point the way it blows, so the direction reads without reading.
+  // The air itself, moving: each line trails away behind its head, waves as it
+  // goes, and curls over at the front the way a gust does. Everything about it
+  // — speed, wave height, how tightly it curls — comes off the wind's strength.
   const drawWind = () => {
     if (wind === 0) return;
     const strength = Math.min(1, Math.abs(wind) / 5);
-    ctx.strokeStyle = `rgba(112, 242, 209, ${0.16 + strength * 0.3})`;
-    ctx.lineWidth = 1;
+    const dir = Math.sign(wind);
+
     streaks.forEach((streak) => {
-      const length = streak.len * (0.4 + strength * 0.9);
-      const tail = sx(streak.x - Math.sign(wind) * length);
-      const head = sx(streak.x);
-      const y = sy(streak.y);
+      const length = streak.len * (0.45 + strength * 0.75);
+      const tailX = streak.x - dir * length;
+      const grad = ctx.createLinearGradient(sx(tailX), 0, sx(streak.x), 0);
+      grad.addColorStop(0, "rgba(112, 242, 209, 0)");
+      grad.addColorStop(0.65, `rgba(112, 242, 209, ${0.09 + strength * 0.16})`);
+      grad.addColorStop(1, `rgba(112, 242, 209, ${0.16 + strength * 0.3})`);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1;
+
       ctx.beginPath();
-      ctx.moveTo(tail, y);
-      ctx.lineTo(head, y);
-      ctx.lineTo(head - Math.sign(wind) * su(1.1), y - su(0.55));
+      const steps = 30;
+      let headY = streak.y;
+      for (let i = 0; i <= steps; i += 1) {
+        const t = i / steps;
+        const x = tailX + dir * length * t;
+        // The wave is flat where the line thins out and deepest in the middle.
+        const swell = Math.sin(Math.PI * t) * streak.amp * (0.35 + strength);
+        const y = streak.y + Math.sin(x * streak.wave + streak.phase) * swell;
+        if (i === 0) ctx.moveTo(sx(x), sy(y));
+        else ctx.lineTo(sx(x), sy(y));
+        headY = y;
+      }
+      ctx.stroke();
+
+      // The curl at the head, opening the way the wind blows.
+      const radius = streak.curl * (0.4 + strength * 1.1);
+      const spin = Math.sin(streak.phase) > 0 ? 1 : -1;
+      ctx.strokeStyle = `rgba(112, 242, 209, ${0.14 + strength * 0.26})`;
+      ctx.beginPath();
+      ctx.arc(
+        sx(streak.x + dir * radius * 0.2),
+        sy(headY - spin * radius),
+        su(radius),
+        spin > 0 ? Math.PI * 0.15 : -Math.PI * 0.15,
+        spin > 0 ? Math.PI * 1.35 : -Math.PI * 1.35,
+        spin < 0,
+      );
       ctx.stroke();
     });
   };
