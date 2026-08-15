@@ -2173,14 +2173,25 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .blob__phones .blob-film::before { background: #43dccb; }
 
+/* A handset reads as a handset: the shell stays the colour a phone is, and the
+   accent lives in the slab behind it and a hairline round the edge rather than
+   in a bezel a centimetre thick. */
 .boxjam-phone--film {
   cursor: pointer;
-  border-color: #43dccb;
-  background: #0d2a2a;
-  box-shadow: 1.8rem 2.2rem 0 #43dccb, 0 3rem 6rem rgba(5, 10, 16, 0.5);
+  background: #101d20;
+  box-shadow:
+    0 0 0 1px rgba(67, 220, 203, 0.5),
+    1.8rem 2.2rem 0 #43dccb,
+    0 3rem 6rem rgba(5, 10, 16, 0.5);
 }
 
-.boxjam-phone--film::before { background: #43dccb; }
+.boxjam-phone--film:hover {
+  box-shadow:
+    0 0 0 1px #43dccb,
+    1rem 1.4rem 0 #43dccb,
+    0 3rem 6rem rgba(5, 10, 16, 0.5),
+    0 0 4rem rgba(67, 220, 203, 0.3);
+}
 
 .boxjam-phone__store {
   position: absolute;
@@ -3978,6 +3989,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .boxjam-phone {
     width: min(72vw, 25rem);
     justify-self: center;
+    border-width: 0.5rem;
+    border-radius: 2.2rem;
   }
 
   .blob__header { grid-template-columns: auto 1fr; }
@@ -3996,7 +4009,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .scope,
   .solitaire .word__copy,
   .boxjam__copy,
-  .blob__copy { grid-column: 1; grid-row: auto; }
+  .blob__copy,
+  .astro__stage:has(.astro__gallery--cloud) .astro__hero,
+  .astro__stage:has(.astro__gallery--cloud) .astro__gallery--cloud,
+  .astro__stage:has(.astro__gallery--cloud) .astro__copy { grid-column: 1; grid-row: auto; }
 
   .sapper__header {
     grid-template-columns: auto 1fr;
