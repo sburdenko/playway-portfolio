@@ -179,11 +179,10 @@
           aria-label="Open Bronze Hoof on Steam"
         >
           <video
-            autoplay
             muted
             loop
             playsinline
-            preload="metadata"
+            preload="none"
             aria-label="Bronze Hoof gameplay"
             poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_00efa63a3c072b34e955cbb5f92f40b2ebbe1568.1920x1080.jpg?t=1598633964"
           >
@@ -192,6 +191,7 @@
               type="video/mp4"
             />
           </video>
+          <button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Bronze Hoof trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
           <div class="feature-frame__shade"></div>
           <span class="feature-frame__label">View on Steam</span>
           <span class="feature-frame__arrow">↗</span>
@@ -297,11 +297,10 @@
           aria-label="Open Welcome to Boon Hill on Steam"
         >
           <video
-            autoplay
             muted
             loop
             playsinline
-            preload="metadata"
+            preload="none"
             aria-label="Welcome to Boon Hill gameplay trailer"
             poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174"
           >
@@ -310,6 +309,7 @@
               type="video/mp4"
             />
           </video>
+          <button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Welcome to Boon Hill trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
           <div class="boon-screen__scan" aria-hidden="true"></div>
           <div class="boon-screen__hud">
             <span>Archive feed / 406780</span>
@@ -450,16 +450,16 @@
             </figure>
             <figure class="phone phone--center">
               <video
-                autoplay
                 muted
                 loop
                 playsinline
-                preload="metadata"
+                preload="none"
                 aria-label="Flower Book gameplay"
                 poster="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource114/v4/c5/46/e2/c546e2d0-aa7f-43e0-d7ae-bafb78b3c4e3/af10ce65-f77b-45f5-bf29-10e8473e744a_4.png/784x1392bb.png"
               >
                 <source src="./media/flower-book-trailer.mp4" type="video/mp4" />
               </video>
+          <button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Flower Book trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
             </figure>
             <figure class="phone phone--right">
               <img
@@ -656,7 +656,7 @@
       <section class="word solitaire section" id="card-match">
         <!--@rule:card-match-->
         <div class="word__header reveal"><div><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/24/eb/06/24eb0604-578f-7515-318b-708e6649b855/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg" alt="Card Match Solitaire app icon" loading="lazy" /><span>07 / Card puzzle</span></div><h2>Card<br /><em>M<span class="ace-a">a</span>tch</em></h2><p>Stack.<br />Match. Win.</p></div>
-        <div class="word__body reveal"><div class="word__phones"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ba/e2/40/bae2404b-a4ee-14a4-3aaa-6f445b6fffbb/Solitaire-Store-Images21242x2208.png/784x1392bb.png" alt="Card Match Solitaire level screen" loading="lazy" /><video class="word-film" autoplay muted loop playsinline preload="metadata" aria-label="Card Match Solitaire gameplay" poster="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png"><source src="./media/card-match-trailer.mp4" type="video/mp4" /></video><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/78/87/7b788791-1fa3-a208-d5c8-257233088b42/Solitaire-Store-Images3_1242x2208.png/784x1392bb.png" alt="Card Match Solitaire cards" loading="lazy" /></div><div class="scope"><h3>What I did</h3><ol><li><i>01</i><b>Prototype &amp; PoC</b><span>Playable proof of the loop</span></li><li><i>02</i><b>Build to release</b><span>Every system, to the store</span></li><li><i>03</i><b>Live support</b><span>Updates and fixes after launch</span></li></ol></div><div class="word__copy"><span>iOS / Solitaire / Casual</span><p>A modern, tactile take on solitaire: make quick decisions, clear the board and turn every card into a satisfying move.</p><div class="word__facts"><div><strong>Stack</strong><span>card matching</span></div><div><strong>Flow</strong><span>quick decisions</span></div><div><strong>Clear</strong><span>board progression</span></div><div><strong>iOS</strong><span>casual release</span></div></div><a class="word__link interactive" href="https://apps.apple.com/app/card-match-solitaire/id6477757812" target="_blank" rel="noreferrer">Get Card Match <i>↗</i></a></div></div>
+        <div class="word__body reveal"><div class="word__phones"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ba/e2/40/bae2404b-a4ee-14a4-3aaa-6f445b6fffbb/Solitaire-Store-Images21242x2208.png/784x1392bb.png" alt="Card Match Solitaire level screen" loading="lazy" /><figure class="word-film film-shell" data-state="idle"><video muted loop playsinline preload="none" aria-label="Card Match Solitaire gameplay" poster="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png"><source src="./media/card-match-trailer.mp4" type="video/mp4" /></video><button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Card Match Solitaire trailer"><i aria-hidden="true"></i><span>Trailer</span></button></figure><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/78/87/7b788791-1fa3-a208-d5c8-257233088b42/Solitaire-Store-Images3_1242x2208.png/784x1392bb.png" alt="Card Match Solitaire cards" loading="lazy" /></div><div class="scope"><h3>What I did</h3><ol><li><i>01</i><b>Prototype &amp; PoC</b><span>Playable proof of the loop</span></li><li><i>02</i><b>Build to release</b><span>Every system, to the store</span></li><li><i>03</i><b>Live support</b><span>Updates and fixes after launch</span></li></ol></div><div class="word__copy"><span>iOS / Solitaire / Casual</span><p>A modern, tactile take on solitaire: make quick decisions, clear the board and turn every card into a satisfying move.</p><div class="word__facts"><div><strong>Stack</strong><span>card matching</span></div><div><strong>Flow</strong><span>quick decisions</span></div><div><strong>Clear</strong><span>board progression</span></div><div><strong>iOS</strong><span>casual release</span></div></div><a class="word__link interactive" href="https://apps.apple.com/app/card-match-solitaire/id6477757812" target="_blank" rel="noreferrer">Get Card Match <i>↗</i></a></div></div>
       <!--@rule:card-match:end-->
       </section>
 
@@ -679,11 +679,10 @@
             aria-label="Open Crazy Sapper 3D on Steam"
           >
             <video
-              autoplay
               muted
               loop
               playsinline
-              preload="metadata"
+              preload="none"
               aria-label="Crazy Sapper 3D gameplay"
               poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_34038a40ff888e070259ba446b3b1cc5e4bd177a.1920x1080.jpg?t=1782119061"
             >
@@ -692,6 +691,7 @@
                 type="video/mp4"
               />
             </video>
+          <button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Crazy Sapper 3D trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
             <span>Play on Steam ↗</span>
           </a>
 
@@ -792,11 +792,10 @@
             aria-label="Open Astro Lords: Oort Cloud on Steam"
           >
             <video
-              autoplay
               muted
               loop
               playsinline
-              preload="metadata"
+              preload="none"
               aria-label="Astro Lords: Oort Cloud gameplay"
               poster="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241"
             >
@@ -805,6 +804,7 @@
                 type="video/mp4"
               />
             </video>
+          <button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Astro Lords trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
             <span>Free on Steam ↗</span>
           </a>
 
@@ -880,11 +880,10 @@
         <div class="astro__stage">
           <a class="astro-phone interactive reveal" href="https://play.google.com/store/apps/details?id=com.QuickPanda.AstroScavenger" target="_blank" rel="noreferrer" aria-label="Open Astro Scavenger on Google Play">
             <video
-              autoplay
               muted
               loop
               playsinline
-              preload="metadata"
+              preload="none"
               aria-label="Astro Scavenger gameplay"
               poster="https://play-lh.googleusercontent.com/PaOtmVZl7MtLWlhSz2wMfa7xSdW77od9oHJ6PtRXZmdUm-rACR1QBQ3QC2amJQE1uPnJEGNIYrdBtoAqCj9QYw=w1080"
             >
@@ -893,6 +892,7 @@
                 type="video/mp4"
               />
             </video>
+          <button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Astro Scavenger trailer"><i aria-hidden="true"></i><span>Trailer</span></button>
             <span>Google Play ↗</span>
           </a>
           <div class="astro__copy reveal">
@@ -1017,6 +1017,7 @@
     <script type="module" src="/runner.js"></script>
     <script type="module" src="/scavenger.js"></script>
     <script type="module" src="/video-facade.js"></script>
+    <script type="module" src="/clips.js"></script>
     <script type="module" src="/teeth.js"></script>
     <script type="module" src="/rail.js"></script>
   </body>

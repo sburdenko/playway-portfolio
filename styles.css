@@ -4384,6 +4384,67 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .rail { display: none; }
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   A trailer waits behind its poster until it is asked for. The control sits
+   on top of whatever frame holds it — usually a link to a store, which is why
+   it stops the click from travelling.
+   ───────────────────────────────────────────────────────────────────────── */
+.clip-play {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease;
+}
+
+.clip-play i {
+  position: relative;
+  display: block;
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background: rgba(11, 11, 9, 0.45);
+  backdrop-filter: blur(6px);
+  transition: transform 0.5s var(--ease), background 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+
+.clip-play i::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 0.1rem);
+  width: 0;
+  height: 0;
+  border-top: 0.42rem solid transparent;
+  border-bottom: 0.42rem solid transparent;
+  border-left: 0.7rem solid #fff;
+  transform: translate(-50%, -50%);
+}
+
+.clip-play:hover i,
+.clip-play:focus-visible i { transform: scale(1.08); border-color: #fff; }
+
+/* Playing, the control gets out of the way. */
+[data-clip="playing"] .clip-play { opacity: 0; pointer-events: none; }
+
+/* Card Match's clip now sits in a shell of its own, and keeps its own shape. */
+.solitaire .word__phones > figure { aspect-ratio: 900 / 1600; }
+.word__phones > figure > video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
