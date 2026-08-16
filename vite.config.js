@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
-import { GAMES } from "./site-data.js";
+import { ANALYTICS_TOKEN, GAMES } from "./site-data.js";
 
 const mediaUrl = (url) => {
   const extension = new URL(url).pathname.endsWith(".mp4") ? "mp4" : "webp";
@@ -50,6 +50,16 @@ const localMedia = () => ({
   },
 });
 
+// Both pages carry the beacon, and only if there is a token to carry.
+const analytics = () => ({
+  name: "portfolio-analytics",
+  transformIndexHtml(html) {
+    if (!ANALYTICS_TOKEN) return html;
+    const beacon = `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${ANALYTICS_TOKEN}"}'></script>`;
+    return html.replace("</body>", `    ${beacon}\n  </body>`);
+  },
+});
+
 export default defineConfig({
   base: "/playway-portfolio/",
   build: {
@@ -60,5 +70,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [sections(), localMedia()],
+  plugins: [sections(), localMedia(), analytics()],
 });

@@ -51,3 +51,8 @@ export const GAMES = [
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241",
   },
 ];
+
+// Cloudflare Web Analytics. Paste the site token from the Cloudflare dashboard
+// and both pages pick up the beacon at build time; leave it empty and nothing
+// is shipped at all. Nothing is drawn on the page — the beacon only reports.
+export const ANALYTICS_TOKEN = "";
