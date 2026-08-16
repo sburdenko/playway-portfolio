@@ -55,4 +55,4 @@ export const GAMES = [
 // Cloudflare Web Analytics. Paste the site token from the Cloudflare dashboard
 // and both pages pick up the beacon at build time; leave it empty and nothing
 // is shipped at all. Nothing is drawn on the page — the beacon only reports.
-export const ANALYTICS_TOKEN = "";
+export const ANALYTICS_TOKEN = "f60cb5f578cf440fb8a07c5541f63b4a";

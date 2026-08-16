@@ -55,7 +55,7 @@ const analytics = () => ({
   name: "portfolio-analytics",
   transformIndexHtml(html) {
     if (!ANALYTICS_TOKEN) return html;
-    const beacon = `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${ANALYTICS_TOKEN}"}'></script>`;
+    const beacon = `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${ANALYTICS_TOKEN}"}'></script>`;
     return html.replace("</body>", `    ${beacon}\n  </body>`);
   },
 });
