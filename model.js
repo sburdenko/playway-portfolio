@@ -1,3 +1,5 @@
+import { CALM, onStage } from "./frames.js";
+
 const WORLD = { w: 460, h: 320 };
 const FOCAL = 620;
 const DIST = 15.5;
@@ -165,10 +167,9 @@ const mount = (root) => {
   const loop = (now) => {
     const dt = last === 0 ? 0 : Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!dragging) yaw += IDLE_SPIN * dt;
+    if (!dragging && !CALM) yaw += IDLE_SPIN * dt;
     draw();
     yawOut.textContent = `${Math.round((((yaw * 180) / Math.PI) % 360 + 360) % 360)}°`;
-    window.requestAnimationFrame(loop);
   };
 
   canvas.addEventListener("pointerdown", (event) => {
@@ -215,7 +216,7 @@ const mount = (root) => {
     });
   });
 
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".model").forEach(mount);

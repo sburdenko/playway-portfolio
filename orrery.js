@@ -1,6 +1,8 @@
 // The book this was built for is about space, so the page carries the same
 // subject: the planets and their major moons, in their real proportions, on
 // planes that are all slightly different — turned, tilted and zoomed by hand.
+import { CALM, onStage } from "./frames.js";
+
 const BASE_DIST = 40;
 const IDLE_SPIN = 0.055;
 const EARTH_LAP_SECONDS = 14;
@@ -363,8 +365,8 @@ const mount = (root) => {
     const dt = last === 0 ? 0 : Math.min(0.05, (now - last) / 1000);
     last = now;
     // A held body keeps its place so it can be read.
-    if (!held) clock += dt;
-    if (!dragging) yaw += IDLE_SPIN * dt;
+    if (!held && !CALM) clock += dt;
+    if (!dragging && !CALM) yaw += IDLE_SPIN * dt;
     draw();
 
     const found = pick();
@@ -376,7 +378,6 @@ const mount = (root) => {
       canvas.style.cursor = found ? "pointer" : "grab";
     }
     zoomOut.textContent = `${zoom.toFixed(1)}×`;
-    window.requestAnimationFrame(loop);
   };
 
   canvas.addEventListener("pointerdown", (event) => {
@@ -437,7 +438,7 @@ const mount = (root) => {
   if (typeof ResizeObserver === "function") new ResizeObserver(fit).observe(canvas);
   else window.addEventListener("resize", fit);
 
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".orrery").forEach(mount);

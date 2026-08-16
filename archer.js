@@ -1,6 +1,8 @@
 // Every stop on the Fife trail set the visitor a task — load a cannon, build a
 // castle, take up the bow. This is that bow: five arrows, a wind that changes
 // each shot, and the medal the app hands out at the end.
+import { onStage } from "./frames.js";
+
 const WORLD = { w: 100, h: 56 };
 const GROUND = 46;
 const BOW = { x: 13, y: GROUND - 7 };
@@ -393,7 +395,6 @@ const mount = (root) => {
     last = now;
     step(dt);
     draw();
-    window.requestAnimationFrame(loop);
   };
 
   const track = (event) => {
@@ -450,7 +451,7 @@ const mount = (root) => {
   if (typeof ResizeObserver === "function") new ResizeObserver(fit).observe(canvas);
   else window.addEventListener("resize", fit);
 
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".archer").forEach(mount);

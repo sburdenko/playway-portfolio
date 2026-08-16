@@ -1,3 +1,5 @@
+import { onStage } from "./frames.js";
+
 const WORLD = { w: 180, h: 260 };
 const SHIP_Y = WORLD.h - 26;
 const SHIP_SPEED = 108;
@@ -251,7 +253,6 @@ const mount = (root) => {
     last = now;
     step(dt);
     draw();
-    window.requestAnimationFrame(loop);
   };
 
   const aimFrom = (event) => {
@@ -282,7 +283,7 @@ const mount = (root) => {
 
   foes = buildWave(1);
   setPhase(READY, "Move across the screen to launch");
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".scavenger").forEach(mount);

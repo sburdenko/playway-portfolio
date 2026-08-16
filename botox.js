@@ -1,6 +1,8 @@
 // The app this stands for taught injection procedures on a 3D head that the
 // trainee could walk round. This is that lesson: the standard 31-site chronic
 // migraine paradigm, on a head you turn, one injection at a time.
+import { CALM, onStage } from "./frames.js";
+
 const BASE_DIST = 7.4;
 const IDLE_SPIN = 0.09;
 const UNITS_PER_SITE = 5;
@@ -313,7 +315,7 @@ const mount = (root) => {
     const dt = last === 0 ? 0 : Math.min(0.05, (now - last) / 1000);
     last = now;
     clock += dt;
-    if (!dragging && !hovered) yaw += IDLE_SPIN * dt;
+    if (!dragging && !hovered && !CALM) yaw += IDLE_SPIN * dt;
     draw();
     const found = pick();
     if (found !== hovered) {
@@ -321,7 +323,6 @@ const mount = (root) => {
       describe(found);
       canvas.style.cursor = found ? "crosshair" : "grab";
     }
-    window.requestAnimationFrame(loop);
   };
 
   canvas.addEventListener("pointerdown", (event) => {
@@ -385,7 +386,7 @@ const mount = (root) => {
   if (typeof ResizeObserver === "function") new ResizeObserver(fit).observe(canvas);
   else window.addEventListener("resize", fit);
 
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".botox").forEach(mount);

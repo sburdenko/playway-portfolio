@@ -3,6 +3,8 @@
 // then fly it and follow it with the camera.
 // span and length are the real ones in metres, so each aircraft is drawn in
 // its own proportions rather than as a fighter of a different size.
+import { onStage } from "./frames.js";
+
 const TYPES = [
   {
     id: "camel", name: "Sopwith Camel", year: 1917, span: 8.5, length: 5.7, knots: 100,
@@ -508,7 +510,6 @@ const mount = (root) => {
     last = now;
     step(dt);
     draw();
-    window.requestAnimationFrame(loop);
   };
 
   typeList.replaceChildren(...TYPES.map((type) => {
@@ -605,7 +606,7 @@ const mount = (root) => {
   if (typeof ResizeObserver === "function") new ResizeObserver(fit).observe(canvas);
   else window.addEventListener("resize", fit);
 
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".squadron").forEach(mount);

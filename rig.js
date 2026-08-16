@@ -1,5 +1,7 @@
 // The BP app put a process on a table you could walk around. This is the same
 // move in a browser: one well, drawn in section, turned by dragging.
+import { CALM, onStage } from "./frames.js";
+
 const DIST = 34;
 const IDLE_SPIN = 0.1;
 // How far the scene reaches from the well head, so the framing can be solved
@@ -267,10 +269,9 @@ const mount = (root) => {
     const dt = last === 0 ? 0 : Math.min(0.05, (now - last) / 1000);
     last = now;
     clock += dt;
-    if (!dragging) yaw += IDLE_SPIN * dt;
+    if (!dragging && !CALM) yaw += IDLE_SPIN * dt;
     draw();
     yawOut.textContent = `${Math.round(((((yaw * 180) / Math.PI) % 360) + 360) % 360)}°`;
-    window.requestAnimationFrame(loop);
   };
 
   canvas.addEventListener("pointerdown", (event) => {
@@ -310,7 +311,7 @@ const mount = (root) => {
   if (typeof ResizeObserver === "function") new ResizeObserver(fit).observe(canvas);
   else window.addEventListener("resize", fit);
 
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".rig").forEach(mount);

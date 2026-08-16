@@ -1,3 +1,5 @@
+import { onStage } from "./frames.js";
+
 const WORLD = { w: 320, h: 120 };
 const GROUND = 96;
 const RUNNER_X = 46;
@@ -335,7 +337,6 @@ const mount = (root) => {
     last = now;
     step(dt);
     draw();
-    window.requestAnimationFrame(loop);
   };
 
   canvas.addEventListener("mousedown", (event) => {
@@ -355,7 +356,7 @@ const mount = (root) => {
 
   root.dataset.phase = READY;
   hintOut.textContent = "Click the strip to start";
-  window.requestAnimationFrame(loop);
+  onStage(canvas, loop);
 };
 
 document.querySelectorAll(".runner").forEach(mount);
