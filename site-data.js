@@ -50,9 +50,4 @@ export const GAMES = [
     bg: "#080d24", ink: "#eff4ff", accent: "#60d8ff",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241",
   },
-  {
-    id: "astro-scavenger", num: "10", name: "Astro Scavenger", rule: "scavenger",
-    bg: "#080d24", ink: "#eff4ff", accent: "#c06fff",
-    image: "https://play-lh.googleusercontent.com/PaOtmVZl7MtLWlhSz2wMfa7xSdW77od9oHJ6PtRXZmdUm-rACR1QBQ3QC2amJQE1uPnJEGNIYrdBtoAqCj9QYw=w1080",
-  },
 ];

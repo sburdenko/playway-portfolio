@@ -16,8 +16,12 @@ export const onStage = (element, frame) => {
   };
 
   const start = () => {
-    if (running || document.hidden) return;
+    if (running) return;
     running = true;
+    // No check on document.hidden here on purpose: a browser that reports the
+    // page as hidden while the reader is looking at it — an embedded view, a
+    // preview pane — would otherwise be handed a blank canvas. A truly hidden
+    // tab costs nothing anyway, because the browser stops handing out frames.
     handle = window.requestAnimationFrame(tick);
   };
 
