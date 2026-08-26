@@ -7340,6 +7340,44 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .featured .run-strip figure { border-color: rgba(233, 196, 106, .5); }
 .featured .run-strip figcaption { color: #171208; background: #e9c46a; font-family: var(--mono); }
 
+.featured .run-strip {
+  padding-block: .75rem;
+  background:
+    var(--bronze-meander) 0 0 / 3rem .75rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem .75rem repeat-x;
+}
+
+.featured .run-strip figure {
+  border: 2px solid #b8893b;
+  outline: 1px solid #171208;
+  outline-offset: -6px;
+  box-shadow: 5px 5px 0 #62431b;
+}
+
+.featured .run-strip figure::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 6px;
+  pointer-events: none;
+  border: 1px solid rgba(233, 196, 106, .72);
+  background:
+    var(--bronze-meander) 0 0 / 2.4rem .58rem repeat-x,
+    var(--bronze-meander) 0 100% / 2.4rem .58rem repeat-x;
+}
+
+.featured .run-strip figcaption {
+  z-index: 3;
+  bottom: .7rem;
+  left: .7rem;
+  padding: .42rem .65rem;
+  border: 1px solid #62431b;
+  box-shadow: 3px 3px 0 #62431b;
+  font-size: .56rem;
+}
+
+.featured .run-strip figcaption::before { content: "▣ "; color: #8a5a1f; }
+
 .featured .case-collapse {
   border: 1px solid #d5a94e;
   border-radius: 0;
