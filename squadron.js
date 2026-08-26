@@ -273,8 +273,8 @@ const mount = (root) => {
       follow = true;
       const start = path.length > 1 ? along(path, 0) : { x: 0, y: 0 };
       camera = { x: start.x, y: start.y, zoom: 2.2 };
-      describe("Flypast", "The camera rides with the flight. Scroll to zoom, drag to break away.");
-      hintOut.textContent = "Scroll to zoom · drag to pan";
+      describe("Flypast", "The camera rides with the flight. Hold Ctrl or Command and scroll to zoom, drag to break away.");
+      hintOut.textContent = "Ctrl / ⌘ + scroll to zoom · drag to pan";
     }
     clearButton.textContent = screen === "route" ? "Clear route" : screen === "flight" ? "Fly again" : "Clear";
     report();
@@ -499,7 +499,7 @@ const mount = (root) => {
       if (settled) {
         flying = false;
         describe("Flypast complete", "Each aircraft flew its own machine and held its station through every turn.");
-        hintOut.textContent = "Scroll to zoom · drag to pan";
+        hintOut.textContent = "Ctrl / ⌘ + scroll to zoom · drag to pan";
       }
     }
   };
@@ -558,7 +558,7 @@ const mount = (root) => {
     }
     launch();
     follow = true;
-    describe("Flypast", "The camera rides with the flight. Scroll to zoom, drag to break away.");
+    describe("Flypast", "The camera rides with the flight. Hold Ctrl or Command and scroll to zoom, drag to break away.");
   });
 
   canvas.addEventListener("pointerdown", (event) => {
@@ -595,6 +595,7 @@ const mount = (root) => {
   canvas.addEventListener("pointerleave", () => { dragging = false; });
 
   canvas.addEventListener("wheel", (event) => {
+    if (!event.ctrlKey && !event.metaKey) return;
     event.preventDefault();
     const next = Math.max(0.45, Math.min(6, camera.zoom * Math.exp(-event.deltaY * 0.0015)));
     camera = { ...camera, zoom: next };
