@@ -7727,6 +7727,137 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .game-fold--boon .game-fold__icon { border-radius: 0; image-rendering: pixelated; }
 .game-fold--boon .game-fold__meta b { font-family: "Bangers", cursive; }
 
+/* The playable hill is built from a handful of low-res silhouettes. The
+   epitaph belongs to the stone itself, not to a detached UI panel. */
+.graveyard__tile { position: relative; overflow: visible; }
+.graveyard__tile[data-stone] {
+  border-radius: 0;
+  background: #26311f;
+  box-shadow: none;
+}
+.graveyard__tile:nth-child(even)[data-stone] { background: #232e1d; }
+.graveyard__tile[data-stone]:hover,
+.graveyard__tile[data-stone][data-read],
+.graveyard__tile[data-stone][data-read]:hover { background: inherit; }
+
+.graveyard__marker {
+  position: absolute;
+  z-index: 1;
+  bottom: 11%;
+  left: 50%;
+  width: 38%;
+  height: 68%;
+  translate: -50% 0;
+  background: #a7ada0;
+  box-shadow: inset 2px 2px 0 rgba(240, 236, 226, .4), inset -2px -2px 0 rgba(39, 33, 45, .46), 2px 2px 0 rgba(18, 23, 16, .65);
+  transition: background .2s ease, filter .2s ease;
+}
+
+.graveyard__tile[data-stone-kind="headstone"] .graveyard__marker {
+  clip-path: polygon(25% 0, 75% 0, 75% 12%, 88% 12%, 88% 100%, 12% 100%, 12% 12%, 25% 12%);
+}
+.graveyard__tile[data-stone-kind="cross"] .graveyard__marker {
+  width: 45%;
+  clip-path: polygon(36% 0, 64% 0, 64% 23%, 90% 23%, 90% 43%, 64% 43%, 64% 100%, 36% 100%, 36% 43%, 10% 43%, 10% 23%, 36% 23%);
+}
+.graveyard__tile[data-stone-kind="obelisk"] .graveyard__marker {
+  width: 32%;
+  clip-path: polygon(50% 0, 83% 18%, 74% 100%, 26% 100%, 17% 18%);
+}
+.graveyard__tile[data-stone-kind="ledger"] .graveyard__marker {
+  width: 52%;
+  height: 56%;
+  clip-path: polygon(8% 20%, 22% 4%, 78% 4%, 92% 20%, 92% 82%, 100% 82%, 100% 100%, 0 100%, 0 82%, 8% 82%);
+}
+
+.graveyard__tile[data-stone]:hover .graveyard__marker { background: #d8ddca; }
+.graveyard__tile[data-stone][data-read] .graveyard__marker { background: #797f75; }
+.graveyard__tile[data-speaking] { z-index: 8; }
+.graveyard__tile[data-speaking] .graveyard__marker { background: #e4ead9; filter: brightness(1.12); }
+
+.graveyard__walker {
+  z-index: 6;
+  transition: translate .145s steps(2, end), transform .12s steps(1, end);
+  transform-origin: 50% 50%;
+}
+.graveyard__walker[data-facing="left"] { transform: scaleX(-1); }
+.graveyard__walker::before {
+  content: "";
+  position: absolute;
+  top: 18%;
+  left: 31%;
+  width: 38%;
+  height: 54%;
+  background: #d9c9d2;
+  clip-path: polygon(28% 0, 72% 0, 72% 18%, 88% 18%, 88% 62%, 72% 62%, 72% 100%, 28% 100%, 28% 62%, 12% 62%, 12% 18%, 28% 18%);
+  box-shadow: 0 -.14rem 0 #f0ece2, .16rem .08rem 0 #27212d, -.12rem .28rem 0 #74758c;
+}
+.graveyard__walker::after {
+  content: "";
+  position: absolute;
+  top: 68%;
+  left: 25%;
+  width: 50%;
+  height: 22%;
+  translate: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, #27212d 0 38%, transparent 38% 62%, #27212d 62%);
+  box-shadow: none;
+}
+.graveyard__walker[data-walking]::after { animation: graveyard-walk .29s steps(2, end) infinite; }
+@keyframes graveyard-walk { 50% { translate: .13rem 0; } }
+
+.graveyard__speech {
+  position: absolute;
+  z-index: 12;
+  bottom: calc(100% + .55rem);
+  left: 50%;
+  width: min(15rem, 20vw);
+  padding: .48rem .58rem .52rem;
+  color: #27212d;
+  background: #e5ded6;
+  border: 2px solid #27212d;
+  box-shadow: 3px 3px 0 #b69ab6;
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(.46rem, .62vw, .63rem);
+  line-height: 1.38;
+  letter-spacing: .01em;
+  opacity: 0;
+  transform: translate(-50%, .45rem) scale(.94);
+  transform-origin: 50% 100%;
+  transition: opacity .22s ease, transform .22s steps(2, end);
+}
+.graveyard__speech::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: #e5ded6;
+  border-right: 2px solid #27212d;
+  border-bottom: 2px solid #27212d;
+  transform: translateX(-50%) rotate(45deg);
+}
+.graveyard__speech[data-visible] { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.graveyard__speech b,
+.graveyard__speech span { display: block; }
+.graveyard__speech b { color: #34354e; font-family: "Bangers", cursive; font-size: 1.35em; font-weight: 400; letter-spacing: .03em; }
+.graveyard__speech span { margin-bottom: .28rem; color: #74758c; font-size: .82em; }
+.graveyard__speech p { margin: 0; }
+.graveyard__tile[data-speech-edge="left"] .graveyard__speech { left: 0; transform: translate(0, .45rem) scale(.94); transform-origin: 12% 100%; }
+.graveyard__tile[data-speech-edge="left"] .graveyard__speech[data-visible] { transform: translate(0, 0) scale(1); }
+.graveyard__tile[data-speech-edge="left"] .graveyard__speech::after { left: 16%; }
+.graveyard__tile[data-speech-edge="right"] .graveyard__speech { right: 0; left: auto; transform: translate(0, .45rem) scale(.94); transform-origin: 88% 100%; }
+.graveyard__tile[data-speech-edge="right"] .graveyard__speech[data-visible] { transform: translate(0, 0) scale(1); }
+.graveyard__tile[data-speech-edge="right"] .graveyard__speech::after { left: 84%; }
+.graveyard__tile[data-speech-side="below"] .graveyard__speech { top: calc(100% + .55rem); bottom: auto; transform-origin: 50% 0; }
+.graveyard__tile[data-speech-side="below"] .graveyard__speech::after { top: -7px; bottom: auto; border: 0; border-left: 2px solid #27212d; border-top: 2px solid #27212d; }
+
+@media (max-width: 720px) {
+  .graveyard__speech { width: min(13rem, 62vw); font-size: .54rem; }
+}
+
 @media (max-width: 720px) {
   .boon__intro,
   .boon__statement,

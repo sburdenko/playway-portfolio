@@ -66,15 +66,21 @@ const MOVES = {
   d: { dx: 1, dy: 0 },
 };
 
+const DIRECTIONS = [
+  { dx: 0, dy: -1 },
+  { dx: 1, dy: 0 },
+  { dx: 0, dy: 1 },
+  { dx: -1, dy: 0 },
+];
+
+const stoneKind = (id) => ["headstone", "cross", "obelisk", "ledger"][id % 4];
+
 const mount = (root) => {
   const field = root.querySelector(".graveyard__field");
-  const nameOut = root.querySelector("[data-name]");
-  const yearsOut = root.querySelector("[data-years]");
-  const lineOut = root.querySelector("[data-line]");
   const readOut = root.querySelector("[data-read]");
   const totalOut = root.querySelector("[data-total]");
 
-  if (!field || !nameOut || !yearsOut || !lineOut || !readOut || !totalOut) return;
+  if (!field || !readOut || !totalOut) return;
 
   field.style.setProperty("--cols", String(COLS));
   field.style.setProperty("--rows", String(ROWS));
@@ -88,8 +94,15 @@ const mount = (root) => {
       const stone = STONES.get(key(x, y));
       if (stone) {
         tile.dataset.stone = "";
+        tile.dataset.stoneKind = stoneKind(stone.id);
         tile.title = stone.name;
+        const marker = document.createElement("span");
+        marker.className = "graveyard__marker";
+        marker.setAttribute("aria-hidden", "true");
+        tile.append(marker);
       }
+      tile.dataset.x = String(x);
+      tile.dataset.y = String(y);
       field.append(tile);
       tiles.set(key(x, y), tile);
     }
@@ -102,6 +115,8 @@ const mount = (root) => {
 
   let at = START;
   const read = new Set();
+  let activeBubble;
+  let walkTimer;
 
   totalOut.textContent = String(STONES.size);
 
@@ -110,10 +125,37 @@ const mount = (root) => {
     walker.style.setProperty("--y", String(at.y));
   };
 
-  const showStone = (stone) => {
-    nameOut.textContent = stone.name;
-    yearsOut.textContent = stone.years;
-    lineOut.textContent = stone.line;
+  const clearBubble = () => {
+    if (!activeBubble) return;
+    const tile = activeBubble.closest(".graveyard__tile");
+    tile?.removeAttribute("data-speaking");
+    delete tile?.dataset.speechEdge;
+    delete tile?.dataset.speechSide;
+    activeBubble.remove();
+    activeBubble = undefined;
+  };
+
+  const showStone = (stone, tile) => {
+    clearBubble();
+    const bubble = document.createElement("div");
+    bubble.className = "graveyard__speech";
+    bubble.setAttribute("role", "status");
+
+    const name = document.createElement("b");
+    name.textContent = stone.name;
+    const years = document.createElement("span");
+    years.textContent = stone.years;
+    const line = document.createElement("p");
+    line.textContent = stone.line;
+    bubble.append(name, years, line);
+
+    if (Number(tile.dataset.x) < 3) tile.dataset.speechEdge = "left";
+    if (Number(tile.dataset.x) > COLS - 4) tile.dataset.speechEdge = "right";
+    if (Number(tile.dataset.y) < 2) tile.dataset.speechSide = "below";
+    tile.dataset.speaking = "";
+    tile.append(bubble);
+    requestAnimationFrame(() => bubble.dataset.visible = "");
+    activeBubble = bubble;
     root.dataset.reading = "true";
   };
 
@@ -126,6 +168,65 @@ const mount = (root) => {
     }
   };
 
+  const face = (dx) => {
+    if (dx) walker.dataset.facing = dx < 0 ? "left" : "right";
+  };
+
+  const pathTo = (target) => {
+    const startKey = key(at.x, at.y);
+    const targetKey = key(target.x, target.y);
+    const queue = [at];
+    const previous = new Map([[startKey, null]]);
+
+    for (let index = 0; index < queue.length; index += 1) {
+      const current = queue[index];
+      if (key(current.x, current.y) === targetKey) break;
+      for (const move of DIRECTIONS) {
+        const next = { x: current.x + move.dx, y: current.y + move.dy };
+        const nextKey = key(next.x, next.y);
+        if (next.x < 0 || next.x >= COLS || next.y < 0 || next.y >= ROWS || STONES.has(nextKey) || previous.has(nextKey)) continue;
+        previous.set(nextKey, current);
+        queue.push(next);
+      }
+    }
+
+    if (!previous.has(targetKey)) return [];
+    const path = [];
+    for (let current = target; key(current.x, current.y) !== startKey; current = previous.get(key(current.x, current.y))) path.unshift(current);
+    return path;
+  };
+
+  const nearestApproach = (stoneAt) => {
+    const options = DIRECTIONS
+      .map(({ dx, dy }) => ({ x: stoneAt.x + dx, y: stoneAt.y + dy }))
+      .filter(({ x, y }) => x >= 0 && x < COLS && y >= 0 && y < ROWS && !STONES.has(key(x, y)))
+      .map((spot) => ({ spot, path: pathTo(spot) }))
+      .filter(({ spot, path }) => path.length || (at.x === spot.x && at.y === spot.y));
+    options.sort((a, b) => a.path.length - b.path.length);
+    return options[0];
+  };
+
+  const walk = (path, onArrival) => {
+    window.clearTimeout(walkTimer);
+    const next = path.shift();
+    if (!next) {
+      walker.removeAttribute("data-walking");
+      onArrival?.();
+      return;
+    }
+    face(next.x - at.x);
+    walker.dataset.walking = "";
+    at = next;
+    placeWalker();
+    walkTimer = window.setTimeout(() => walk(path, onArrival), 145);
+  };
+
+  const readStone = (stone, tile, from) => {
+    face(from.x - at.x);
+    showStone(stone, tile);
+    markRead(stone, tile);
+  };
+
   const step = (dx, dy) => {
     const nx = at.x + dx;
     const ny = at.y + dy;
@@ -133,13 +234,17 @@ const mount = (root) => {
 
     const stone = STONES.get(key(nx, ny));
     if (stone) {
-      showStone(stone);
-      markRead(stone, tiles.get(key(nx, ny)));
+      readStone(stone, tiles.get(key(nx, ny)), { x: nx, y: ny });
       return;
     }
 
+    clearBubble();
+    face(dx);
     at = { x: nx, y: ny };
+    walker.dataset.walking = "";
     placeWalker();
+    window.clearTimeout(walkTimer);
+    walkTimer = window.setTimeout(() => walker.removeAttribute("data-walking"), 145);
   };
 
   field.addEventListener("keydown", (event) => {
@@ -152,18 +257,18 @@ const mount = (root) => {
   field.addEventListener("click", (event) => {
     const tile = event.target.closest(".graveyard__tile");
     if (!tile) return;
-    const index = Array.from(field.children).indexOf(tile);
-    if (index < 0) return;
-    const x = index % COLS;
-    const y = Math.floor(index / COLS);
+    const x = Number(tile.dataset.x);
+    const y = Number(tile.dataset.y);
     const stone = STONES.get(key(x, y));
     if (stone) {
-      showStone(stone);
-      markRead(stone, tile);
+      const approach = nearestApproach({ x, y });
+      if (!approach) return;
+      clearBubble();
+      walk(approach.path, () => readStone(stone, tile, { x, y }));
       return;
     }
-    at = { x, y };
-    placeWalker();
+    clearBubble();
+    walk(pathTo({ x, y }));
   });
 
   placeWalker();
