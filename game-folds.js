@@ -10,6 +10,18 @@ const XR_PALETTE = [
 
 const mountedCases = new Map();
 
+const FOLD_CONTROLS = {
+  bronze: ["Return to Olympus", "▲"],
+  boon: ["Leave the hill", "↟"],
+  flower: ["Close the garden", "✿"],
+  boxjam: ["Stack away", "□"],
+  blob: ["Bottle the blobs", "●"],
+  word: ["Bend it back", "⌁"],
+  card: ["Deck away", "♥"],
+  sapper: ["Clear the board", "✕"],
+  lords: ["Exit orbit", "◌"],
+};
+
 const makeCover = (item, section) => {
   const button = document.createElement("button");
   const wordmark = item.logoTop
@@ -36,12 +48,13 @@ const makeCover = (item, section) => {
 
 const makeCollapse = (item) => {
   const button = document.createElement("button");
+  const [label, glyph] = FOLD_CONTROLS[item.skin] || ["Fold case", "↑"];
   button.className = "case-collapse interactive";
   button.type = "button";
   button.tabIndex = -1;
   button.setAttribute("aria-hidden", "true");
   button.setAttribute("aria-label", `Collapse the ${item.name} case study`);
-  button.innerHTML = `<span>Fold case</span><i aria-hidden="true">↑</i>`;
+  button.innerHTML = `<span>${label}</span><i aria-hidden="true">${glyph}</i>`;
   return button;
 };
 

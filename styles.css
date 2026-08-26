@@ -7231,10 +7231,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .featured {
   --display: "Bevan", serif;
   --mono: "Azeret Mono", monospace;
+  --bronze-meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 16'%3E%3Cpath d='M1 15V2h15v9H8V6h24v5h-8v-5h23v9' fill='none' stroke='%23d5a94e' stroke-width='2'/%3E%3C/svg%3E");
   color: #f4edda;
   background:
     radial-gradient(circle at 82% 17%, rgba(233, 196, 106, .11), transparent 20%),
-    repeating-linear-gradient(90deg, rgba(233, 196, 106, .045) 0 1px, transparent 1px 4rem),
     linear-gradient(135deg, #0b0a07, #1b160d 54%, #090806);
   font-family: var(--mono);
 }
@@ -7256,18 +7256,19 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .featured .project-quote {
   position: relative;
-  padding: clamp(1.2rem, 2.2vw, 2.2rem);
-  border: 1px solid rgba(233, 196, 106, .45);
+  padding: clamp(2.25rem, 3vw, 3rem) clamp(1.25rem, 2.2vw, 2.2rem);
+  border: 1px solid #9b742e;
   background:
-    linear-gradient(90deg, rgba(233, 196, 106, .14) 0 1px, transparent 1px) 0 0 / 2.25rem 100%,
+    var(--bronze-meander) 0 0 / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem 1rem repeat-x,
     linear-gradient(135deg, rgba(91, 63, 25, .3), rgba(11, 10, 7, .84));
-  box-shadow: inset 0 0 0 1px rgba(11, 10, 7, .65), 5px 5px 0 #6d4a1c;
+  box-shadow: inset 0 0 0 4px #171208, inset 0 0 0 5px rgba(213, 169, 78, .58), 5px 5px 0 #6d4a1c;
 }
 
 .featured .project-quote::before {
-  content: "⋒  ⋐  ⋒  ⋐";
+  content: "ΑΡΕΤΗ  /  ARETÉ";
   display: block;
-  margin-bottom: .8rem;
+  margin-bottom: .55rem;
   color: #e9c46a;
   font-family: var(--mono);
   font-size: .62rem;
@@ -7278,15 +7279,20 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .featured .project-quote p { margin-top: .85rem; color: #f4edda; font-family: var(--display); font-weight: 700; }
 
 .featured .stats {
-  border-color: rgba(233, 196, 106, .42);
-  background: rgba(20, 16, 9, .7);
-  box-shadow: 5px 5px 0 #6d4a1c;
+  position: relative;
+  padding: 1rem 0;
+  border: 1px solid #9b742e;
+  background:
+    var(--bronze-meander) 0 0 / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem 1rem repeat-x,
+    rgba(20, 16, 9, .84);
+  box-shadow: inset 0 0 0 4px #171208, inset 0 0 0 5px rgba(213, 169, 78, .58), 5px 5px 0 #6d4a1c;
 }
 
 .featured .stats div {
-  min-height: 8.5rem;
-  border-color: rgba(233, 196, 106, .32);
-  background: linear-gradient(145deg, rgba(233, 196, 106, .055), transparent 62%);
+  min-height: 7.5rem;
+  border-color: rgba(213, 169, 78, .42);
+  background: linear-gradient(145deg, rgba(233, 196, 106, .09), transparent 62%);
 }
 
 .featured .stats strong { color: #f4edda; font-family: var(--display); font-weight: 700; }
@@ -7323,11 +7329,43 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .featured .run-strip figure { border-color: rgba(233, 196, 106, .5); }
 .featured .run-strip figcaption { color: #171208; background: #e9c46a; font-family: var(--mono); }
 
+.featured .case-collapse {
+  border: 1px solid #d5a94e;
+  border-radius: 0;
+  padding: .34rem .42rem .34rem .68rem;
+  color: #f8edcf;
+  background:
+    var(--bronze-meander) 0 50% / 2.4rem .8rem repeat-x,
+    #171208;
+  box-shadow: 3px 3px 0 #6d4a1c;
+  font-family: var(--mono);
+}
+
+.featured .case-collapse span { padding-inline: .12rem; background: #171208; }
+.featured .case-collapse i {
+  border: 1px solid #d5a94e;
+  border-radius: 0;
+  color: #171208;
+  background: #e9c46a;
+  font-family: var(--display);
+}
+
+/* Every case signs its exit in the same visual language as its cover. */
+.boon .case-collapse { border-radius: .15rem .9rem .15rem .9rem; background-color: #d9c9d2; }
+.flower .case-collapse { border-radius: 1.1rem .2rem 1.1rem .2rem; }
+.boxjam .case-collapse { border-radius: 0; clip-path: polygon(.4rem 0, 100% 0, 100% calc(100% - .4rem), calc(100% - .4rem) 100%, 0 100%, 0 .4rem); }
+.blob .case-collapse { border-radius: 1.2rem; }
+.word:not(.solitaire) .case-collapse { border-radius: .15rem; }
+.solitaire .case-collapse { border-radius: .25rem .8rem .25rem .8rem; }
+.sapper .case-collapse { border-radius: 0; }
+.astro .case-collapse { border-radius: .15rem; clip-path: polygon(.35rem 0, 100% 0, 100% calc(100% - .35rem), calc(100% - .35rem) 100%, 0 100%, 0 .35rem); }
+
 @media (max-width: 720px) {
   .featured .project-quote,
   .featured .stats,
   .featured .runner { box-shadow: 3px 3px 0 #62431b; }
   .featured .stats div { min-height: 6.5rem; }
+  .featured .project-quote { padding-top: 2rem; padding-bottom: 2rem; }
 }
 
 .flower__copy,
