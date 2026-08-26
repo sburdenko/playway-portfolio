@@ -43,6 +43,9 @@ const mount = (rail) => {
   window.addEventListener("scroll", paint, { passive: true });
   window.addEventListener("resize", remeasure);
   window.addEventListener("load", remeasure);
+
+  const resizeObserver = new ResizeObserver(remeasure);
+  pairs.forEach(({ section }) => resizeObserver.observe(section));
 };
 
 document.querySelectorAll(".rail").forEach(mount);

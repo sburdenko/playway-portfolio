@@ -5871,8 +5871,64 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .game-foldable[data-expanded] > .game-fold {
-  visibility: hidden;
-  pointer-events: none;
+  position: sticky;
+  top: 0.75rem;
+  right: auto;
+  left: auto;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: 1fr;
+  gap: 1rem;
+  width: 100%;
+  height: 3.35rem;
+  margin: 0 0 1.5rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--fold-accent) 62%, transparent);
+  background: color-mix(in srgb, var(--fold-bg) 90%, transparent);
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(14px);
+  animation: fold-spine-in 0.55s var(--ease) both;
+}
+
+.game-foldable[data-expanded] > .game-fold .game-fold__meta {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0;
+  border: 0;
+}
+
+.game-foldable[data-expanded] > .game-fold .game-fold__meta b {
+  font-size: var(--label-size);
+}
+
+.game-foldable[data-expanded] > .game-fold .game-fold__meta i { display: none; }
+
+.game-foldable[data-expanded] > .game-fold .game-fold__mark {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  overflow: hidden;
+  font-size: 0.9rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: none;
+}
+
+.game-foldable[data-expanded] > .game-fold .game-fold__mark::before,
+.game-foldable[data-expanded] > .game-fold .game-fold__mark::after,
+.game-foldable[data-expanded] > .game-fold .game-fold__icon,
+.game-foldable[data-expanded] > .game-fold .game-fold__scan { display: none; }
+
+.game-foldable[data-expanded] > .game-fold .game-fold__action {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: center;
 }
 
 .game-foldable[data-closing] > .game-fold {
@@ -5896,6 +5952,11 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   100% { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
 }
 
+@keyframes fold-spine-in {
+  from { opacity: 0; transform: translateY(-0.6rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes fold-flash {
   0% { opacity: 0; transform: translate(50%, -50%) scale(0); }
   38% { opacity: 0.32; }
@@ -5911,66 +5972,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 @keyframes fold-icon {
   to { opacity: 0; border-radius: 50%; transform: rotate(18deg) scale(1.3); }
 }
-
-.case-collapse {
-  position: sticky;
-  z-index: 60;
-  top: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  width: max-content;
-  height: 2.75rem;
-  margin: 0 0 -2.75rem auto;
-  padding: 0.45rem 0.55rem 0.45rem 0.85rem;
-  border: 1px solid color-mix(in srgb, var(--fold-accent) 62%, transparent);
-  border-radius: 999px;
-  color: var(--fold-ink);
-  background: color-mix(in srgb, var(--fold-bg) 88%, transparent);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.28);
-  font-size: var(--label-size);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-0.7rem) scale(0.9);
-  transition: opacity 0.35s ease, visibility 0.35s ease, transform 0.55s var(--ease), border-color 0.35s ease;
-}
-
-.case-collapse i {
-  display: grid;
-  place-items: center;
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 50%;
-  color: var(--fold-bg);
-  background: var(--fold-accent);
-  font-family: var(--display);
-  font-size: 1rem;
-  font-style: normal;
-  transition: transform 0.55s var(--ease);
-}
-
-.game-foldable[data-expanded] > .case-collapse {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(0) scale(1);
-}
-
-.game-foldable[data-closing] > .case-collapse {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-0.7rem) scale(0.9);
-}
-
-.case-collapse:hover,
-.case-collapse:focus-visible { border-color: var(--fold-accent); }
-.case-collapse:hover i { transform: rotate(180deg) scale(1.08); }
-.case-collapse:focus-visible { outline: 2px solid var(--fold-accent); outline-offset: 3px; }
 
 .xr-case.xr-foldable {
   --fold-height: clamp(9.5rem, 13vw, 11.5rem);
@@ -6021,7 +6022,21 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .game-fold__action { grid-column: 1; grid-row: 3; }
   .game-fold__action > i { width: 1.5rem; }
   .xr-foldable .game-fold__content { display: block; }
-  .case-collapse { top: 0.65rem; }
+  .game-foldable[data-expanded] > .game-fold {
+    top: 0.5rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.65rem;
+    width: 100%;
+    height: 3rem;
+    margin: 0 0 1rem;
+    padding: 0.45rem 0.6rem;
+  }
+  .game-foldable[data-expanded] > .game-fold .game-fold__action > i { display: none; }
+  .game-foldable[data-expanded] > .game-fold [data-fold-action] { font-size: 0; }
+  .game-foldable[data-expanded] > .game-fold [data-fold-action]::after {
+    content: "Archive";
+    font-size: var(--label-size);
+  }
 }
 
 /* Keep the dense editorial rhythm while making microcopy readable. */

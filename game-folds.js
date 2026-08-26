@@ -22,20 +22,9 @@ const makeCover = (item, section) => {
     <span class="game-fold__meta"><b>${item.num}</b><i>${item.kind}</i></span>
     <span class="game-fold__mark" data-title="${item.name}">${item.name}</span>
     <img class="game-fold__icon" src="${item.image}" alt="" loading="lazy" />
-    <span class="game-fold__action"><i aria-hidden="true"></i>Open project <b>↘</b></span>
+    <span class="game-fold__action"><i aria-hidden="true"></i><span data-fold-action>Open project</span><b data-fold-arrow>↘</b></span>
     <span class="game-fold__scan" aria-hidden="true"></span>
   `;
-  return button;
-};
-
-const makeCollapse = (item) => {
-  const button = document.createElement("button");
-  button.className = "case-collapse interactive";
-  button.type = "button";
-  button.tabIndex = -1;
-  button.setAttribute("aria-hidden", "true");
-  button.setAttribute("aria-label", `Collapse the ${item.name} case study`);
-  button.innerHTML = `<span>Fold case</span><i aria-hidden="true">↑</i>`;
   return button;
 };
 
@@ -60,11 +49,12 @@ const mount = (item) => {
   while (section.firstChild) content.append(section.firstChild);
 
   const cover = makeCover(item, section);
-  const collapse = makeCollapse(item);
+  const action = cover.querySelector("[data-fold-action]");
+  const arrow = cover.querySelector("[data-fold-arrow]");
   section.style.setProperty("--fold-bg", item.bg);
   section.style.setProperty("--fold-ink", item.ink);
   section.style.setProperty("--fold-accent", item.accent);
-  section.append(cover, collapse, content);
+  section.append(cover, content);
   section.classList.add("game-foldable");
   if (item.xr) section.classList.add("xr-foldable");
 
@@ -87,8 +77,9 @@ const mount = (item) => {
       section.removeAttribute("data-revealing");
       section.setAttribute("data-expanded", "");
       section.style.height = "auto";
-      collapse.tabIndex = 0;
-      collapse.setAttribute("aria-hidden", "false");
+      cover.setAttribute("aria-label", `Collapse the ${item.name} case study and return to the archive`);
+      action.textContent = "Back to archive";
+      arrow.textContent = "↑";
 
       const heading = content.querySelector("h2");
       heading.tabIndex = -1;
@@ -102,9 +93,10 @@ const mount = (item) => {
     section.style.height = `${section.getBoundingClientRect().height}px`;
     section.removeAttribute("data-expanded");
     section.setAttribute("data-closing", "");
-    collapse.tabIndex = -1;
-    collapse.setAttribute("aria-hidden", "true");
     cover.setAttribute("aria-expanded", "false");
+    cover.setAttribute("aria-label", `Open the ${item.name} case study`);
+    action.textContent = "Open project";
+    arrow.textContent = "↘";
 
     requestAnimationFrame(() => {
       section.style.height = `${cover.getBoundingClientRect().height}px`;
@@ -119,8 +111,10 @@ const mount = (item) => {
     });
   };
 
-  cover.addEventListener("click", open);
-  collapse.addEventListener("click", close);
+  cover.addEventListener("click", () => {
+    if (section.hasAttribute("data-expanded")) close();
+    else open();
+  });
 };
 
 const games = GAMES.map((game) => ({ ...game, kind: "Game case" }));
