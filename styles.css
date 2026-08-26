@@ -7391,6 +7391,64 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .featured .run-strip figcaption::before { content: "▣ "; color: #8a5a1f; }
 
+/* Astro Lords opens onto the Oort Cloud: pastel depth and planets, not a
+   technical radar grid. The stacked logo and its action share one clear axis. */
+.game-fold--lords {
+  border-color: rgba(205, 231, 255, .68);
+  background:
+    radial-gradient(circle at 82% 26%, #ffd5e5 0 1.05rem, #d889ba 1.1rem 1.34rem, transparent 1.4rem),
+    radial-gradient(ellipse 2.45rem .72rem at 82% 26%, transparent 56%, rgba(255, 230, 244, .82) 58% 64%, transparent 66%),
+    radial-gradient(circle at 67% 73%, #c5f5e8 0 .45rem, #75a8cc .5rem .7rem, transparent .76rem),
+    radial-gradient(ellipse at 73% 47%, rgba(184, 166, 244, .46), transparent 19%),
+    radial-gradient(ellipse at 57% 22%, rgba(145, 226, 241, .35), transparent 23%),
+    radial-gradient(circle at 49% 68%, rgba(255, 222, 177, .72) 0 1px, transparent 2px),
+    radial-gradient(circle at 90% 69%, rgba(255, 244, 211, .82) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 15%, rgba(238, 247, 255, .72) 0 1px, transparent 2px),
+    linear-gradient(135deg, #1c2649 0%, #312d59 47%, #17223d 100%);
+}
+
+.game-fold--lords .game-fold__mark {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  justify-self: center;
+  margin: 0;
+  padding: .3em .7em .42em;
+  background: radial-gradient(ellipse at 50% 52%, rgba(16, 23, 52, .76) 0 60%, transparent 78%);
+}
+
+.game-fold--lords .game-fold__action {
+  justify-self: center;
+  border-color: #b9eaf5;
+  color: #f4efff;
+  background: rgba(50, 45, 89, .9);
+  box-shadow: 0 4px 0 #9a5a93, inset 0 2px 0 rgba(222, 244, 255, .62);
+}
+
+.game-fold--lords:is(:hover, :focus-visible) .game-fold__action { background: #4c4a7c; }
+
+.game-fold--lords .game-fold__title-main {
+  background: linear-gradient(180deg, #fff3f0 0 16%, #ff9ab2 23% 52%, #a94b78 58% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: .035em .045em 0 #79345f, -.025em -.025em 0 #a9f5ff;
+}
+
+.game-fold--lords .game-fold__subtitle {
+  margin-left: 0;
+  color: #d7d4ff;
+  -webkit-text-fill-color: #d7d4ff;
+}
+
+.game-fold--lords .game-fold__subtitle::before { content: "// "; color: #a9f5ff; }
+
+@media (max-width: 720px) {
+  .game-fold--lords .game-fold__mark,
+  .game-fold--lords .game-fold__action { justify-self: center; }
+  .game-fold--lords .game-fold__mark { grid-column: 1; grid-row: 2; }
+  .game-fold--lords .game-fold__action { grid-column: 1; grid-row: 3; }
+}
+
 .featured .case-collapse {
   border: 1px solid #d5a94e;
   border-radius: 0;
