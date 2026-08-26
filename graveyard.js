@@ -77,7 +77,7 @@ const DIRECTIONS = [
   { dx: -1, dy: 0 },
 ];
 
-const stoneKind = (id) => ["headstone", "cross", "obelisk", "ledger"][id % 4];
+const stoneKind = (id) => ["headstone", "cross-top", "obelisk", "ledger"][id % 4];
 
 const mount = (root) => {
   const field = root.querySelector(".graveyard__field");
@@ -104,6 +104,12 @@ const mount = (root) => {
         marker.className = "graveyard__marker";
         marker.setAttribute("aria-hidden", "true");
         tile.append(marker);
+        if (stoneKind(stone.id) === "cross-top") {
+          const cross = document.createElement("span");
+          cross.className = "graveyard__cross";
+          cross.setAttribute("aria-hidden", "true");
+          tile.append(cross);
+        }
       }
       tile.dataset.x = String(x);
       tile.dataset.y = String(y);
@@ -120,9 +126,10 @@ const mount = (root) => {
   const memorial = document.createElement("article");
   memorial.className = "graveyard__memorial";
   memorial.setAttribute("aria-live", "polite");
-  memorial.innerHTML = '<div class="graveyard__memorial-stone"><span class="graveyard__memorial-kicker">In loving memory</span><b></b><span class="graveyard__memorial-years"></span><p></p><i>RIP</i></div>';
+  memorial.innerHTML = '<div class="graveyard__memorial-stone"><span class="graveyard__memorial-kicker">In loving memory</span><b></b><span class="graveyard__memorial-years"></span><p></p><i>RIP</i></div><b class="graveyard__memorial-cross-label"></b>';
   field.append(memorial);
   const memorialName = memorial.querySelector("b");
+  const memorialCrossLabel = memorial.querySelector(".graveyard__memorial-cross-label");
   const memorialYears = memorial.querySelector(".graveyard__memorial-years");
   const memorialLine = memorial.querySelector("p");
 
@@ -142,6 +149,7 @@ const mount = (root) => {
   const showStone = (stone) => {
     memorial.dataset.kind = stoneKind(stone.id);
     memorialName.textContent = stone.name;
+    memorialCrossLabel.textContent = stone.name;
     memorialYears.textContent = stone.years;
     memorialLine.textContent = stone.line;
     requestAnimationFrame(() => memorial.dataset.visible = "");
