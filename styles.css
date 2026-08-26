@@ -7139,6 +7139,93 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .game-fold--lords .game-fold__subtitle { margin-top: .2rem; font-size: .46rem; }
 }
 
+/* The folded surfaces are small title screens: each borrows a quiet material
+   from its game, with contrast reserved for the wordmark and the action. */
+.game-fold--bronze {
+  background:
+    radial-gradient(ellipse at 72% 44%, rgba(233, 196, 106, .16), transparent 18%),
+    repeating-linear-gradient(90deg, rgba(233, 196, 106, .1) 0 1px, transparent 1px 4rem),
+    linear-gradient(135deg, #050504, #17130b 55%, #070604);
+}
+
+.game-fold--boon {
+  background:
+    radial-gradient(circle at 76% 22%, rgba(240, 236, 226, .22), transparent 10%),
+    linear-gradient(145deg, transparent 0 62%, rgba(29, 27, 37, .33) 63% 64%, transparent 65%) 0 0 / 4.2rem 4.2rem,
+    linear-gradient(135deg, #3b3b55, #656983 55%, #28283c);
+}
+
+.game-fold--flower {
+  background:
+    radial-gradient(circle at 79% 28%, rgba(255, 159, 189, .52) 0 3%, transparent 3.5%),
+    radial-gradient(circle at 70% 67%, rgba(249, 208, 82, .42) 0 3.5%, transparent 4%),
+    radial-gradient(circle at 88% 72%, rgba(255, 244, 214, .34) 0 2%, transparent 2.5%),
+    linear-gradient(135deg, #123226, #1d5940 55%, #0d281d);
+}
+
+.game-fold--boxjam {
+  background:
+    linear-gradient(90deg, transparent 0 62%, rgba(165, 255, 82, .14) 62.5% 63.5%, transparent 64%) 0 0 / 4.5rem 100%,
+    linear-gradient(0deg, transparent 0 62%, rgba(67, 160, 255, .18) 62.5% 63.5%, transparent 64%) 0 0 / 100% 4.5rem,
+    linear-gradient(135deg, #101b27, #254356 54%, #0d1822);
+}
+
+.game-fold--blob {
+  background:
+    radial-gradient(ellipse at 75% 24%, #ffc94e 0 5%, transparent 5.5%),
+    radial-gradient(ellipse at 86% 57%, #f25c88 0 7%, transparent 7.5%),
+    radial-gradient(ellipse at 68% 72%, #70f2d1 0 5%, transparent 5.5%),
+    linear-gradient(135deg, #2d1768, #5733a5 55%, #26145a);
+}
+
+.game-fold--word {
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(231, 76, 104, .28) 46.5% 48%, transparent 48.5%) 0 0 / 3rem 3rem,
+    repeating-linear-gradient(90deg, rgba(32, 27, 66, .13) 0 1px, transparent 1px 3rem),
+    linear-gradient(135deg, #f1d4bd, #f8e1cb 55%, #e9c2aa);
+}
+
+.game-fold--card {
+  border-color: rgba(246, 234, 212, .62);
+  background:
+    radial-gradient(circle at 78% 36%, rgba(246, 234, 212, .13), transparent 17%),
+    repeating-linear-gradient(45deg, rgba(246, 234, 212, .07) 0 1px, transparent 1px 1.4rem),
+    repeating-linear-gradient(-45deg, rgba(36, 107, 85, .18) 0 2px, transparent 2px 3.6rem),
+    linear-gradient(135deg, #0d4d35, #1f754d 55%, #0a3b29);
+}
+
+.game-fold--card .game-fold__meta i { color: #e1efd7; }
+.game-fold--card .game-fold__meta b { color: #fff0bf; }
+
+.game-fold--sapper {
+  background:
+    radial-gradient(circle at 78% 30%, rgba(255, 173, 37, .22) 0 3%, transparent 3.5%),
+    radial-gradient(circle at 69% 70%, rgba(216, 52, 37, .27) 0 3%, transparent 3.5%),
+    repeating-linear-gradient(90deg, rgba(255, 248, 221, .12) 0 1px, transparent 1px 3.2rem),
+    repeating-linear-gradient(0deg, rgba(255, 248, 221, .12) 0 1px, transparent 1px 3.2rem),
+    linear-gradient(135deg, #123b20, #235c32 55%, #10351c);
+}
+
+.game-fold--lords {
+  background:
+    radial-gradient(ellipse at 53% 48%, rgba(7, 22, 34, .94) 0 24%, transparent 51%),
+    radial-gradient(circle at 80% 22%, rgba(224, 70, 53, .12), transparent 18%),
+    repeating-radial-gradient(circle at 15% 40%, rgba(150, 228, 241, .38) 0 1px, transparent 1px 2.6rem),
+    linear-gradient(135deg, #030810, #081927 55%, #02070c);
+}
+
+.game-fold--lords .game-fold__mark {
+  padding: .25em .75em .38em;
+  background: radial-gradient(ellipse at 50% 54%, rgba(2, 8, 14, .94) 0 58%, transparent 78%);
+}
+
+.game-fold--lords .game-fold__title-main {
+  background: linear-gradient(180deg, #fff6e9 0 16%, #ff6a50 24% 54%, #bb1e25 59% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: .04em .05em 0 #721016, -.03em -.03em 0 #3ce8fb;
+}
+
 .flower__copy,
 .boxjam__copy,
 .blob__copy,
