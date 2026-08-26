@@ -5798,6 +5798,11 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   transition: color 0.4s ease, transform 0.65s var(--ease);
 }
 
+.game-fold--compact .game-fold__mark {
+  font-size: clamp(2.35rem, 3.9vw, 3.6rem);
+  line-height: 0.8;
+}
+
 .game-fold__mark::before,
 .game-fold__mark::after {
   content: attr(data-title);
