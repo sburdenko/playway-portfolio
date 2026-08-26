@@ -7350,6 +7350,40 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-family: var(--display);
 }
 
+/* The cover and open case share one quiet temple surface: a pair of friezes,
+   worn stone behind the lettering, no decorative noise in the reading area. */
+.game-fold--bronze {
+  --bronze-meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 16'%3E%3Cpath d='M1 15V2h15v9H8V6h24v5h-8v-5h23v9' fill='none' stroke='%23d5a94e' stroke-width='2'/%3E%3C/svg%3E");
+  background:
+    radial-gradient(ellipse at 68% 48%, rgba(216, 173, 86, .13), transparent 22%),
+    var(--bronze-meander) 0 .8rem / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 calc(100% - .8rem) / 3rem 1rem repeat-x,
+    linear-gradient(135deg, #070705, #17130b 55%, #080705);
+}
+
+.game-fold--bronze .game-fold__mark,
+.featured .section-heading h2,
+.featured .section-heading h2 em {
+  color: #eadfbe;
+  background: linear-gradient(105deg, #826336 0 5%, #fbf2d9 17% 38%, #c0aa79 56% 68%, #f5e9cb 84% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .012em rgba(70, 48, 19, .72);
+  text-shadow: .018em .025em 0 #fff2cf, .048em .07em 0 #8b6328, .07em .1em 0 rgba(23, 15, 7, .88);
+}
+
+.game-fold--bronze .game-fold__mark { filter: drop-shadow(0 .18rem 0 rgba(28, 18, 7, .68)); }
+
+.game-fold--bronze .game-fold__action,
+.game-fold--bronze .game-fold__meta i { font-family: "Azeret Mono", monospace; }
+
+.game-fold--bronze .game-fold__meta b {
+  font-family: "Bevan", serif;
+  font-weight: 400;
+  text-shadow: 1px 2px 0 #573814;
+}
+
 /* Every case signs its exit in the same visual language as its cover. */
 .boon .case-collapse { border-radius: .15rem .9rem .15rem .9rem; background-color: #d9c9d2; }
 .flower .case-collapse { border-radius: 1.1rem .2rem 1.1rem .2rem; }
