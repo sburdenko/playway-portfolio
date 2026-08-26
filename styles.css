@@ -7061,6 +7061,84 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .game-fold__subtitle { margin-top: .3rem; font-size: .52rem; }
 }
 
+/* Astro Lords follows its stacked cover logo: a small cold “Astro”, a framed
+   red “Lords”, then the Oort Cloud line below. */
+.game-fold--lords .game-fold__mark {
+  max-width: 14ch;
+  color: #eaf9ff;
+  background: none;
+  transform: none;
+}
+
+.game-fold--lords .game-fold__title {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: max-content;
+  max-width: 100%;
+  color: #eaf9ff;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  line-height: .74;
+  text-shadow: none;
+}
+
+.game-fold--lords .game-fold__title-top {
+  display: block;
+  color: #a9f5ff;
+  font-size: .42em;
+  font-weight: 900;
+  letter-spacing: -.08em;
+  text-shadow: .04em .06em 0 #165170;
+  text-transform: uppercase;
+}
+
+.game-fold--lords .game-fold__title-main {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  display: block;
+  margin-top: .03em;
+  padding: .03em .1em .07em;
+  color: transparent;
+  background: linear-gradient(180deg, #ffebe1 0 10%, #f13f38 16% 50%, #9b171c 54% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1em;
+  font-weight: 900;
+  letter-spacing: -.13em;
+  text-shadow: .035em .045em 0 #6d1219, -.025em -.025em 0 #31d8ee;
+  text-transform: uppercase;
+}
+
+.game-fold--lords .game-fold__title-main::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: .14em -.15em .05em;
+  border: 1px solid rgba(49, 216, 238, .9);
+  border-radius: .08em;
+  box-shadow: inset 0 0 .7em rgba(49, 216, 238, .16), 0 0 .45em rgba(49, 216, 238, .3);
+}
+
+.game-fold--lords .game-fold__subtitle {
+  width: max-content;
+  margin: .32rem 0 0 .2em;
+  color: #d5eff4;
+  -webkit-text-fill-color: #d5eff4;
+  font-size: clamp(.48rem, .72vw, .68rem);
+  letter-spacing: .11em;
+  text-align: center;
+}
+
+.game-fold--lords:is(:hover, :focus-visible) .game-fold__mark { transform: none; }
+
+@media (max-width: 720px) {
+  .game-fold--lords .game-fold__mark { max-width: 13ch; }
+  .game-fold--lords .game-fold__subtitle { margin-top: .2rem; font-size: .46rem; }
+}
+
 .flower__copy,
 .boxjam__copy,
 .blob__copy,
