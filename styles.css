@@ -7027,6 +7027,40 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   80% { translate: 0 .018em; scale: .98 1.03; }
 }
 
+/* Title blocks use deliberate line breaks where the original logo is stacked,
+   rather than stretching a long wordmark across the whole archive row. */
+.game-fold--card .game-fold__mark {
+  max-width: 10ch;
+  text-wrap: balance;
+}
+
+.game-fold__subtitle {
+  display: block;
+  margin-top: .42rem;
+  color: #bdf3fb;
+  background: none;
+  -webkit-text-fill-color: #bdf3fb;
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(.52rem, .9vw, .8rem);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-shadow: none;
+  text-transform: uppercase;
+}
+
+.game-fold--lords .game-fold__mark {
+  max-width: 16ch;
+}
+
+.game-fold--lords .game-fold__title { display: block; }
+
+@media (max-width: 720px) {
+  .game-fold--card .game-fold__mark { max-width: 11ch; }
+  .game-fold__subtitle { margin-top: .3rem; font-size: .52rem; }
+}
+
 .flower__copy,
 .boxjam__copy,
 .blob__copy,

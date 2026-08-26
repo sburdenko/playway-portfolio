@@ -23,7 +23,7 @@ const makeCover = (item, section) => {
   if (item.detail) button.style.setProperty("--fold-detail", item.detail);
   button.innerHTML = `
     <span class="game-fold__meta"><b>${item.num}</b><i data-signal="${item.signal || "•"}">${item.tag || item.kind}</i></span>
-    <span class="game-fold__mark" data-title="${item.name}"><span class="game-fold__title">${item.name}</span></span>
+    <span class="game-fold__mark" data-title="${item.name}"><span class="game-fold__title">${item.name}</span>${item.subtitle ? `<span class="game-fold__subtitle">${item.subtitle}</span>` : ""}</span>
     <img class="game-fold__icon" src="${item.image}" alt="" loading="lazy" />
     <span class="game-fold__action"><i aria-hidden="true"></i>${item.action || "Open project"}<b>↘</b></span>
     <span class="game-fold__scan" aria-hidden="true"></span>

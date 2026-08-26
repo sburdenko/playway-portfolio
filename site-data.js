@@ -58,7 +58,7 @@ export const GAMES = [
   {
     id: "astro-lords", num: "09", name: "Astro Lords", rule: "lords",
     bg: "#070a12", ink: "#eef7ff", accent: "#31d8ee", detail: "#e04635",
-    skin: "lords", action: "Enter the cloud", tag: "ORBIT / SPACE", signal: "◌",
+    skin: "lords", action: "Enter the cloud", tag: "ORBIT / SPACE", signal: "◌", subtitle: "The Oort Cloud",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241",
   },
 ];
