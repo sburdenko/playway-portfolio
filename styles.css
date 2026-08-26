@@ -7536,11 +7536,40 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   background-size: 16px 16px;
 }
 
-.boon__moon {
-  border-radius: 0;
+.boon__moon { box-shadow: 0 0 4rem rgba(228, 234, 217, .16); }
+
+.boon__moon-round,
+.boon__moon-pixels {
+  position: absolute;
+  inset: 0;
+  display: block;
   background: #e5e8d6;
+}
+
+.boon__moon-round {
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5);
+  animation: boon-moon-round 12s ease-in-out infinite;
+}
+
+.boon__moon-pixels {
   clip-path: polygon(31% 0, 69% 0, 69% 6%, 81% 6%, 81% 19%, 94% 19%, 94% 31%, 100% 31%, 100% 69%, 94% 69%, 94% 81%, 81% 81%, 81% 94%, 69% 94%, 69% 100%, 31% 100%, 31% 94%, 19% 94%, 19% 81%, 6% 81%, 6% 69%, 0 69%, 0 31%, 6% 31%, 6% 19%, 19% 19%, 19% 6%, 31% 6%);
-  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5), 0 0 4rem rgba(228, 234, 217, .16);
+  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5);
+  animation: boon-moon-pixels 12s ease-in-out infinite;
+}
+
+@keyframes boon-moon-round {
+  0%, 24%, 100% { opacity: 1; filter: blur(0); transform: scale(1); }
+  39% { opacity: .42; filter: blur(.16rem); transform: scale(.96); }
+  48%, 65% { opacity: 0; filter: blur(.3rem); transform: scale(.9); }
+  82% { opacity: .52; filter: blur(.12rem); transform: scale(.97); }
+}
+
+@keyframes boon-moon-pixels {
+  0%, 28%, 100% { opacity: 0; filter: blur(.22rem); transform: scale(.88); }
+  44% { opacity: 1; filter: blur(0); transform: scale(1); }
+  61% { opacity: 1; filter: blur(0); transform: scale(1); }
+  76% { opacity: 0; filter: blur(.18rem); transform: scale(.94); }
 }
 
 .boon__header h2,
@@ -7668,7 +7697,33 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     linear-gradient(135deg, #3b3b55, #656983 55%, #28283c);
 }
 
-.game-fold--boon .game-fold__mark { text-shadow: 3px 3px 0 #27212d, 6px 6px 0 rgba(39, 33, 45, .42); }
+.game-fold--boon .game-fold__mark {
+  max-width: 13ch;
+  font-size: clamp(2.35rem, 3.9vw, 3.8rem);
+  text-shadow: 3px 3px 0 #27212d, 6px 6px 0 rgba(39, 33, 45, .42);
+}
+.game-fold--boon .game-fold__title {
+  display: grid;
+  line-height: .77;
+  white-space: normal;
+  animation: none;
+}
+.game-fold--boon .game-fold__title-top {
+  display: block;
+  color: #f0ece2;
+  font-size: .82em;
+  letter-spacing: .015em;
+}
+.game-fold--boon .game-fold__title-main {
+  display: block;
+  color: #b69ab6;
+  letter-spacing: .018em;
+  animation: boon-fold-mist 13s ease-in-out infinite;
+}
+@keyframes boon-fold-mist {
+  0%, 100% { opacity: .45; filter: blur(.035em); }
+  50% { opacity: 1; filter: blur(0); }
+}
 .game-fold--boon .game-fold__icon { border-radius: 0; image-rendering: pixelated; }
 .game-fold--boon .game-fold__meta b { font-family: "Bangers", cursive; }
 

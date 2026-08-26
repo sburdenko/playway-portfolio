@@ -14,7 +14,7 @@ export const GAMES = [
     id: "boon-hill", num: "02", name: "Welcome to Boon Hill", rule: "boon",
     compact: true,
     bg: "#565a76", ink: "#f0ece2", accent: "#b69ab6", detail: "#1d1b25",
-    skin: "boon", action: "Walk the hill", tag: "WALK / ADVENTURE", signal: "✦",
+    skin: "boon", action: "Walk the hill", tag: "WALK / ADVENTURE", signal: "✦", logoTop: "Welcome to", logoMain: "Boon Hill",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174",
   },
   {
