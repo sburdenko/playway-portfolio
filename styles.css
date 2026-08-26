@@ -7384,6 +7384,174 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   text-shadow: 1px 2px 0 #573814;
 }
 
+/* Boon Hill is a 16-bit place, not a smooth editorial poster. Every large
+   surface snaps to a small pixel grid while keeping the copy easy to read. */
+.boon,
+.game-fold--boon {
+  --display: "Bangers", cursive;
+  --mono: "Azeret Mono", monospace;
+}
+
+.boon {
+  color: #f0ece2;
+  background:
+    radial-gradient(circle at 77% 10%, rgba(224, 218, 184, .13), transparent 19%),
+    repeating-linear-gradient(0deg, rgba(240, 236, 226, .025) 0 1px, transparent 1px 8px),
+    linear-gradient(135deg, #303149, #51536d 50%, #29283b);
+  font-family: var(--mono);
+}
+
+.boon::before {
+  opacity: .42;
+  background-image:
+    linear-gradient(90deg, rgba(240, 236, 226, .07) 1px, transparent 1px),
+    linear-gradient(rgba(240, 236, 226, .055) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.boon__moon {
+  border-radius: 0;
+  background: #e5e8d6;
+  clip-path: polygon(31% 0, 69% 0, 69% 6%, 81% 6%, 81% 19%, 94% 19%, 94% 31%, 100% 31%, 100% 69%, 94% 69%, 94% 81%, 81% 81%, 81% 94%, 69% 94%, 69% 100%, 31% 100%, 31% 94%, 19% 94%, 19% 81%, 6% 81%, 6% 69%, 0 69%, 0 31%, 6% 31%, 6% 19%, 19% 19%, 19% 6%, 31% 6%);
+  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5), 0 0 4rem rgba(228, 234, 217, .16);
+}
+
+.boon__header h2,
+.boon__statement p,
+.boon__facts strong,
+.graveyard__brief h3,
+.graveyard__name {
+  font-family: "Bangers", cursive;
+  font-weight: 400;
+  text-shadow: 3px 3px 0 #27212d, 6px 6px 0 rgba(39, 33, 45, .42);
+}
+
+.boon__intro,
+.boon__statement,
+.graveyard {
+  border: 4px solid #27212d;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, 100% 4px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) 100%, 8px 100%, 8px calc(100% - 4px), 0 calc(100% - 4px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
+  box-shadow: none;
+  filter: drop-shadow(7px 7px 0 rgba(39, 33, 45, .72));
+}
+
+.boon__intro {
+  background:
+    linear-gradient(90deg, rgba(182, 154, 182, .3) 0 4px, transparent 4px calc(100% - 4px), rgba(182, 154, 182, .3) calc(100% - 4px)),
+    #e5ded6;
+}
+
+.boon__intro p,
+.boon__intro > span,
+.boon__statement > span,
+.boon__facts span,
+.boon-screen__hud,
+.graveyard__brief > span,
+.graveyard__brief > p,
+.graveyard__tally,
+.graveyard__years,
+.graveyard__line { font-family: "Azeret Mono", monospace; }
+
+.boon-screen {
+  border: 4px solid #27212d;
+  outline: 2px solid #b69ab6;
+  outline-offset: 4px;
+  box-shadow: 8px 8px 0 #27212d;
+  image-rendering: pixelated;
+}
+
+.boon-screen::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 8px;
+  pointer-events: none;
+  border: 2px solid rgba(240, 236, 226, .58);
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+}
+
+.boon-screen__scan { background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(30, 26, 36, .22) 4px 5px); }
+
+.boon-screen__hud {
+  z-index: 4;
+  padding: .7rem .8rem;
+  border: 2px solid #27212d;
+  background: rgba(39, 33, 45, .78);
+  text-shadow: 1px 1px 0 #27212d;
+}
+
+.boon-screen__focus {
+  width: 3.2rem;
+  border: 0;
+  background:
+    linear-gradient(#e4ead9, #e4ead9) 50% 0 / 2px 100% no-repeat,
+    linear-gradient(90deg, #e4ead9, #e4ead9) 0 50% / 100% 2px no-repeat;
+  box-shadow: 0 0 0 2px rgba(39, 33, 45, .7);
+}
+
+.boon__statement {
+  background:
+    repeating-linear-gradient(0deg, rgba(240, 236, 226, .035) 0 1px, transparent 1px 8px),
+    #34354e;
+}
+
+.boon__facts {
+  gap: 4px;
+  border: 0;
+  background: #27212d;
+}
+
+.boon__facts div {
+  min-height: 5.5rem;
+  border: 0;
+  background: #4c4c66;
+  box-shadow: inset 2px 2px 0 rgba(240, 236, 226, .16), inset -2px -2px 0 rgba(39, 33, 45, .46);
+}
+
+.graveyard {
+  background: #34354e;
+}
+
+.graveyard__field {
+  border: 3px solid #27212d;
+  image-rendering: pixelated;
+}
+
+.graveyard__tile[data-stone] {
+  border-radius: 0;
+  clip-path: polygon(25% 0, 75% 0, 75% 12%, 88% 12%, 88% 100%, 12% 100%, 12% 12%, 25% 12%);
+  box-shadow: inset 2px 2px 0 rgba(228, 234, 217, .34), inset -2px -2px 0 rgba(28, 31, 27, .42);
+}
+
+.boon-gallery figure {
+  border: 4px solid #27212d;
+  box-shadow: 5px 5px 0 #b69ab6;
+}
+
+.boon-gallery figcaption {
+  border-top: 2px solid #27212d;
+  border-radius: 0;
+  font-family: "Azeret Mono", monospace;
+}
+
+.game-fold--boon {
+  background:
+    repeating-linear-gradient(0deg, rgba(240, 236, 226, .05) 0 1px, transparent 1px 8px),
+    linear-gradient(90deg, rgba(39, 33, 45, .22) 0 4px, transparent 4px calc(100% - 4px), rgba(39, 33, 45, .22) calc(100% - 4px)),
+    linear-gradient(135deg, #3b3b55, #656983 55%, #28283c);
+}
+
+.game-fold--boon .game-fold__mark { text-shadow: 3px 3px 0 #27212d, 6px 6px 0 rgba(39, 33, 45, .42); }
+.game-fold--boon .game-fold__icon { border-radius: 0; image-rendering: pixelated; }
+.game-fold--boon .game-fold__meta b { font-family: "Bangers", cursive; }
+
+@media (max-width: 720px) {
+  .boon__intro,
+  .boon__statement,
+  .graveyard { filter: drop-shadow(4px 4px 0 rgba(39, 33, 45, .72)); }
+  .boon-screen { box-shadow: 5px 5px 0 #27212d; }
+}
+
 /* Every case signs its exit in the same visual language as its cover. */
 .boon .case-collapse { border-radius: .15rem .9rem .15rem .9rem; background-color: #d9c9d2; }
 .flower .case-collapse { border-radius: 1.1rem .2rem 1.1rem .2rem; }
