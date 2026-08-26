@@ -7772,8 +7772,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .graveyard__tile[data-stone]:hover .graveyard__marker { background: #d8ddca; }
 .graveyard__tile[data-stone][data-read] .graveyard__marker { background: #797f75; }
-.graveyard__tile[data-speaking] { z-index: 8; }
-.graveyard__tile[data-speaking] .graveyard__marker { background: #e4ead9; filter: brightness(1.12); }
 
 .graveyard__walker {
   z-index: 6;
@@ -7807,55 +7805,66 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .graveyard__walker[data-walking]::after { animation: graveyard-walk .29s steps(2, end) infinite; }
 @keyframes graveyard-walk { 50% { translate: .13rem 0; } }
 
-.graveyard__speech {
+.graveyard__memorial {
   position: absolute;
-  z-index: 12;
-  bottom: calc(100% + .55rem);
+  z-index: 9;
+  top: 50%;
   left: 50%;
-  width: min(15rem, 20vw);
-  padding: .48rem .58rem .52rem;
+  width: min(23rem, 42%);
+  height: 80%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -43%) scale(.72);
+  transform-origin: 50% 100%;
+  transition: opacity .2s ease, transform .34s steps(3, end);
+}
+
+.graveyard__memorial[data-visible] { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+.graveyard__memorial-stone {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18% 13% 12%;
   color: #27212d;
   background: #e5ded6;
-  border: 2px solid #27212d;
-  box-shadow: 3px 3px 0 #b69ab6;
+  clip-path: polygon(16% 0, 84% 0, 84% 5%, 92% 5%, 92% 13%, 97% 13%, 97% 100%, 3% 100%, 3% 13%, 8% 13%, 8% 5%, 16% 5%);
+  box-shadow: inset 4px 4px 0 rgba(255, 255, 255, .42), inset -5px -5px 0 rgba(39, 33, 45, .33), 6px 7px 0 #27212d;
   font-family: "Azeret Mono", monospace;
-  font-size: clamp(.46rem, .62vw, .63rem);
-  line-height: 1.38;
-  letter-spacing: .01em;
-  opacity: 0;
-  transform: translate(-50%, .45rem) scale(.94);
-  transform-origin: 50% 100%;
-  transition: opacity .22s ease, transform .22s steps(2, end);
+  text-align: center;
+  image-rendering: pixelated;
 }
-.graveyard__speech::after {
+
+.graveyard__memorial-stone::before,
+.graveyard__memorial-stone::after {
   content: "";
   position: absolute;
-  bottom: -7px;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  background: #e5ded6;
-  border-right: 2px solid #27212d;
-  border-bottom: 2px solid #27212d;
-  transform: translateX(-50%) rotate(45deg);
+  background: rgba(39, 33, 45, .22);
 }
-.graveyard__speech[data-visible] { opacity: 1; transform: translate(-50%, 0) scale(1); }
-.graveyard__speech b,
-.graveyard__speech span { display: block; }
-.graveyard__speech b { color: #34354e; font-family: "Bangers", cursive; font-size: 1.35em; font-weight: 400; letter-spacing: .03em; }
-.graveyard__speech span { margin-bottom: .28rem; color: #74758c; font-size: .82em; }
-.graveyard__speech p { margin: 0; }
-.graveyard__tile[data-speech-edge="left"] .graveyard__speech { left: 0; transform: translate(0, .45rem) scale(.94); transform-origin: 12% 100%; }
-.graveyard__tile[data-speech-edge="left"] .graveyard__speech[data-visible] { transform: translate(0, 0) scale(1); }
-.graveyard__tile[data-speech-edge="left"] .graveyard__speech::after { left: 16%; }
-.graveyard__tile[data-speech-edge="right"] .graveyard__speech { right: 0; left: auto; transform: translate(0, .45rem) scale(.94); transform-origin: 88% 100%; }
-.graveyard__tile[data-speech-edge="right"] .graveyard__speech[data-visible] { transform: translate(0, 0) scale(1); }
-.graveyard__tile[data-speech-edge="right"] .graveyard__speech::after { left: 84%; }
-.graveyard__tile[data-speech-side="below"] .graveyard__speech { top: calc(100% + .55rem); bottom: auto; transform-origin: 50% 0; }
-.graveyard__tile[data-speech-side="below"] .graveyard__speech::after { top: -7px; bottom: auto; border: 0; border-left: 2px solid #27212d; border-top: 2px solid #27212d; }
+
+.graveyard__memorial-stone::before { top: 21%; left: 16%; right: 16%; height: 2px; }
+.graveyard__memorial-stone::after { bottom: 12%; left: 19%; right: 19%; height: 2px; }
+.graveyard__memorial-kicker,
+.graveyard__memorial-years,
+.graveyard__memorial-stone i { position: relative; z-index: 1; display: block; letter-spacing: .08em; text-transform: uppercase; }
+.graveyard__memorial-kicker { margin-bottom: .45rem; color: #74758c; font-size: clamp(.42rem, .53vw, .6rem); }
+.graveyard__memorial-stone b { position: relative; z-index: 1; color: #34354e; font-family: "Bangers", cursive; font-size: clamp(1.1rem, 1.6vw, 1.8rem); font-weight: 400; line-height: .86; letter-spacing: .02em; text-shadow: 1px 1px 0 rgba(255, 255, 255, .46); }
+.graveyard__memorial-years { margin: .42rem 0 .64rem; color: #74758c; font-size: clamp(.4rem, .5vw, .56rem); }
+.graveyard__memorial-stone p { position: relative; z-index: 1; margin: 0; font-size: clamp(.42rem, .56vw, .62rem); line-height: 1.35; }
+.graveyard__memorial-stone i { position: absolute; z-index: 1; bottom: 5.5%; color: #74758c; font-size: clamp(.42rem, .5vw, .56rem); font-style: normal; }
+
+.graveyard__memorial[data-kind="cross"] .graveyard__memorial-stone { padding-top: 26%; clip-path: polygon(39% 0, 61% 0, 61% 17%, 82% 17%, 82% 30%, 64% 30%, 64% 100%, 36% 100%, 36% 30%, 18% 30%, 18% 17%, 39% 17%); }
+.graveyard__memorial[data-kind="cross"] .graveyard__memorial-stone p { max-width: 9em; }
+.graveyard__memorial[data-kind="obelisk"] .graveyard__memorial-stone { padding-inline: 19%; clip-path: polygon(50% 0, 80% 14%, 89% 100%, 11% 100%, 20% 14%); }
+.graveyard__memorial[data-kind="ledger"] .graveyard__memorial-stone { padding-top: 22%; clip-path: polygon(8% 14%, 19% 0, 81% 0, 92% 14%, 92% 82%, 100% 82%, 100% 100%, 0 100%, 0 82%, 8% 82%); }
 
 @media (max-width: 720px) {
-  .graveyard__speech { width: min(13rem, 62vw); font-size: .54rem; }
+  .graveyard__memorial { width: min(20rem, 60%); height: 76%; }
+  .graveyard__memorial-stone { padding-inline: 12%; }
+  .graveyard__memorial-stone p { font-size: .47rem; }
 }
 
 @media (max-width: 720px) {
