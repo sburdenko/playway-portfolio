@@ -99,6 +99,21 @@ const mount = (item) => {
   const close = () => {
     if (!section.hasAttribute("data-expanded")) return;
 
+    const startScroll = window.scrollY;
+    const collapsedHeight = cover.getBoundingClientRect().height;
+    const sectionTop = section.getBoundingClientRect().top + startScroll;
+    const centeredScroll = Math.max(0, sectionTop - (window.innerHeight - collapsedHeight) / 2);
+    let scrollFrame;
+    let scrollStarted;
+
+    const centerCover = (time) => {
+      scrollStarted ||= time;
+      const progress = Math.min((time - scrollStarted) / 1350, 1);
+      const eased = 0.5 - Math.cos(Math.PI * progress) / 2;
+      window.scrollTo({ top: startScroll + (centeredScroll - startScroll) * eased, behavior: "instant" });
+      if (progress < 1) scrollFrame = requestAnimationFrame(centerCover);
+    };
+
     section.style.height = `${section.getBoundingClientRect().height}px`;
     section.removeAttribute("data-expanded");
     section.setAttribute("data-closing", "");
@@ -107,15 +122,17 @@ const mount = (item) => {
     cover.setAttribute("aria-expanded", "false");
 
     requestAnimationFrame(() => {
-      section.style.height = `${cover.getBoundingClientRect().height}px`;
+      section.style.height = `${collapsedHeight}px`;
+      if (!CALM) scrollFrame = requestAnimationFrame(centerCover);
     });
 
     onHeightTransition(section, () => {
+      cancelAnimationFrame(scrollFrame);
+      window.scrollTo({ top: centeredScroll, behavior: "instant" });
       section.removeAttribute("data-closing");
       section.style.height = "";
       content.setAttribute("inert", "");
       cover.focus({ preventScroll: true });
-      section.scrollIntoView({ behavior: CALM ? "auto" : "smooth", block: "center" });
     });
   };
 
