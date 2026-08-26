@@ -7226,10 +7226,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   text-shadow: .04em .05em 0 #721016, -.03em -.03em 0 #3ce8fb;
 }
 
-/* Bronze Hoof is the mythic outlier: its expanded case uses only Chakra Petch
-   for display and Azeret Mono for every interface/detail line. */
+/* Bronze Hoof is the mythic outlier: its expanded case uses the same heavy
+   slab display face as its game logo and Azeret Mono for every UI/detail line. */
 .featured {
-  --display: "Chakra Petch", sans-serif;
+  --display: "Bevan", serif;
   --mono: "Azeret Mono", monospace;
   color: #f4edda;
   background:
@@ -7241,6 +7241,13 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .featured .section-heading p,
 .featured .runner__brief p { font-family: var(--mono); }
+
+.featured .section-heading h2,
+.game-fold--bronze .game-fold__mark {
+  font-family: "Bevan", serif;
+  font-weight: 400;
+  letter-spacing: -.085em;
+}
 
 .featured .project-details {
   gap: clamp(1.5rem, 3vw, 3.5rem);
