@@ -74,18 +74,15 @@ const mount = (item) => {
   section.classList.add("game-foldable");
   if (item.xr) section.classList.add("xr-foldable");
 
-  const open = async () => {
+  const open = () => {
     if (section.hasAttribute("data-opening") || section.hasAttribute("data-expanded")) return;
 
     const activeCases = [...mountedCases.entries()].filter(([other]) => other !== section && other.hasAttribute("data-expanded"));
-    for (const [, activeCase] of activeCases) {
-      const coverTop = cover.getBoundingClientRect().top;
-      await activeCase.close({ center: false, focus: false });
-      window.scrollBy(0, cover.getBoundingClientRect().top - coverTop);
-    }
+    for (const [, activeCase] of activeCases) activeCase.close({ center: false, focus: false, instant: true });
 
     if (section.hasAttribute("data-closing")) return;
 
+    window.scrollTo(0, section.getBoundingClientRect().top + window.scrollY);
     section.style.height = `${section.getBoundingClientRect().height}px`;
     section.setAttribute("data-opening", "");
     content.removeAttribute("inert");
@@ -111,8 +108,18 @@ const mount = (item) => {
     });
   };
 
-  const close = ({ center = true, focus = true } = {}) => {
+  const close = ({ center = true, focus = true, instant = false } = {}) => {
     if (!section.hasAttribute("data-expanded")) return Promise.resolve();
+
+    if (instant) {
+      section.style.height = "";
+      section.removeAttribute("data-expanded");
+      content.setAttribute("inert", "");
+      collapse.tabIndex = -1;
+      collapse.setAttribute("aria-hidden", "true");
+      cover.setAttribute("aria-expanded", "false");
+      return Promise.resolve();
+    }
 
     const collapsedHeight = cover.getBoundingClientRect().height;
     const sectionTop = section.getBoundingClientRect().top + window.scrollY;
