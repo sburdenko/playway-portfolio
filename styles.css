@@ -7096,3 +7096,65 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 @keyframes collapse-deal { 50% { translate: .14rem -.16rem; rotate: -8deg; } }
 @keyframes collapse-jolt { 30% { translate: .12rem -.08rem; } 60% { translate: -.1rem .08rem; } }
 @keyframes collapse-signal { 50% { scale: 1.18; box-shadow: 0 0 .6rem rgba(49, 216, 238, .8); } }
+
+/* Archive coordinates carry a tiny game-specific instruction instead of the
+   generic “Game case” label. They are navigation metadata, not another title. */
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta {
+  gap: .5rem;
+}
+
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta i {
+  display: flex;
+  align-items: center;
+  gap: .36rem;
+  max-width: 7.5rem;
+  font-family: "Azeret Mono", monospace;
+  font-size: .57rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: .055em;
+  line-height: 1.2;
+}
+
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta i::before {
+  content: attr(data-signal);
+  flex: 0 0 auto;
+  color: var(--fold-accent);
+  font-family: "Syne", sans-serif;
+  font-size: 1.25em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.game-fold--bronze .game-fold__meta b { color: #e9c46a; font-family: "Bowlby One SC", sans-serif; font-weight: 400; text-shadow: 2px 2px 0 #573814; }
+.game-fold--boon .game-fold__meta b { color: #27212d; font-family: "Bangers", cursive; font-weight: 400; letter-spacing: .03em; }
+.game-fold--flower .game-fold__meta b { color: #ff9fbd; font-family: "Bangers", cursive; font-weight: 400; letter-spacing: .03em; text-shadow: 2px 2px 0 #173a2f; }
+.game-fold--boxjam .game-fold__meta b { color: #43a0ff; font-family: "Azeret Mono", monospace; font-size: 1.65rem; font-weight: 700; }
+.game-fold--blob .game-fold__meta b { color: #ffc94e; font-family: "Bangers", cursive; font-weight: 400; letter-spacing: .03em; text-shadow: 2px 2px 0 #281464; }
+.game-fold--word .game-fold__meta b { color: #e74c68; font-family: "Azeret Mono", monospace; font-size: 1.65rem; font-weight: 700; }
+.game-fold--card .game-fold__meta b { color: #54217c; font-family: "Lilita One", sans-serif; font-weight: 400; letter-spacing: .02em; text-shadow: 1px 2px 0 #f0a72b; }
+.game-fold--sapper .game-fold__meta b { color: #ffad25; font-family: "Bowlby One SC", sans-serif; font-weight: 400; letter-spacing: -.04em; }
+.game-fold--lords .game-fold__meta b { color: #31d8ee; font-family: "Orbitron", sans-serif; font-size: 1.55rem; font-weight: 900; letter-spacing: -.1em; }
+
+.game-fold--bronze .game-fold__meta i { color: #d8c9a1; }
+.game-fold--boon .game-fold__meta i { color: #27212d; }
+.game-fold--flower .game-fold__meta i { color: #fff4d6; }
+.game-fold--boxjam .game-fold__meta i { color: #b8d8f2; }
+.game-fold--blob .game-fold__meta i { color: #e8deff; }
+.game-fold--word .game-fold__meta i { color: #3a315d; }
+.game-fold--card .game-fold__meta i { color: #285846; }
+.game-fold--sapper .game-fold__meta i { color: #fff8dd; }
+.game-fold--lords .game-fold__meta i { color: #a5edf7; }
+
+@media (max-width: 720px) {
+  :is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta {
+    gap: .45rem;
+  }
+  :is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta b {
+    font-size: 1rem;
+  }
+  :is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta i {
+    max-width: none;
+    font-size: .52rem;
+  }
+}
