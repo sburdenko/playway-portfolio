@@ -5886,8 +5886,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* Three case covers borrow their visual language from the games themselves.
    The Steam header carries the real wordmark, while the panel supplies a
    readable, keyboard-accessible control surface around it. */
-.game-fold__brand { display: none; }
-
 :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) {
   grid-template-columns: minmax(5rem, 0.22fr) minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) auto;
@@ -5895,24 +5893,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   box-shadow: none;
 }
 
-:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark,
 :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__icon {
   display: none;
-}
-
-:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__brand {
-  position: relative;
-  z-index: 1;
-  grid-column: 2;
-  grid-row: 1;
-  display: block;
-  align-self: end;
-  width: min(100%, 37rem);
-  aspect-ratio: 460 / 215;
-  border: 3px solid var(--fold-detail);
-  background: var(--fold-art) center / cover no-repeat;
-  box-shadow: 6px 6px 0 var(--fold-detail);
-  transition: transform .55s var(--ease), filter .55s var(--ease), box-shadow .55s var(--ease);
 }
 
 :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__action {
@@ -5944,10 +5926,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-size: 1.05rem;
 }
 
-:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords):is(:hover, :focus-visible) .game-fold__brand {
-  transform: translate(-.2rem, -.2rem);
-}
-
 :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords):active .game-fold__action {
   transform: translateY(4px);
   box-shadow: none;
@@ -5963,12 +5941,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .game-fold--boon::before {
   background: linear-gradient(90deg, transparent 36%, rgba(240, 236, 226, .3) 50%, transparent 64%);
-}
-
-.game-fold--boon .game-fold__brand {
-  border-color: #27212d;
-  box-shadow: 6px 6px 0 #27212d;
-  filter: saturate(.82) contrast(1.08);
 }
 
 .game-fold--boon .game-fold__meta {
@@ -5995,12 +5967,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     linear-gradient(135deg, #164425, var(--fold-bg) 48%, #10351e);
 }
 
-.game-fold--sapper .game-fold__brand {
-  border-color: #fff8dd;
-  box-shadow: 5px 5px 0 #d83425, 9px 9px 0 #17381e;
-  filter: saturate(1.12) contrast(1.08);
-}
-
 .game-fold--sapper .game-fold__meta {
   border-color: rgba(255, 248, 221, .34);
   color: #fff8dd;
@@ -6016,7 +5982,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .game-fold--sapper:is(:hover, :focus-visible) .game-fold__action { background: #ffe176; }
-.game-fold--sapper:is(:hover, :focus-visible) .game-fold__brand { filter: saturate(1.25) contrast(1.12); }
 
 .game-fold--lords {
   border-color: rgba(49, 216, 238, .58);
@@ -6025,12 +5990,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     radial-gradient(circle at 26% 62%, rgba(49, 216, 238, .13), transparent 30%),
     repeating-radial-gradient(circle at 20% 35%, #b9eaf5 0 1px, transparent 1px 2.6rem),
     linear-gradient(135deg, #101b2d, var(--fold-bg) 56%, #080a11);
-}
-
-.game-fold--lords .game-fold__brand {
-  border-color: #31d8ee;
-  box-shadow: -4px 4px 0 #e04635, 6px 6px 0 #31d8ee;
-  filter: contrast(1.14) saturate(1.1);
 }
 
 .game-fold--lords .game-fold__meta {
@@ -6048,7 +6007,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .game-fold--lords:is(:hover, :focus-visible) .game-fold__action { background: #1a4966; }
-.game-fold--lords:is(:hover, :focus-visible) .game-fold__brand { filter: contrast(1.2) saturate(1.25) drop-shadow(0 0 .7rem rgba(49, 216, 238, .55)); }
 
 .game-fold__scan {
   position: absolute;
@@ -6367,15 +6325,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     grid-row: 1;
   }
 
-  :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__brand {
-    grid-column: 1;
-    grid-row: 2;
-    align-self: center;
-    width: min(100%, 12.5rem);
-    border-width: 2px;
-    box-shadow: 4px 4px 0 var(--fold-detail);
-  }
-
   :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__action {
     grid-column: 1;
     grid-row: 3;
@@ -6389,4 +6338,89 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     width: 1rem;
     height: 2px;
   }
+}
+
+/* These rules sit after the fold system so the three wordmarks stay text,
+   rather than being replaced by a generic cover image. */
+:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark {
+  z-index: 2;
+  grid-column: 2;
+  grid-row: 1;
+  display: block;
+  align-self: end;
+  max-width: min(100%, 40rem);
+  text-wrap: balance;
+}
+
+:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark::before,
+:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark::after {
+  display: none;
+}
+
+.game-fold--boon .game-fold__mark {
+  max-width: 17ch;
+  color: #24212d;
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.5rem, 5.3vw, 5.25rem);
+  font-weight: 400;
+  line-height: .78;
+  letter-spacing: .025em;
+  text-shadow: 3px 3px 0 rgba(240, 236, 226, .3);
+  transform: rotate(-2deg);
+}
+
+.game-fold--boon:is(:hover, :focus-visible) .game-fold__mark {
+  color: #17141c;
+  transform: rotate(.5deg) translateX(.05em);
+}
+
+.game-fold--sapper .game-fold__mark {
+  max-width: 13ch;
+  color: #fff8dd;
+  font-family: "Bowlby One SC", sans-serif;
+  font-size: clamp(2rem, 4.65vw, 4.65rem);
+  font-weight: 400;
+  line-height: .76;
+  letter-spacing: -.035em;
+  -webkit-text-stroke: 1px #17381e;
+  text-shadow: 2px 2px 0 #d83425, 5px 5px 0 #17381e;
+}
+
+.game-fold--sapper:is(:hover, :focus-visible) .game-fold__mark {
+  color: #ffe56f;
+  text-shadow: 2px 2px 0 #d83425, 6px 6px 0 #17381e;
+}
+
+.game-fold--lords .game-fold__mark {
+  max-width: 14ch;
+  color: transparent;
+  background: linear-gradient(180deg, #d4fbff 0 28%, #31d8ee 30% 48%, #f0f4fa 50% 61%, #e04635 64% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(2rem, 4.7vw, 4.9rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: .78;
+  letter-spacing: -.11em;
+  text-shadow: .035em .04em 0 #e04635, -.025em -.025em 0 #31d8ee;
+  transform: skewX(-7deg);
+}
+
+.game-fold--lords:is(:hover, :focus-visible) .game-fold__mark {
+  filter: brightness(1.18) drop-shadow(0 0 .45rem rgba(49, 216, 238, .68));
+  transform: skewX(-7deg) translateX(.05em);
+}
+
+@media (max-width: 720px) {
+  :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+    max-width: 14ch;
+  }
+
+  .game-fold--boon .game-fold__mark { font-size: clamp(1.9rem, 8.5vw, 2.55rem); }
+  .game-fold--sapper .game-fold__mark { font-size: clamp(1.55rem, 6.9vw, 2.15rem); }
+  .game-fold--lords .game-fold__mark { font-size: clamp(1.7rem, 7.3vw, 2.3rem); }
 }

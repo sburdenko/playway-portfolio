@@ -19,11 +19,9 @@ const makeCover = (item, section) => {
   button.style.setProperty("--fold-ink", item.ink);
   button.style.setProperty("--fold-accent", item.accent);
   if (item.detail) button.style.setProperty("--fold-detail", item.detail);
-  if (item.coverArt) button.style.setProperty("--fold-art", `url("${item.coverArt}")`);
   button.innerHTML = `
     <span class="game-fold__meta"><b>${item.num}</b><i>${item.kind}</i></span>
     <span class="game-fold__mark" data-title="${item.name}">${item.name}</span>
-    ${item.coverArt ? '<span class="game-fold__brand" aria-hidden="true"></span>' : ""}
     <img class="game-fold__icon" src="${item.image}" alt="" loading="lazy" />
     <span class="game-fold__action"><i aria-hidden="true"></i>${item.action || "Open project"}<b>↘</b></span>
     <span class="game-fold__scan" aria-hidden="true"></span>

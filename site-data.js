@@ -14,7 +14,6 @@ export const GAMES = [
     compact: true,
     bg: "#565a76", ink: "#f0ece2", accent: "#b69ab6", detail: "#1d1b25",
     skin: "boon", action: "Walk the hill",
-    coverArt: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/header.jpg",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174",
   },
   {
@@ -48,14 +47,12 @@ export const GAMES = [
     compact: true,
     bg: "#275d34", ink: "#fff8dd", accent: "#ffad25", detail: "#d83425",
     skin: "sapper", action: "Clear the field",
-    coverArt: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/header.jpg",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_34038a40ff888e070259ba446b3b1cc5e4bd177a.1920x1080.jpg?t=1782119061",
   },
   {
     id: "astro-lords", num: "09", name: "Astro Lords", rule: "lords",
     bg: "#070a12", ink: "#eef7ff", accent: "#31d8ee", detail: "#e04635",
     skin: "lords", action: "Enter the cloud",
-    coverArt: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/header.jpg",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/372190/ss_4ba998829873d05d85240965c91b063e82e0f77c.1920x1080.jpg?t=1782074241",
   },
 ];
