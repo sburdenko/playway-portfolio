@@ -30,9 +30,9 @@ export const GAMES = [
     image: "https://play-lh.googleusercontent.com/u_U_XDi6xdzmzshS7tgmbKK0LYLz60oQ-GUPl8Zy3ZI_TX9I8NIhcvlMnCS5RDp7bwlXorgIoEcf4R6qAM3B2rk=s512",
   },
   {
-    id: "blob-jam", num: "05", name: "Blob Jam", rule: "blob",
+    id: "blob-jam", num: "05", name: "Blob Sort Jam", rule: "blob",
     bg: "#4c2ca0", ink: "#fff9f0", accent: "#ffc94e",
-    skin: "blob", action: "Pop the blobs", tag: "MERGE / CASUAL", signal: "●",
+    skin: "blob", action: "Sort the blobs", tag: "SORT / CASUAL", signal: "●",
     image: "https://play-lh.googleusercontent.com/MIgFoxNl5IvZ6hP6gDL8AxyzTLQKKOx_lhPmxtE9rvuV-vKCCRN2YLWaGJMdobRjyhJVD8lCCfNJg8gzswvfvg=s512",
   },
   {
