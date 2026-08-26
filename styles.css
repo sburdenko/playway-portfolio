@@ -7391,62 +7391,69 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .featured .run-strip figcaption::before { content: "▣ "; color: #8a5a1f; }
 
-/* Astro Lords opens onto the Oort Cloud: pastel depth and planets, not a
-   technical radar grid. The stacked logo and its action share one clear axis. */
+/* Astro Lords: one compact reading axis with a quiet suggestion of the Oort
+   Cloud — orbit arcs, not a second illustration competing with the logo. */
 .game-fold--lords {
-  border-color: rgba(205, 231, 255, .68);
+  grid-template-rows: auto auto;
+  align-content: center;
+  row-gap: .48rem;
+  border-color: rgba(79, 216, 239, .58);
   background:
-    radial-gradient(circle at 82% 26%, #ffd5e5 0 1.05rem, #d889ba 1.1rem 1.34rem, transparent 1.4rem),
-    radial-gradient(ellipse 2.45rem .72rem at 82% 26%, transparent 56%, rgba(255, 230, 244, .82) 58% 64%, transparent 66%),
-    radial-gradient(circle at 67% 73%, #c5f5e8 0 .45rem, #75a8cc .5rem .7rem, transparent .76rem),
-    radial-gradient(ellipse at 73% 47%, rgba(184, 166, 244, .46), transparent 19%),
-    radial-gradient(ellipse at 57% 22%, rgba(145, 226, 241, .35), transparent 23%),
-    radial-gradient(circle at 49% 68%, rgba(255, 222, 177, .72) 0 1px, transparent 2px),
-    radial-gradient(circle at 90% 69%, rgba(255, 244, 211, .82) 0 1px, transparent 2px),
-    radial-gradient(circle at 58% 15%, rgba(238, 247, 255, .72) 0 1px, transparent 2px),
-    linear-gradient(135deg, #1c2649 0%, #312d59 47%, #17223d 100%);
+    radial-gradient(ellipse 27rem 9rem at 30% 56%, transparent 57%, rgba(111, 225, 242, .25) 58% 58.6%, transparent 59.2%),
+    radial-gradient(ellipse 20rem 6.6rem at 30% 56%, transparent 57%, rgba(111, 225, 242, .18) 58% 58.5%, transparent 59.1%),
+    radial-gradient(ellipse 13rem 4.3rem at 30% 56%, transparent 57%, rgba(237, 84, 67, .22) 58% 58.5%, transparent 59.1%),
+    radial-gradient(ellipse at 40% 56%, rgba(16, 70, 91, .22), transparent 24%),
+    linear-gradient(135deg, #030810 0%, #081a29 57%, #02070c 100%);
 }
 
 .game-fold--lords .game-fold__mark {
   grid-column: 2;
   grid-row: 1;
-  align-self: center;
-  justify-self: center;
+  align-self: end;
+  justify-self: start;
   margin: 0;
-  padding: .3em .7em .42em;
-  background: radial-gradient(ellipse at 50% 52%, rgba(16, 23, 52, .76) 0 60%, transparent 78%);
+  padding: .22em .55em .32em;
+  background: none;
 }
+
+.game-fold--lords .game-fold__title { justify-items: start; }
 
 .game-fold--lords .game-fold__action {
-  justify-self: center;
-  border-color: #b9eaf5;
-  color: #f4efff;
-  background: rgba(50, 45, 89, .9);
-  box-shadow: 0 4px 0 #9a5a93, inset 0 2px 0 rgba(222, 244, 255, .62);
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  justify-self: start;
+  border-color: #24d3ec;
+  color: #eaf9ff;
+  background: #122b43;
+  box-shadow: 0 4px 0 #d8473b, inset 0 2px 0 rgba(185, 234, 245, .3);
 }
 
-.game-fold--lords:is(:hover, :focus-visible) .game-fold__action { background: #4c4a7c; }
+.game-fold--lords:is(:hover, :focus-visible) .game-fold__action { background: #173a58; }
 
 .game-fold--lords .game-fold__title-main {
-  background: linear-gradient(180deg, #fff3f0 0 16%, #ff9ab2 23% 52%, #a94b78 58% 100%);
+  background: linear-gradient(180deg, #ffebe1 0 17%, #f13f38 20% 55%, #9b171c 58% 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  text-shadow: .035em .045em 0 #79345f, -.025em -.025em 0 #a9f5ff;
+  text-shadow: .035em .045em 0 #e04635, -.025em -.025em 0 #24d3ec;
 }
 
 .game-fold--lords .game-fold__subtitle {
-  margin-left: 0;
-  color: #d7d4ff;
-  -webkit-text-fill-color: #d7d4ff;
+  margin-left: .2em;
+  color: #d5eff4;
+  -webkit-text-fill-color: #d5eff4;
+  text-align: left;
 }
 
-.game-fold--lords .game-fold__subtitle::before { content: "// "; color: #a9f5ff; }
+.game-fold--lords .game-fold__mark::before,
+.game-fold--lords .game-fold__mark::after,
+.game-fold--lords .game-fold__title-main::before,
+.game-fold--lords .game-fold__subtitle::before { display: none; }
 
 @media (max-width: 720px) {
-  .game-fold--lords .game-fold__mark,
-  .game-fold--lords .game-fold__action { justify-self: center; }
-  .game-fold--lords .game-fold__mark { grid-column: 1; grid-row: 2; }
-  .game-fold--lords .game-fold__action { grid-column: 1; grid-row: 3; }
+  .game-fold--lords { grid-template-rows: auto auto; }
+  .game-fold--lords .game-fold__mark { grid-column: 1; grid-row: 1; }
+  .game-fold--lords .game-fold__action { grid-column: 1; grid-row: 2; }
 }
 
 .featured .case-collapse {
