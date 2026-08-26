@@ -12,6 +12,7 @@ const SPAWN_MIN = 0.85;
 const SPAWN_MAX = 1.7;
 const FIRE_MIN = 0.7;
 const FIRE_MAX = 1.5;
+const AUTO_SHOT_GAP = 0.42;
 const BOLT_Y = GROUND - 7;
 
 const READY = "ready";
@@ -126,6 +127,7 @@ const mount = (root) => {
   let last = 0;
   let frame = 0;
   let travelled = 0;
+  let nextAutoShot = 0;
 
   const skyFill = ctx.createLinearGradient(0, 0, 0, GROUND + 4);
   skyFill.addColorStop(0, PALETTE.skyTop);
@@ -138,9 +140,10 @@ const mount = (root) => {
     bolts = [];
     nextSpawn = spawnGap();
     score = 0;
+    nextAutoShot = 0;
     phase = RUNNING;
     root.dataset.phase = RUNNING;
-    hintOut.textContent = "Left click jumps · right click shoots";
+    hintOut.textContent = "Tap to jump · centaur fires automatically";
   };
 
   const end = () => {
@@ -148,19 +151,13 @@ const mount = (root) => {
     root.dataset.phase = OVER;
     best = Math.max(best, Math.floor(score));
     bestOut.textContent = String(best);
-    hintOut.textContent = "Down. Click to run again.";
+    hintOut.textContent = "Down. Tap to run again.";
   };
 
   const jump = () => {
     if (phase !== RUNNING) return reset();
     if (runner.y < GROUND) return;
     runner = { ...runner, vy: JUMP };
-  };
-
-  const shoot = () => {
-    if (phase !== RUNNING) return reset();
-    if (arrows.length > 2) return;
-    arrows = [...arrows, { x: RUNNER_X + 10, y: runner.y - 8 }];
   };
 
   const step = (dt) => {
@@ -194,6 +191,13 @@ const mount = (root) => {
         return { ...t, x, fire: fireGap() };
       })
       .filter((t) => t.x > -18);
+
+    nextAutoShot = Math.max(0, nextAutoShot - dt);
+    const enemyAhead = things.some((t) => t.kind === BEAST && t.x > RUNNER_X + 18);
+    if (enemyAhead && nextAutoShot === 0 && arrows.length < 3) {
+      arrows = [...arrows, { x: RUNNER_X + 10, y: runner.y - 8 }];
+      nextAutoShot = AUTO_SHOT_GAP;
+    }
 
     arrows = arrows
       .map((a) => ({ ...a, x: a.x + ARROW_SPEED * dt }))
@@ -339,23 +343,22 @@ const mount = (root) => {
     draw();
   };
 
-  canvas.addEventListener("mousedown", (event) => {
+  canvas.addEventListener("pointerdown", (event) => {
     event.preventDefault();
-    if (event.button === 2) shoot();
-    else jump();
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    jump();
   });
 
   canvas.addEventListener("contextmenu", (event) => event.preventDefault());
 
   canvas.addEventListener("keydown", (event) => {
-    if (event.key !== " " && event.key !== "Enter" && event.key !== "f") return;
+    if (event.key !== " " && event.key !== "Enter") return;
     event.preventDefault();
-    if (event.key === "f") shoot();
-    else jump();
+    jump();
   });
 
   root.dataset.phase = READY;
-  hintOut.textContent = "Click the strip to start";
+  hintOut.textContent = "Tap the field to start";
   onStage(canvas, loop);
 };
 

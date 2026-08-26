@@ -7310,21 +7310,32 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .featured .runner {
-  border: 1px solid rgba(233, 196, 106, .5);
+  border: 1px solid #9b742e;
   background:
-    linear-gradient(90deg, rgba(233, 196, 106, .09) 0 1px, transparent 1px) 0 0 / 2.5rem 100%,
+    var(--bronze-meander) 0 0 / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem 1rem repeat-x,
     linear-gradient(135deg, #19150d, #292113 55%, #151109);
-  box-shadow: 6px 6px 0 #62431b;
+  box-shadow: inset 0 0 0 4px #171208, inset 0 0 0 5px rgba(213, 169, 78, .58), 6px 6px 0 #62431b;
 }
 
 .featured .runner__brief > span,
 .featured .runner__hud b { color: #e9c46a; }
 .featured .runner__brief h3,
 .featured .runner__hud b { font-family: var(--display); font-weight: 700; }
+.featured .runner__brief h3 { color: #d6c6a5; text-shadow: 2px 2px 0 #6d4a1c; }
+.featured .runner__brief h3 em { color: #b95339; }
 .featured .runner__brief p,
 .featured .runner__hud i,
 .featured .runner__hint { color: #d3c59e; font-family: var(--mono); }
-.featured .runner__canvas { border-color: rgba(233, 196, 106, .48); background: #121008; }
+.featured .runner__brief > span::before { content: "Δ "; color: #e9c46a; }
+.featured .runner__canvas {
+  border: 2px solid #b8893b;
+  outline: 1px solid #171208;
+  outline-offset: -5px;
+  background: #121008;
+  touch-action: manipulation;
+  image-rendering: pixelated;
+}
 
 .featured .run-strip figure { border-color: rgba(233, 196, 106, .5); }
 .featured .run-strip figcaption { color: #171208; background: #e9c46a; font-family: var(--mono); }
