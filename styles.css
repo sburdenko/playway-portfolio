@@ -6820,13 +6820,14 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .game-fold--card .game-fold__mark {
-  color: #1f2533;
-  font-family: "Bowlby One SC", sans-serif;
-  font-size: clamp(1.8rem, 3.75vw, 3.9rem);
+  color: #fff3bf;
+  font-family: "Lilita One", sans-serif;
+  font-size: clamp(2rem, 4.05vw, 4.2rem);
   font-weight: 400;
-  line-height: .78;
-  letter-spacing: -.055em;
-  text-shadow: 2px 2px 0 rgba(255, 249, 240, .7);
+  line-height: .76;
+  letter-spacing: .005em;
+  -webkit-text-stroke: .035em #54217c;
+  text-shadow: 0 .07em 0 #54217c, 0 .12em 0 #f0a72b, 0 .15em 0 rgba(31, 37, 51, .38);
 }
 
 .game-fold--bronze .game-fold__action,
@@ -6959,11 +6960,23 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .solitaire .word__header h2 {
-  font-family: "Bowlby One SC", sans-serif;
-  font-size: clamp(2.75rem, 5.2vw, 5.5rem);
+  color: #fff3bf;
+  font-family: "Lilita One", sans-serif;
+  font-size: clamp(3.1rem, 5.75vw, 6rem);
   font-weight: 400;
-  letter-spacing: -.055em;
+  line-height: .78;
+  letter-spacing: .01em;
+  -webkit-text-stroke: .035em #54217c;
+  text-shadow: 0 .07em 0 #54217c, 0 .13em 0 #f0a72b, 0 .16em 0 rgba(31, 37, 51, .3);
 }
+
+.solitaire .word__header h2 em {
+  color: #fff3bf;
+  text-shadow: inherit;
+}
+
+.solitaire .ace-a { color: inherit; animation: none; }
+.solitaire .ace-a::after { display: none; }
 
 .flower__copy,
 .boxjam__copy,
