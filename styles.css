@@ -7226,6 +7226,103 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   text-shadow: .04em .05em 0 #721016, -.03em -.03em 0 #3ce8fb;
 }
 
+/* Bronze Hoof is the mythic outlier: its expanded case uses only Chakra Petch
+   for display and Azeret Mono for every interface/detail line. */
+.featured {
+  --display: "Chakra Petch", sans-serif;
+  --mono: "Azeret Mono", monospace;
+  color: #f4edda;
+  background:
+    radial-gradient(circle at 82% 17%, rgba(233, 196, 106, .11), transparent 20%),
+    repeating-linear-gradient(90deg, rgba(233, 196, 106, .045) 0 1px, transparent 1px 4rem),
+    linear-gradient(135deg, #0b0a07, #1b160d 54%, #090806);
+  font-family: var(--mono);
+}
+
+.featured .section-heading p,
+.featured .runner__brief p { font-family: var(--mono); }
+
+.featured .project-details {
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  padding-top: clamp(1.6rem, 3vw, 3rem);
+}
+
+.featured .project-quote {
+  position: relative;
+  padding: clamp(1.2rem, 2.2vw, 2.2rem);
+  border: 1px solid rgba(233, 196, 106, .45);
+  background:
+    linear-gradient(90deg, rgba(233, 196, 106, .14) 0 1px, transparent 1px) 0 0 / 2.25rem 100%,
+    linear-gradient(135deg, rgba(91, 63, 25, .3), rgba(11, 10, 7, .84));
+  box-shadow: inset 0 0 0 1px rgba(11, 10, 7, .65), 5px 5px 0 #6d4a1c;
+}
+
+.featured .project-quote::before {
+  content: "⋒  ⋐  ⋒  ⋐";
+  display: block;
+  margin-bottom: .8rem;
+  color: #e9c46a;
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .25em;
+}
+
+.featured .project-quote > span { color: #e9c46a; }
+.featured .project-quote p { margin-top: .85rem; color: #f4edda; font-family: var(--display); font-weight: 700; }
+
+.featured .stats {
+  border-color: rgba(233, 196, 106, .42);
+  background: rgba(20, 16, 9, .7);
+  box-shadow: 5px 5px 0 #6d4a1c;
+}
+
+.featured .stats div {
+  min-height: 8.5rem;
+  border-color: rgba(233, 196, 106, .32);
+  background: linear-gradient(145deg, rgba(233, 196, 106, .055), transparent 62%);
+}
+
+.featured .stats strong { color: #f4edda; font-family: var(--display); font-weight: 700; }
+.featured .stats span { color: #c9b98d; font-family: var(--mono); }
+
+.featured .feature-frame {
+  border: 2px solid #b8893b;
+  box-shadow: 7px 7px 0 #62431b, inset 0 0 0 1px rgba(244, 237, 218, .2);
+}
+
+.featured .feature-frame__label {
+  color: #171208;
+  background: #e9c46a;
+  font-family: var(--mono);
+}
+
+.featured .runner {
+  border: 1px solid rgba(233, 196, 106, .5);
+  background:
+    linear-gradient(90deg, rgba(233, 196, 106, .09) 0 1px, transparent 1px) 0 0 / 2.5rem 100%,
+    linear-gradient(135deg, #19150d, #292113 55%, #151109);
+  box-shadow: 6px 6px 0 #62431b;
+}
+
+.featured .runner__brief > span,
+.featured .runner__hud b { color: #e9c46a; }
+.featured .runner__brief h3,
+.featured .runner__hud b { font-family: var(--display); font-weight: 700; }
+.featured .runner__brief p,
+.featured .runner__hud i,
+.featured .runner__hint { color: #d3c59e; font-family: var(--mono); }
+.featured .runner__canvas { border-color: rgba(233, 196, 106, .48); background: #121008; }
+
+.featured .run-strip figure { border-color: rgba(233, 196, 106, .5); }
+.featured .run-strip figcaption { color: #171208; background: #e9c46a; font-family: var(--mono); }
+
+@media (max-width: 720px) {
+  .featured .project-quote,
+  .featured .stats,
+  .featured .runner { box-shadow: 3px 3px 0 #62431b; }
+  .featured .stats div { min-height: 6.5rem; }
+}
+
 .flower__copy,
 .boxjam__copy,
 .blob__copy,
