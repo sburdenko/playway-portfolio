@@ -1,6 +1,5 @@
-// The ten games, once. The jump menu, the rail down the right gutter and
-// the chapter friezes are all built from this at build time, so adding an
-// eleventh game is an entry here rather than the same edit made in four places.
+// The games, once. The collapsed covers, the rail down the right gutter and
+// the chapter friezes all use this list, so adding another game stays one edit.
 //
 // id      the section's anchor          rule   which frieze motif it carries
 // bg/ink/accent  the section's own ground, text and accent, for its rail tile
@@ -12,6 +11,7 @@ export const GAMES = [
   },
   {
     id: "boon-hill", num: "02", name: "Welcome to Boon Hill", rule: "boon",
+    compact: true,
     bg: "#0d1210", ink: "#b9c4b4", accent: "#b9c4b4",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/406780/ss_d44a111c1ab61335e82687e283253aac84c70d37.1920x1080.jpg?t=1498124174",
   },
@@ -37,11 +37,13 @@ export const GAMES = [
   },
   {
     id: "card-match", num: "07", name: "Card Match Solitaire", rule: "card",
+    compact: true,
     bg: "#d4e1c3", ink: "#1f2533", accent: "#246b55",
     image: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/24/eb/06/24eb0604-578f-7515-318b-708e6649b855/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
   },
   {
     id: "crazy-sapper", num: "08", name: "Crazy Sapper 3D", rule: "sapper",
+    compact: true,
     bg: "#26251f", ink: "#fff7e7", accent: "#e9ad35",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/529420/ss_34038a40ff888e070259ba446b3b1cc5e4bd177a.1920x1080.jpg?t=1782119061",
   },

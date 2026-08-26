@@ -8,6 +8,7 @@
   --mono: "Azeret Mono", monospace;
   --display: "Syne", sans-serif;
   --gutter: clamp(1.25rem, 3.5vw, 4rem);
+  --label-size: 0.7rem;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* Three steps of vertical rhythm, largest to smallest: the air a section
      opens and closes with, the space under its heading, and the step between
@@ -238,45 +239,6 @@ video {
   align-items: flex-start;
   gap: clamp(1rem, 3vw, 3rem);
 }
-
-.project-jump { position: relative; }
-
-.project-jump summary {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding-block: 0.5rem;
-  cursor: pointer;
-  list-style: none;
-}
-
-.project-jump summary::-webkit-details-marker { display: none; }
-
-.project-jump[open] summary { color: var(--lime); }
-
-.project-jump__menu {
-  position: absolute;
-  top: calc(100% + 0.8rem);
-  left: 50%;
-  display: grid;
-  width: min(24rem, 74vw);
-  padding: 0.55rem;
-  border: 1px solid rgba(223, 255, 54, 0.42);
-  background: rgba(11, 11, 9, 0.96);
-  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.38);
-  transform: translateX(-50%);
-}
-
-.project-jump__menu a {
-  padding: 0.72rem 0.8rem;
-  border-bottom: 1px solid rgba(238, 237, 230, 0.12);
-  color: var(--paper);
-  font-size: 0.54rem;
-  transition: color 0.25s var(--ease), background 0.25s var(--ease), padding 0.25s var(--ease);
-}
-
-.project-jump__menu a:last-child { border-bottom: 0; color: var(--lime); }
-.project-jump__menu a:hover { padding-left: 1.15rem; color: var(--ink); background: var(--lime); }
 
 .site-nav a {
   position: relative;
@@ -3982,8 +3944,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .site-nav { gap: 1rem; }
   .site-nav > a:nth-of-type(1),
   .site-nav > a:nth-of-type(2) { display: none; }
-  .project-jump__menu { left: 0; transform: none; }
-
   .hero {
     gap: 3rem;
     padding-top: 7rem;
@@ -4022,8 +3982,11 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .hero__status span:nth-child(2) { display: none; }
 
   .xr-page__header .availability { display:none; }
-  .xr-page__hero { grid-template-columns:1fr; min-height:76svh; padding-top:8rem; }
-  .xr-page__hero h1 { font-size:clamp(4rem,17vw,6.5rem); }
+  .xr-page__header .site-nav > a:nth-of-type(1) { display:block; }
+  .xr-page__hero { grid-template-columns:minmax(0,1fr); min-height:76svh; padding-top:8rem; }
+  .xr-page__hero > * { min-width:0; }
+  .xr-page__hero h1 { width:100%; font-size:clamp(2.3rem,11vw,5.75rem); }
+  .xr-page__hero div { max-width:100%; }
 
   .anatomy,
   .eras,
@@ -4444,54 +4407,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* Card Match's clip now sits in a shell of its own, and keeps its own shape. */
 .solitaire .word__phones > figure { aspect-ratio: 900 / 1600; }
 .word__phones > figure > video { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-/* ─────────────────────────────────────────────────────────────────────────
-   The corner gag: he sits below the fold of the window until it is his turn,
-   leans in with one line, and drops back out. Pinned to the bottom right,
-   clear of the rail, and out of the way of anything clickable.
-   ───────────────────────────────────────────────────────────────────────── */
-.toast {
-  position: fixed;
-  z-index: 45;
-  right: clamp(0.75rem, 2vw, 2rem);
-  bottom: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 0.5rem;
-  pointer-events: none;
-  translate: 0 100%;
-  transition: translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.toast[data-showing] { translate: 0 0; }
-
-.toast__guy {
-  width: clamp(3.4rem, 6vw, 5.2rem);
-  height: auto;
-  filter: drop-shadow(0 0 1.4rem rgba(11, 11, 9, 0.65));
-}
-
-.toast__say {
-  margin-bottom: 1.4rem;
-  padding: 0.4rem 0.7rem;
-  background: var(--lime);
-  color: var(--ink);
-  font-family: var(--display);
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  opacity: 0;
-  translate: 0.5rem 0;
-  transition: opacity 0.3s var(--ease) 0.15s, translate 0.3s var(--ease) 0.15s;
-}
-
-.toast[data-showing] .toast__say { opacity: 1; translate: 0 0; }
-
-/* On a phone the corner is where thumbs live, so he keeps to himself. */
-@media (max-width: 720px) {
-  .toast { display: none; }
-}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -5753,4 +5668,389 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .squadron { grid-template-rows: auto auto auto; }
   .squadron__stage { aspect-ratio: 4 / 3; }
   .xr-case--allergan .xr-case__media > img { grid-column: auto; }
+}
+
+/* Each game begins as a compact archive cover. Opening is intentionally a
+   one-way reveal: the full case takes over and stays open until page reload. */
+.game-foldable {
+  --fold-height: clamp(10rem, 14vw, 12.5rem);
+  --fold-open-bottom: var(--section-pad);
+  height: var(--fold-height);
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  isolation: isolate;
+  transition: height 1.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.featured.game-foldable { --fold-open-bottom: 2.5rem; }
+
+.game-foldable[data-opening],
+.game-foldable[data-expanded] {
+  padding-top: var(--section-pad);
+  padding-bottom: var(--fold-open-bottom);
+}
+
+.game-foldable[data-expanded] { overflow: visible; }
+
+.game-fold__content {
+  opacity: 0;
+  transition: opacity 0.75s var(--ease) 0.28s;
+}
+
+.game-fold__content > * {
+  transform: translateY(2.5rem);
+  transition: transform 1.1s var(--ease) 0.2s;
+}
+
+.game-foldable[data-revealing] .game-fold__content,
+.game-foldable[data-expanded] .game-fold__content { opacity: 1; }
+
+.game-foldable[data-revealing] .game-fold__content > *,
+.game-foldable[data-expanded] .game-fold__content > * { transform: translateY(0); }
+
+.game-fold {
+  position: absolute;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: minmax(5rem, 0.22fr) minmax(0, 1fr) auto;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  gap: 0.7rem 2rem;
+  width: 100%;
+  height: var(--fold-height);
+  padding: 1.35rem var(--gutter);
+  overflow: hidden;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--fold-accent) 62%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--fold-ink) 24%, transparent);
+  color: var(--fold-ink);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--fold-accent) 8%, transparent) 1px, transparent 1px) 0 0 / 4rem 100%,
+    linear-gradient(135deg, var(--fold-bg), color-mix(in srgb, var(--fold-bg) 82%, #000));
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 0 4rem rgba(0, 0, 0, 0.12);
+}
+
+.game-fold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(105deg, transparent 34%, color-mix(in srgb, var(--fold-accent) 24%, transparent) 50%, transparent 66%);
+  transform: translateX(-45%);
+  transition: opacity 0.35s ease, transform 0.9s var(--ease);
+}
+
+.game-fold::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  width: 12rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--fold-accent);
+  opacity: 0;
+  mix-blend-mode: screen;
+  transform: translate(50%, -50%) scale(0);
+}
+
+.game-fold:hover::before,
+.game-fold:focus-visible::before { opacity: 1; transform: translateX(45%); }
+
+.game-fold:focus-visible { outline: 2px solid var(--fold-accent); outline-offset: -4px; }
+
+.game-fold__meta {
+  grid-row: 1 / 3;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 1rem;
+  border-right: 1px solid color-mix(in srgb, var(--fold-ink) 24%, transparent);
+  font-size: var(--label-size);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.game-fold__meta b { color: var(--fold-accent); font-family: var(--display); font-size: 2rem; letter-spacing: -0.08em; }
+.game-fold__meta i { font-style: normal; }
+
+.game-fold__mark {
+  position: relative;
+  z-index: 1;
+  align-self: end;
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 5.6vw, 5.8rem);
+  font-weight: 800;
+  line-height: 0.78;
+  letter-spacing: -0.085em;
+  text-wrap: balance;
+  text-transform: uppercase;
+  transition: color 0.4s ease, transform 0.65s var(--ease);
+}
+
+.game-fold__mark::before,
+.game-fold__mark::after {
+  content: attr(data-title);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 0.35s ease, transform 0.55s var(--ease);
+}
+
+.game-fold__mark::before { color: var(--fold-accent); clip-path: inset(0 0 54% 0); }
+.game-fold__mark::after { color: #80ddff; clip-path: inset(54% 0 0 0); }
+.game-fold:hover .game-fold__mark::before { opacity: 0.7; transform: translate(0.06em, -0.025em); }
+.game-fold:hover .game-fold__mark::after { opacity: 0.55; transform: translate(-0.045em, 0.03em); }
+.game-fold:hover .game-fold__mark { transform: translateX(0.08em); }
+
+.game-fold__icon {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  width: clamp(5.5rem, 8vw, 8rem);
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--fold-accent) 58%, transparent);
+  border-radius: 18%;
+  object-fit: cover;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+  transition: border-radius 0.65s var(--ease), transform 0.65s var(--ease);
+}
+
+.game-fold:hover .game-fold__icon { border-radius: 50%; transform: rotate(4deg) scale(1.04); }
+
+.game-fold__action {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: var(--label-size);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.game-fold__action > i {
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  background: var(--fold-accent);
+  transform-origin: left;
+  transition: transform 0.55s var(--ease);
+}
+
+.game-fold__action b { color: var(--fold-accent); font-size: 1rem; }
+.game-fold:hover .game-fold__action > i { transform: scaleX(1.8); }
+
+.game-fold__scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background: repeating-linear-gradient(to bottom, transparent 0 4px, rgba(0, 0, 0, 0.2) 5px);
+}
+
+.game-foldable[data-revealing] .game-fold {
+  pointer-events: none;
+  animation: fold-curtain 1.15s var(--ease) forwards;
+}
+
+.game-foldable[data-revealing] .game-fold::after { animation: fold-flash 0.9s var(--ease) forwards; }
+.game-foldable[data-revealing] .game-fold__mark { animation: fold-mark 0.75s var(--ease) forwards; }
+.game-foldable[data-revealing] .game-fold__icon { animation: fold-icon 0.8s var(--ease) forwards; }
+
+@keyframes fold-curtain {
+  0%, 24% { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
+  100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(-1.5rem); }
+}
+
+@keyframes fold-flash {
+  0% { opacity: 0; transform: translate(50%, -50%) scale(0); }
+  38% { opacity: 0.32; }
+  100% { opacity: 0; transform: translate(50%, -50%) scale(8); }
+}
+
+@keyframes fold-mark {
+  0% { opacity: 1; transform: translateX(0); }
+  45% { color: var(--fold-accent); transform: translateX(0.18em) skewX(-7deg); }
+  100% { opacity: 0; transform: translateX(-0.3em) skewX(5deg); }
+}
+
+@keyframes fold-icon {
+  to { opacity: 0; border-radius: 50%; transform: rotate(18deg) scale(1.3); }
+}
+
+@media (max-width: 720px) {
+  .game-foldable { --fold-height: 9.75rem; }
+
+  .game-fold {
+    grid-template-columns: minmax(0, 1fr) 4.75rem;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.35rem 1rem;
+    padding: 1rem var(--gutter);
+  }
+
+  .game-fold__meta {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.7rem;
+    padding: 0;
+    border: 0;
+  }
+
+  .game-fold__meta b { font-size: var(--label-size); }
+  .game-fold__mark { grid-column: 1; grid-row: 2; align-self: center; font-size: clamp(1.8rem, 9vw, 2.75rem); }
+  .game-fold--compact .game-fold__mark { font-size: clamp(1.65rem, 7.7vw, 2.35rem); }
+  .game-fold__icon { grid-column: 2; grid-row: 1 / 4; width: 4.75rem; }
+  .game-fold__action { grid-column: 1; grid-row: 3; }
+  .game-fold__action > i { width: 1.5rem; }
+}
+
+/* Keep the dense editorial rhythm while making microcopy readable. */
+.site-header,
+.site-nav span,
+.loader p,
+.eyebrow,
+.hero-route span,
+.hero-route i,
+.round-link,
+.hero-stage__topline,
+.hero-stage__footer,
+.hero__status,
+.section-index,
+.feature-frame__caption,
+.feature-frame__label,
+.film-play,
+.clip-play,
+.stats span,
+.gallery__item figcaption,
+.project-quote > span,
+.boon__intro > span,
+.boon__statement > span,
+.boon-screen__hud,
+.boon__facts span,
+.boon-gallery figcaption,
+.graveyard__brief > span,
+.graveyard__tally,
+.graveyard__years,
+.runner__brief > span,
+.runner__hint,
+.runner__hud i,
+.run-strip figcaption,
+.flower__identity span,
+.flower__store-mark span,
+.flower__copy > span,
+.flower__store-mark a,
+.flower__facts span,
+.flower__link,
+.boxjam__badge span,
+.boxjam__copy > span,
+.boxjam-phone > span,
+.boxjam-phone__store,
+.boxjam__facts span,
+.boxjam__link,
+.conveyor figcaption,
+.blob__header > div span,
+.blob__copy > span,
+.blob__facts span,
+.blob__links a,
+.word__header > div span,
+.word__copy > span,
+.word__facts span,
+.word__link,
+.minefield__brief > span,
+.minefield__status,
+.minefield__hud i,
+.minefield__reset,
+.sapper__header > span,
+.sapper__copy > span,
+.sapper__hero span,
+.sapper__facts span,
+.sapper__link,
+.sapper__gallery figcaption,
+.astro__header > span,
+.astro__copy > span,
+.astro__hero span,
+.astro__gallery figcaption,
+.astro-phone > span,
+.astro-phones figcaption,
+.astro__facts span,
+.astro__link,
+.scavenger__brief > span,
+.scavenger__hint,
+.scavenger__hud i,
+.scope > h3,
+.scope span,
+.scope i,
+.xr__header > span,
+.xr__intro > span,
+.xr-card > span,
+.xr-card b,
+.xr-card__source,
+.xr-card__facts small,
+.xr-page__hero > span,
+.xr-page__hero a,
+.xr-case header,
+.xr-case__details b,
+.xr-case__details a,
+.xr-case__project-link,
+.xr-film__bar,
+.xr-film__play,
+.xr-page__footer,
+.capabilities span,
+.capabilities i,
+.contact__top,
+.contact__tally span,
+.contact__switch span,
+.contact__footer,
+.rail__name,
+.rig__panel > span,
+.rig__key,
+.rig__hud i,
+.rig__hint,
+.orrery__panel > span,
+.orrery__hud i,
+.orrery__hint,
+.orrery__zoom,
+.orrery__zoom b,
+.botox__panel > span,
+.botox__panel > p,
+.botox__hud i,
+.botox__hint,
+.botox__reset,
+.archer__panel > span,
+.archer__panel > p,
+.archer__hud i,
+.archer__again,
+.squadron__tabs button,
+.squadron__panel > p,
+.squadron__group > span,
+.squadron__group button,
+.squadron__group button i,
+.squadron__empty,
+.squadron__hud i,
+.squadron__hint,
+.squadron__clear,
+.anatomy__panel > span,
+.anatomy__toggles button,
+.anatomy__hud i,
+.eras__panel > span,
+.eras__dial button,
+.eras__hud i,
+.model__panel > span,
+.model__layers button,
+.model__hud i,
+.model__hint {
+  font-size: var(--label-size);
 }
