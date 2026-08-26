@@ -7552,6 +7552,43 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .boon-screen { box-shadow: 5px 5px 0 #27212d; }
 }
 
+/* Bronze Hoof's title is a small story: pale damaged stone for the temple,
+   the final F as the centaur's bronze, and the incoming U as its rust-red foe. */
+.featured .section-heading h2,
+.featured .section-heading h2 em,
+.game-fold--bronze .game-fold__mark {
+  color: #cfc4aa;
+  background:
+    repeating-linear-gradient(117deg, transparent 0 17px, rgba(59, 51, 38, .58) 18px 19px, transparent 20px 35px),
+    repeating-linear-gradient(16deg, transparent 0 29px, rgba(89, 77, 58, .34) 30px 31px, transparent 32px 48px),
+    linear-gradient(106deg, #706959 0 4%, #d9ceb2 12% 31%, #a29780 43% 51%, #e4dac1 61% 78%, #827966 94% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .016em #3a3021;
+  text-shadow: .014em .02em 0 rgba(245, 237, 214, .55), .04em .065em 0 #655134, .075em .11em 0 rgba(18, 14, 9, .88);
+}
+
+.featured .hoof__f {
+  color: #c9793b;
+  background: linear-gradient(105deg, #6d321f 0 8%, #e2a15d 24% 45%, #a64d2b 65%, #f1c27c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .018em #4b2117;
+  text-shadow: .018em .03em 0 #f3ca86, .055em .085em 0 #692c1d, .08em .115em 0 rgba(20, 12, 8, .9);
+}
+
+.featured .hoof__foe {
+  color: #9c3d31;
+  background: linear-gradient(100deg, #542019, #c8533e 45%, #7b2c24 75%, #e07959);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .028em #35130f;
+  text-shadow: .035em .06em 0 #4a1714, .065em .1em 0 rgba(15, 8, 7, .86);
+}
+
 /* Every case signs its exit in the same visual language as its cover. */
 .boon .case-collapse { border-radius: .15rem .9rem .15rem .9rem; background-color: #d9c9d2; }
 .flower .case-collapse { border-radius: 1.1rem .2rem 1.1rem .2rem; }
