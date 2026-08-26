@@ -8,6 +8,8 @@ const XR_PALETTE = [
   ["#2f390f", "#f3ffd0", "#dfff36"],
 ];
 
+const mountedCases = new Map();
+
 const makeCover = (item, section) => {
   const button = document.createElement("button");
   button.className = `game-fold interactive${item.compact ? " game-fold--compact" : ""}${item.skin ? ` game-fold--${item.skin}` : ""}`;
@@ -69,8 +71,17 @@ const mount = (item) => {
   section.classList.add("game-foldable");
   if (item.xr) section.classList.add("xr-foldable");
 
-  const open = () => {
+  const open = async () => {
     if (section.hasAttribute("data-opening") || section.hasAttribute("data-expanded")) return;
+
+    const activeCases = [...mountedCases.entries()].filter(([other]) => other !== section && other.hasAttribute("data-expanded"));
+    for (const [, activeCase] of activeCases) {
+      const coverTop = cover.getBoundingClientRect().top;
+      await activeCase.close({ center: false, focus: false });
+      window.scrollBy(0, cover.getBoundingClientRect().top - coverTop);
+    }
+
+    if (section.hasAttribute("data-closing")) return;
 
     section.style.height = `${section.getBoundingClientRect().height}px`;
     section.setAttribute("data-opening", "");
@@ -97,48 +108,38 @@ const mount = (item) => {
     });
   };
 
-  const close = () => {
-    if (!section.hasAttribute("data-expanded")) return;
+  const close = ({ center = true, focus = true } = {}) => {
+    if (!section.hasAttribute("data-expanded")) return Promise.resolve();
 
-    const startScroll = window.scrollY;
     const collapsedHeight = cover.getBoundingClientRect().height;
-    const sectionTop = section.getBoundingClientRect().top + startScroll;
+    const sectionTop = section.getBoundingClientRect().top + window.scrollY;
     const centeredScroll = Math.max(0, sectionTop - (window.innerHeight - collapsedHeight) / 2);
-    let scrollFrame;
-    let scrollStarted;
+    return new Promise((resolve) => {
+      section.style.height = `${section.getBoundingClientRect().height}px`;
+      section.removeAttribute("data-expanded");
+      section.setAttribute("data-closing", "");
+      collapse.tabIndex = -1;
+      collapse.setAttribute("aria-hidden", "true");
+      cover.setAttribute("aria-expanded", "false");
 
-    const centerCover = (time) => {
-      scrollStarted ||= time;
-      const progress = Math.min((time - scrollStarted) / 1350, 1);
-      const eased = 0.5 - Math.cos(Math.PI * progress) / 2;
-      window.scrollTo({ top: startScroll + (centeredScroll - startScroll) * eased, behavior: "instant" });
-      if (progress < 1) scrollFrame = requestAnimationFrame(centerCover);
-    };
+      requestAnimationFrame(() => {
+        section.style.height = `${collapsedHeight}px`;
+      });
 
-    section.style.height = `${section.getBoundingClientRect().height}px`;
-    section.removeAttribute("data-expanded");
-    section.setAttribute("data-closing", "");
-    collapse.tabIndex = -1;
-    collapse.setAttribute("aria-hidden", "true");
-    cover.setAttribute("aria-expanded", "false");
-
-    requestAnimationFrame(() => {
-      section.style.height = `${collapsedHeight}px`;
-      if (!CALM) scrollFrame = requestAnimationFrame(centerCover);
-    });
-
-    onHeightTransition(section, () => {
-      cancelAnimationFrame(scrollFrame);
-      window.scrollTo({ top: centeredScroll, behavior: "instant" });
-      section.removeAttribute("data-closing");
-      section.style.height = "";
-      content.setAttribute("inert", "");
-      cover.focus({ preventScroll: true });
+      onHeightTransition(section, () => {
+        section.removeAttribute("data-closing");
+        section.style.height = "";
+        content.setAttribute("inert", "");
+        if (center && !CALM) window.scrollTo({ top: centeredScroll, behavior: "smooth" });
+        if (focus) cover.focus({ preventScroll: true });
+        resolve();
+      });
     });
   };
 
   cover.addEventListener("click", open);
   collapse.addEventListener("click", close);
+  mountedCases.set(section, { close });
 };
 
 const games = GAMES.map((game) => ({ ...game, kind: "Game case" }));

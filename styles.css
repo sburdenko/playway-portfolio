@@ -6900,9 +6900,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   74% { scale: .93 1.08; rotate: 1deg; }
 }
 @keyframes cover-word {
-  0%, 66%, 100% { skew: 0deg; }
-  76% { skew: -7deg; }
-  86% { skew: 3deg; }
+  0%, 66%, 100% { transform: skewX(0deg); }
+  76% { transform: skewX(-7deg); }
+  86% { transform: skewX(3deg); }
 }
 @keyframes cover-card {
   0%, 62%, 100% { translate: 0 0; rotate: 0deg; color: #1f2533; }
@@ -7009,3 +7009,77 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .solitaire .word__header h2 { font-size: clamp(2rem, 8.5vw, 3.2rem); }
   :is(.flower__copy, .boxjam__copy, .blob__copy, .word__copy) { padding: 1rem; box-shadow: 3px 3px 0 var(--fold-accent, currentColor); }
 }
+
+/* The sweeping hover beam crossed the wordmarks instead of helping scan the
+   archive. The title itself is now the only moving layer. */
+.game-fold::before { display: none; }
+
+/* A case action is a small in-world prompt, not a second headline. */
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__action {
+  min-height: 1.9rem;
+  padding: .32rem .52rem .38rem;
+  border-width: 1px;
+  gap: .42rem;
+  font-size: .62rem;
+  letter-spacing: .065em;
+}
+
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__action > i {
+  width: .9rem;
+  height: 2px;
+}
+
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__action b { font-size: .7rem; }
+
+.game-fold--bronze .game-fold__action { font-family: "Syne", sans-serif; }
+.game-fold--boon .game-fold__action { font-family: "Azeret Mono", monospace; }
+.game-fold--flower .game-fold__action { font-family: "Syne", sans-serif; border-radius: 1rem .25rem 1rem .25rem; }
+.game-fold--boxjam .game-fold__action { font-family: "Syne", sans-serif; border-radius: .2rem; }
+.game-fold--blob .game-fold__action { font-family: "Azeret Mono", monospace; border-radius: 1rem; }
+.game-fold--word .game-fold__action { font-family: "Syne", sans-serif; border-radius: 0; }
+.game-fold--card .game-fold__action { font-family: "Azeret Mono", monospace; border-radius: .2rem .7rem .2rem .7rem; }
+.game-fold--sapper .game-fold__action { font-family: "Azeret Mono", monospace; }
+.game-fold--lords .game-fold__action { font-family: "Azeret Mono", monospace; border-radius: .15rem; }
+
+.game-fold--bronze:is(:hover, :focus-visible) .game-fold__action { translate: .14rem 0; }
+.game-fold--boon:is(:hover, :focus-visible) .game-fold__action { rotate: -1deg; }
+.game-fold--flower:is(:hover, :focus-visible) .game-fold__action { scale: 1.035; }
+.game-fold--boxjam:is(:hover, :focus-visible) .game-fold__action { translate: .12rem -.08rem; }
+.game-fold--blob:is(:hover, :focus-visible) .game-fold__action { scale: 1.06 .92; }
+.game-fold--word:is(:hover, :focus-visible) .game-fold__action { transform: skewX(-5deg); }
+.game-fold--card:is(:hover, :focus-visible) .game-fold__action { rotate: -2deg; }
+.game-fold--sapper:is(:hover, :focus-visible) .game-fold__action { translate: .08rem -.08rem; }
+.game-fold--lords:is(:hover, :focus-visible) .game-fold__action { box-shadow: 0 0 .6rem rgba(49, 216, 238, .65), 3px 3px 0 #e04635; }
+
+/* The fold control shares the visual language of its current case and keeps
+   a short, distinct confirmation motion without a large floating button. */
+.case-collapse {
+  top: .8rem;
+  height: 2.2rem;
+  padding: .35rem .42rem .35rem .62rem;
+  gap: .48rem;
+  font-size: .62rem;
+}
+
+.case-collapse i { width: 1.45rem; height: 1.45rem; font-size: .8rem; }
+.case-collapse:hover i { transform: none; }
+
+.featured .case-collapse:hover i { animation: collapse-stride .42s ease-out; }
+.boon .case-collapse:hover i { animation: collapse-sway .48s ease-in-out; }
+.flower .case-collapse:hover i { animation: collapse-bloom .44s ease-out; }
+.boxjam .case-collapse:hover i { animation: collapse-drop .36s ease-out; }
+.blob .case-collapse:hover i { animation: collapse-blob .42s ease-in-out; }
+.word:not(.solitaire) .case-collapse:hover i { animation: collapse-bend .42s ease-in-out; }
+.solitaire .case-collapse:hover i { animation: collapse-deal .42s ease-out; }
+.sapper .case-collapse:hover i { animation: collapse-jolt .3s steps(2, end); }
+.astro .case-collapse:hover i { animation: collapse-signal .46s ease-out; }
+
+@keyframes collapse-stride { 50% { translate: .16rem -.14rem; } }
+@keyframes collapse-sway { 35% { rotate: -13deg; } 70% { rotate: 9deg; } }
+@keyframes collapse-bloom { 50% { scale: 1.24; } }
+@keyframes collapse-drop { 50% { translate: 0 .16rem; scale: 1.1 .82; } }
+@keyframes collapse-blob { 50% { scale: 1.2 .8; } }
+@keyframes collapse-bend { 50% { rotate: -14deg; } }
+@keyframes collapse-deal { 50% { translate: .14rem -.16rem; rotate: -8deg; } }
+@keyframes collapse-jolt { 30% { translate: .12rem -.08rem; } 60% { translate: -.1rem .08rem; } }
+@keyframes collapse-signal { 50% { scale: 1.18; box-shadow: 0 0 .6rem rgba(49, 216, 238, .8); } }
