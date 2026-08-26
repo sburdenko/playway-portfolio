@@ -6713,3 +6713,299 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .astro__copy { padding: 1rem; box-shadow: 4px 4px 0 #d83425; }
   .astro__copy { box-shadow: 4px 4px 0 #e04635; }
 }
+
+/* Every folded case is a small title screen rather than a generic row. The
+   common grid keeps the archive scannable; each surface borrows only the
+   palette and motion language of its game. */
+.game-fold__title {
+  display: block;
+  transform-origin: 0 80%;
+}
+
+.game-fold--bronze {
+  background:
+    radial-gradient(circle at 77% 50%, rgba(233, 196, 106, .18), transparent 22%),
+    repeating-linear-gradient(90deg, rgba(233, 196, 106, .1) 0 1px, transparent 1px 4.5rem),
+    linear-gradient(120deg, #080806, #17160f 55%, #080806);
+}
+
+.game-fold--flower {
+  background:
+    radial-gradient(circle at 76% 35%, rgba(255, 159, 189, .34), transparent 19%),
+    radial-gradient(circle at 32% 78%, rgba(249, 208, 82, .18), transparent 22%),
+    repeating-linear-gradient(45deg, rgba(255, 244, 214, .07) 0 1px, transparent 1px 2.7rem),
+    linear-gradient(135deg, #16372c, #21503b 54%, #123125);
+}
+
+.game-fold--boxjam {
+  background:
+    linear-gradient(60deg, transparent 46%, rgba(67, 160, 255, .22) 47% 49%, transparent 50%) 0 0 / 4rem 4rem,
+    linear-gradient(-60deg, transparent 46%, rgba(247, 247, 241, .1) 47% 49%, transparent 50%) 0 0 / 4rem 4rem,
+    linear-gradient(135deg, #17222d, #243646 56%, #15212b);
+}
+
+.game-fold--blob {
+  background:
+    radial-gradient(ellipse at 78% 27%, rgba(255, 201, 78, .64) 0 7%, transparent 7.5%),
+    radial-gradient(ellipse at 70% 70%, rgba(112, 242, 209, .35) 0 11%, transparent 11.5%),
+    radial-gradient(ellipse at 88% 67%, rgba(255, 249, 240, .18) 0 5%, transparent 5.5%),
+    linear-gradient(135deg, #3b237d, #4c2ca0 56%, #2b1962);
+}
+
+.game-fold--word {
+  background:
+    linear-gradient(135deg, transparent 44%, rgba(231, 76, 104, .24) 44.5% 46%, transparent 46.5%) 0 0 / 3.25rem 3.25rem,
+    repeating-linear-gradient(90deg, rgba(32, 27, 66, .13) 0 1px, transparent 1px 3.25rem),
+    linear-gradient(135deg, #f8dfca, #f4d6bd 56%, #e8c6ae);
+}
+
+.game-fold--card {
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(36, 107, 85, .16) 46.5% 48%, transparent 48.5%) 0 0 / 3rem 3rem,
+    repeating-linear-gradient(0deg, rgba(31, 37, 51, .1) 0 1px, transparent 1px 2rem),
+    linear-gradient(135deg, #e1ebd3, #d4e1c3 55%, #bccdaf);
+}
+
+:is(.game-fold--bronze, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card) {
+  box-shadow: none;
+}
+
+.game-fold--bronze .game-fold__mark {
+  color: #eeede6;
+  font-family: "Bowlby One SC", sans-serif;
+  font-size: clamp(2.2rem, 4.9vw, 5rem);
+  font-weight: 400;
+  line-height: .77;
+  letter-spacing: -.055em;
+  text-shadow: 3px 3px 0 #7b521e;
+}
+
+.game-fold--flower .game-fold__mark {
+  color: #fff4d6;
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.8rem, 5.5vw, 5.6rem);
+  font-weight: 400;
+  line-height: .72;
+  letter-spacing: .025em;
+  text-shadow: 3px 3px 0 #aa4267;
+}
+
+.game-fold--boxjam .game-fold__mark {
+  color: #f7f7f1;
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(2rem, 4.2vw, 4.35rem);
+  font-weight: 700;
+  line-height: .8;
+  letter-spacing: -.1em;
+  text-shadow: 3px 3px 0 #236da9;
+}
+
+.game-fold--blob .game-fold__mark {
+  color: #fff9f0;
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.9rem, 5.8vw, 5.8rem);
+  font-weight: 400;
+  line-height: .72;
+  letter-spacing: .025em;
+  text-shadow: 3px 4px 0 #20104d;
+}
+
+.game-fold--word .game-fold__mark {
+  color: #201b42;
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(1.8rem, 3.9vw, 4.15rem);
+  font-weight: 700;
+  line-height: .82;
+  letter-spacing: -.12em;
+}
+
+.game-fold--card .game-fold__mark {
+  color: #1f2533;
+  font-family: "Bowlby One SC", sans-serif;
+  font-size: clamp(1.8rem, 3.75vw, 3.9rem);
+  font-weight: 400;
+  line-height: .78;
+  letter-spacing: -.055em;
+  text-shadow: 2px 2px 0 rgba(255, 249, 240, .7);
+}
+
+.game-fold--bronze .game-fold__action,
+.game-fold--flower .game-fold__action,
+.game-fold--boxjam .game-fold__action,
+.game-fold--blob .game-fold__action,
+.game-fold--word .game-fold__action,
+.game-fold--card .game-fold__action {
+  width: max-content;
+  min-height: 2.45rem;
+  padding: .55rem .7rem .6rem;
+  border: 2px solid currentColor;
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1;
+  transition: color .2s steps(2, end), background .2s steps(2, end), transform .2s steps(2, end);
+}
+
+.game-fold--bronze .game-fold__action { color: #eeede6; background: rgba(66, 46, 18, .86); box-shadow: 4px 4px 0 #e9c46a; }
+.game-fold--flower .game-fold__action { color: #173a2f; background: #ff9fbd; box-shadow: 4px 4px 0 #f9d052; }
+.game-fold--boxjam .game-fold__action { color: #102a42; background: #b7d7ff; box-shadow: 4px 4px 0 #43a0ff; }
+.game-fold--blob .game-fold__action { color: #30166e; background: #ffc94e; box-shadow: 4px 4px 0 #70f2d1; }
+.game-fold--word .game-fold__action { color: #201b42; background: #fff4e6; box-shadow: 4px 4px 0 #e74c68; }
+.game-fold--card .game-fold__action { color: #f7fbf2; background: #246b55; box-shadow: 4px 4px 0 #f6ead4; }
+
+:is(.game-fold--bronze, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card):is(:hover, :focus-visible) .game-fold__action {
+  color: var(--fold-bg);
+  background: var(--fold-ink);
+  transform: translateY(-2px);
+}
+
+:is(.game-fold--bronze, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card):active .game-fold__action {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--fold-accent);
+}
+
+.game-fold--bronze .game-fold__title { animation: cover-hoof 8s ease-in-out infinite; }
+.game-fold--boon .game-fold__title { animation: cover-boon 10s ease-in-out infinite; }
+.game-fold--flower .game-fold__title { animation: cover-flower 9s ease-in-out infinite; }
+.game-fold--boxjam .game-fold__title { animation: cover-boxjam 8s ease-in-out infinite; }
+.game-fold--blob .game-fold__title { animation: cover-blob 7s ease-in-out infinite; }
+.game-fold--word .game-fold__title { animation: cover-word 10s ease-in-out infinite; }
+.game-fold--card .game-fold__title { animation: cover-card 11s ease-in-out infinite; }
+.game-fold--sapper .game-fold__title { animation: cover-sapper 9s steps(1) infinite; }
+.game-fold--lords .game-fold__title { animation: cover-lords 9s ease-in-out infinite; }
+
+@keyframes cover-hoof {
+  0%, 68%, 100% { translate: 0 0; scale: 1; }
+  75% { translate: .03em -.05em; scale: 1.02 .96; }
+  82% { translate: 0 .02em; scale: .99 1.03; }
+}
+@keyframes cover-boon {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  47% { translate: .025em -.035em; rotate: 1deg; }
+  54% { translate: -.02em .015em; rotate: -.7deg; }
+}
+@keyframes cover-flower {
+  0%, 62%, 100% { scale: 1; filter: saturate(1); }
+  70% { scale: 1.04 .95; filter: saturate(1.35); }
+  78% { scale: .98 1.03; }
+}
+@keyframes cover-boxjam {
+  0%, 64%, 100% { translate: 0 0; }
+  72% { translate: .07em -.04em; }
+  80% { translate: .02em .025em; }
+}
+@keyframes cover-blob {
+  0%, 58%, 100% { scale: 1; rotate: 0deg; }
+  66% { scale: 1.08 .88; rotate: -1deg; }
+  74% { scale: .93 1.08; rotate: 1deg; }
+}
+@keyframes cover-word {
+  0%, 66%, 100% { skew: 0deg; }
+  76% { skew: -7deg; }
+  86% { skew: 3deg; }
+}
+@keyframes cover-card {
+  0%, 62%, 100% { translate: 0 0; rotate: 0deg; color: #1f2533; }
+  70% { translate: 0 -.065em; rotate: -2deg; color: #c8102e; }
+  84% { translate: 0 -.03em; rotate: -1deg; color: #c8102e; }
+}
+@keyframes cover-sapper {
+  0%, 87%, 100% { translate: 0 0; }
+  89% { translate: .035em -.025em; }
+  91% { translate: -.03em .02em; }
+  93% { translate: .02em .01em; }
+}
+@keyframes cover-lords {
+  0%, 64%, 100% { letter-spacing: -.11em; filter: brightness(1); }
+  72% { letter-spacing: -.07em; filter: brightness(1.3) drop-shadow(0 0 .35rem rgba(49, 216, 238, .65)); }
+  82% { letter-spacing: -.125em; }
+}
+
+/* The Boon Hill wordmark is a single roadside sign on desktop. It only wraps
+   where the device genuinely needs a narrower composition. */
+.game-fold--boon .game-fold__mark {
+  max-width: none;
+  font-size: clamp(2.1rem, 3.75vw, 4.1rem);
+}
+.game-fold--boon .game-fold__title { white-space: nowrap; }
+
+/* The six other opening cases inherit the same compact first-screen rhythm as
+   Boon, Sapper and Astro, but retain their own source artwork and typography. */
+:is(.featured, .flower, .boxjam, .blob, .word) {
+  --head-gap: clamp(1.35rem, 2.5vw, 2.6rem);
+  --block-gap: clamp(1.6rem, 2.8vw, 3rem);
+}
+
+:is(.flower__showcase, .boxjam__stage, .blob__stage, .word__body) {
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+}
+
+.flower__header h2,
+.blob__header h2 {
+  font-family: "Bangers", cursive;
+  font-size: clamp(3.8rem, 7.2vw, 7.5rem);
+  font-weight: 400;
+  line-height: .75;
+  letter-spacing: .02em;
+}
+
+.boxjam__header h2,
+.word__header h2 {
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(3rem, 6vw, 6.3rem);
+  font-weight: 700;
+  line-height: .78;
+  letter-spacing: -.11em;
+}
+
+.solitaire .word__header h2 {
+  font-family: "Bowlby One SC", sans-serif;
+  font-size: clamp(2.75rem, 5.2vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -.055em;
+}
+
+.flower__copy,
+.boxjam__copy,
+.blob__copy,
+.word__copy {
+  padding: clamp(1.1rem, 2vw, 1.85rem);
+}
+
+.flower__copy {
+  border: 2px solid #ff9fbd;
+  background: rgba(14, 48, 36, .74);
+  box-shadow: 5px 5px 0 rgba(249, 208, 82, .7);
+}
+.boxjam__copy {
+  border: 2px solid #43a0ff;
+  background: rgba(15, 29, 42, .86);
+  box-shadow: 5px 5px 0 #b7d7ff;
+}
+.blob__copy {
+  border: 2px solid #ffc94e;
+  background: rgba(38, 20, 83, .84);
+  box-shadow: 5px 5px 0 #70f2d1;
+}
+.word__copy {
+  border: 2px solid #e74c68;
+  background: rgba(255, 247, 235, .72);
+  box-shadow: 5px 5px 0 rgba(32, 27, 66, .36);
+}
+.solitaire .word__copy {
+  border-color: #246b55;
+  background: rgba(245, 250, 238, .78);
+  box-shadow: 5px 5px 0 rgba(36, 107, 85, .35);
+}
+
+@media (max-width: 720px) {
+  .game-fold--boon .game-fold__mark { max-width: 14ch; font-size: clamp(1.9rem, 8.5vw, 2.55rem); }
+  .game-fold--boon .game-fold__title { white-space: normal; }
+  :is(.featured, .flower, .boxjam, .blob, .word) { --head-gap: 1.2rem; }
+  .flower__header h2,
+  .blob__header h2 { font-size: clamp(3rem, 13vw, 4.65rem); }
+  .boxjam__header h2,
+  .word__header h2 { font-size: clamp(2.25rem, 9.8vw, 3.55rem); }
+  .solitaire .word__header h2 { font-size: clamp(2rem, 8.5vw, 3.2rem); }
+  :is(.flower__copy, .boxjam__copy, .blob__copy, .word__copy) { padding: 1rem; box-shadow: 3px 3px 0 var(--fold-accent, currentColor); }
+}

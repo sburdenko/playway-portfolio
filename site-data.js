@@ -7,6 +7,7 @@ export const GAMES = [
   {
     id: "work", num: "01", name: "Bronze Hoof", rule: "bronze",
     bg: "#11110e", ink: "#eeede6", accent: "#e9c46a",
+    skin: "bronze",
     image: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1194600/ss_2541116e7c8fbb4bb946e12b0d6755cecea50b38.1920x1080.jpg?t=1598633964",
   },
   {
@@ -19,27 +20,32 @@ export const GAMES = [
   {
     id: "flower-book", num: "03", name: "Flower Book", rule: "flower",
     bg: "#21503b", ink: "#fff4d6", accent: "#ff9fbd",
+    skin: "flower",
     image: "https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/c9/bc/fc/c9bcfc3b-4e7a-6721-71ae-41f45b17178b/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg",
   },
   {
     id: "box-jam", num: "04", name: "Box Jam", rule: "boxjam",
     bg: "#1f2a35", ink: "#f7f7f1", accent: "#43a0ff",
+    skin: "boxjam",
     image: "https://play-lh.googleusercontent.com/u_U_XDi6xdzmzshS7tgmbKK0LYLz60oQ-GUPl8Zy3ZI_TX9I8NIhcvlMnCS5RDp7bwlXorgIoEcf4R6qAM3B2rk=s512",
   },
   {
     id: "blob-jam", num: "05", name: "Blob Jam", rule: "blob",
     bg: "#4c2ca0", ink: "#fff9f0", accent: "#ffc94e",
+    skin: "blob",
     image: "https://play-lh.googleusercontent.com/MIgFoxNl5IvZ6hP6gDL8AxyzTLQKKOx_lhPmxtE9rvuV-vKCCRN2YLWaGJMdobRjyhJVD8lCCfNJg8gzswvfvg=s512",
   },
   {
     id: "word-bend", num: "06", name: "Word Bend", rule: "word",
     bg: "#f4d6bd", ink: "#201b42", accent: "#e74c68",
+    skin: "word",
     image: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/45/0b/3c/450b3cad-fc96-c12e-cfd1-9b70de15f6aa/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
   },
   {
     id: "card-match", num: "07", name: "Card Match Solitaire", rule: "card",
     compact: true,
     bg: "#d4e1c3", ink: "#1f2533", accent: "#246b55",
+    skin: "card",
     image: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/24/eb/06/24eb0604-578f-7515-318b-708e6649b855/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
   },
   {
