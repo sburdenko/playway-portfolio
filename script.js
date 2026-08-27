@@ -188,6 +188,19 @@ soundToggle.addEventListener("click", () => {
   soundToggle.setAttribute("aria-label", `Turn trailer sound ${trailer.muted ? "on" : "off"}`);
 });
 
+// A mailto only goes anywhere if the machine has a mail client registered, and
+// plenty do not. The link still fires, so a configured client still opens; this
+// just guarantees the row always does something you can see.
+const copyTarget = document.querySelector("[data-copy]");
+if (copyTarget && navigator.clipboard) {
+  copyTarget.closest("a").addEventListener("click", () => {
+    navigator.clipboard.writeText(copyTarget.dataset.copy).then(() => {
+      copyTarget.dataset.state = "copied";
+      window.setTimeout(() => delete copyTarget.dataset.state, 1600);
+    }, () => {});
+  });
+}
+
 const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 const ringPointer = { ...pointer };
 const cursorDot = document.querySelector(".cursor--dot");
