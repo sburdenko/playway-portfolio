@@ -3301,8 +3301,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* The XR page had nothing to touch. This is the loop every case below is built
    on, made playable: scan, lock a plane, anchor content to it. */
 
-.xr-feed { padding:0 var(--gutter) clamp(3rem,5vw,5rem); background:#07131d; }
-.xr-case { position:relative; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); column-gap:5vw; padding:clamp(3rem,5vw,5rem) 0; border-top:1px solid rgba(234,247,255,.19); }
+.xr-feed { padding:0 0 clamp(3rem,5vw,5rem); background:#07131d; }
+.xr-case { position:relative; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); column-gap:5vw; padding:clamp(3rem,5vw,5rem) var(--gutter); border-top:1px solid rgba(234,247,255,.19); }
 .xr-case header { grid-column:1/-1; display:flex; justify-content:space-between; gap:1rem; margin-bottom:2.2rem; color:#70f2d1; }
 .xr-case__title { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); column-gap:5vw; align-items:end; margin-bottom:2.6rem; }
 .xr-case__title h2 { grid-column:1; margin:0; font-family:var(--display); font-size:clamp(2.2rem,5.3vw,6.4rem); font-weight:800; line-height:.72; letter-spacing:-.1em; text-transform:uppercase; }
@@ -5769,9 +5769,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .xr-case.xr-foldable[data-closing] {
   padding-top: clamp(3rem, 5vw, 5rem);
   padding-bottom: var(--fold-open-bottom);
+  padding-inline: var(--gutter);
 }
 
-.xr-foldable .game-fold { padding-inline: clamp(1rem, 2.4vw, 2.4rem); }
+.xr-foldable .game-fold { padding-inline: var(--gutter); }
 
 .xr-foldable .game-fold__content {
   display: grid;
@@ -7805,13 +7806,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   border-image-source: var(--fold-frame);
   border-image-slice: 25%;
   border-image-repeat: round;
-  opacity: .72;
-  transition: opacity .45s var(--ease), scale .55s var(--ease);
-}
-
-.game-fold:is(:hover, :focus-visible) .game-fold__badge::after {
-  opacity: 1;
-  scale: 1.05;
 }
 
 .game-fold__icon {
@@ -8843,4 +8837,50 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .contact__channel [data-copy][data-state="copied"]::after {
   content: " · copied";
   color: #00b3c4;
+}
+
+/* ============================================================================
+   The motif frame is not part of the cover at rest — it is drawn on approach.
+   A conic mask sweeps the perimeter, and stepping it means the band arrives an
+   edge at a time rather than fading in as a whole. Each game starts on its own
+   edge and runs its own way round, so nine covers never draw the same way.
+   ========================================================================= */
+@property --frame-sweep {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.game-fold__badge::after {
+  /* 45deg puts a quarter-turn on each edge, so the steps land on the frame's
+     sides instead of cutting its corners. */
+  --frame-sweep: 0deg;
+  --frame-start: 45deg;
+  --frame-from: var(--frame-start);
+  -webkit-mask: conic-gradient(from var(--frame-from), #000 var(--frame-sweep), transparent 0);
+  mask: conic-gradient(from var(--frame-from), #000 var(--frame-sweep), transparent 0);
+  transition: --frame-sweep .5s steps(4, end);
+}
+
+.game-fold:is(:hover, :focus-visible) .game-fold__badge::after { --frame-sweep: 360deg; }
+
+/* Running the start angle backwards as the arc grows draws it anticlockwise. */
+:is(.game-fold--flower, .game-fold--blob, .game-fold--card, .game-fold--lords) .game-fold__badge::after {
+  --frame-from: calc(var(--frame-start) - var(--frame-sweep));
+}
+
+.game-fold--bronze .game-fold__badge::after { --frame-start: 45deg; transition-duration: .46s; }
+.game-fold--boon .game-fold__badge::after { --frame-start: 225deg; transition-duration: .52s; }
+.game-fold--flower .game-fold__badge::after { --frame-start: 45deg; transition-duration: .58s; }
+.game-fold--boxjam .game-fold__badge::after { --frame-start: 315deg; transition-duration: .44s; }
+.game-fold--blob .game-fold__badge::after { --frame-start: 135deg; transition-duration: .62s; }
+.game-fold--word .game-fold__badge::after { --frame-start: 135deg; transition-duration: .5s; }
+.game-fold--card .game-fold__badge::after { --frame-start: 315deg; transition-duration: .56s; }
+
+/* The sapper lays its mines one short run at a time, the orbit arrives smoothly. */
+.game-fold--sapper .game-fold__badge::after { --frame-start: 45deg; transition: --frame-sweep .6s steps(8, end); }
+.game-fold--lords .game-fold__badge::after { --frame-start: 225deg; transition: --frame-sweep .66s steps(12, end); }
+
+@media (prefers-reduced-motion: reduce) {
+  .game-fold__badge::after { transition: none; }
 }
