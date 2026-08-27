@@ -42,6 +42,12 @@
     <div class="cursor cursor--dot" aria-hidden="true"></div>
     <div class="cursor cursor--ring" aria-hidden="true"></div>
 
+    <div class="warp" aria-hidden="true">
+      <span class="warp__bars"></span>
+      <span class="warp__scan"></span>
+      <b class="warp__label"></b>
+    </div>
+
     <header class="site-header">
       <a class="brand interactive" href="#top" aria-label="Back to top">
         <span class="brand__glyph" data-text="P//W">P//W</span>
@@ -80,7 +86,13 @@
           </div>
           <div class="hero__routes reveal" aria-label="Choose a portfolio area">
             <a class="hero-route hero-route--games interactive" href="#work"><span>01 / Games</span><strong>Shipped mobile &amp; PC</strong><i>Enter game archive ↓</i></a>
-            <a class="hero-route hero-route--xr interactive" href="./xr.html"><span>02 / Enterprise XR</span><strong>AR, VR &amp; spatial products</strong><i>Enter XR archive ↗</i></a>
+            <a class="hero-route hero-route--xr interactive" href="./xr.html">
+              <span class="hero-route__lenses" aria-hidden="true"></span>
+              <span class="hero-route__depth" aria-hidden="true"></span>
+              <span>02 / Enterprise XR <em class="hero-route__badge">AR · VR</em></span>
+              <strong data-text="AR, VR &amp; spatial products">AR, VR &amp; spatial products</strong>
+              <i>Enter XR archive ↗</i>
+            </a>
           </div>
         </div>
 
@@ -981,7 +993,7 @@
             <a class="contact__channel interactive" href="mailto:sburdenko@gmail.com">
               <i aria-hidden="true">02</i>
               <b data-text="Email">Email</b>
-              <span>sburdenko@gmail.com</span>
+              <span data-copy="sburdenko@gmail.com">sburdenko@gmail.com</span>
               <em aria-hidden="true">↗</em>
             </a>
           </li>
@@ -1016,6 +1028,7 @@
         <!--@rail-->
     </nav>
 
+    <script type="module" src="/warp.js"></script>
     <script type="module" src="/script.js"></script>
     <script type="module" src="/minesweeper.js"></script>
     <script type="module" src="/graveyard.js"></script>
