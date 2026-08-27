@@ -75,10 +75,12 @@ const glitchBrandName = () => {
 };
 window.setTimeout(glitchBrandName, 1700);
 
+const heroStage = document.querySelector(".hero-stage");
 const trailer = document.querySelector(".hero-stage video");
 const soundToggle = document.querySelector(".sound-toggle");
 const heroImage = document.querySelector(".hero-stage__image");
 const heroFeedProject = document.querySelector(".hero-stage__project");
+const heroCounter = document.querySelector(".hero-stage__counter");
 const asset = (file) => `${import.meta.env.BASE_URL}media/${file}`;
 const media = (name) => asset(`${name}.webp`);
 
@@ -122,9 +124,23 @@ const seekSomewhere = () => {
 
 trailer.addEventListener("loadedmetadata", seekSomewhere);
 
+let switchTimer;
+
+// Changing channel breaks the picture up for a few frames. The class drives the
+// whole thing in CSS; this only opens and closes the window.
+const glitchStage = () => {
+  window.clearTimeout(switchTimer);
+  heroStage.classList.remove("is-switching");
+  // Reflow, so re-adding the class restarts the animation on a rapid switch.
+  void heroStage.offsetWidth;
+  heroStage.classList.add("is-switching");
+  switchTimer = window.setTimeout(() => heroStage.classList.remove("is-switching"), 460);
+};
+
 const showHeroFeed = (index) => {
   const item = heroFeed[index];
   heroFeedProject.textContent = item.label;
+  glitchStage();
 
   if (!item.clip) {
     trailer.pause();
@@ -155,6 +171,16 @@ window.setInterval(() => {
   heroFeedIndex = (heroFeedIndex + 1) % heroFeed.length;
   showHeroFeed(heroFeedIndex);
 }, CLIP_SECONDS * 1000);
+
+// The tape counter never resets, the way a deck's counter never does.
+let tapeSeconds = 0;
+const updateCounter = () => {
+  tapeSeconds += 1;
+  const minutes = String(Math.floor(tapeSeconds / 60) % 60).padStart(2, "0");
+  const seconds = String(tapeSeconds % 60).padStart(2, "0");
+  heroCounter.textContent = `${Math.floor(tapeSeconds / 3600)}:${minutes}:${seconds}`;
+};
+window.setInterval(updateCounter, 1000);
 
 soundToggle.addEventListener("click", () => {
   trailer.muted = !trailer.muted;
@@ -195,18 +221,6 @@ document.querySelectorAll("[data-tilt]").forEach((element) => {
   });
   element.addEventListener("pointerleave", () => {
     element.style.transform = "perspective(1100px) rotateX(0deg) rotateY(0deg)";
-  });
-});
-
-document.querySelectorAll(".magnetic").forEach((element) => {
-  element.addEventListener("pointermove", (event) => {
-    const bounds = element.getBoundingClientRect();
-    const x = event.clientX - bounds.left - bounds.width / 2;
-    const y = event.clientY - bounds.top - bounds.height / 2;
-    element.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
-  });
-  element.addEventListener("pointerleave", () => {
-    element.style.transform = "translate(0, 0)";
   });
 });
 

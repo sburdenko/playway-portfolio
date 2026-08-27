@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600&family=Bangers&family=Bevan&family=Bowlby+One+SC&family=Chakra+Petch:wght@700&family=Fredoka:wght@600;700&family=Lilita+One&family=Orbitron:wght@700..900&family=Syne:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600&family=Bangers&family=Bevan&family=Bowlby+One+SC&family=Chakra+Petch:wght@700&family=Fredoka:wght@600;700&family=Lilita+One&family=Orbitron:wght@700..900&family=Silkscreen:wght@400;700&family=Syne:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css" />
@@ -44,7 +44,7 @@
 
     <header class="site-header">
       <a class="brand interactive" href="#top" aria-label="Back to top">
-        <span class="brand__glyph">P//W</span>
+        <span class="brand__glyph" data-text="P//W">P//W</span>
         <span class="brand__copy"><span class="brand__name" data-name="Oleksandr Burdenko">Oleksandr Burdenko</span><br />Unity developer</span>
       </a>
       <nav class="site-nav" aria-label="Main navigation">
@@ -77,12 +77,6 @@
               Responsive controls, readable systems, and builds that hold 60 fps on the
               devices people actually own.
             </p>
-            <a class="round-link interactive magnetic" href="#work" aria-label="Explore selected work">
-              <span>Explore<br />work</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 4v15M6 13l6 6 6-6" />
-              </svg>
-            </a>
           </div>
           <div class="hero__routes reveal" aria-label="Choose a portfolio area">
             <a class="hero-route hero-route--games interactive" href="#work"><span>01 / Games</span><strong>Shipped mobile &amp; PC</strong><i>Enter game archive ↓</i></a>
@@ -92,7 +86,8 @@
 
         <div class="hero-stage reveal" data-tilt>
           <div class="hero-stage__topline">
-            <span>Live game feed</span>
+            <span class="hero-stage__rec"><i aria-hidden="true"></i>Rec</span>
+            <span class="hero-stage__label">Live game feed</span>
             <span class="hero-stage__project">01 / Bronze Hoof</span>
           </div>
           <video
@@ -110,10 +105,13 @@
             />
           </video>
           <div class="hero-stage__media hero-stage__image" role="img"></div>
-          <div class="hero-stage__scan"></div>
-          <div class="hero-stage__reticle" aria-hidden="true"><span></span></div>
+          <div class="hero-stage__chroma" aria-hidden="true"></div>
+          <div class="hero-stage__scan" aria-hidden="true"></div>
+          <div class="hero-stage__tracking" aria-hidden="true"></div>
+          <b class="hero-stage__tracking-label" aria-hidden="true">Tracking</b>
           <div class="hero-stage__footer">
-            <span>Unity runtime</span>
+            <span>SP · Unity runtime</span>
+            <span class="hero-stage__counter">0:00:00</span>
             <button class="sound-toggle interactive" type="button" aria-label="Turn trailer sound on">
               Sound: off
             </button>
@@ -163,6 +161,15 @@
             hand-built stages.<br /><br />
             <strong>Lead developer / Owned core gameplay, 2D character and VFX animation integration, complex level construction, boss encounters, performance optimisation and localisation across 12 languages.</strong>
           </p>
+        </div>
+
+        <div class="game-store game-store--bronze reveal">
+          <span class="game-store__label">Get Bronze Hoof</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="steam" href="https://store.steampowered.com/app/1194600/Bronze_Hoof/" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>Steam</b><span>Windows</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
         </div>
 
         <a
@@ -286,6 +293,15 @@
           </div>
         </div>
 
+        <div class="game-store game-store--boon reveal">
+          <span class="game-store__label">Get Boon Hill</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="steam" href="https://store.steampowered.com/app/406780/Welcome_to_Boon_Hill/" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>Steam</b><span>Windows</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
+        </div>
+
         <div class="boon__stage">
         <a
           class="boon-screen interactive reveal"
@@ -400,10 +416,17 @@
             <span>03 / Mobile puzzle</span>
           </div>
           <h2>Fl<span class="fl-o">o</span>wer<br /><em>B<span class="bk-o bk-o--a">o</span><span class="bk-o bk-o--b">o</span>k</em></h2>
-          <div class="flower__store-mark">
-            <span>Available on</span>
-            <a class="interactive" href="https://apps.apple.com/app/flower-book-match-3-game/id1543828707" target="_blank" rel="noreferrer">App Store ↗</a>
-            <a class="interactive" href="https://play.google.com/store/apps/details?id=com.QuickPanda.FlowerBook" target="_blank" rel="noreferrer">Google Play ↗</a>
+        </div>
+
+        <div class="game-store game-store--flower reveal">
+          <span class="game-store__label">Get Flower Book</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="apple" href="https://apps.apple.com/app/flower-book-match-3-game/id1543828707" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>App Store</b><span>iPhone / iPad</span><em aria-hidden="true">↗</em>
+            </a>
+            <a class="game-store__button interactive" data-store="google" href="https://play.google.com/store/apps/details?id=com.QuickPanda.FlowerBook" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>Google Play</b><span>Android</span><em aria-hidden="true">↗</em>
+            </a>
           </div>
         </div>
 
@@ -414,14 +437,6 @@
               Match flowers, solve puzzles and grow a living collection.
               A cozy mobile loop that blends strategy, decoration and real plant facts.
             </p>
-            <a
-              class="flower__link interactive"
-              href="https://apps.apple.com/app/flower-book-match-3-game/id1543828707"
-              target="_blank"
-              rel="noreferrer"
-            >
-              View on App Store <i>↗</i>
-            </a>
           </div>
 
           <a
@@ -490,6 +505,18 @@
           <p>Sort the chaos.<br />Feed the flow.</p>
         </div>
 
+        <div class="game-store game-store--boxjam reveal">
+          <span class="game-store__label">Get Box Jam</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="google" href="https://play.google.com/store/apps/details?id=com.playoneer.boxjam" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>Google Play</b><span>Android</span><em aria-hidden="true">↗</em>
+            </a>
+            <a class="game-store__button interactive" data-store="apple" href="https://apps.apple.com/app/box-jam-3d-puzzle/id6689513436" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>App Store</b><span>iPhone / iPad</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
+        </div>
+
         <div class="boxjam__stage">
           <div
             class="boxjam-phone boxjam-phone--film film-shell reveal"
@@ -519,24 +546,6 @@
               <div><strong>4.8</strong><span>rating</span></div>
               <div><strong>14K+</strong><span>reviews</span></div>
               <div><strong>3D</strong><span>object sorting</span></div>
-            </div>
-            <div class="boxjam__links">
-              <a
-                class="boxjam__link interactive"
-                href="https://play.google.com/store/apps/details?id=com.playoneer.boxjam"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Google Play <i>↗</i>
-              </a>
-              <a
-                class="boxjam__link interactive"
-                href="https://apps.apple.com/app/box-jam-3d-puzzle/id6689513436"
-                target="_blank"
-                rel="noreferrer"
-              >
-                App Store <i>↗</i>
-              </a>
             </div>
           </div>
         </div>
@@ -589,6 +598,18 @@
           <h2><span class="blob__word blob__word--blob">Blob</span><br /><em><span class="blob__word blob__word--sort">Sort</span><br /><span class="blob__word blob__word--jam">Jam</span></em></h2>
           <p>Collect.<br />Sort. Escape.</p>
         </div>
+
+        <div class="game-store game-store--blob reveal">
+          <span class="game-store__label">Get Blob Sort Jam</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="google" href="https://play.google.com/store/apps/details?id=com.playoneer.blob" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>Google Play</b><span>Android</span><em aria-hidden="true">↗</em>
+            </a>
+            <a class="game-store__button interactive" data-store="apple" href="https://apps.apple.com/app/blob-jam-sort-in-space/id6751169943" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>App Store</b><span>iPhone / iPad</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
+        </div>
         <div class="blob__stage">
           <div class="blob__phones reveal" aria-label="Blob Sort Jam mobile gameplay screens">
             <figure><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b4/ed/bc/b4edbca4-2e11-1b6d-d51a-f97f45036beb/1_1290x2796.png/784x1699bb.png" alt="Blob Jam object sorting gameplay" loading="lazy" /></figure>
@@ -608,10 +629,6 @@
               <div><strong>Feel</strong><span>tactile interaction</span></div>
               <div><strong>Unity</strong><span>gameplay systems</span></div>
             </div>
-            <div class="blob__links">
-              <a class="interactive" href="https://play.google.com/store/apps/details?id=com.playoneer.blob" target="_blank" rel="noreferrer">Google Play <i>↗</i></a>
-              <a class="interactive" href="https://apps.apple.com/app/blob-jam-sort-in-space/id6751169943" target="_blank" rel="noreferrer">App Store <i>↗</i></a>
-            </div>
           </div>
         </div>
       <!--@rule:blob-jam:end-->
@@ -623,6 +640,15 @@
           <div><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/45/0b/3c/450b3cad-fc96-c12e-cfd1-9b70de15f6aa/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg" alt="Word Bend app icon" loading="lazy" /><span>06 / Word puzzle</span></div>
           <h2>Word<br /><em>Bend</em></h2>
           <p>Find words.<br />Bend your mind.</p>
+        </div>
+
+        <div class="game-store game-store--word reveal">
+          <span class="game-store__label">Get Word Bend</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="apple" href="https://apps.apple.com/app/word-bend/id6736628030" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>App Store</b><span>iPhone / iPad</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
         </div>
         <div class="word__body reveal">
           <div class="word__phones">
@@ -637,7 +663,6 @@
             <span>iOS / Word / Casual</span>
             <p>A daily word-search challenge built for quick, satisfying brain breaks. Link letters in every direction and discover the hidden words.</p>
             <div class="word__facts"><div><strong>1K+</strong><span>unique levels</span></div><div><strong>5.0</strong><span>App Store rating</span></div><div><strong>400+</strong><span>ratings</span></div><div><strong>iOS</strong><span>iPhone + iPad</span></div></div>
-            <a class="word__link interactive" href="https://apps.apple.com/app/word-bend/id6736628030" target="_blank" rel="noreferrer">Get Word Bend <i>↗</i></a>
           </div>
         </div>
       <!--@rule:word-bend:end-->
@@ -646,7 +671,16 @@
       <section class="word solitaire section" id="card-match">
         <!--@rule:card-match-->
         <div class="word__header reveal"><div><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/24/eb/06/24eb0604-578f-7515-318b-708e6649b855/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg" alt="Card Match Solitaire app icon" loading="lazy" /><span>07 / Card puzzle</span></div><h2>Card<br /><em>M<span class="ace-a">a</span>tch</em></h2><p>Stack.<br />Match. Win.</p></div>
-        <div class="word__body reveal"><div class="word__phones"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ba/e2/40/bae2404b-a4ee-14a4-3aaa-6f445b6fffbb/Solitaire-Store-Images21242x2208.png/784x1392bb.png" alt="Card Match Solitaire level screen" loading="lazy" /><figure class="word-film film-shell" data-state="idle"><video muted loop playsinline preload="none" aria-label="Card Match Solitaire gameplay" poster="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png"><source src="./media/card-match-trailer.mp4" type="video/mp4" /></video><button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Card Match Solitaire trailer"><i aria-hidden="true"></i><span>Trailer</span></button></figure><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/78/87/7b788791-1fa3-a208-d5c8-257233088b42/Solitaire-Store-Images3_1242x2208.png/784x1392bb.png" alt="Card Match Solitaire cards" loading="lazy" /></div><div class="scope"><h3>What I did</h3><ol><li><i>01</i><b>Prototype &amp; PoC</b><span>Playable proof of the loop</span></li><li><i>02</i><b>Build to release</b><span>Every system, to the store</span></li><li><i>03</i><b>Live support</b><span>Updates and fixes after launch</span></li></ol></div><div class="word__copy"><span>iOS / Solitaire / Casual</span><p>A modern, tactile take on solitaire: make quick decisions, clear the board and turn every card into a satisfying move.</p><div class="word__facts"><div><strong>Stack</strong><span>card matching</span></div><div><strong>Flow</strong><span>quick decisions</span></div><div><strong>Clear</strong><span>board progression</span></div><div><strong>iOS</strong><span>casual release</span></div></div><a class="word__link interactive" href="https://apps.apple.com/app/card-match-solitaire/id6477757812" target="_blank" rel="noreferrer">Get Card Match <i>↗</i></a></div></div>
+
+        <div class="game-store game-store--card reveal">
+          <span class="game-store__label">Get Card Match</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="apple" href="https://apps.apple.com/app/card-match-solitaire/id6477757812" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>App Store</b><span>iPhone / iPad</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
+        </div>
+        <div class="word__body reveal"><div class="word__phones"><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/ba/e2/40/bae2404b-a4ee-14a4-3aaa-6f445b6fffbb/Solitaire-Store-Images21242x2208.png/784x1392bb.png" alt="Card Match Solitaire level screen" loading="lazy" /><figure class="word-film film-shell" data-state="idle"><video muted loop playsinline preload="none" aria-label="Card Match Solitaire gameplay" poster="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/66/6e/aa666ee7-f590-8ec3-c24e-326396691d71/Solitaire-Store-Images1_1242x2208.png/784x1392bb.png"><source src="./media/card-match-trailer.mp4" type="video/mp4" /></video><button class="clip-play interactive" type="button" data-clip-play aria-label="Play the Card Match Solitaire trailer"><i aria-hidden="true"></i><span>Trailer</span></button></figure><img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/7b/78/87/7b788791-1fa3-a208-d5c8-257233088b42/Solitaire-Store-Images3_1242x2208.png/784x1392bb.png" alt="Card Match Solitaire cards" loading="lazy" /></div><div class="scope"><h3>What I did</h3><ol><li><i>01</i><b>Prototype &amp; PoC</b><span>Playable proof of the loop</span></li><li><i>02</i><b>Build to release</b><span>Every system, to the store</span></li><li><i>03</i><b>Live support</b><span>Updates and fixes after launch</span></li></ol></div><div class="word__copy"><span>iOS / Solitaire / Casual</span><p>A modern, tactile take on solitaire: make quick decisions, clear the board and turn every card into a satisfying move.</p><div class="word__facts"><div><strong>Stack</strong><span>card matching</span></div><div><strong>Flow</strong><span>quick decisions</span></div><div><strong>Clear</strong><span>board progression</span></div><div><strong>iOS</strong><span>casual release</span></div></div></div></div>
       <!--@rule:card-match:end-->
       </section>
 
@@ -658,6 +692,15 @@
           <span>08 / PC puzzle adventure</span>
           <h2>Crazy<br /><em>Sapper</em> 3D</h2>
           <p>Think first.<br />Move second.</p>
+        </div>
+
+        <div class="game-store game-store--sapper reveal">
+          <span class="game-store__label">Get Crazy Sapper 3D</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="steam" href="https://store.steampowered.com/app/529420/Crazy_Sapper_3D/" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>Steam</b><span>Windows</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
         </div>
 
         <div class="sapper__stage">
@@ -698,14 +741,6 @@
               <div><strong>45</strong><span>Steam achievements</span></div>
               <div><strong>72%</strong><span>positive reviews</span></div>
             </div>
-            <a
-              class="sapper__link interactive"
-              href="https://store.steampowered.com/app/529420/Crazy_Sapper_3D/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              View on Steam <i>↗</i>
-            </a>
           </div>
         </div>
 
@@ -771,6 +806,15 @@
           <span>09 / MMORTS / Space</span>
           <h2>Astro<br /><em>Lords</em></h2>
           <p>Claim an asteroid.<br />Rule the cloud.</p>
+        </div>
+
+        <div class="game-store game-store--lords reveal">
+          <span class="game-store__label">Play Astro Lords</span>
+          <div class="game-store__row">
+            <a class="game-store__button interactive" data-store="steam" href="https://store.steampowered.com/app/372190/Astro_Lords_Oort_Cloud/" target="_blank" rel="noreferrer">
+              <i aria-hidden="true"></i><b>Steam</b><span>Free to play</span><em aria-hidden="true">↗</em>
+            </a>
+          </div>
         </div>
 
         <div class="astro__stage">
@@ -847,9 +891,6 @@
               <div><strong>50+</strong><span>skills to develop</span></div>
               <div><strong>F2P</strong><span>on Steam</span></div>
             </div>
-            <a class="astro__link interactive" href="https://store.steampowered.com/app/372190/Astro_Lords_Oort_Cloud/" target="_blank" rel="noreferrer">
-              Enter the Oort Cloud <i>↗</i>
-            </a>
           </div>
         </div>
 
@@ -922,16 +963,37 @@
 
       <section class="contact" id="contact">
         <div class="contact__noise" aria-hidden="true"></div>
+        <div class="contact__scan" aria-hidden="true"></div>
         <div class="contact__top reveal">
           <span>Have a world in mind?</span>
           <span>Let’s make it playable.</span>
         </div>
-        <a
-          class="contact__cta interactive reveal"
-          href="mailto:sburdenko@gmail.com"
-        >
-          Send<br />an email <span>↗</span>
-        </a>
+        <ul class="contact__channels reveal">
+          <li>
+            <a class="contact__channel interactive" href="https://www.linkedin.com/in/oleksandr-burdenko-349061a3/" target="_blank" rel="noreferrer">
+              <i aria-hidden="true">01</i>
+              <b data-text="LinkedIn">LinkedIn</b>
+              <span>oleksandr-burdenko</span>
+              <em aria-hidden="true">↗</em>
+            </a>
+          </li>
+          <li>
+            <a class="contact__channel interactive" href="mailto:sburdenko@gmail.com">
+              <i aria-hidden="true">02</i>
+              <b data-text="Email">Email</b>
+              <span>sburdenko@gmail.com</span>
+              <em aria-hidden="true">↗</em>
+            </a>
+          </li>
+          <li>
+            <a class="contact__channel interactive" href="https://github.com/sburdenko" target="_blank" rel="noreferrer">
+              <i aria-hidden="true">03</i>
+              <b data-text="GitHub">GitHub</b>
+              <span>github.com/sburdenko</span>
+              <em aria-hidden="true">↗</em>
+            </a>
+          </li>
+        </ul>
         <div class="contact__tally reveal">
           <div><strong>10</strong><span>games shipped</span></div>
           <div><strong>08</strong><span>XR cases</span></div>
@@ -944,8 +1006,7 @@
         </div>
         <div class="contact__footer">
           <span>© 2026 Oleksandr</span>
-          <a class="interactive" href="https://www.linkedin.com/in/oleksandr-burdenko-349061a3/" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a class="interactive" href="mailto:sburdenko@gmail.com">sburdenko@gmail.com</a>
+          <span>Bonn, Germany · remote</span>
           <a class="interactive" href="#top">Back to top ↑</a>
         </div>
       </section>

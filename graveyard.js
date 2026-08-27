@@ -13,30 +13,34 @@ const COLS = MAP[0].length;
 const ROWS = MAP.length;
 const STONE = "#";
 
+// Twenty-two plots: the seven of the 27 club, the people who built the games
+// and the machines they run on. Names are kept short so the inscription reads
+// on two lines at most, and each line says what the person is remembered for.
 const EPITAPHS = [
-  { name: "David Bowie", years: "1947 — 2016", line: "RIP. The stardust keeps the gate." },
-  { name: "Freddie Mercury", years: "1946 — 1991", line: "In loving memory. The chorus still rises." },
-  { name: "Leonard Cohen", years: "1934 — 2016", line: "A low song remains on the hill." },
-  { name: "Prince", years: "1958 — 2016", line: "Purple rain, then quiet." },
-  { name: "Johnny Cash", years: "1932 — 2003", line: "One last train took him home." },
-  { name: "Amy Winehouse", years: "1983 — 2011", line: "We all sing the hard parts now." },
-  { name: "Ian Curtis", years: "1956 — 1980", line: "The room is still moving." },
-  { name: "Tina Turner", years: "1939 — 2023", line: "Simply the best, beyond the lights." },
-  { name: "George Harrison", years: "1943 — 2001", line: "The garden keeps its guitar tuned." },
-  { name: "Kurt Cobain", years: "1967 — 1994", line: "The amp is silent. The feedback stays." },
+  { name: "Ada Lovelace", years: "1815 — 1852", line: "The first program, for a machine unbuilt." },
+  { name: "Robert Johnson", years: "1911 — 1938", line: "Twenty-nine songs, and a long shadow." },
+  { name: "Alan Turing", years: "1912 — 1954", line: "He asked whether machines could think." },
+  { name: "Ralph Baer", years: "1922 — 2014", line: "He put the first game on a television." },
+  { name: "Grace Hopper", years: "1906 — 1992", line: "She taught the machine plain English." },
+  { name: "Brian Jones", years: "1942 — 1969", line: "He found the sound, then let it go." },
+  { name: "Gunpei Yokoi", years: "1941 — 1997", line: "Lateral thinking, withered technology." },
+  { name: "Satoru Iwata", years: "1959 — 2015", line: "In his heart, he was always a gamer." },
+  { name: "Dennis Ritchie", years: "1941 — 2011", line: "Every language since borrowed his braces." },
+  { name: "Janis Joplin", years: "1943 — 1970", line: "She spent the whole voice every night." },
+  { name: "Hiroshi Yamauchi", years: "1927 — 2013", line: "Playing cards in, home consoles out." },
+  { name: "Jerry Lawson", years: "1940 — 2011", line: "He made the cartridge you swapped." },
+  { name: "Edsger Dijkstra", years: "1930 — 2002", line: "The shortest path is still his." },
+  { name: "Jim Morrison", years: "1943 — 1971", line: "The doors stayed open behind him." },
+  { name: "Masaya Nakamura", years: "1925 — 2017", line: "A yellow circle ate the whole arcade." },
+  { name: "Danielle Bunten", years: "1949 — 1998", line: "She built the games you had to share." },
+  { name: "Clive Sinclair", years: "1940 — 2021", line: "One rubber keyboard, one generation." },
   { name: "Jimi Hendrix", years: "1942 — 1970", line: "The sky learned a new electric colour." },
-  { name: "Joe Strummer", years: "1952 — 2002", line: "The radio is still worth fighting for." },
-  { name: "Ursula K. Le Guin", years: "1929 — 2018", line: "The doors of summer are open." },
-  { name: "Toni Morrison", years: "1931 — 2019", line: "Her pages remember every voice." },
-  { name: "Ray Bradbury", years: "1920 — 2012", line: "A paperback burns bright in the dark." },
-  { name: "Octavia E. Butler", years: "1947 — 2006", line: "The future has a fierce new root." },
-  { name: "Terry Pratchett", years: "1948 — 2015", line: "The footnotes continue somewhere." },
-  { name: "James Baldwin", years: "1924 — 1987", line: "The truth refuses to sleep." },
-  { name: "Maya Angelou", years: "1928 — 2014", line: "Still, the morning rises." },
-  { name: "Douglas Adams", years: "1952 — 2001", line: "No panic. The stars know the way." },
-  { name: "Stan Lee", years: "1922 — 2018", line: "Excelsior, beyond the final panel." },
   { name: "Akira Toriyama", years: "1955 — 2024", line: "The next adventure waits in ink." },
+  { name: "Amy Winehouse", years: "1983 — 2011", line: "We all sing the hard parts now." },
+  { name: "Kurt Cobain", years: "1967 — 1994", line: "The amp is quiet. The feedback stays." },
+  { name: "Gary Gygax", years: "1938 — 2008", line: "He rolled the dice that started it all." },
 ];
+
 
 const key = (x, y) => `${x},${y}`;
 
@@ -104,12 +108,6 @@ const mount = (root) => {
         marker.className = "graveyard__marker";
         marker.setAttribute("aria-hidden", "true");
         tile.append(marker);
-        if (stoneKind(stone.id) === "cross-top") {
-          const cross = document.createElement("span");
-          cross.className = "graveyard__cross";
-          cross.setAttribute("aria-hidden", "true");
-          tile.append(cross);
-        }
       }
       tile.dataset.x = String(x);
       tile.dataset.y = String(y);
@@ -126,10 +124,9 @@ const mount = (root) => {
   const memorial = document.createElement("article");
   memorial.className = "graveyard__memorial";
   memorial.setAttribute("aria-live", "polite");
-  memorial.innerHTML = '<div class="graveyard__memorial-stone"><span class="graveyard__memorial-kicker">In loving memory</span><b></b><span class="graveyard__memorial-years"></span><p></p><i>RIP</i></div><b class="graveyard__memorial-cross-label"></b>';
+  memorial.innerHTML = '<div class="graveyard__memorial-stone"><span class="graveyard__memorial-kicker">In loving memory</span><b></b><span class="graveyard__memorial-years"></span><p></p><i>RIP</i></div>';
   field.append(memorial);
   const memorialName = memorial.querySelector("b");
-  const memorialCrossLabel = memorial.querySelector(".graveyard__memorial-cross-label");
   const memorialYears = memorial.querySelector(".graveyard__memorial-years");
   const memorialLine = memorial.querySelector("p");
 
@@ -149,7 +146,6 @@ const mount = (root) => {
   const showStone = (stone) => {
     memorial.dataset.kind = stoneKind(stone.id);
     memorialName.textContent = stone.name;
-    memorialCrossLabel.textContent = stone.name;
     memorialYears.textContent = stone.years;
     memorialLine.textContent = stone.line;
     requestAnimationFrame(() => memorial.dataset.visible = "");

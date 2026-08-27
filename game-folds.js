@@ -39,8 +39,7 @@ const makeCover = (item, section) => {
   button.innerHTML = `
     <span class="game-fold__meta"><b>${item.num}</b><i data-signal="${item.signal || "•"}">${item.tag || item.kind}</i></span>
     <span class="game-fold__mark" data-title="${item.name}">${wordmark}${item.subtitle ? `<span class="game-fold__subtitle">${item.subtitle}</span>` : ""}</span>
-    <img class="game-fold__icon" src="${item.image}" alt="" loading="lazy" />
-    <span class="game-fold__action"><i aria-hidden="true"></i>${item.action || "Open project"}<b>↘</b></span>
+    <span class="game-fold__badge"><img class="game-fold__icon" src="${item.image}" alt="" loading="lazy" /></span>
     <span class="game-fold__scan" aria-hidden="true"></span>
   `;
   return button;
@@ -79,11 +78,20 @@ const mount = (item) => {
   while (section.firstChild) content.append(section.firstChild);
 
   const cover = makeCover(item, section);
+
+  // The control sits inside the opening frieze, not before it: the frieze
+  // bleeds into the previous section with a negative margin, and anything
+  // placed above it is dragged out of the case it belongs to. Holding a line
+  // of its own there means a freshly opened case is never covered; it only
+  // starts floating over the copy once the reader scrolls past that line.
   const collapse = makeCollapse(item);
+  const opening = content.querySelector(":scope > .game-rule:not(.game-rule--end)");
+  content.insertBefore(collapse, opening ? opening.nextSibling : content.firstChild);
+
   section.style.setProperty("--fold-bg", item.bg);
   section.style.setProperty("--fold-ink", item.ink);
   section.style.setProperty("--fold-accent", item.accent);
-  section.append(cover, collapse, content);
+  section.append(cover, content);
   section.classList.add("game-foldable");
   if (item.xr) section.classList.add("xr-foldable");
 
@@ -161,7 +169,7 @@ const mount = (item) => {
   };
 
   cover.addEventListener("click", open);
-  collapse.addEventListener("click", close);
+  collapse.addEventListener("click", () => close());
   mountedCases.set(section, { close });
 };
 
