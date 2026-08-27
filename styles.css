@@ -6,6 +6,7 @@
   --lime: #dfff36;
   --orange: #ff5a36;
   --mono: "Azeret Mono", monospace;
+  --osd: "Silkscreen", "Azeret Mono", monospace;
   --display: "Syne", sans-serif;
   --gutter: clamp(1.25rem, 3.5vw, 4rem);
   --label-size: 0.7rem;
@@ -399,10 +400,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .hero__intro {
-  display: grid;
-  grid-template-columns: minmax(12rem, 25rem) auto;
-  align-items: center;
-  gap: 3vw;
+  max-width: 32rem;
   margin-top: 3rem;
   margin-left: 0;
 }
@@ -441,33 +439,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .hero-route strong { align-self: end; font-family: var(--display); font-size: clamp(1.1rem, 1.6vw, 1.55rem); line-height: 0.95; letter-spacing: -0.045em; text-transform: uppercase; }
 .hero-route i { color: var(--lime); }
 .hero-route--xr i { color: #70f2d1; }
-
-.round-link {
-  display: grid;
-  place-items: center;
-  width: 8rem;
-  aspect-ratio: 1;
-  border: 1px solid var(--lime);
-  border-radius: 50%;
-  color: var(--lime);
-  text-transform: uppercase;
-  font-size: 0.6rem;
-  line-height: 1.5;
-  letter-spacing: 0.1em;
-  transition: color 0.4s var(--ease), background 0.4s var(--ease);
-}
-
-.round-link svg {
-  width: 1.1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-}
-
-.round-link:hover {
-  color: var(--ink);
-  background: var(--lime);
-}
 
 .hero-stage {
   position: relative;
@@ -564,40 +535,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   background: repeating-linear-gradient(to bottom, transparent 0 4px, rgba(11, 11, 9, 0.15) 5px);
 }
 
-.hero-stage__reticle {
-  position: absolute;
-  z-index: 5;
-  top: 50%;
-  left: 50%;
-  width: 6rem;
-  height: 6rem;
-  border: 1px solid rgba(223, 255, 54, 0.5);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.hero-stage__reticle::before,
-.hero-stage__reticle::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background: var(--lime);
-  transform: translate(-50%, -50%);
-}
-
-.hero-stage__reticle::before { width: 130%; height: 1px; }
-.hero-stage__reticle::after { width: 1px; height: 130%; }
-
-.hero-stage__reticle span {
-  position: absolute;
-  inset: 1.5rem;
-  border: 1px dashed rgba(223, 255, 54, 0.6);
-  border-radius: inherit;
-  animation: rotate 8s linear infinite;
-}
-
-@keyframes rotate { to { transform: rotate(360deg); } }
 
 .hero__status {
   position: absolute;
@@ -736,7 +673,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   padding-bottom: 2.5rem;
   background: linear-gradient(180deg, var(--ink) 0%, #11110e 100%);
 }
-
 
 /* One divider per game, same strip everywhere so the page reads as chapters.
    Only the motif and its colour change. */
@@ -1653,7 +1589,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 .flower__identity span,
-.flower__store-mark span,
 .flower__copy > span {
   font-size: 0.56rem;
   text-transform: uppercase;
@@ -1675,22 +1610,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-style: normal;
 }
 
-.flower__store-mark {
-  justify-self: end;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  text-align: right;
-}
-
-.flower__store-mark a {
-  font-family: var(--display);
-  font-size: 1rem;
-  transition: color 0.4s var(--ease);
-}
-
-.flower__store-mark a:hover { color: #ff9fbd; }
-
 .flower__showcase {
   position: relative;
   z-index: 1;
@@ -1705,36 +1624,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-family: var(--display);
   font-size: clamp(1.2rem, 2vw, 2rem);
   line-height: 1.35;
-}
-
-.flower__link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
-  border-top: 1px solid rgba(255, 244, 214, 0.45);
-  border-bottom: 1px solid rgba(255, 244, 214, 0.45);
-  font-size: 0.58rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.flower__link i {
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 1px solid rgba(255, 244, 214, 0.5);
-  border-radius: 50%;
-  font-size: 1rem;
-  font-style: normal;
-  transition: color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
-}
-
-.flower__link:hover i {
-  color: #173a2f;
-  background: #fff4d6;
-  transform: rotate(45deg);
 }
 
 .phone-stack {
@@ -2058,43 +1947,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   letter-spacing: 0.1em;
 }
 
-.boxjam__links {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  max-width: 42rem;
-}
-
-.boxjam__link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
-  border-top: 1px solid rgba(247, 247, 241, 0.35);
-  border-bottom: 1px solid rgba(247, 247, 241, 0.35);
-  font-size: 0.58rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.boxjam__link i {
-  display: grid;
-  place-items: center;
-  width: 2.7rem;
-  height: 2.7rem;
-  border: 1px solid rgba(247, 247, 241, 0.45);
-  border-radius: 50%;
-  font-size: 1rem;
-  font-style: normal;
-  transition: color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
-}
-
-.boxjam__link:hover i {
-  color: #1f2a35;
-  background: #a5ff52;
-  transform: rotate(45deg);
-}
-
 .blob { overflow: hidden; color: #fff9f0; background: #4c2ca0; }
 .blob__dots { position: absolute; inset: 0; opacity: .24; background-image: radial-gradient(circle, #ffc94e 0 .4rem, transparent .45rem); background-size: 4rem 4rem; mask-image: linear-gradient(to bottom, black, transparent 75%); }
 /* The objects this game sorts, blurred out to scenery. */
@@ -2240,9 +2092,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .blob__facts div { display: flex; flex-direction: column; justify-content: space-between; min-height: 7.5rem; padding: 1.1rem; border-right: 1px solid rgba(255,249,240,.25); border-bottom: 1px solid rgba(255,249,240,.25); }
 .blob__facts strong { color: #ffc94e; font-family: var(--display); font-size: clamp(2.3rem, 3.7vw, 4.3rem); line-height: 1; letter-spacing: -.06em; }
 .blob__facts span { color: #e4d9ff; font-size: .53rem; text-transform: uppercase; letter-spacing: .1em; }
-.blob__links { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.blob__links a { display: flex; justify-content: space-between; padding: 1rem 0; border-block: 1px solid rgba(255,249,240,.35); font-size: .56rem; text-transform: uppercase; letter-spacing: .1em; }
-.blob__links i { color: #70f2d1; font-size: 1rem; font-style: normal; }
 
 .word { overflow: hidden; color: #201b42; background: #f4d6bd; }
 
@@ -2290,8 +2139,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__facts div { display:flex; flex-direction:column; justify-content:space-between; min-height:7.5rem; padding:1.1rem; border-right:1px solid rgba(32,27,66,.25); border-bottom:1px solid rgba(32,27,66,.25); }
 .word__facts strong { color:#e74c68; font-family:var(--display); font-size:clamp(2.3rem,3.7vw,4.3rem); line-height:1; letter-spacing:-.06em; }
 .word__facts span { color:#76658d; font-size:.53rem; text-transform:uppercase; letter-spacing:.1em; }
-.word__link { display:flex; justify-content:space-between; padding:1rem 0; border-block:1px solid rgba(32,27,66,.35); font-size:.56rem; text-transform:uppercase; letter-spacing:.1em; }
-.word__link i { color:#e74c68; font-size:1rem; font-style:normal; }
 
 /* The diagonal weave printed on the back of a playing card: a fine cross-hatch
    with a coarser one over it, so the panel reads as card stock rather than a
@@ -2318,12 +2165,13 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   line-height: 1;
   pointer-events: none;
 }
-.solitaire .word__header h2 em,.solitaire .word__header p,.solitaire .word__facts strong,.solitaire .word__link i { color:#246b55; }
+.solitaire .word__header h2 em,
+.solitaire .word__header p,
+.solitaire .word__facts strong { color:#246b55; }
 .solitaire .word__header > div span,.solitaire .word__copy > span,.solitaire .word__facts span { color:#5a726a; }
 .solitaire .word__phones img { border-color:#1f2533; }
 .solitaire .word__facts { border-color:rgba(31,37,51,.25); }
 .solitaire .word__facts div { border-color:rgba(31,37,51,.25); }
-.solitaire .word__link { border-color:rgba(31,37,51,.35); }
 
 /* What I actually did on a project, in the order it happened. Every section
    that carries one puts it in the room its shorter column already had, and
@@ -2440,7 +2288,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .word__body .scope,
 .boxjam__stage .scope,
 .blob__stage .scope { grid-column: 1; grid-row: 2; align-self: end; }
-
 
 .conveyor {
   position: relative;
@@ -2654,37 +2501,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-size: 0.53rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-}
-
-.sapper__link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
-  border-top: 1px solid rgba(255, 247, 231, 0.35);
-  border-bottom: 1px solid rgba(255, 247, 231, 0.35);
-  color: #fff7e7;
-  font-size: 0.58rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.sapper__link i {
-  display: grid;
-  place-items: center;
-  width: 2.7rem;
-  height: 2.7rem;
-  border: 1px solid rgba(255, 247, 231, 0.45);
-  border-radius: 50%;
-  font-size: 1rem;
-  font-style: normal;
-  transition: color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
-}
-
-.sapper__link:hover i {
-  color: #26251f;
-  background: #ec4b2a;
-  transform: rotate(45deg);
 }
 
 .minefield {
@@ -3131,37 +2947,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   letter-spacing: 0.1em;
 }
 
-.astro__link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
-  border-top: 1px solid rgba(239, 244, 255, 0.35);
-  border-bottom: 1px solid rgba(239, 244, 255, 0.35);
-  color: #eff4ff;
-  font-size: 0.58rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.astro__link i {
-  display: grid;
-  place-items: center;
-  width: 2.7rem;
-  height: 2.7rem;
-  border: 1px solid rgba(239, 244, 255, 0.45);
-  border-radius: 50%;
-  font-size: 1rem;
-  font-style: normal;
-  transition: color 0.35s var(--ease), background 0.35s var(--ease), transform 0.35s var(--ease);
-}
-
-.astro__link:hover i {
-  color: #080d24;
-  background: #c06fff;
-  transform: rotate(45deg);
-}
-
 .astro__gallery {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -3516,16 +3301,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* The XR page had nothing to touch. This is the loop every case below is built
    on, made playable: scan, lock a plane, anchor content to it. */
 
-
-
-
-
-
-
-
-
-
-
 .xr-feed { padding:0 var(--gutter) clamp(3rem,5vw,5rem); background:#07131d; }
 .xr-case { position:relative; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); column-gap:5vw; padding:clamp(3rem,5vw,5rem) 0; border-top:1px solid rgba(234,247,255,.19); }
 .xr-case header { grid-column:1/-1; display:flex; justify-content:space-between; gap:1rem; margin-bottom:2.2rem; color:#70f2d1; }
@@ -3705,45 +3480,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   letter-spacing: 0.12em;
 }
 
-.contact__cta {
-  position: relative;
-  display: inline-block;
-  margin-top: clamp(3rem, 7vh, 6rem);
-  font-family: var(--display);
-  font-size: clamp(5.5rem, 12.5vw, 13rem);
-  font-weight: 800;
-  line-height: 0.7;
-  letter-spacing: -0.09em;
-  text-transform: uppercase;
-}
-
-.contact__cta::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -0.05em;
-  left: 0;
-  height: 0.055em;
-  background: var(--ink);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.7s var(--ease);
-}
-
-.contact__cta:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-.contact__cta span {
-  display: inline-block;
-  font-size: 0.25em;
-  vertical-align: top;
-  transition: transform 0.5s var(--ease);
-}
-
-.contact__cta:hover span { transform: rotate(45deg); }
-
 /* Pinning this to the bottom made it collide with the flow above whenever the
    window was short. It now sits last in the column and is pushed down by the
    free space instead, so it can never land on top of anything. */
@@ -3751,7 +3487,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   position: relative;
   margin-top: auto;
   display: grid;
-  grid-template-columns: 1fr auto auto auto;
+  grid-template-columns: 1fr auto auto;
   gap: 3rem;
   padding-top: 1.2rem;
   border-top: 1px solid rgba(11, 11, 9, 0.35);
@@ -3770,7 +3506,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   opacity: 1;
   transform: translateY(0);
 }
-
 
 /* The heading is set in one long word for several cases; below this width its
    share of the row is narrower than that word, so it takes the full row. */
@@ -3858,11 +3593,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .flower__header h2 {
     grid-column: 1 / -1;
     grid-row: 2;
-  }
-
-  .flower__store-mark {
-    grid-column: 2;
-    grid-row: 1;
   }
 
   .flower__showcase {
@@ -3988,7 +3718,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
   .hero__routes { grid-template-columns: 1fr; max-width: 23rem; }
 
-  .round-link { display: none; }
 
   .eyebrow span:last-child { display: none; }
 
@@ -4013,7 +3742,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .anatomy,
   .eras,
   .model { grid-template-columns: 1fr; gap: 2rem; }
-
 
   .xr-case { display:block; padding:clamp(3rem,5vw,5rem) 0; }
   .xr-case header { margin-bottom:1.4rem; font-size:.48rem; }
@@ -4094,8 +3822,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   }
 
   .flower__identity span { display: none; }
-
-  .flower__store-mark strong { font-size: 0.85rem; }
 
   .flower__copy p {
     font-size: 1.2rem;
@@ -4240,9 +3966,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .capabilities i { display: none; }
 
   .contact__top span:last-child { display: none; }
-  .contact__cta {
-    font-size: clamp(2.8rem, 11.5vw, 4.75rem);
-  }
 
   .contact__tally { grid-template-columns: repeat(2, 1fr); }
 
@@ -4251,7 +3974,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     gap: 1rem;
   }
 
-  .contact__footer a:nth-child(4) { grid-column: 2; grid-row: 1; }
+  .contact__footer span:nth-child(2) { display: none; }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -5480,7 +5203,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .squadron[data-screen="flight"] .squadron__group--pick,
 .squadron[data-screen="flight"] .squadron__group--roster { display: none; }
 
-
 .anatomy__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
 
 /* Knebworth's VR piece drops you into the same grounds in five centuries.
@@ -5655,7 +5377,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 /* Searchlights and stage beams read as light, not structure. */
 .eras__figure .eras__beam { stroke: rgba(112, 242, 209, 0.5); stroke-width: 1.4; }
-
 
 /* ─────────────────────────────────────────────────────────────────────────
    The four case-study pieces are declared below the breakpoints above, so a
@@ -5846,42 +5567,83 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .game-fold:hover .game-fold__mark::after { opacity: 0.55; transform: translate(-0.045em, 0.03em); }
 .game-fold:hover .game-fold__mark { transform: translateX(0.08em); }
 
-.game-fold__icon {
-  grid-column: 3;
-  grid-row: 1 / 3;
-  width: clamp(5.5rem, 8vw, 8rem);
-  aspect-ratio: 1;
-  border: 1px solid color-mix(in srgb, var(--fold-accent) 58%, transparent);
-  border-radius: 18%;
-  object-fit: cover;
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
-  transition: border-radius 0.65s var(--ease), transform 0.65s var(--ease);
-}
-
-.game-fold:hover .game-fold__icon { border-radius: 50%; transform: rotate(4deg) scale(1.04); }
-
-.game-fold__action {
+.game-fold__badge {
   position: relative;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: var(--label-size);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.game-fold__action > i {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  align-self: center;
   display: block;
-  width: 2.5rem;
-  height: 1px;
-  background: var(--fold-accent);
-  transform-origin: left;
-  transition: transform 0.55s var(--ease);
+  width: var(--fold-badge-size);
+  aspect-ratio: 1;
 }
 
-.game-fold__action b { color: var(--fold-accent); font-size: 1rem; }
-.game-fold:hover .game-fold__action > i { transform: scaleX(1.8); }
+.game-fold__icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+  transition: transform 0.65s var(--ease);
+}
+
+.game-fold:hover .game-fold__icon { transform: translateY(-0.22rem); }
+
+/* Three case covers borrow their visual language from the games themselves,
+   so they set their own wordmark type rather than the archive default. */
+:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) {
+  box-shadow: none;
+}
+
+.game-fold--boon {
+  border-color: rgba(29, 27, 37, .76);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 1.9rem, rgba(29, 27, 37, .2) 1.9rem 2rem),
+    linear-gradient(90deg, rgba(29, 27, 37, .24) 1px, transparent 1px) 0 0 / 3.25rem 100%,
+    linear-gradient(135deg, #777b96, var(--fold-bg) 54%, #37394f);
+}
+
+.game-fold--boon::before {
+  background: linear-gradient(90deg, transparent 36%, rgba(240, 236, 226, .3) 50%, transparent 64%);
+}
+
+.game-fold--boon .game-fold__meta {
+  border-color: rgba(29, 27, 37, .4);
+  color: #27212d;
+}
+
+.game-fold--boon .game-fold__meta b { color: #27212d; }
+
+.game-fold--sapper {
+  border-color: rgba(18, 41, 23, .82);
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 248, 221, .075) 0 10px, transparent 10px 20px),
+    linear-gradient(90deg, rgba(216, 52, 37, .35) 0 2px, transparent 2px calc(100% - 2px), rgba(216, 52, 37, .35) calc(100% - 2px)),
+    linear-gradient(135deg, #164425, var(--fold-bg) 48%, #10351e);
+}
+
+.game-fold--sapper .game-fold__meta {
+  border-color: rgba(255, 248, 221, .34);
+  color: #fff8dd;
+}
+
+.game-fold--sapper .game-fold__meta b { color: #ffad25; }
+
+.game-fold--lords {
+  border-color: rgba(49, 216, 238, .58);
+  background:
+    radial-gradient(circle at 76% 34%, rgba(224, 70, 53, .24), transparent 21%),
+    radial-gradient(circle at 26% 62%, rgba(49, 216, 238, .13), transparent 30%),
+    repeating-radial-gradient(circle at 20% 35%, #b9eaf5 0 1px, transparent 1px 2.6rem),
+    linear-gradient(135deg, #101b2d, var(--fold-bg) 56%, #080a11);
+}
+
+.game-fold--lords .game-fold__meta {
+  border-color: rgba(49, 216, 238, .32);
+  color: #9cebf6;
+}
+
+.game-fold--lords .game-fold__meta b { color: #31d8ee; }
 
 .game-fold__scan {
   position: absolute;
@@ -5909,7 +5671,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .game-foldable[data-revealing] .game-fold::after { animation: fold-flash 0.9s var(--ease) forwards; }
 .game-foldable[data-revealing] .game-fold__mark { animation: fold-mark 0.75s var(--ease) forwards; }
-.game-foldable[data-revealing] .game-fold__icon { animation: fold-icon 0.8s var(--ease) forwards; }
+.game-foldable[data-revealing] .game-fold__badge { animation: fold-icon 0.8s var(--ease) forwards; }
 
 @keyframes fold-curtain {
   0%, 24% { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
@@ -5935,19 +5697,17 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 @keyframes fold-icon {
-  to { opacity: 0; border-radius: 50%; transform: rotate(18deg) scale(1.3); }
+  to { opacity: 0; transform: rotate(6deg) scale(1.22); }
 }
 
 .case-collapse {
-  position: sticky;
   z-index: 60;
-  top: 1rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
   width: max-content;
   height: 2.75rem;
-  margin: 0 0 -2.75rem auto;
+  margin: 0 0 0 auto;
   padding: 0.45rem 0.55rem 0.45rem 0.85rem;
   border: 1px solid color-mix(in srgb, var(--fold-accent) 62%, transparent);
   border-radius: 999px;
@@ -5979,14 +5739,14 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   transition: transform 0.55s var(--ease);
 }
 
-.game-foldable[data-expanded] > .case-collapse {
+.game-foldable[data-expanded] .case-collapse {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0) scale(1);
 }
 
-.game-foldable[data-closing] > .case-collapse {
+.game-foldable[data-closing] .case-collapse {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -6043,11 +5803,8 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .game-fold__meta b { font-size: var(--label-size); }
   .game-fold__mark { grid-column: 1; grid-row: 2; align-self: center; font-size: clamp(1.8rem, 9vw, 2.75rem); }
   .game-fold--compact .game-fold__mark { font-size: clamp(1.65rem, 7.7vw, 2.35rem); }
-  .game-fold__icon { grid-column: 2; grid-row: 1 / 4; width: 4.75rem; }
-  .game-fold__action { grid-column: 1; grid-row: 3; }
-  .game-fold__action > i { width: 1.5rem; }
+  .game-fold__badge { grid-column: 2; grid-row: 1 / 4; }
   .xr-foldable .game-fold__content { display: block; }
-  .case-collapse { top: 0.65rem; }
 }
 
 /* Keep the dense editorial rhythm while making microcopy readable. */
@@ -6057,7 +5814,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .eyebrow,
 .hero-route span,
 .hero-route i,
-.round-link,
 .hero-stage__topline,
 .hero-stage__footer,
 .hero__status,
@@ -6082,26 +5838,20 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .runner__hud i,
 .run-strip figcaption,
 .flower__identity span,
-.flower__store-mark span,
 .flower__copy > span,
-.flower__store-mark a,
 .flower__facts span,
-.flower__link,
 .boxjam__badge span,
 .boxjam__copy > span,
 .boxjam-phone > span,
 .boxjam-phone__store,
 .boxjam__facts span,
-.boxjam__link,
 .conveyor figcaption,
 .blob__header > div span,
 .blob__copy > span,
 .blob__facts span,
-.blob__links a,
 .word__header > div span,
 .word__copy > span,
 .word__facts span,
-.word__link,
 .minefield__brief > span,
 .minefield__status,
 .minefield__hud i,
@@ -6110,7 +5860,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .sapper__copy > span,
 .sapper__hero span,
 .sapper__facts span,
-.sapper__link,
 .sapper__gallery figcaption,
 .astro__header > span,
 .astro__copy > span,
@@ -6119,7 +5868,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .astro-phone > span,
 .astro-phones figcaption,
 .astro__facts span,
-.astro__link,
 .scavenger__brief > span,
 .scavenger__hint,
 .scavenger__hud i,
@@ -6185,5 +5933,2704 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .model__layers button,
 .model__hud i,
 .model__hint {
+  font-family: var(--osd);
   font-size: var(--label-size);
+  letter-spacing: .02em;
+}
+
+/* These rules sit after the fold system so the three wordmarks stay text,
+   rather than being replaced by a generic cover image. */
+:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark {
+  z-index: 2;
+  grid-column: 2;
+  grid-row: 1;
+  display: block;
+  align-self: end;
+  max-width: min(100%, 40rem);
+  text-wrap: balance;
+}
+
+:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark::before,
+:is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark::after {
+  display: none;
+}
+
+.game-fold--boon .game-fold__mark {
+  max-width: 17ch;
+  color: #24212d;
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.5rem, 5.3vw, 5.25rem);
+  font-weight: 400;
+  line-height: .78;
+  letter-spacing: .025em;
+  text-shadow: 3px 3px 0 rgba(240, 236, 226, .3);
+  transform: rotate(-2deg);
+}
+
+.game-fold--boon:is(:hover, :focus-visible) .game-fold__mark {
+  color: #17141c;
+  transform: rotate(.5deg) translateX(.05em);
+}
+
+.game-fold--sapper .game-fold__mark {
+  max-width: 13ch;
+  color: #fff8dd;
+  font-family: "Bowlby One SC", sans-serif;
+  font-size: clamp(2rem, 4.65vw, 4.65rem);
+  font-weight: 400;
+  line-height: .76;
+  letter-spacing: -.035em;
+  -webkit-text-stroke: 1px #17381e;
+  text-shadow: 2px 2px 0 #d83425, 5px 5px 0 #17381e;
+}
+
+.game-fold--sapper:is(:hover, :focus-visible) .game-fold__mark {
+  color: #ffe56f;
+  text-shadow: 2px 2px 0 #d83425, 6px 6px 0 #17381e;
+}
+
+.game-fold--lords .game-fold__mark {
+  max-width: 14ch;
+  color: transparent;
+  background: linear-gradient(180deg, #d4fbff 0 28%, #31d8ee 30% 48%, #f0f4fa 50% 61%, #e04635 64% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(2rem, 4.7vw, 4.9rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: .78;
+  letter-spacing: -.11em;
+  text-shadow: .035em .04em 0 #e04635, -.025em -.025em 0 #31d8ee;
+  transform: skewX(-7deg);
+}
+
+.game-fold--lords:is(:hover, :focus-visible) .game-fold__mark {
+  filter: brightness(1.18) drop-shadow(0 0 .45rem rgba(49, 216, 238, .68));
+  transform: skewX(-7deg) translateX(.05em);
+}
+
+@media (max-width: 720px) {
+  :is(.game-fold--boon, .game-fold--sapper, .game-fold--lords) .game-fold__mark {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+    max-width: 14ch;
+  }
+
+  .game-fold--boon .game-fold__mark { font-size: clamp(1.9rem, 8.5vw, 2.55rem); }
+  .game-fold--sapper .game-fold__mark { font-size: clamp(1.55rem, 6.9vw, 2.15rem); }
+  .game-fold--lords .game-fold__mark { font-size: clamp(1.7rem, 7.3vw, 2.3rem); }
+}
+
+/* Expanded cases use the same art direction as their folded tabs. The opening
+   screen is intentionally compact: title, playable media, then project data. */
+:is(.boon, .sapper, .astro) {
+  --head-gap: clamp(1.35rem, 2.5vw, 2.6rem);
+  --block-gap: clamp(1.6rem, 2.8vw, 3rem);
+}
+
+.boon {
+  color: #f0ece2;
+  background:
+    radial-gradient(circle at 79% 10%, rgba(182, 154, 182, .28), transparent 24%),
+    linear-gradient(135deg, #393a52, #565a76 50%, #2b2a3c);
+}
+
+.boon::before { opacity: .26; }
+
+.boon__header {
+  grid-template-columns: minmax(0, 1.1fr) minmax(17rem, .65fr);
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  margin-bottom: var(--head-gap);
+}
+
+.boon .section-index,
+.boon__intro > span { color: #27212d; }
+
+.boon__header h2 {
+  color: #f0ece2;
+  font-family: "Bangers", cursive;
+  font-size: clamp(3.8rem, 7.1vw, 7.4rem);
+  font-weight: 400;
+  line-height: .77;
+  letter-spacing: .018em;
+  text-shadow: 4px 4px 0 #27212d;
+}
+
+.boon__header h2 em {
+  color: #b69ab6;
+  -webkit-text-stroke: 0;
+  text-shadow: 4px 4px 0 #27212d;
+}
+
+.boon__intro {
+  align-self: end;
+  padding: 1.15rem 1.25rem;
+  border: 2px solid #27212d;
+  color: #27212d;
+  background: rgba(240, 236, 226, .66);
+  box-shadow: 5px 5px 0 #27212d;
+}
+
+.boon__intro p {
+  font-family: var(--mono);
+  font-size: .82rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.boon__stage {
+  grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .72fr);
+  align-items: stretch;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+}
+
+.boon-screen {
+  border: 3px solid #27212d;
+  box-shadow: 7px 7px 0 #b69ab6;
+}
+
+.boon__statement {
+  padding: clamp(1.15rem, 2vw, 2rem);
+  border: 2px solid #27212d;
+  background: rgba(43, 42, 60, .76);
+  box-shadow: 6px 6px 0 rgba(39, 33, 45, .72);
+}
+
+.boon__statement p {
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.15rem, 3.8vw, 4rem);
+  font-weight: 400;
+  line-height: .84;
+  letter-spacing: .025em;
+}
+
+.boon__statement p em { color: #b69ab6; }
+.boon__facts { margin-top: 1.4rem; border-color: rgba(240, 236, 226, .3); }
+.boon__facts div { min-height: 5.2rem; padding: .75rem; border-color: rgba(240, 236, 226, .3); background: rgba(240, 236, 226, .07); }
+.boon__facts strong { color: #f0ece2; font-family: "Bangers", cursive; font-weight: 400; letter-spacing: .025em; }
+.boon__facts span { color: #d9cad9; font-size: .65rem; }
+
+.sapper {
+  color: #fff8dd;
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 248, 221, .055) 0 12px, transparent 12px 24px),
+    linear-gradient(135deg, #153d22, #275d34 52%, #13351e);
+}
+
+.sapper__minefield { opacity: .18; }
+
+.sapper__header {
+  grid-template-columns: minmax(7rem, .25fr) minmax(0, 1.35fr) minmax(14rem, .5fr);
+  align-items: end;
+  gap: clamp(1rem, 2.5vw, 2.8rem);
+  margin-bottom: var(--head-gap);
+}
+
+.sapper__header > span { color: #ffe07b; }
+
+.sapper__header h2 {
+  color: #f04c3a;
+  font-family: "Bowlby One SC", sans-serif;
+  font-size: clamp(3.6rem, 7vw, 7.4rem);
+  font-weight: 400;
+  line-height: .74;
+  letter-spacing: -.04em;
+  -webkit-text-stroke: 1px #17381e;
+  text-shadow: 3px 3px 0 #fff8dd, 6px 6px 0 #17381e;
+}
+
+.sapper__header h2 em {
+  color: #e8f0bc;
+  font-style: normal;
+  text-shadow: 3px 3px 0 #ffad25, 6px 6px 0 #17381e;
+}
+
+.sapper__header p {
+  padding: .9rem 1rem;
+  color: #17381e;
+  background: #ffad25;
+  box-shadow: 4px 4px 0 #d83425;
+  font-family: var(--mono);
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.sapper__stage {
+  grid-template-columns: minmax(20rem, 1.08fr) minmax(19rem, .92fr);
+  align-items: stretch;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+}
+
+.sapper__hero {
+  border: 3px solid #fff8dd;
+  box-shadow: 7px 7px 0 #d83425, 11px 11px 0 #17381e;
+  transform: none;
+}
+
+.sapper__hero:hover {
+  box-shadow: 5px 5px 0 #ffad25, 9px 9px 0 #17381e;
+  transform: translateY(-.3rem);
+}
+
+.sapper__copy {
+  padding: clamp(1.15rem, 2vw, 2rem);
+  border: 2px solid #ffad25;
+  background: rgba(20, 56, 31, .84);
+  box-shadow: 6px 6px 0 #d83425;
+}
+
+.sapper__copy > span { color: #ffe07b; }
+.sapper__copy > p { margin: .9rem 0 1.45rem; font-family: var(--mono); font-size: clamp(1.05rem, 1.7vw, 1.55rem); font-weight: 500; line-height: 1.42; letter-spacing: -.02em; }
+.sapper__facts { margin-bottom: 1.4rem; border-color: rgba(255, 248, 221, .28); }
+.sapper__facts div { min-height: 5rem; padding: .8rem; border-color: rgba(255, 248, 221, .28); background: rgba(255, 248, 221, .055); }
+.sapper__facts strong { color: #ffad25; font-family: "Bowlby One SC", sans-serif; font-size: clamp(1.65rem, 2.5vw, 2.55rem); font-weight: 400; letter-spacing: -.025em; }
+.sapper__facts span { color: #f2e9c9; font-size: .65rem; }
+
+.astro {
+  color: #eef7ff;
+  background:
+    radial-gradient(circle at 76% 20%, rgba(224, 70, 53, .15), transparent 25%),
+    radial-gradient(circle at 21% 48%, rgba(49, 216, 238, .12), transparent 31%),
+    #070a12;
+}
+
+.astro__header {
+  grid-template-columns: minmax(0, 1.1fr) minmax(15rem, .45fr);
+  gap: 1rem clamp(1.5rem, 3vw, 3.5rem);
+  margin-bottom: var(--head-gap);
+}
+
+.astro__header > span { color: #8debf7; }
+
+.astro__header h2 {
+  grid-column: 1;
+  grid-row: 2;
+  color: #cbf9ff;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(3.8rem, 7.2vw, 7.7rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: .76;
+  letter-spacing: -.1em;
+  text-align: left;
+  text-shadow: .035em .045em 0 #e04635, -.025em -.025em 0 #31d8ee;
+  transform: skewX(-7deg);
+}
+
+.astro:not(.astro--scavenger) .astro__header h2 em {
+  color: #e04635;
+  background: none;
+  -webkit-text-fill-color: #e04635;
+  text-shadow: .035em .045em 0 #7d1718, -.025em -.025em 0 #31d8ee;
+}
+
+.astro__header p {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: end;
+  padding: .9rem 1rem;
+  color: #d9faff;
+  background: rgba(18, 43, 67, .84);
+  border: 2px solid #31d8ee;
+  box-shadow: 4px 4px 0 #e04635;
+  font-family: var(--mono);
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.astro__stage {
+  grid-template-columns: minmax(20rem, 1.08fr) minmax(19rem, .92fr);
+  align-items: stretch;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+}
+
+.astro__hero {
+  border: 3px solid #31d8ee;
+  box-shadow: 7px 7px 0 #e04635, 11px 11px 0 #122b43;
+  transform: none;
+}
+
+.astro__hero:hover {
+  box-shadow: 5px 5px 0 #31d8ee, 9px 9px 0 #e04635;
+  transform: translateY(-.3rem);
+}
+
+.astro__copy {
+  padding: clamp(1.15rem, 2vw, 2rem);
+  border: 2px solid #31d8ee;
+  background: rgba(8, 22, 39, .88);
+  box-shadow: 6px 6px 0 #e04635;
+}
+
+.astro__copy > span { color: #8debf7; }
+.astro__copy > p { margin: .9rem 0 1.45rem; font-family: var(--mono); font-size: clamp(1.05rem, 1.7vw, 1.55rem); font-weight: 500; line-height: 1.42; letter-spacing: -.02em; }
+.astro__facts { margin-bottom: 1.4rem; border-color: rgba(49, 216, 238, .3); }
+.astro__facts div { min-height: 5rem; padding: .8rem; border-color: rgba(49, 216, 238, .3); background: rgba(49, 216, 238, .055); }
+.astro__facts strong { color: #31d8ee; font-family: "Orbitron", sans-serif; font-size: clamp(1.35rem, 2.1vw, 2.1rem); font-weight: 900; letter-spacing: -.08em; }
+.astro__facts span { color: #b9deec; font-size: .65rem; }
+
+@media (max-width: 980px) {
+  .boon__header,
+  .sapper__header,
+  .astro__header { grid-template-columns: 1fr; }
+
+  .sapper__header > span,
+  .sapper__header h2,
+  .sapper__header p,
+  .astro__header > span,
+  .astro__header h2,
+  .astro__header p { grid-column: 1; grid-row: auto; justify-self: start; }
+
+  .boon__stage,
+  .sapper__stage,
+  .astro__stage { grid-template-columns: 1fr; }
+
+  .boon__intro,
+  .sapper__copy,
+  .astro__copy { max-width: 46rem; }
+}
+
+@media (max-width: 720px) {
+  :is(.boon, .sapper, .astro) { --head-gap: 1.2rem; }
+  .boon__header h2 { font-size: clamp(3rem, 13vw, 4.5rem); }
+  .sapper__header h2 { font-size: clamp(2.5rem, 10.5vw, 3.8rem); }
+  .astro__header h2 { font-size: clamp(2.7rem, 11vw, 4rem); }
+  .boon__intro,
+  .sapper__header p,
+  .astro__header p { padding: .8rem .9rem; }
+  .boon-screen { box-shadow: 4px 4px 0 #b69ab6; }
+  .sapper__hero { box-shadow: 4px 4px 0 #d83425, 7px 7px 0 #17381e; }
+  .astro__hero { box-shadow: 4px 4px 0 #e04635, 7px 7px 0 #122b43; }
+  .sapper__copy,
+  .astro__copy { padding: 1rem; box-shadow: 4px 4px 0 #d83425; }
+  .astro__copy { box-shadow: 4px 4px 0 #e04635; }
+}
+
+/* Every folded case is a small title screen rather than a generic row. The
+   common grid keeps the archive scannable; each surface borrows only the
+   palette and motion language of its game. */
+.game-fold__title {
+  display: block;
+  transform-origin: 0 80%;
+}
+
+.game-fold--bronze {
+  background:
+    radial-gradient(circle at 77% 50%, rgba(233, 196, 106, .18), transparent 22%),
+    repeating-linear-gradient(90deg, rgba(233, 196, 106, .1) 0 1px, transparent 1px 4.5rem),
+    linear-gradient(120deg, #080806, #17160f 55%, #080806);
+}
+
+.game-fold--flower {
+  background:
+    radial-gradient(circle at 76% 35%, rgba(255, 159, 189, .34), transparent 19%),
+    radial-gradient(circle at 32% 78%, rgba(249, 208, 82, .18), transparent 22%),
+    repeating-linear-gradient(45deg, rgba(255, 244, 214, .07) 0 1px, transparent 1px 2.7rem),
+    linear-gradient(135deg, #16372c, #21503b 54%, #123125);
+}
+
+.game-fold--boxjam {
+  background:
+    linear-gradient(60deg, transparent 46%, rgba(67, 160, 255, .22) 47% 49%, transparent 50%) 0 0 / 4rem 4rem,
+    linear-gradient(-60deg, transparent 46%, rgba(247, 247, 241, .1) 47% 49%, transparent 50%) 0 0 / 4rem 4rem,
+    linear-gradient(135deg, #17222d, #243646 56%, #15212b);
+}
+
+.game-fold--blob {
+  background:
+    radial-gradient(ellipse at 78% 27%, rgba(255, 201, 78, .64) 0 7%, transparent 7.5%),
+    radial-gradient(ellipse at 70% 70%, rgba(112, 242, 209, .35) 0 11%, transparent 11.5%),
+    radial-gradient(ellipse at 88% 67%, rgba(255, 249, 240, .18) 0 5%, transparent 5.5%),
+    linear-gradient(135deg, #3b237d, #4c2ca0 56%, #2b1962);
+}
+
+.game-fold--word {
+  background:
+    linear-gradient(135deg, transparent 44%, rgba(231, 76, 104, .24) 44.5% 46%, transparent 46.5%) 0 0 / 3.25rem 3.25rem,
+    repeating-linear-gradient(90deg, rgba(32, 27, 66, .13) 0 1px, transparent 1px 3.25rem),
+    linear-gradient(135deg, #f8dfca, #f4d6bd 56%, #e8c6ae);
+}
+
+.game-fold--card {
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(36, 107, 85, .16) 46.5% 48%, transparent 48.5%) 0 0 / 3rem 3rem,
+    repeating-linear-gradient(0deg, rgba(31, 37, 51, .1) 0 1px, transparent 1px 2rem),
+    linear-gradient(135deg, #e1ebd3, #d4e1c3 55%, #bccdaf);
+}
+
+:is(.game-fold--bronze, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card) {
+  box-shadow: none;
+}
+
+.game-fold--bronze .game-fold__mark {
+  color: #eeede6;
+  font-family: "Bowlby One SC", sans-serif;
+  font-size: clamp(2.2rem, 4.9vw, 5rem);
+  font-weight: 400;
+  line-height: .77;
+  letter-spacing: -.055em;
+  text-shadow: 3px 3px 0 #7b521e;
+}
+
+.game-fold--flower .game-fold__mark {
+  color: #fff4d6;
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.8rem, 5.5vw, 5.6rem);
+  font-weight: 400;
+  line-height: .72;
+  letter-spacing: .025em;
+  text-shadow: 3px 3px 0 #aa4267;
+}
+
+.game-fold--boxjam .game-fold__mark {
+  color: #f7f7f1;
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(2rem, 4.2vw, 4.35rem);
+  font-weight: 700;
+  line-height: .8;
+  letter-spacing: -.1em;
+  text-shadow: 3px 3px 0 #236da9;
+}
+
+.game-fold--blob .game-fold__mark {
+  color: #fff9f0;
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.9rem, 5.8vw, 5.8rem);
+  font-weight: 400;
+  line-height: .72;
+  letter-spacing: .025em;
+  text-shadow: 3px 4px 0 #20104d;
+}
+
+.game-fold--word .game-fold__mark {
+  color: #201b42;
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(1.8rem, 3.9vw, 4.15rem);
+  font-weight: 700;
+  line-height: .82;
+  letter-spacing: -.12em;
+}
+
+.game-fold--card .game-fold__mark {
+  color: #fff3bf;
+  font-family: "Lilita One", sans-serif;
+  font-size: clamp(2rem, 4.05vw, 4.2rem);
+  font-weight: 400;
+  line-height: .76;
+  letter-spacing: .005em;
+  -webkit-text-stroke: .035em #54217c;
+  text-shadow: 0 .07em 0 #54217c, 0 .12em 0 #f0a72b, 0 .15em 0 rgba(31, 37, 51, .38);
+}
+
+.game-fold--bronze .game-fold__title { animation: cover-hoof 8s ease-in-out infinite; }
+.game-fold--boon .game-fold__title { animation: cover-boon 10s ease-in-out infinite; }
+.game-fold--flower .game-fold__title { animation: cover-flower 9s ease-in-out infinite; }
+.game-fold--boxjam .game-fold__title { animation: cover-boxjam 8s ease-in-out infinite; }
+.game-fold--blob .game-fold__title { animation: cover-blob 7s ease-in-out infinite; }
+.game-fold--word .game-fold__title { animation: cover-word 10s ease-in-out infinite; }
+.game-fold--card .game-fold__title { animation: cover-card 11s ease-in-out infinite; }
+.game-fold--sapper .game-fold__title { animation: cover-sapper 9s steps(1) infinite; }
+.game-fold--lords .game-fold__title { animation: cover-lords 9s ease-in-out infinite; }
+
+@keyframes cover-hoof {
+  0%, 68%, 100% { translate: 0 0; scale: 1; }
+  75% { translate: .03em -.05em; scale: 1.02 .96; }
+  82% { translate: 0 .02em; scale: .99 1.03; }
+}
+@keyframes cover-boon {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  47% { translate: .025em -.035em; rotate: 1deg; }
+  54% { translate: -.02em .015em; rotate: -.7deg; }
+}
+@keyframes cover-flower {
+  0%, 62%, 100% { scale: 1; filter: saturate(1); }
+  70% { scale: 1.04 .95; filter: saturate(1.35); }
+  78% { scale: .98 1.03; }
+}
+@keyframes cover-boxjam {
+  0%, 64%, 100% { translate: 0 0; }
+  72% { translate: .07em -.04em; }
+  80% { translate: .02em .025em; }
+}
+@keyframes cover-blob {
+  0%, 58%, 100% { scale: 1; rotate: 0deg; }
+  66% { scale: 1.08 .88; rotate: -1deg; }
+  74% { scale: .93 1.08; rotate: 1deg; }
+}
+@keyframes cover-word {
+  0%, 66%, 100% { transform: skewX(0deg); }
+  76% { transform: skewX(-7deg); }
+  86% { transform: skewX(3deg); }
+}
+@keyframes cover-card {
+  0%, 62%, 100% { translate: 0 0; rotate: 0deg; color: #1f2533; }
+  70% { translate: 0 -.065em; rotate: -2deg; color: #c8102e; }
+  84% { translate: 0 -.03em; rotate: -1deg; color: #c8102e; }
+}
+@keyframes cover-sapper {
+  0%, 87%, 100% { translate: 0 0; }
+  89% { translate: .035em -.025em; }
+  91% { translate: -.03em .02em; }
+  93% { translate: .02em .01em; }
+}
+@keyframes cover-lords {
+  0%, 64%, 100% { letter-spacing: -.11em; filter: brightness(1); }
+  72% { letter-spacing: -.07em; filter: brightness(1.3) drop-shadow(0 0 .35rem rgba(49, 216, 238, .65)); }
+  82% { letter-spacing: -.125em; }
+}
+
+/* The Boon Hill wordmark is a single roadside sign on desktop. It only wraps
+   where the device genuinely needs a narrower composition. */
+.game-fold--boon .game-fold__mark {
+  max-width: none;
+  font-size: clamp(2.1rem, 3.75vw, 4.1rem);
+}
+.game-fold--boon .game-fold__title { white-space: nowrap; }
+
+/* The six other opening cases inherit the same compact first-screen rhythm as
+   Boon, Sapper and Astro, but retain their own source artwork and typography. */
+:is(.featured, .flower, .boxjam, .blob, .word) {
+  --head-gap: clamp(1.35rem, 2.5vw, 2.6rem);
+  --block-gap: clamp(1.6rem, 2.8vw, 3rem);
+}
+
+:is(.flower__showcase, .boxjam__stage, .blob__stage, .word__body) {
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+}
+
+.flower__header h2,
+.blob__header h2 {
+  font-family: "Bangers", cursive;
+  font-size: clamp(3.8rem, 7.2vw, 7.5rem);
+  font-weight: 400;
+  line-height: .75;
+  letter-spacing: .02em;
+}
+
+.boxjam__header h2,
+.word__header h2 {
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(3rem, 6vw, 6.3rem);
+  font-weight: 700;
+  line-height: .78;
+  letter-spacing: -.11em;
+}
+
+.solitaire .word__header h2 {
+  color: #fff3bf;
+  font-family: "Lilita One", sans-serif;
+  font-size: clamp(3.1rem, 5.75vw, 6rem);
+  font-weight: 400;
+  line-height: .78;
+  letter-spacing: .01em;
+  -webkit-text-stroke: .035em #54217c;
+  text-shadow: 0 .07em 0 #54217c, 0 .13em 0 #f0a72b, 0 .16em 0 rgba(31, 37, 51, .3);
+}
+
+.solitaire .word__header h2 em {
+  color: #fff3bf;
+  text-shadow: inherit;
+}
+
+.solitaire .ace-a { color: inherit; animation: none; }
+.solitaire .ace-a::after { display: none; }
+
+/* These title faces follow the games' actual visual language: technical for
+   Bronze Hoof, soft and dimensional for the casual mobile puzzle games. */
+.featured .section-heading h2,
+.game-fold--bronze .game-fold__mark {
+  font-family: "Chakra Petch", sans-serif;
+  font-weight: 700;
+  letter-spacing: -.075em;
+}
+
+.flower__header h2,
+.game-fold--flower .game-fold__mark {
+  font-family: "Lilita One", sans-serif;
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+
+.flower__header h2 { color: #ffd446; text-shadow: 0 .06em 0 #5e8e31, 0 .11em 0 rgba(16, 63, 35, .5); }
+.flower__header h2 em { color: #fff4d6; text-shadow: 0 .06em 0 #5e8e31, 0 .11em 0 rgba(16, 63, 35, .5); }
+
+.boxjam__header h2,
+.game-fold--boxjam .game-fold__mark,
+.word:not(.solitaire) .word__header h2,
+.game-fold--word .game-fold__mark {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  letter-spacing: -.065em;
+}
+
+.blob__header h2,
+.game-fold--blob .game-fold__mark {
+  font-family: "Lilita One", sans-serif;
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+
+.blob__header h2 { line-height: .69; }
+.blob__header h2 em { color: #fff3dc; }
+.blob__word { display: inline-block; }
+.blob__word--blob { color: #ffc62c; text-shadow: 0 .06em 0 #a95e11, 0 .12em 0 rgba(38, 20, 83, .48); }
+.blob__word--sort { color: #fff3dc; text-shadow: 0 .06em 0 #aa5f45, 0 .12em 0 rgba(38, 20, 83, .48); }
+.blob__word--jam { color: #f25c88; text-shadow: 0 .06em 0 #a92c53, 0 .12em 0 rgba(38, 20, 83, .48); }
+.blob__word--jam { animation: blob-sort-jam 7s ease-in-out infinite; }
+
+@keyframes blob-sort-jam {
+  0%, 62%, 100% { translate: 0 0; scale: 1; }
+  71% { translate: 0 -.045em; scale: 1.05 .94; }
+  80% { translate: 0 .018em; scale: .98 1.03; }
+}
+
+/* Title blocks use deliberate line breaks where the original logo is stacked,
+   rather than stretching a long wordmark across the whole archive row. */
+.game-fold--card .game-fold__mark {
+  max-width: 10ch;
+  text-wrap: balance;
+}
+
+.game-fold__subtitle {
+  display: block;
+  margin-top: .42rem;
+  color: #bdf3fb;
+  background: none;
+  -webkit-text-fill-color: #bdf3fb;
+  font-family: "Azeret Mono", monospace;
+  font-size: clamp(.52rem, .9vw, .8rem);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: .14em;
+  line-height: 1;
+  text-shadow: none;
+  text-transform: uppercase;
+}
+
+.game-fold--lords .game-fold__mark {
+  max-width: 16ch;
+}
+
+.game-fold--lords .game-fold__title { display: block; }
+
+@media (max-width: 720px) {
+  .game-fold--card .game-fold__mark { max-width: 11ch; }
+  .game-fold__subtitle { margin-top: .3rem; font-size: .52rem; }
+}
+
+/* Astro Lords follows its stacked cover logo: a small cold “Astro”, a framed
+   red “Lords”, then the Oort Cloud line below. */
+.game-fold--lords .game-fold__mark {
+  max-width: 14ch;
+  color: #eaf9ff;
+  background: none;
+  transform: none;
+}
+
+.game-fold--lords .game-fold__title {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: max-content;
+  max-width: 100%;
+  color: #eaf9ff;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  line-height: .74;
+  text-shadow: none;
+}
+
+.game-fold--lords .game-fold__title-top {
+  display: block;
+  color: #a9f5ff;
+  font-size: .42em;
+  font-weight: 900;
+  letter-spacing: -.08em;
+  text-shadow: .04em .06em 0 #165170;
+  text-transform: uppercase;
+}
+
+.game-fold--lords .game-fold__title-main {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  display: block;
+  margin-top: .03em;
+  padding: .03em .1em .07em;
+  color: transparent;
+  background: linear-gradient(180deg, #ffebe1 0 10%, #f13f38 16% 50%, #9b171c 54% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1em;
+  font-weight: 900;
+  letter-spacing: -.13em;
+  text-shadow: .035em .045em 0 #6d1219, -.025em -.025em 0 #31d8ee;
+  text-transform: uppercase;
+}
+
+.game-fold--lords .game-fold__title-main::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: .14em -.15em .05em;
+  border: 1px solid rgba(49, 216, 238, .9);
+  border-radius: .08em;
+  box-shadow: inset 0 0 .7em rgba(49, 216, 238, .16), 0 0 .45em rgba(49, 216, 238, .3);
+}
+
+.game-fold--lords .game-fold__subtitle {
+  width: max-content;
+  margin: .32rem 0 0 .2em;
+  color: #d5eff4;
+  -webkit-text-fill-color: #d5eff4;
+  font-size: clamp(.48rem, .72vw, .68rem);
+  letter-spacing: .11em;
+  text-align: center;
+}
+
+.game-fold--lords:is(:hover, :focus-visible) .game-fold__mark { transform: none; }
+
+@media (max-width: 720px) {
+  .game-fold--lords .game-fold__mark { max-width: 13ch; }
+  .game-fold--lords .game-fold__subtitle { margin-top: .2rem; font-size: .46rem; }
+}
+
+/* The folded surfaces are small title screens: each borrows a quiet material
+   from its game, with contrast reserved for the wordmark. */
+.game-fold--bronze {
+  background:
+    radial-gradient(ellipse at 72% 44%, rgba(233, 196, 106, .16), transparent 18%),
+    repeating-linear-gradient(90deg, rgba(233, 196, 106, .1) 0 1px, transparent 1px 4rem),
+    linear-gradient(135deg, #050504, #17130b 55%, #070604);
+}
+
+.game-fold--boon {
+  background:
+    radial-gradient(circle at 76% 22%, rgba(240, 236, 226, .22), transparent 10%),
+    linear-gradient(145deg, transparent 0 62%, rgba(29, 27, 37, .33) 63% 64%, transparent 65%) 0 0 / 4.2rem 4.2rem,
+    linear-gradient(135deg, #3b3b55, #656983 55%, #28283c);
+}
+
+.game-fold--flower {
+  background:
+    radial-gradient(circle at 79% 28%, rgba(255, 159, 189, .52) 0 3%, transparent 3.5%),
+    radial-gradient(circle at 70% 67%, rgba(249, 208, 82, .42) 0 3.5%, transparent 4%),
+    radial-gradient(circle at 88% 72%, rgba(255, 244, 214, .34) 0 2%, transparent 2.5%),
+    linear-gradient(135deg, #123226, #1d5940 55%, #0d281d);
+}
+
+.game-fold--boxjam {
+  background:
+    linear-gradient(90deg, transparent 0 62%, rgba(165, 255, 82, .14) 62.5% 63.5%, transparent 64%) 0 0 / 4.5rem 100%,
+    linear-gradient(0deg, transparent 0 62%, rgba(67, 160, 255, .18) 62.5% 63.5%, transparent 64%) 0 0 / 100% 4.5rem,
+    linear-gradient(135deg, #101b27, #254356 54%, #0d1822);
+}
+
+.game-fold--blob {
+  background:
+    radial-gradient(ellipse at 75% 24%, #ffc94e 0 5%, transparent 5.5%),
+    radial-gradient(ellipse at 86% 57%, #f25c88 0 7%, transparent 7.5%),
+    radial-gradient(ellipse at 68% 72%, #70f2d1 0 5%, transparent 5.5%),
+    linear-gradient(135deg, #2d1768, #5733a5 55%, #26145a);
+}
+
+.game-fold--word {
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(231, 76, 104, .28) 46.5% 48%, transparent 48.5%) 0 0 / 3rem 3rem,
+    repeating-linear-gradient(90deg, rgba(32, 27, 66, .13) 0 1px, transparent 1px 3rem),
+    linear-gradient(135deg, #f1d4bd, #f8e1cb 55%, #e9c2aa);
+}
+
+.game-fold--card {
+  border-color: rgba(246, 234, 212, .62);
+  background:
+    radial-gradient(circle at 78% 36%, rgba(246, 234, 212, .13), transparent 17%),
+    repeating-linear-gradient(45deg, rgba(246, 234, 212, .07) 0 1px, transparent 1px 1.4rem),
+    repeating-linear-gradient(-45deg, rgba(36, 107, 85, .18) 0 2px, transparent 2px 3.6rem),
+    linear-gradient(135deg, #0d4d35, #1f754d 55%, #0a3b29);
+}
+
+.game-fold--card .game-fold__meta i { color: #e1efd7; }
+.game-fold--card .game-fold__meta b { color: #fff0bf; }
+
+.game-fold--sapper {
+  background:
+    radial-gradient(circle at 78% 30%, rgba(255, 173, 37, .22) 0 3%, transparent 3.5%),
+    radial-gradient(circle at 69% 70%, rgba(216, 52, 37, .27) 0 3%, transparent 3.5%),
+    repeating-linear-gradient(90deg, rgba(255, 248, 221, .12) 0 1px, transparent 1px 3.2rem),
+    repeating-linear-gradient(0deg, rgba(255, 248, 221, .12) 0 1px, transparent 1px 3.2rem),
+    linear-gradient(135deg, #123b20, #235c32 55%, #10351c);
+}
+
+.game-fold--lords {
+  background:
+    radial-gradient(ellipse at 53% 48%, rgba(7, 22, 34, .94) 0 24%, transparent 51%),
+    radial-gradient(circle at 80% 22%, rgba(224, 70, 53, .12), transparent 18%),
+    repeating-radial-gradient(circle at 15% 40%, rgba(150, 228, 241, .38) 0 1px, transparent 1px 2.6rem),
+    linear-gradient(135deg, #030810, #081927 55%, #02070c);
+}
+
+.game-fold--lords .game-fold__mark {
+  padding: .25em .75em .38em;
+  background: radial-gradient(ellipse at 50% 54%, rgba(2, 8, 14, .94) 0 58%, transparent 78%);
+}
+
+.game-fold--lords .game-fold__title-main {
+  background: linear-gradient(180deg, #fff6e9 0 16%, #ff6a50 24% 54%, #bb1e25 59% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: .04em .05em 0 #721016, -.03em -.03em 0 #3ce8fb;
+}
+
+/* Bronze Hoof is the mythic outlier: its expanded case uses the same heavy
+   slab display face as its game logo and Azeret Mono for every UI/detail line. */
+.featured {
+  --display: "Bevan", serif;
+  --mono: "Azeret Mono", monospace;
+  --bronze-meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 16'%3E%3Cpath d='M1 15V2h15v9H8V6h24v5h-8v-5h23v9' fill='none' stroke='%23d5a94e' stroke-width='2'/%3E%3C/svg%3E");
+  color: #f4edda;
+  background:
+    radial-gradient(circle at 82% 17%, rgba(233, 196, 106, .11), transparent 20%),
+    linear-gradient(135deg, #0b0a07, #1b160d 54%, #090806);
+  font-family: var(--mono);
+}
+
+.featured .section-heading p,
+.featured .runner__brief p { font-family: var(--mono); }
+
+.featured .section-heading p {
+  font-size: clamp(.88rem, 1vw, 1.08rem);
+  line-height: 1.58;
+}
+
+.featured .section-heading p strong {
+  display: block;
+  color: #ded0ad;
+  font-size: .94em;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.featured .section-heading h2,
+.game-fold--bronze .game-fold__mark {
+  font-family: "Bevan", serif;
+  font-weight: 400;
+  letter-spacing: -.085em;
+}
+
+.featured .project-details {
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  padding-top: clamp(1.6rem, 3vw, 3rem);
+}
+
+.featured .project-quote {
+  position: relative;
+  padding: clamp(2.25rem, 3vw, 3rem) clamp(1.25rem, 2.2vw, 2.2rem);
+  border: 1px solid #9b742e;
+  background:
+    var(--bronze-meander) 0 0 / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem 1rem repeat-x,
+    linear-gradient(135deg, rgba(91, 63, 25, .3), rgba(11, 10, 7, .84));
+  box-shadow: inset 0 0 0 4px #171208, inset 0 0 0 5px rgba(213, 169, 78, .58), 5px 5px 0 #6d4a1c;
+}
+
+.featured .project-quote::before {
+  content: "ΑΡΕΤΗ  /  ARETÉ";
+  display: block;
+  margin-bottom: .55rem;
+  color: #e9c46a;
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .25em;
+}
+
+.featured .project-quote > span { color: #e9c46a; }
+.featured .project-quote p { margin-top: .85rem; color: #f4edda; font-family: var(--display); font-weight: 700; }
+
+.featured .stats {
+  position: relative;
+  padding: 1rem 0;
+  border: 1px solid #9b742e;
+  background:
+    var(--bronze-meander) 0 0 / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem 1rem repeat-x,
+    rgba(20, 16, 9, .84);
+  box-shadow: inset 0 0 0 4px #171208, inset 0 0 0 5px rgba(213, 169, 78, .58), 5px 5px 0 #6d4a1c;
+}
+
+.featured .stats div {
+  min-height: 7.5rem;
+  border-color: rgba(213, 169, 78, .42);
+  background: linear-gradient(145deg, rgba(233, 196, 106, .09), transparent 62%);
+}
+
+.featured .stats strong { color: #f4edda; font-family: var(--display); font-weight: 700; }
+.featured .stats span { color: #c9b98d; font-family: var(--mono); }
+
+.featured .feature-frame {
+  border: 2px solid #b8893b;
+  box-shadow: 7px 7px 0 #62431b, inset 0 0 0 1px rgba(244, 237, 218, .2);
+}
+
+.featured .feature-frame__label {
+  color: #171208;
+  background: #e9c46a;
+  font-family: var(--mono);
+}
+
+.featured .runner {
+  border: 1px solid #9b742e;
+  background:
+    var(--bronze-meander) 0 0 / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem 1rem repeat-x,
+    linear-gradient(135deg, #19150d, #292113 55%, #151109);
+  box-shadow: inset 0 0 0 4px #171208, inset 0 0 0 5px rgba(213, 169, 78, .58), 6px 6px 0 #62431b;
+}
+
+.featured .runner__brief > span,
+.featured .runner__hud b { color: #e9c46a; }
+.featured .runner__brief h3,
+.featured .runner__hud b { font-family: var(--display); font-weight: 700; }
+.featured .runner__brief h3 { color: #d6c6a5; text-shadow: 2px 2px 0 #6d4a1c; }
+.featured .runner__brief h3 em { color: #b95339; }
+.featured .runner__brief p,
+.featured .runner__hud i,
+.featured .runner__hint { color: #d3c59e; font-family: var(--mono); }
+.featured .runner__brief > span::before { content: "Δ "; color: #e9c46a; }
+.featured .runner__canvas {
+  border: 2px solid #b8893b;
+  outline: 1px solid #171208;
+  outline-offset: -5px;
+  background: #121008;
+  touch-action: manipulation;
+  image-rendering: pixelated;
+}
+
+.featured .run-strip figure { border-color: rgba(233, 196, 106, .5); }
+.featured .run-strip figcaption { color: #171208; background: #e9c46a; font-family: var(--mono); }
+
+.featured .run-strip {
+  padding-block: .75rem;
+  background:
+    var(--bronze-meander) 0 0 / 3rem .75rem repeat-x,
+    var(--bronze-meander) 0 100% / 3rem .75rem repeat-x;
+}
+
+.featured .run-strip figure {
+  border: 2px solid #b8893b;
+  outline: 1px solid #171208;
+  outline-offset: -6px;
+  box-shadow: 5px 5px 0 #62431b;
+}
+
+.featured .run-strip figure::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 6px;
+  pointer-events: none;
+  border: 1px solid rgba(233, 196, 106, .72);
+  background:
+    var(--bronze-meander) 0 0 / 2.4rem .58rem repeat-x,
+    var(--bronze-meander) 0 100% / 2.4rem .58rem repeat-x;
+}
+
+.featured .run-strip figcaption {
+  z-index: 3;
+  bottom: .7rem;
+  left: .7rem;
+  padding: .42rem .65rem;
+  border: 1px solid #62431b;
+  box-shadow: 3px 3px 0 #62431b;
+  font-size: .56rem;
+}
+
+.featured .run-strip figcaption::before { content: "▣ "; color: #8a5a1f; }
+
+/* Astro Lords: one compact reading axis with a quiet suggestion of the Oort
+   Cloud — orbit arcs, not a second illustration competing with the logo. */
+.game-fold--lords {
+  grid-template-rows: auto auto;
+  align-content: center;
+  row-gap: .48rem;
+  border-color: rgba(79, 216, 239, .58);
+  background:
+    radial-gradient(ellipse 27rem 9rem at 30% 56%, transparent 57%, rgba(111, 225, 242, .25) 58% 58.6%, transparent 59.2%),
+    radial-gradient(ellipse 20rem 6.6rem at 30% 56%, transparent 57%, rgba(111, 225, 242, .18) 58% 58.5%, transparent 59.1%),
+    radial-gradient(ellipse 13rem 4.3rem at 30% 56%, transparent 57%, rgba(237, 84, 67, .22) 58% 58.5%, transparent 59.1%),
+    radial-gradient(ellipse at 40% 56%, rgba(16, 70, 91, .22), transparent 24%),
+    linear-gradient(135deg, #030810 0%, #081a29 57%, #02070c 100%);
+}
+
+.game-fold--lords .game-fold__mark {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  justify-self: start;
+  margin: 0;
+  padding: .22em .55em .32em;
+  background: none;
+}
+
+.game-fold--lords .game-fold__title { justify-items: start; }
+
+.game-fold--lords .game-fold__title-main {
+  background: linear-gradient(180deg, #ffebe1 0 17%, #f13f38 20% 55%, #9b171c 58% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: .035em .045em 0 #e04635, -.025em -.025em 0 #24d3ec;
+}
+
+.game-fold--lords .game-fold__subtitle {
+  margin-left: .2em;
+  color: #d5eff4;
+  -webkit-text-fill-color: #d5eff4;
+  text-align: left;
+}
+
+.game-fold--lords .game-fold__mark::before,
+.game-fold--lords .game-fold__mark::after,
+.game-fold--lords .game-fold__title-main::before,
+.game-fold--lords .game-fold__subtitle::before { display: none; }
+
+@media (max-width: 720px) {
+  .game-fold--lords { grid-template-rows: auto auto; }
+  .game-fold--lords .game-fold__mark { grid-column: 1; grid-row: 1; }
+}
+
+.featured .case-collapse {
+  border: 1px solid #d5a94e;
+  border-radius: 0;
+  padding: .34rem .42rem .34rem .68rem;
+  color: #f8edcf;
+  background:
+    var(--bronze-meander) 0 50% / 2.4rem .8rem repeat-x,
+    #171208;
+  box-shadow: 3px 3px 0 #6d4a1c;
+  font-family: var(--mono);
+}
+
+.featured .case-collapse span { padding-inline: .12rem; background: #171208; }
+.featured .case-collapse i {
+  border: 1px solid #d5a94e;
+  border-radius: 0;
+  color: #171208;
+  background: #e9c46a;
+  font-family: var(--display);
+}
+
+/* The cover and open case share one quiet temple surface: a pair of friezes,
+   worn stone behind the lettering, no decorative noise in the reading area. */
+.game-fold--bronze {
+  --bronze-meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 16'%3E%3Cpath d='M1 15V2h15v9H8V6h24v5h-8v-5h23v9' fill='none' stroke='%23d5a94e' stroke-width='2'/%3E%3C/svg%3E");
+  background:
+    radial-gradient(ellipse at 68% 48%, rgba(216, 173, 86, .13), transparent 22%),
+    var(--bronze-meander) 0 .8rem / 3rem 1rem repeat-x,
+    var(--bronze-meander) 0 calc(100% - .8rem) / 3rem 1rem repeat-x,
+    linear-gradient(135deg, #070705, #17130b 55%, #080705);
+}
+
+.game-fold--bronze .game-fold__mark,
+.featured .section-heading h2,
+.featured .section-heading h2 em {
+  color: #eadfbe;
+  background: linear-gradient(105deg, #826336 0 5%, #fbf2d9 17% 38%, #c0aa79 56% 68%, #f5e9cb 84% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .012em rgba(70, 48, 19, .72);
+  text-shadow: .018em .025em 0 #fff2cf, .048em .07em 0 #8b6328, .07em .1em 0 rgba(23, 15, 7, .88);
+}
+
+.game-fold--bronze .game-fold__mark { filter: drop-shadow(0 .18rem 0 rgba(28, 18, 7, .68)); }
+
+.game-fold--bronze .game-fold__meta i { font-family: "Azeret Mono", monospace; }
+
+.game-fold--bronze .game-fold__meta b {
+  font-family: "Bevan", serif;
+  font-weight: 400;
+  text-shadow: 1px 2px 0 #573814;
+}
+
+/* Boon Hill is a 16-bit place, not a smooth editorial poster. Every large
+   surface snaps to a small pixel grid while keeping the copy easy to read. */
+.boon,
+.game-fold--boon {
+  --display: "Bangers", cursive;
+  --mono: "Azeret Mono", monospace;
+}
+
+.boon {
+  color: #f0ece2;
+  background:
+    radial-gradient(circle at 77% 10%, rgba(224, 218, 184, .13), transparent 19%),
+    repeating-linear-gradient(0deg, rgba(240, 236, 226, .025) 0 1px, transparent 1px 8px),
+    linear-gradient(135deg, #303149, #51536d 50%, #29283b);
+  font-family: var(--mono);
+}
+
+.boon::before {
+  opacity: .42;
+  background-image:
+    linear-gradient(90deg, rgba(240, 236, 226, .07) 1px, transparent 1px),
+    linear-gradient(rgba(240, 236, 226, .055) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* The fold control rests in the top right corner of every case, so the moon
+   moves inboard to keep that corner clear of it. */
+.boon__moon {
+  right: max(21vw, 13rem);
+  box-shadow: 0 0 4rem rgba(228, 234, 217, .16);
+}
+
+@media (max-width: 720px) {
+  .boon__moon { right: 54vw; }
+}
+
+.boon__moon-round,
+.boon__moon-pixels {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: #e5e8d6;
+}
+
+.boon__moon-round {
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5);
+  animation: boon-moon-round 12s ease-in-out infinite;
+}
+
+.boon__moon-pixels {
+  clip-path: polygon(31% 0, 69% 0, 69% 6%, 81% 6%, 81% 19%, 94% 19%, 94% 31%, 100% 31%, 100% 69%, 94% 69%, 94% 81%, 81% 81%, 81% 94%, 69% 94%, 69% 100%, 31% 100%, 31% 94%, 19% 94%, 19% 81%, 6% 81%, 6% 69%, 0 69%, 0 31%, 6% 31%, 6% 19%, 19% 19%, 19% 6%, 31% 6%);
+  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5);
+  animation: boon-moon-pixels 12s ease-in-out infinite;
+}
+
+@keyframes boon-moon-round {
+  0%, 24%, 100% { opacity: 1; filter: blur(0); transform: scale(1); }
+  39% { opacity: .42; filter: blur(.16rem); transform: scale(.96); }
+  48%, 65% { opacity: 0; filter: blur(.3rem); transform: scale(.9); }
+  82% { opacity: .52; filter: blur(.12rem); transform: scale(.97); }
+}
+
+@keyframes boon-moon-pixels {
+  0%, 28%, 100% { opacity: 0; filter: blur(.22rem); transform: scale(.88); }
+  44% { opacity: 1; filter: blur(0); transform: scale(1); }
+  61% { opacity: 1; filter: blur(0); transform: scale(1); }
+  76% { opacity: 0; filter: blur(.18rem); transform: scale(.94); }
+}
+
+.boon__header h2,
+.boon__statement p,
+.boon__facts strong,
+.graveyard__brief h3,
+.graveyard__name {
+  font-family: "Bangers", cursive;
+  font-weight: 400;
+  text-shadow: 3px 3px 0 #27212d, 6px 6px 0 rgba(39, 33, 45, .42);
+}
+
+.boon__intro,
+.boon__statement,
+.graveyard {
+  border: 4px solid #27212d;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, 100% 4px, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) 100%, 8px 100%, 8px calc(100% - 4px), 0 calc(100% - 4px), 0 8px, 4px 8px, 4px 4px, 8px 4px);
+  box-shadow: none;
+  filter: drop-shadow(7px 7px 0 rgba(39, 33, 45, .72));
+}
+
+.boon__intro {
+  background:
+    linear-gradient(90deg, rgba(182, 154, 182, .3) 0 4px, transparent 4px calc(100% - 4px), rgba(182, 154, 182, .3) calc(100% - 4px)),
+    #e5ded6;
+}
+
+.boon__intro p,
+.boon__intro > span,
+.boon__statement > span,
+.boon__facts span,
+.boon-screen__hud,
+.graveyard__brief > span,
+.graveyard__brief > p,
+.graveyard__tally,
+.graveyard__years,
+.graveyard__line { font-family: "Azeret Mono", monospace; }
+
+.boon-screen {
+  border: 4px solid #27212d;
+  outline: 2px solid #b69ab6;
+  outline-offset: 4px;
+  box-shadow: 8px 8px 0 #27212d;
+  image-rendering: pixelated;
+}
+
+.boon-screen::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 8px;
+  pointer-events: none;
+  border: 2px solid rgba(240, 236, 226, .58);
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px), 0 8px);
+}
+
+.boon-screen__scan { background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(30, 26, 36, .22) 4px 5px); }
+
+.boon-screen__hud {
+  z-index: 4;
+  padding: .7rem .8rem;
+  border: 2px solid #27212d;
+  background: rgba(39, 33, 45, .78);
+  text-shadow: 1px 1px 0 #27212d;
+}
+
+.boon-screen__focus {
+  width: 3.2rem;
+  border: 0;
+  background:
+    linear-gradient(#e4ead9, #e4ead9) 50% 0 / 2px 100% no-repeat,
+    linear-gradient(90deg, #e4ead9, #e4ead9) 0 50% / 100% 2px no-repeat;
+  box-shadow: 0 0 0 2px rgba(39, 33, 45, .7);
+}
+
+.boon__statement {
+  background:
+    repeating-linear-gradient(0deg, rgba(240, 236, 226, .035) 0 1px, transparent 1px 8px),
+    #34354e;
+}
+
+.boon__facts {
+  gap: 4px;
+  border: 0;
+  background: #27212d;
+}
+
+.boon__facts div {
+  min-height: 5.5rem;
+  border: 0;
+  background: #4c4c66;
+  box-shadow: inset 2px 2px 0 rgba(240, 236, 226, .16), inset -2px -2px 0 rgba(39, 33, 45, .46);
+}
+
+.graveyard {
+  background: #34354e;
+}
+
+.graveyard__field {
+  border: 3px solid #27212d;
+  image-rendering: pixelated;
+}
+
+.graveyard__tile[data-stone] {
+  border-radius: 0;
+  clip-path: polygon(25% 0, 75% 0, 75% 12%, 88% 12%, 88% 100%, 12% 100%, 12% 12%, 25% 12%);
+  box-shadow: inset 2px 2px 0 rgba(228, 234, 217, .34), inset -2px -2px 0 rgba(28, 31, 27, .42);
+}
+
+.boon-gallery figure {
+  border: 4px solid #27212d;
+  box-shadow: 5px 5px 0 #b69ab6;
+}
+
+.boon-gallery figcaption {
+  border-top: 2px solid #27212d;
+  border-radius: 0;
+  font-family: "Azeret Mono", monospace;
+}
+
+.game-fold--boon {
+  background:
+    repeating-linear-gradient(0deg, rgba(240, 236, 226, .05) 0 1px, transparent 1px 8px),
+    linear-gradient(90deg, rgba(39, 33, 45, .22) 0 4px, transparent 4px calc(100% - 4px), rgba(39, 33, 45, .22) calc(100% - 4px)),
+    linear-gradient(135deg, #3b3b55, #656983 55%, #28283c);
+}
+
+.game-fold--boon .game-fold__mark {
+  max-width: 13ch;
+  font-size: clamp(2.35rem, 3.9vw, 3.8rem);
+  text-shadow: 3px 3px 0 #27212d, 6px 6px 0 rgba(39, 33, 45, .42);
+}
+.game-fold--boon .game-fold__title {
+  display: grid;
+  line-height: .77;
+  white-space: normal;
+  animation: none;
+}
+.game-fold--boon .game-fold__title-top {
+  display: block;
+  color: #f0ece2;
+  font-size: .82em;
+  letter-spacing: .015em;
+}
+.game-fold--boon .game-fold__title-main {
+  display: block;
+  color: #b69ab6;
+  letter-spacing: .018em;
+  animation: boon-fold-mist 13s ease-in-out infinite;
+}
+@keyframes boon-fold-mist {
+  0%, 100% { opacity: .45; filter: blur(.035em); }
+  50% { opacity: 1; filter: blur(0); }
+}
+.game-fold--boon .game-fold__icon { border-radius: 0; image-rendering: pixelated; }
+.game-fold--boon .game-fold__meta b { font-family: "Bangers", cursive; }
+
+/* The playable hill is built from a handful of low-res silhouettes. The
+   epitaph belongs to the stone itself, not to a detached UI panel. */
+.graveyard__tile { position: relative; overflow: visible; }
+.graveyard__tile[data-stone] {
+  border-radius: 0;
+  background: #26311f;
+  box-shadow: none;
+}
+.graveyard__tile:nth-child(even)[data-stone] { background: #232e1d; }
+.graveyard__tile[data-stone]:hover,
+.graveyard__tile[data-stone][data-read],
+.graveyard__tile[data-stone][data-read]:hover { background: inherit; }
+
+.graveyard__tile[data-stone-kind="headstone"] { --stone-art: var(--stone-headstone); }
+.graveyard__tile[data-stone-kind="cross-top"] { --stone-art: var(--stone-cross-top); }
+.graveyard__tile[data-stone-kind="obelisk"] { --stone-art: var(--stone-obelisk); }
+.graveyard__tile[data-stone-kind="ledger"] { --stone-art: var(--stone-ledger); }
+
+.graveyard__marker {
+  position: absolute;
+  z-index: 1;
+  bottom: 8%;
+  left: 50%;
+  height: 76%;
+  aspect-ratio: 32 / 40;
+  translate: -50% 0;
+  background: var(--stone-art) center / 100% 100% no-repeat;
+  filter: drop-shadow(2px 2px 0 rgba(18, 23, 16, .7));
+  transition: filter .2s ease, translate .2s steps(2, end);
+}
+
+.graveyard__tile[data-stone]:hover .graveyard__marker {
+  translate: -50% -6%;
+  filter: drop-shadow(2px 2px 0 rgba(18, 23, 16, .7)) brightness(1.22);
+}
+.graveyard__tile[data-stone][data-read] .graveyard__marker {
+  filter: drop-shadow(2px 2px 0 rgba(18, 23, 16, .7)) brightness(.74) saturate(.7);
+}
+
+.graveyard__walker {
+  z-index: 6;
+  transition: translate .145s steps(2, end), transform .12s steps(1, end);
+  transform-origin: 50% 50%;
+}
+.graveyard__walker[data-facing="left"] { transform: scaleX(-1); }
+.graveyard__walker::before {
+  content: "";
+  position: absolute;
+  top: 18%;
+  left: 31%;
+  width: 38%;
+  height: 54%;
+  background: #d9c9d2;
+  clip-path: polygon(28% 0, 72% 0, 72% 18%, 88% 18%, 88% 62%, 72% 62%, 72% 100%, 28% 100%, 28% 62%, 12% 62%, 12% 18%, 28% 18%);
+  box-shadow: 0 -.14rem 0 #f0ece2, .16rem .08rem 0 #27212d, -.12rem .28rem 0 #74758c;
+}
+.graveyard__walker::after {
+  content: "";
+  position: absolute;
+  top: 68%;
+  left: 25%;
+  width: 50%;
+  height: 22%;
+  translate: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, #27212d 0 38%, transparent 38% 62%, #27212d 62%);
+  box-shadow: none;
+}
+.graveyard__walker[data-walking]::after { animation: graveyard-walk .29s steps(2, end) infinite; }
+@keyframes graveyard-walk { 50% { translate: .13rem 0; } }
+
+.graveyard {
+  --stone-headstone:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' shape-rendering='crispEdges'%3E%3Cpath fill='%231c211b' d='M12 0h8v1h-8zM12 1h1v1h-1zM19 1h1v1h-1zM10 2h2v1h-2zM20 2h2v1h-2zM10 3h1v1h-1zM21 3h1v1h-1zM9 4h1v2h-1zM22 4h1v2h-1zM8 6h1v2h-1zM23 6h1v2h-1zM7 8h1v2h-1zM24 8h1v2h-1zM6 10h1v23h-1zM25 10h1v23h-1zM4 33h2v1h-2zM26 33h2v1h-2zM4 34h1v2h-1zM27 34h1v2h-1zM3 36h1v4h-1zM28 36h1v4h-1zM4 39h24v1h-24z'/%3E%3Cpath fill='%23b6bea9' d='M13 1h6v1h-6zM11 3h1v1h-1zM20 3h1v1h-1zM10 4h1v2h-1zM9 6h1v2h-1zM8 8h1v2h-1zM7 10h1v3h-1zM9 12h14v1h-14zM7 29h1v4h-1zM5 34h1v2h-1zM26 34h1v1h-1zM4 36h1v3h-1z'/%3E%3Cpath fill='%2398a08e' d='M12 2h8v1h-8zM12 3h1v1h-1zM15 3h1v1h-1zM11 4h1v2h-1zM14 4h1v1h-1zM20 4h1v1h-1zM13 5h1v1h-1zM19 5h1v1h-1zM10 6h1v3h-1zM12 6h1v1h-1zM18 6h1v1h-1zM11 7h1v1h-1zM17 7h1v1h-1zM9 8h1v2h-1zM16 8h1v1h-1zM22 8h1v1h-1zM15 9h1v1h-1zM21 9h1v1h-1zM8 10h1v3h-1zM14 10h1v1h-1zM20 10h1v1h-1zM8 29h1v4h-1zM6 33h1v3h-1zM5 36h1v2h-1z'/%3E%3Cpath fill='%23767d6f' d='M13 3h2v1h-2zM16 3h4v2h-4zM12 4h2v1h-2zM15 4h1v5h-1zM12 5h1v1h-1zM14 5h1v5h-1zM16 5h3v1h-3zM20 5h1v5h-1zM11 6h1v1h-1zM13 6h1v5h-1zM16 6h2v1h-2zM19 6h1v5h-1zM21 6h1v3h-1zM12 7h1v4h-1zM16 7h1v1h-1zM18 7h1v4h-1zM11 8h1v3h-1zM17 8h1v3h-1zM10 9h1v2h-1zM16 9h1v2h-1zM22 9h1v2h-1zM9 10h1v1h-1zM15 10h1v1h-1zM21 10h1v1h-1zM23 10h1v3h-1zM23 29h1v2h-1zM9 30h4v1h-4zM14 30h6v1h-6zM21 30h2v3h-2zM10 31h6v1h-6zM17 31h4v1h-4zM9 32h3v2h-3zM13 32h6v1h-6zM20 32h1v5h-1zM23 32h1v5h-1zM7 33h1v2h-1zM12 33h3v2h-3zM16 33h4v1h-4zM21 33h1v2h-1zM24 33h2v1h-2zM8 34h3v2h-3zM15 34h3v2h-3zM19 34h1v3h-1zM22 34h1v4h-1zM24 34h1v2h-1zM11 35h3v2h-3zM18 35h1v3h-1zM25 35h1v3h-1zM7 36h3v1h-3zM14 36h3v2h-3zM26 36h1v2h-1zM7 37h1v1h-1zM9 37h3v1h-3zM17 37h1v1h-1zM21 37h1v1h-1zM24 37h1v1h-1z'/%3E%3Cpath fill='%23585f52' d='M21 4h1v2h-1zM22 6h1v2h-1zM23 8h1v2h-1zM24 10h1v3h-1zM24 29h1v4h-1zM13 30h1v1h-1zM20 30h1v1h-1zM9 31h1v1h-1zM16 31h1v1h-1zM23 31h1v1h-1zM12 32h1v1h-1zM19 32h1v1h-1zM8 33h1v1h-1zM15 33h1v1h-1zM22 33h1v1h-1zM11 34h1v1h-1zM18 34h1v1h-1zM25 34h1v1h-1zM7 35h1v1h-1zM14 35h1v1h-1zM21 35h1v1h-1zM26 35h1v1h-1zM24 36h1v1h-1zM27 36h1v3h-1zM6 37h1v2h-1zM13 37h1v2h-1zM20 37h1v2h-1zM5 38h1v1h-1zM7 38h3v1h-3zM11 38h2v1h-2zM15 38h5v1h-5zM22 38h3v1h-3zM26 38h1v1h-1z'/%3E%3Cpath fill='%2341473c' d='M9 11h14v1h-14zM9 29h14v1h-14z'/%3E%3Cpath fill='%23666d5f' d='M7 13h18v1h-18zM7 14h1v15h-1z'/%3E%3Cpath fill='%23a9b09c' d='M8 14h16v14h-16z'/%3E%3Cpath fill='%23c4cbb6' d='M24 14h1v15h-1zM8 28h16v1h-16z'/%3E%3Cpath fill='%2347603a' d='M6 36h1v1h-1zM10 36h1v1h-1zM17 36h1v1h-1zM21 36h1v1h-1zM8 37h1v1h-1zM12 37h1v1h-1zM19 37h1v1h-1zM23 37h1v1h-1zM10 38h1v1h-1zM14 38h1v1h-1zM21 38h1v1h-1zM25 38h1v1h-1z'/%3E%3C/svg%3E");
+  --stone-cross-top:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' shape-rendering='crispEdges'%3E%3Cpath fill='%231c211b' d='M14 0h4v1h-4zM14 1h1v2h-1zM17 1h1v2h-1zM9 3h5v1h-5zM18 3h5v1h-5zM9 4h1v3h-1zM22 4h1v3h-1zM10 6h4v1h-4zM18 6h4v1h-4zM14 7h1v4h-1zM17 7h1v4h-1zM5 11h9v1h-9zM18 11h9v1h-9zM5 12h1v22h-1zM26 12h1v22h-1zM3 34h2v1h-2zM27 34h2v1h-2zM3 35h1v5h-1zM28 35h1v5h-1zM4 39h24v1h-24z'/%3E%3Cpath fill='%23b6bea9' d='M15 1h2v1h-2zM15 2h1v1h-1zM10 4h4v1h-4zM18 4h4v1h-4zM10 5h1v1h-1zM15 7h1v4h-1zM6 12h8v1h-8zM18 12h8v1h-8zM6 13h1v2h-1zM8 14h16v1h-16zM6 30h1v4h-1zM4 35h1v4h-1zM27 35h1v1h-1z'/%3E%3Cpath fill='%23585f52' d='M16 2h1v1h-1zM11 5h3v1h-3zM18 5h4v1h-4zM16 7h1v4h-1zM25 13h1v2h-1zM25 30h1v5h-1zM9 31h1v1h-1zM16 31h1v1h-1zM23 31h1v1h-1zM12 32h1v1h-1zM19 32h1v1h-1zM8 33h1v1h-1zM15 33h1v1h-1zM22 33h1v1h-1zM11 34h1v1h-1zM18 34h1v1h-1zM7 35h1v1h-1zM14 35h1v1h-1zM21 35h1v1h-1zM24 36h1v1h-1zM27 36h1v3h-1zM6 37h1v2h-1zM13 37h1v2h-1zM20 37h1v2h-1zM5 38h1v1h-1zM7 38h3v1h-3zM11 38h2v1h-2zM15 38h5v1h-5zM22 38h3v1h-3zM26 38h1v1h-1z'/%3E%3Cpath fill='%23767d6f' d='M14 3h1v1h-1zM16 3h2v4h-2zM15 4h1v3h-1zM14 5h1v2h-1zM14 11h4v2h-4zM24 14h1v1h-1zM24 30h1v6h-1zM8 31h1v2h-1zM10 31h6v1h-6zM17 31h6v1h-6zM9 32h3v2h-3zM13 32h6v1h-6zM20 32h4v1h-4zM12 33h3v2h-3zM16 33h6v1h-6zM23 33h1v4h-1zM6 34h5v1h-5zM15 34h3v2h-3zM19 34h4v1h-4zM26 34h1v4h-1zM6 35h1v1h-1zM8 35h6v1h-6zM18 35h3v2h-3zM22 35h1v3h-1zM25 35h1v3h-1zM7 36h3v1h-3zM11 36h6v1h-6zM7 37h1v1h-1zM9 37h3v1h-3zM14 37h5v1h-5zM21 37h1v1h-1zM24 37h1v1h-1z'/%3E%3Cpath fill='%2398a08e' d='M15 3h1v1h-1zM14 4h1v1h-1zM7 13h1v2h-1zM24 13h1v1h-1zM7 30h1v4h-1zM5 34h1v4h-1z'/%3E%3Cpath fill='%2341473c' d='M8 13h16v1h-16zM8 30h16v1h-16z'/%3E%3Cpath fill='%23666d5f' d='M6 15h20v1h-20zM6 16h1v14h-1z'/%3E%3Cpath fill='%23a9b09c' d='M7 16h18v13h-18z'/%3E%3Cpath fill='%23c4cbb6' d='M25 16h1v14h-1zM7 29h18v1h-18z'/%3E%3Cpath fill='%2347603a' d='M6 36h1v1h-1zM10 36h1v1h-1zM17 36h1v1h-1zM21 36h1v1h-1zM8 37h1v1h-1zM12 37h1v1h-1zM19 37h1v1h-1zM23 37h1v1h-1zM10 38h1v1h-1zM14 38h1v1h-1zM21 38h1v1h-1zM25 38h1v1h-1z'/%3E%3C/svg%3E");
+  --stone-obelisk:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' shape-rendering='crispEdges'%3E%3Cpath fill='%231c211b' d='M15 0h2v1h-2zM14 1h1v1h-1zM17 1h1v1h-1zM13 2h1v1h-1zM18 2h1v1h-1zM12 3h1v1h-1zM19 3h1v1h-1zM11 4h1v1h-1zM20 4h1v1h-1zM10 5h1v1h-1zM21 5h1v1h-1zM9 6h1v1h-1zM22 6h1v1h-1zM8 7h1v23h-1zM23 7h1v23h-1zM6 30h2v1h-2zM24 30h2v1h-2zM6 31h1v1h-1zM25 31h1v1h-1zM5 32h1v2h-1zM26 32h1v2h-1zM3 34h2v1h-2zM27 34h2v1h-2zM3 35h1v5h-1zM28 35h1v5h-1zM4 39h24v1h-24z'/%3E%3Cpath fill='%23b6bea9' d='M15 1h2v1h-2zM14 2h1v1h-1zM17 2h1v1h-1zM13 3h1v1h-1zM18 3h1v1h-1zM12 4h1v1h-1zM19 4h1v1h-1zM11 5h1v1h-1zM20 5h1v1h-1zM10 6h1v1h-1zM21 6h1v1h-1zM9 7h1v5h-1zM22 7h1v1h-1zM10 11h12v1h-12zM9 28h1v2h-1zM7 31h1v1h-1zM24 31h1v1h-1zM6 32h1v2h-1zM4 35h1v4h-1zM27 35h1v1h-1z'/%3E%3Cpath fill='%2398a08e' d='M15 2h2v1h-2zM14 3h2v1h-2zM17 3h1v1h-1zM13 4h2v1h-2zM18 4h1v1h-1zM12 5h2v1h-2zM19 5h1v1h-1zM11 6h2v1h-2zM18 6h1v1h-1zM20 6h1v1h-1zM10 7h2v1h-2zM17 7h1v1h-1zM21 7h1v1h-1zM10 8h1v2h-1zM16 8h1v1h-1zM15 9h1v1h-1zM21 9h1v1h-1zM10 29h1v1h-1zM8 30h1v2h-1zM7 32h1v2h-1zM24 32h1v1h-1zM5 34h1v4h-1zM26 34h1v1h-1z'/%3E%3Cpath fill='%23767d6f' d='M16 3h1v5h-1zM15 4h1v5h-1zM17 4h1v3h-1zM14 5h1v5h-1zM18 5h1v1h-1zM13 6h1v4h-1zM19 6h1v4h-1zM12 7h1v3h-1zM18 7h1v3h-1zM20 7h1v3h-1zM11 8h1v2h-1zM17 8h1v2h-1zM21 8h1v1h-1zM16 9h1v1h-1zM11 29h6v1h-6zM18 29h4v1h-4zM9 30h4v1h-4zM14 30h6v1h-6zM21 30h3v1h-3zM10 31h6v1h-6zM17 31h6v1h-6zM8 32h4v1h-4zM13 32h6v1h-6zM20 32h4v1h-4zM9 33h6v1h-6zM16 33h6v1h-6zM23 33h2v3h-2zM6 34h5v1h-5zM12 34h6v1h-6zM19 34h4v1h-4zM6 35h1v1h-1zM8 35h6v1h-6zM15 35h6v1h-6zM22 35h1v3h-1zM25 35h2v3h-2zM7 36h3v1h-3zM11 36h6v1h-6zM18 36h3v1h-3zM23 36h1v1h-1zM7 37h1v1h-1zM9 37h3v1h-3zM14 37h5v1h-5zM21 37h1v1h-1zM24 37h1v1h-1z'/%3E%3Cpath fill='%23585f52' d='M22 8h1v4h-1zM22 28h1v2h-1zM17 29h1v1h-1zM13 30h1v1h-1zM20 30h1v1h-1zM9 31h1v1h-1zM16 31h1v1h-1zM23 31h1v1h-1zM12 32h1v1h-1zM19 32h1v1h-1zM25 32h1v3h-1zM8 33h1v1h-1zM15 33h1v1h-1zM22 33h1v1h-1zM11 34h1v1h-1zM18 34h1v1h-1zM7 35h1v1h-1zM14 35h1v1h-1zM21 35h1v1h-1zM24 36h1v1h-1zM27 36h1v3h-1zM6 37h1v2h-1zM13 37h1v2h-1zM20 37h1v2h-1zM5 38h1v1h-1zM7 38h3v1h-3zM11 38h2v1h-2zM15 38h5v1h-5zM22 38h3v1h-3zM26 38h1v1h-1z'/%3E%3Cpath fill='%2341473c' d='M10 10h12v1h-12zM10 28h12v1h-12z'/%3E%3Cpath fill='%23666d5f' d='M9 12h14v1h-14zM9 13h1v15h-1z'/%3E%3Cpath fill='%23a9b09c' d='M10 13h12v14h-12z'/%3E%3Cpath fill='%23c4cbb6' d='M22 13h1v15h-1zM10 27h12v1h-12z'/%3E%3Cpath fill='%2347603a' d='M6 36h1v1h-1zM10 36h1v1h-1zM17 36h1v1h-1zM21 36h1v1h-1zM8 37h1v1h-1zM12 37h1v1h-1zM19 37h1v1h-1zM23 37h1v1h-1zM10 38h1v1h-1zM14 38h1v1h-1zM21 38h1v1h-1zM25 38h1v1h-1z'/%3E%3C/svg%3E");
+  --stone-ledger:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 40' shape-rendering='crispEdges'%3E%3Cpath fill='%231c211b' d='M9 4h14v1h-14zM9 5h1v1h-1zM22 5h1v1h-1zM6 6h3v1h-3zM23 6h3v1h-3zM6 7h1v1h-1zM25 7h1v1h-1zM4 8h2v1h-2zM26 8h2v1h-2zM4 9h1v1h-1zM27 9h1v1h-1zM3 10h1v21h-1zM28 10h1v21h-1zM2 31h1v3h-1zM29 31h1v3h-1zM0 34h2v1h-2zM30 34h2v1h-2zM0 35h1v5h-1zM31 35h1v5h-1zM1 39h30v1h-30z'/%3E%3Cpath fill='%23b6bea9' d='M10 5h12v1h-12zM7 7h2v1h-2zM23 7h2v1h-2zM5 9h1v1h-1zM26 9h1v1h-1zM4 10h1v3h-1zM6 12h20v1h-20zM4 28h1v3h-1zM3 31h1v3h-1zM1 35h1v4h-1zM30 35h1v1h-1z'/%3E%3Cpath fill='%2398a08e' d='M9 6h14v1h-14zM11 7h1v1h-1zM17 7h1v1h-1zM6 8h3v1h-3zM10 8h1v1h-1zM16 8h1v1h-1zM22 8h4v1h-4zM6 9h1v1h-1zM9 9h1v1h-1zM15 9h1v1h-1zM21 9h1v1h-1zM5 10h1v3h-1zM8 10h1v1h-1zM14 10h1v1h-1zM20 10h1v1h-1zM26 10h1v1h-1zM5 28h1v3h-1zM4 31h1v3h-1zM2 34h1v4h-1z'/%3E%3Cpath fill='%23767d6f' d='M9 7h2v1h-2zM12 7h5v1h-5zM18 7h5v1h-5zM9 8h1v1h-1zM11 8h5v1h-5zM17 8h5v1h-5zM7 9h2v1h-2zM10 9h5v1h-5zM16 9h5v1h-5zM22 9h4v2h-4zM6 10h2v1h-2zM9 10h5v1h-5zM15 10h5v1h-5zM21 10h1v1h-1zM26 11h1v2h-1zM26 28h1v4h-1zM6 29h4v1h-4zM11 29h6v1h-6zM18 29h6v1h-6zM25 29h1v5h-1zM7 30h6v1h-6zM14 30h6v1h-6zM21 30h4v1h-4zM5 31h4v1h-4zM10 31h6v1h-6zM17 31h6v1h-6zM24 31h1v5h-1zM27 31h1v6h-1zM6 32h6v1h-6zM13 32h6v1h-6zM20 32h4v1h-4zM5 33h3v2h-3zM9 33h6v1h-6zM16 33h6v1h-6zM23 33h1v4h-1zM26 33h1v5h-1zM3 34h1v2h-1zM8 34h3v2h-3zM12 34h6v1h-6zM19 34h4v1h-4zM28 34h2v1h-2zM4 35h3v1h-3zM11 35h3v2h-3zM15 35h6v1h-6zM22 35h1v3h-1zM25 35h1v3h-1zM29 35h1v3h-1zM4 36h2v2h-2zM7 36h3v1h-3zM14 36h3v2h-3zM18 36h3v1h-3zM3 37h1v1h-1zM7 37h1v1h-1zM9 37h3v1h-3zM17 37h2v1h-2zM21 37h1v1h-1zM24 37h1v1h-1zM28 37h1v1h-1z'/%3E%3Cpath fill='%23585f52' d='M27 10h1v3h-1zM27 28h1v3h-1zM10 29h1v1h-1zM17 29h1v1h-1zM24 29h1v1h-1zM6 30h1v1h-1zM13 30h1v1h-1zM20 30h1v1h-1zM9 31h1v1h-1zM16 31h1v1h-1zM23 31h1v1h-1zM28 31h1v3h-1zM5 32h1v1h-1zM12 32h1v1h-1zM19 32h1v1h-1zM26 32h1v1h-1zM8 33h1v1h-1zM15 33h1v1h-1zM22 33h1v1h-1zM4 34h1v1h-1zM11 34h1v1h-1zM18 34h1v1h-1zM25 34h1v1h-1zM7 35h1v1h-1zM14 35h1v1h-1zM21 35h1v1h-1zM28 35h1v1h-1zM3 36h1v1h-1zM24 36h1v1h-1zM30 36h1v1h-1zM6 37h1v2h-1zM13 37h1v2h-1zM20 37h1v2h-1zM27 37h1v2h-1zM2 38h1v1h-1zM4 38h2v1h-2zM7 38h3v1h-3zM11 38h2v1h-2zM15 38h5v1h-5zM22 38h3v1h-3zM26 38h1v1h-1zM28 38h3v1h-3z'/%3E%3Cpath fill='%2341473c' d='M6 11h20v1h-20zM6 28h20v1h-20z'/%3E%3Cpath fill='%23666d5f' d='M4 13h24v1h-24zM4 14h1v14h-1z'/%3E%3Cpath fill='%23a9b09c' d='M5 14h22v13h-22z'/%3E%3Cpath fill='%23c4cbb6' d='M27 14h1v14h-1zM5 27h22v1h-22z'/%3E%3Cpath fill='%2347603a' d='M6 36h1v1h-1zM10 36h1v1h-1zM17 36h1v1h-1zM21 36h1v1h-1zM28 36h1v1h-1zM8 37h1v1h-1zM12 37h1v1h-1zM19 37h1v1h-1zM23 37h1v1h-1zM30 37h1v1h-1zM3 38h1v1h-1zM10 38h1v1h-1zM14 38h1v1h-1zM21 38h1v1h-1zM25 38h1v1h-1z'/%3E%3C/svg%3E");
+}
+
+/* The memorial is the same sprite the field is built from, drawn large: a
+   four-tone pixel stone with dithered shading, engraved rules and moss on the
+   plinth. Text sits between the two rules, so each silhouette sets its own
+   inset and the line the RIP rests on. */
+.graveyard__memorial {
+  --stone-art: var(--stone-headstone);
+  --stone-pad: 35% 25.5% 30%;
+  --stone-rip: 21%;
+  --stone-type: 1;
+  position: absolute;
+  z-index: 9;
+  top: 50%;
+  left: 50%;
+  height: min(94%, 26rem);
+  aspect-ratio: 32 / 40;
+  /* The inscription is sized against the stone, not the viewport: the stone
+     grows with the field, and type set in vw drifts out of step with it. */
+  container-type: size;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 100%;
+}
+
+.graveyard__memorial[data-visible] {
+  opacity: 1;
+  animation: memorial-rise .4s steps(5, end) both;
+}
+
+@keyframes memorial-rise {
+  from { translate: 0 16%; scale: .82; opacity: 0; }
+  to { translate: 0 0; scale: 1; opacity: 1; }
+}
+
+.graveyard__memorial[data-kind="cross-top"] {
+  --stone-art: var(--stone-cross-top);
+  --stone-pad: 40% 22.5% 27.5%;
+  --stone-rip: 18.5%;
+}
+
+.graveyard__memorial[data-kind="obelisk"] {
+  --stone-art: var(--stone-obelisk);
+  --stone-pad: 32.5% 32% 32.5%;
+  --stone-rip: 25%;
+  --stone-type: .84;
+}
+
+.graveyard__memorial[data-kind="ledger"] {
+  --stone-art: var(--stone-ledger);
+  --stone-pad: 35% 16.5% 32.5%;
+  --stone-rip: 22%;
+  --stone-type: 1.06;
+}
+
+.graveyard__memorial-stone {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--stone-pad);
+  color: #171d15;
+  background: var(--stone-art) center / 100% 100% no-repeat;
+  filter: drop-shadow(6px 7px 0 rgba(16, 21, 15, .72));
+  font-family: "Azeret Mono", monospace;
+  text-align: center;
+}
+
+/* A single band of moonlight steps across the face every few seconds. */
+.graveyard__memorial-stone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(112deg, transparent 40%, rgba(236, 243, 224, .16) 47% 53%, transparent 60%) 0 0 / 320% 100% no-repeat;
+  -webkit-mask: var(--stone-art) center / 100% 100% no-repeat;
+  mask: var(--stone-art) center / 100% 100% no-repeat;
+  animation: memorial-moonlight 6s steps(10, end) infinite;
+}
+
+@keyframes memorial-moonlight {
+  0%, 45% { background-position: 130% 0; }
+  100% { background-position: -30% 0; }
+}
+
+.graveyard__memorial-kicker,
+.graveyard__memorial-years,
+.graveyard__memorial-stone i {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: #2b3527;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.graveyard__memorial-kicker {
+  margin-bottom: .72em;
+  font-size: calc(max(.46rem, 2.9cqw) * var(--stone-type));
+}
+
+.graveyard__memorial-stone b {
+  position: relative;
+  z-index: 1;
+  color: #1f2a1d;
+  font-family: "Silkscreen", monospace;
+  font-size: calc(max(.62rem, 4.9cqw) * var(--stone-type));
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-wrap: balance;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 rgba(214, 222, 205, .55);
+}
+
+.graveyard__memorial-years {
+  margin: .8em 0 1.1em;
+  font-size: calc(max(.44rem, 2.9cqw) * var(--stone-type));
+}
+
+.graveyard__memorial-stone p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: calc(max(.5rem, 3.4cqw) * var(--stone-type));
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* The RIP is cut below the plate, on plain stone, so it carries the darker of
+   the two inks. */
+.graveyard__memorial-stone i {
+  position: absolute;
+  bottom: var(--stone-rip);
+  color: #1d2519;
+  font-size: calc(max(.44rem, 2.9cqw) * var(--stone-type));
+  font-style: normal;
+}
+
+/* The engraving is cut a beat after the stone lands. */
+.graveyard__memorial[data-visible] .graveyard__memorial-stone > * {
+  animation: memorial-cut .24s steps(2, end) .28s both;
+}
+
+@keyframes memorial-cut {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* The field is wide and short, and on a phone it is far too short to hold a
+   readable stone. There the memorial takes its size from the field's width
+   instead and stands proud of it, the way a lifted card would. */
+@media (max-width: 720px) {
+  .graveyard__memorial {
+    top: 46%;
+    width: min(68%, 15rem);
+    height: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .boon__intro,
+  .boon__statement,
+  .graveyard { filter: drop-shadow(4px 4px 0 rgba(39, 33, 45, .72)); }
+  .boon-screen { box-shadow: 5px 5px 0 #27212d; }
+}
+
+/* Bronze Hoof's title is a small story: pale damaged stone for the temple,
+   the final F as the centaur's bronze, and the incoming U as its rust-red foe. */
+.featured .section-heading h2,
+.featured .section-heading h2 em,
+.game-fold--bronze .game-fold__mark {
+  color: #cfc4aa;
+  background:
+    repeating-linear-gradient(117deg, transparent 0 17px, rgba(59, 51, 38, .58) 18px 19px, transparent 20px 35px),
+    repeating-linear-gradient(16deg, transparent 0 29px, rgba(89, 77, 58, .34) 30px 31px, transparent 32px 48px),
+    linear-gradient(106deg, #706959 0 4%, #d9ceb2 12% 31%, #a29780 43% 51%, #e4dac1 61% 78%, #827966 94% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .016em #3a3021;
+  text-shadow: .014em .02em 0 rgba(245, 237, 214, .55), .04em .065em 0 #655134, .075em .11em 0 rgba(18, 14, 9, .88);
+}
+
+.featured .hoof__f {
+  color: #c9793b;
+  background: linear-gradient(105deg, #6d321f 0 8%, #e2a15d 24% 45%, #a64d2b 65%, #f1c27c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .018em #4b2117;
+  text-shadow: .018em .03em 0 #f3ca86, .055em .085em 0 #692c1d, .08em .115em 0 rgba(20, 12, 8, .9);
+}
+
+.featured .hoof__foe {
+  color: #9c3d31;
+  background: linear-gradient(100deg, #542019, #c8533e 45%, #7b2c24 75%, #e07959);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: .028em #35130f;
+  text-shadow: .035em .06em 0 #4a1714, .065em .1em 0 rgba(15, 8, 7, .86);
+}
+
+/* Every case signs its exit in the same visual language as its cover. */
+.boon .case-collapse { border-radius: .15rem .9rem .15rem .9rem; background-color: #d9c9d2; }
+.flower .case-collapse { border-radius: 1.1rem .2rem 1.1rem .2rem; }
+.boxjam .case-collapse { border-radius: 0; clip-path: polygon(.4rem 0, 100% 0, 100% calc(100% - .4rem), calc(100% - .4rem) 100%, 0 100%, 0 .4rem); }
+.blob .case-collapse { border-radius: 1.2rem; }
+.word:not(.solitaire) .case-collapse { border-radius: .15rem; }
+.solitaire .case-collapse { border-radius: .25rem .8rem .25rem .8rem; }
+.sapper .case-collapse { border-radius: 0; }
+.astro .case-collapse { border-radius: .15rem; clip-path: polygon(.35rem 0, 100% 0, 100% calc(100% - .35rem), calc(100% - .35rem) 100%, 0 100%, 0 .35rem); }
+
+@media (max-width: 720px) {
+  .featured .project-quote,
+  .featured .stats,
+  .featured .runner { box-shadow: 3px 3px 0 #62431b; }
+  .featured .stats div { min-height: 6.5rem; }
+  .featured .project-quote { padding-top: 2rem; padding-bottom: 2rem; }
+}
+
+.flower__copy,
+.boxjam__copy,
+.blob__copy,
+.word__copy {
+  padding: clamp(1.1rem, 2vw, 1.85rem);
+}
+
+.flower__copy {
+  border: 2px solid #ff9fbd;
+  background: rgba(14, 48, 36, .74);
+  box-shadow: 5px 5px 0 rgba(249, 208, 82, .7);
+}
+.boxjam__copy {
+  border: 2px solid #43a0ff;
+  background: rgba(15, 29, 42, .86);
+  box-shadow: 5px 5px 0 #b7d7ff;
+}
+.blob__copy {
+  border: 2px solid #ffc94e;
+  background: rgba(38, 20, 83, .84);
+  box-shadow: 5px 5px 0 #70f2d1;
+}
+.word__copy {
+  border: 2px solid #e74c68;
+  background: rgba(255, 247, 235, .72);
+  box-shadow: 5px 5px 0 rgba(32, 27, 66, .36);
+}
+.solitaire .word__copy {
+  border-color: #246b55;
+  background: rgba(245, 250, 238, .78);
+  box-shadow: 5px 5px 0 rgba(36, 107, 85, .35);
+}
+
+@media (max-width: 720px) {
+  .game-fold--boon .game-fold__mark { max-width: 14ch; font-size: clamp(1.9rem, 8.5vw, 2.55rem); }
+  .game-fold--boon .game-fold__title { white-space: normal; }
+  :is(.featured, .flower, .boxjam, .blob, .word) { --head-gap: 1.2rem; }
+  .flower__header h2,
+  .blob__header h2 { font-size: clamp(3rem, 13vw, 4.65rem); }
+  .boxjam__header h2,
+  .word__header h2 { font-size: clamp(2.25rem, 9.8vw, 3.55rem); }
+  .solitaire .word__header h2 { font-size: clamp(2rem, 8.5vw, 3.2rem); }
+  :is(.flower__copy, .boxjam__copy, .blob__copy, .word__copy) { padding: 1rem; box-shadow: 3px 3px 0 var(--fold-accent, currentColor); }
+}
+
+/* The sweeping hover beam crossed the wordmarks instead of helping scan the
+   archive. The title itself is now the only moving layer. */
+.game-fold::before { display: none; }
+
+/* The fold control shares the visual language of its current case and keeps
+   a short, distinct confirmation motion without a large floating button. */
+.case-collapse {
+  height: 2.2rem;
+  padding: .35rem .42rem .35rem .62rem;
+  gap: .48rem;
+  font-size: .62rem;
+}
+
+.case-collapse i { width: 1.45rem; height: 1.45rem; font-size: .8rem; }
+.case-collapse:hover i { transform: none; }
+
+.featured .case-collapse:hover i { animation: collapse-stride .42s ease-out; }
+.boon .case-collapse:hover i { animation: collapse-sway .48s ease-in-out; }
+.flower .case-collapse:hover i { animation: collapse-bloom .44s ease-out; }
+.boxjam .case-collapse:hover i { animation: collapse-drop .36s ease-out; }
+.blob .case-collapse:hover i { animation: collapse-blob .42s ease-in-out; }
+.word:not(.solitaire) .case-collapse:hover i { animation: collapse-bend .42s ease-in-out; }
+.solitaire .case-collapse:hover i { animation: collapse-deal .42s ease-out; }
+.sapper .case-collapse:hover i { animation: collapse-jolt .3s steps(2, end); }
+.astro .case-collapse:hover i { animation: collapse-signal .46s ease-out; }
+
+@keyframes collapse-stride { 50% { translate: .16rem -.14rem; } }
+@keyframes collapse-sway { 35% { rotate: -13deg; } 70% { rotate: 9deg; } }
+@keyframes collapse-bloom { 50% { scale: 1.24; } }
+@keyframes collapse-drop { 50% { translate: 0 .16rem; scale: 1.1 .82; } }
+@keyframes collapse-blob { 50% { scale: 1.2 .8; } }
+@keyframes collapse-bend { 50% { rotate: -14deg; } }
+@keyframes collapse-deal { 50% { translate: .14rem -.16rem; rotate: -8deg; } }
+@keyframes collapse-jolt { 30% { translate: .12rem -.08rem; } 60% { translate: -.1rem .08rem; } }
+@keyframes collapse-signal { 50% { scale: 1.18; box-shadow: 0 0 .6rem rgba(49, 216, 238, .8); } }
+
+/* Archive coordinates carry a tiny game-specific instruction instead of the
+   generic “Game case” label. They are navigation metadata, not another title. */
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta {
+  gap: .5rem;
+}
+
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta i {
+  display: flex;
+  align-items: center;
+  gap: .36rem;
+  max-width: 7.5rem;
+  font-family: "Azeret Mono", monospace;
+  font-size: .57rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: .055em;
+  line-height: 1.2;
+}
+
+:is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta i::before {
+  content: attr(data-signal);
+  flex: 0 0 auto;
+  color: var(--fold-accent);
+  font-family: "Syne", sans-serif;
+  font-size: 1.25em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.game-fold--bronze .game-fold__meta b { color: #e9c46a; font-family: "Bowlby One SC", sans-serif; font-weight: 400; text-shadow: 2px 2px 0 #573814; }
+.game-fold--boon .game-fold__meta b { color: #27212d; font-family: "Bangers", cursive; font-weight: 400; letter-spacing: .03em; }
+.game-fold--flower .game-fold__meta b { color: #ff9fbd; font-family: "Bangers", cursive; font-weight: 400; letter-spacing: .03em; text-shadow: 2px 2px 0 #173a2f; }
+.game-fold--boxjam .game-fold__meta b { color: #43a0ff; font-family: "Azeret Mono", monospace; font-size: 1.65rem; font-weight: 700; }
+.game-fold--blob .game-fold__meta b { color: #ffc94e; font-family: "Bangers", cursive; font-weight: 400; letter-spacing: .03em; text-shadow: 2px 2px 0 #281464; }
+.game-fold--word .game-fold__meta b { color: #e74c68; font-family: "Azeret Mono", monospace; font-size: 1.65rem; font-weight: 700; }
+.game-fold--card .game-fold__meta b { color: #54217c; font-family: "Lilita One", sans-serif; font-weight: 400; letter-spacing: .02em; text-shadow: 1px 2px 0 #f0a72b; }
+.game-fold--sapper .game-fold__meta b { color: #ffad25; font-family: "Bowlby One SC", sans-serif; font-weight: 400; letter-spacing: -.04em; }
+.game-fold--lords .game-fold__meta b { color: #31d8ee; font-family: "Orbitron", sans-serif; font-size: 1.55rem; font-weight: 900; letter-spacing: -.1em; }
+
+.game-fold--bronze .game-fold__meta i { color: #d8c9a1; }
+.game-fold--boon .game-fold__meta i { color: #27212d; }
+.game-fold--flower .game-fold__meta i { color: #fff4d6; }
+.game-fold--boxjam .game-fold__meta i { color: #b8d8f2; }
+.game-fold--blob .game-fold__meta i { color: #e8deff; }
+.game-fold--word .game-fold__meta i { color: #3a315d; }
+.game-fold--card .game-fold__meta i { color: #285846; }
+.game-fold--sapper .game-fold__meta i { color: #fff8dd; }
+.game-fold--lords .game-fold__meta i { color: #a5edf7; }
+
+@media (max-width: 720px) {
+  :is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta {
+    gap: .45rem;
+  }
+  :is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta b {
+    font-size: 1rem;
+  }
+  :is(.game-fold--bronze, .game-fold--boon, .game-fold--flower, .game-fold--boxjam, .game-fold--blob, .game-fold--word, .game-fold--card, .game-fold--sapper, .game-fold--lords) .game-fold__meta i {
+    max-width: none;
+    font-size: .52rem;
+  }
+}
+
+/* ============================================================================
+   Archive covers: one composition for every case.
+
+   A cover is now only three things — its coordinates, its wordmark and its
+   art. The action prompt is gone: the whole panel is the button, so a second
+   label under the title only competed with it.
+
+   Every wordmark sits in a reserved box of the same height, vertically
+   centred, so the nine covers line up down the page whether their logo is one
+   line, two, or a stacked lockup. Faces differ enough in cap height that one
+   font-size cannot serve them all, so each skin only tunes a scale factor
+   against the shared step.
+   ========================================================================= */
+.game-fold {
+  --fold-mark-size: clamp(1.95rem, 4.05vw, 4.05rem);
+  --fold-mark-box: clamp(4.4rem, 6.6vw, 6.6rem);
+  --fold-badge-size: clamp(4.4rem, 6.2vw, 6.4rem);
+  --fold-frame-band: clamp(.4rem, .68vw, .68rem);
+  --fold-frame-gap: clamp(.18rem, .3vw, .3rem);
+  grid-template-columns: minmax(5rem, .22fr) minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0 clamp(1.2rem, 2.4vw, 2.4rem);
+  align-items: center;
+}
+
+.game-fold .game-fold__meta {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.game-fold .game-fold__mark {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  align-self: center;
+  height: var(--fold-mark-box);
+  max-width: 100%;
+  font-size: calc(var(--fold-mark-size) * var(--fold-mark-scale, 1));
+}
+
+/* The offset colour ghosts assumed a mark that hugged its own text box; in a
+   reserved box they drift away from the letters they double. */
+.game-fold .game-fold__mark::before,
+.game-fold .game-fold__mark::after { display: none; }
+
+.game-fold--bronze { --fold-mark-scale: 1; }
+.game-fold--boon { --fold-mark-scale: .82; }
+.game-fold--flower { --fold-mark-scale: 1.12; }
+.game-fold--boxjam { --fold-mark-scale: .98; }
+.game-fold--blob { --fold-mark-scale: 1.12; }
+.game-fold--word { --fold-mark-scale: .98; }
+.game-fold--card { --fold-mark-scale: .84; }
+.game-fold--sapper { --fold-mark-scale: .86; }
+.game-fold--lords { --fold-mark-scale: .98; }
+
+.game-fold--bronze .game-fold__mark { max-width: none; }
+.game-fold--boon .game-fold__mark { max-width: 13ch; }
+.game-fold--card .game-fold__mark { max-width: 12ch; line-height: .92; }
+.game-fold--sapper .game-fold__mark { max-width: 14ch; }
+.game-fold--lords .game-fold__mark { max-width: 16ch; padding: 0; }
+
+/* The art is framed by a band of its own game's motif rather than morphing
+   into a circle on hover — a mine field for the sapper, four suits for the
+   solitaire, a Greek key for the temple runner. */
+.game-fold__badge::after {
+  content: "";
+  position: absolute;
+  inset: calc((var(--fold-frame-band) + var(--fold-frame-gap)) * -1);
+  pointer-events: none;
+  border: var(--fold-frame-band) solid transparent;
+  border-image-source: var(--fold-frame);
+  border-image-slice: 25%;
+  border-image-repeat: round;
+  opacity: .72;
+  transition: opacity .45s var(--ease), scale .55s var(--ease);
+}
+
+.game-fold:is(:hover, :focus-visible) .game-fold__badge::after {
+  opacity: 1;
+  scale: 1.05;
+}
+
+.game-fold__icon {
+  outline: 1px solid color-mix(in srgb, var(--fold-detail, var(--fold-accent)) 58%, transparent);
+  outline-offset: 0;
+}
+
+.game-fold--bronze {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23d5a94e' stroke-width='1.3'%3E%3Cpath d='M7 5V2h3v3h4V2h3v3'/%3E%3Cpath d='M7 19v3h3v-3h4v3h3v-3'/%3E%3Cpath d='M5 7H2v3h3v4H2v3h3'/%3E%3Cpath d='M19 7h3v3h-3v4h3v3h-3'/%3E%3C/g%3E%3Cg fill='%23d5a94e'%3E%3Crect x='1.4' y='1.4' width='3.2' height='3.2'/%3E%3Crect x='19.4' y='1.4' width='3.2' height='3.2'/%3E%3Crect x='1.4' y='19.4' width='3.2' height='3.2'/%3E%3Crect x='19.4' y='19.4' width='3.2' height='3.2'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--boon {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23b69ab6'%3E%3Crect x='7' y='1.5' width='3' height='3'/%3E%3Crect x='14' y='1.5' width='3' height='3'/%3E%3Crect x='7' y='19.5' width='3' height='3'/%3E%3Crect x='14' y='19.5' width='3' height='3'/%3E%3Crect x='1.5' y='7' width='3' height='3'/%3E%3Crect x='1.5' y='14' width='3' height='3'/%3E%3Crect x='19.5' y='7' width='3' height='3'/%3E%3Crect x='19.5' y='14' width='3' height='3'/%3E%3Crect x='1.5' y='1.5' width='3' height='3'/%3E%3Crect x='19.5' y='1.5' width='3' height='3'/%3E%3Crect x='1.5' y='19.5' width='3' height='3'/%3E%3Crect x='19.5' y='19.5' width='3' height='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--flower {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23ff9fbd'%3E%3Cg%3E%3Ccircle cx='12' cy='1.4' r='1.05'/%3E%3Ccircle cx='12' cy='4.6' r='1.05'/%3E%3Ccircle cx='10.4' cy='3' r='1.05'/%3E%3Ccircle cx='13.6' cy='3' r='1.05'/%3E%3C/g%3E%3Cg%3E%3Ccircle cx='12' cy='19.4' r='1.05'/%3E%3Ccircle cx='12' cy='22.6' r='1.05'/%3E%3Ccircle cx='10.4' cy='21' r='1.05'/%3E%3Ccircle cx='13.6' cy='21' r='1.05'/%3E%3C/g%3E%3Cg%3E%3Ccircle cx='3' cy='10.4' r='1.05'/%3E%3Ccircle cx='3' cy='13.6' r='1.05'/%3E%3Ccircle cx='1.4' cy='12' r='1.05'/%3E%3Ccircle cx='4.6' cy='12' r='1.05'/%3E%3C/g%3E%3Cg%3E%3Ccircle cx='21' cy='10.4' r='1.05'/%3E%3Ccircle cx='21' cy='13.6' r='1.05'/%3E%3Ccircle cx='19.4' cy='12' r='1.05'/%3E%3Ccircle cx='22.6' cy='12' r='1.05'/%3E%3C/g%3E%3C/g%3E%3Cg fill='%23f9d052'%3E%3Ccircle cx='3' cy='3' r='1.1'/%3E%3Ccircle cx='21' cy='3' r='1.1'/%3E%3Ccircle cx='3' cy='21' r='1.1'/%3E%3Ccircle cx='21' cy='21' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--boxjam {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%2343a0ff' stroke-width='1.2'%3E%3Crect x='9.6' y='.6' width='4.8' height='4.8'/%3E%3Crect x='9.6' y='18.6' width='4.8' height='4.8'/%3E%3Crect x='.6' y='9.6' width='4.8' height='4.8'/%3E%3Crect x='18.6' y='9.6' width='4.8' height='4.8'/%3E%3C/g%3E%3Cg fill='%2343a0ff'%3E%3Crect x='1.8' y='1.8' width='2.4' height='2.4'/%3E%3Crect x='19.8' y='1.8' width='2.4' height='2.4'/%3E%3Crect x='1.8' y='19.8' width='2.4' height='2.4'/%3E%3Crect x='19.8' y='19.8' width='2.4' height='2.4'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--blob {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23ffc94e' stroke-width='1.2'%3E%3Ccircle cx='12' cy='3' r='2.1'/%3E%3Ccircle cx='12' cy='21' r='2.1'/%3E%3Ccircle cx='3' cy='12' r='2.1'/%3E%3Ccircle cx='21' cy='12' r='2.1'/%3E%3C/g%3E%3Cg fill='%2370f2d1'%3E%3Ccircle cx='3' cy='3' r='1.2'/%3E%3Ccircle cx='21' cy='3' r='1.2'/%3E%3Ccircle cx='3' cy='21' r='1.2'/%3E%3Ccircle cx='21' cy='21' r='1.2'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--word {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%23e74c68' stroke-width='1.2'%3E%3Crect x='9.5' y='.5' width='5' height='5' rx='1.4'/%3E%3Crect x='9.5' y='18.5' width='5' height='5' rx='1.4'/%3E%3Crect x='.5' y='9.5' width='5' height='5' rx='1.4'/%3E%3Crect x='18.5' y='9.5' width='5' height='5' rx='1.4'/%3E%3C/g%3E%3Cg fill='%23201b42'%3E%3Ccircle cx='3' cy='3' r='1.1'/%3E%3Ccircle cx='21' cy='3' r='1.1'/%3E%3Ccircle cx='3' cy='21' r='1.1'/%3E%3Ccircle cx='21' cy='21' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--card {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23c8102e'%3E%3Cpath d='M12 5.4C9.2 3.3 9.2 1 10.8 1c.7 0 1.2.6 1.2 1.1C12 1.6 12.5 1 13.2 1c1.6 0 1.6 2.3-1.2 4.4Z'/%3E%3Cpath d='M3 9.5 5.4 12 3 14.5.6 12Z'/%3E%3Cpath d='M21 9.5 23.4 12 21 14.5 18.6 12Z'/%3E%3C/g%3E%3Cg fill='%231f2533'%3E%3Cpath d='M12 18.6c2.8 2.1 2.8 4.4 1.2 4.4-.7 0-1.2-.6-1.2-1.1 0 .5-.5 1.1-1.2 1.1-1.6 0-1.6-2.3 1.2-4.4Z'/%3E%3C/g%3E%3Cg fill='%23246b55'%3E%3Ccircle cx='3' cy='3' r='1.1'/%3E%3Ccircle cx='21' cy='3' r='1.1'/%3E%3Ccircle cx='3' cy='21' r='1.1'/%3E%3Ccircle cx='21' cy='21' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--sapper {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23ffad25'%3E%3Ccircle cx='12' cy='3' r='1.6'/%3E%3Ccircle cx='12' cy='21' r='1.6'/%3E%3Ccircle cx='3' cy='12' r='1.6'/%3E%3Ccircle cx='21' cy='12' r='1.6'/%3E%3C/g%3E%3Cg stroke='%23ffad25' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M12 .4v1M12 4.6v1M9.4 3h1M13.6 3h1'/%3E%3Cpath d='M12 18.4v1M12 22.6v1M9.4 21h1M13.6 21h1'/%3E%3Cpath d='M3 9.4v1M3 13.6v1M.4 12h1M4.6 12h1'/%3E%3Cpath d='M21 9.4v1M21 13.6v1M18.4 12h1M22.6 12h1'/%3E%3C/g%3E%3Cg fill='%23d83425'%3E%3Crect x='1.7' y='1.7' width='2.6' height='2.6'/%3E%3Crect x='19.7' y='1.7' width='2.6' height='2.6'/%3E%3Crect x='1.7' y='19.7' width='2.6' height='2.6'/%3E%3Crect x='19.7' y='19.7' width='2.6' height='2.6'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.game-fold--lords {
+  --fold-frame: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='%2331d8ee' stroke-width='1.1'%3E%3Ccircle cx='12' cy='3' r='2'/%3E%3Ccircle cx='12' cy='21' r='2'/%3E%3Ccircle cx='3' cy='12' r='2'/%3E%3Ccircle cx='21' cy='12' r='2'/%3E%3C/g%3E%3Cg fill='%23e04635'%3E%3Cpath d='M3 .8 3.8 2.2 5.2 3 3.8 3.8 3 5.2 2.2 3.8.8 3 2.2 2.2Z'/%3E%3Cpath d='M21 .8 21.8 2.2 23.2 3 21.8 3.8 21 5.2 20.2 3.8 18.8 3 20.2 2.2Z'/%3E%3Cpath d='M3 18.8 3.8 20.2 5.2 21 3.8 21.8 3 23.2 2.2 21.8.8 21 2.2 20.2Z'/%3E%3Cpath d='M21 18.8 21.8 20.2 23.2 21 21.8 21.8 21 23.2 20.2 21.8 18.8 21 20.2 20.2Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* A folded cover and its open case are now the same ground: each cover carries
+   the exact background its section unfolds into, so opening a case reads as
+   the panel growing rather than swapping surfaces. */
+.game-fold--bronze {
+  background:
+    radial-gradient(circle at 82% 17%, rgba(233, 196, 106, .11), transparent 20%),
+    linear-gradient(135deg, #0b0a07, #1b160d 54%, #090806);
+}
+
+.game-fold--boon {
+  background:
+    linear-gradient(90deg, rgba(240, 236, 226, .03) 1px, transparent 1px) 0 0 / 16px 16px,
+    linear-gradient(rgba(240, 236, 226, .023) 1px, transparent 1px) 0 0 / 16px 16px,
+    radial-gradient(circle at 77% 10%, rgba(224, 218, 184, .13), transparent 19%),
+    repeating-linear-gradient(0deg, rgba(240, 236, 226, .025) 0 1px, transparent 1px 8px),
+    linear-gradient(135deg, #303149, #51536d 50%, #29283b);
+}
+
+.game-fold--flower {
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23fff4d6' stroke-opacity='.12'%3E%3Cpath d='M60 19c9 0 16 11 16 25 12-8 25-7 30 1 5 9-3 20-16 27 13 6 21 18 16 27-5 8-18 9-30 1 0 14-7 25-16 25s-16-11-16-25c-12 8-25 7-30-1-5-9 3-21 16-27-13-7-21-18-16-27 5-8 18-9 30-1 0-14 7-25 16-25Z'/%3E%3Ccircle cx='60' cy='72' r='8'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 9rem 9rem,
+    radial-gradient(circle at 75% 35%, rgba(249, 208, 82, .18), transparent 28%),
+    linear-gradient(145deg, #173a2f, #285b42 58%, #183c30);
+}
+
+.game-fold--boxjam {
+  background:
+    repeating-linear-gradient(60deg, rgba(67, 160, 255, .09) 0 1px, transparent 1px 3.4rem),
+    repeating-linear-gradient(-60deg, rgba(67, 160, 255, .09) 0 1px, transparent 1px 3.4rem),
+    repeating-linear-gradient(0deg, rgba(247, 247, 241, .05) 0 1px, transparent 1px 2.95rem),
+    #1f2a35;
+}
+
+.game-fold--blob {
+  background:
+    radial-gradient(circle at 14% 24%, rgba(255, 201, 78, .2), transparent 26%),
+    radial-gradient(circle at 82% 30%, rgba(105, 225, 255, .17), transparent 24%),
+    radial-gradient(circle at 34% 78%, rgba(255, 120, 190, .16), transparent 22%),
+    radial-gradient(circle at 68% 82%, rgba(150, 255, 190, .14), transparent 20%),
+    radial-gradient(circle, rgba(255, 201, 78, .24) 0 .4rem, transparent .45rem) 0 0 / 4rem 4rem,
+    #4c2ca0;
+}
+
+.game-fold--word {
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 480'%3E%3Cg fill='none' stroke='%23e74c68' stroke-opacity='0.16' stroke-width='30' stroke-linecap='round'%3E%3Cline x1='78' y1='96' x2='268' y2='96'/%3E%3Cline x1='366' y1='150' x2='366' y2='346'/%3E%3Cline x1='120' y1='262' x2='286' y2='428'/%3E%3C/g%3E%3C/svg%3E") 88% 30% / min(28vw, 18rem) min(28vw, 18rem) no-repeat,
+    linear-gradient(rgba(32, 27, 66, .055) 1px, transparent 1px) 0 0 / 3.4rem 3.4rem,
+    linear-gradient(90deg, rgba(32, 27, 66, .055) 1px, transparent 1px) 0 0 / 3.4rem 3.4rem,
+    #f4d6bd;
+}
+
+.game-fold--card {
+  border-top-color: color-mix(in srgb, #246b55 62%, transparent);
+  border-bottom-color: rgba(31, 37, 51, .24);
+  background:
+    repeating-linear-gradient(45deg, rgba(31, 37, 51, .055) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(-45deg, rgba(31, 37, 51, .055) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(45deg, rgba(36, 107, 85, .06) 0 2px, transparent 2px 52px),
+    repeating-linear-gradient(-45deg, rgba(36, 107, 85, .06) 0 2px, transparent 2px 52px),
+    #d4e1c3;
+}
+
+.game-fold--sapper {
+  background:
+    radial-gradient(circle, rgba(233, 173, 53, .2) 0 .24rem, transparent .28rem) 1.5rem 1.5rem / 3rem 3rem,
+    linear-gradient(rgba(255, 247, 231, .035) 1px, transparent 1px) 0 0 / 3rem 3rem,
+    linear-gradient(90deg, rgba(255, 247, 231, .035) 1px, transparent 1px) 0 0 / 3rem 3rem,
+    repeating-linear-gradient(135deg, rgba(255, 248, 221, .055) 0 12px, transparent 12px 24px),
+    linear-gradient(135deg, #153d22, #275d34 52%, #13351e);
+}
+
+.game-fold--lords {
+  background:
+    radial-gradient(circle, rgba(239, 244, 255, .58) 0 1px, transparent 1.5px) 0 0 / 4rem 4rem,
+    radial-gradient(ellipse 24rem 8rem at 30% 56%, transparent 57%, rgba(96, 216, 255, .25) 58% 58.6%, transparent 59.2%),
+    radial-gradient(ellipse 15rem 5rem at 30% 56%, transparent 57%, rgba(96, 216, 255, .18) 58% 58.6%, transparent 59.2%),
+    radial-gradient(circle at 76% 20%, rgba(224, 70, 53, .15), transparent 25%),
+    radial-gradient(circle at 21% 48%, rgba(49, 216, 238, .12), transparent 31%),
+    #070a12;
+}
+
+@media (max-width: 720px) {
+  .game-fold {
+    --fold-mark-size: clamp(1.5rem, 7vw, 2.5rem);
+    --fold-mark-box: clamp(3.2rem, 14vw, 4.4rem);
+    --fold-badge-size: 4.25rem;
+    --fold-frame-band: .32rem;
+    --fold-frame-gap: .16rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: .35rem 1rem;
+  }
+
+  .game-fold .game-fold__mark { grid-column: 1; grid-row: 2; }
+  .game-fold .game-fold__meta { grid-column: 1; grid-row: 1; }
+  .game-fold__badge { grid-column: 2; grid-row: 1 / 3; }
+
+  .game-fold--word { background-size: 0 0, 3.4rem 3.4rem, 3.4rem 3.4rem; }
+}
+
+/* ============================================================================
+   Boon Hill is a 16-bit place, so its name is set in a pixel face rather than
+   a brush one. The wordmark answers the moon: while the moon holds its round
+   shape the name sits in its own shadow, and when the moon snaps to pixels the
+   name catches the same cold light. Both cycles run 12s, so they stay in step.
+   ========================================================================= */
+.boon__header h2 {
+  color: #f0ece2;
+  font-family: "Silkscreen", monospace;
+  font-size: clamp(1.9rem, 3.9vw, 4.05rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: 0;
+  text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34);
+}
+
+.boon__header h2 em {
+  color: #b69ab6;
+  font-style: normal;
+  -webkit-text-stroke: 0;
+  animation: boon-title-moon 12s steps(1, end) infinite;
+}
+
+@keyframes boon-title-moon {
+  0%, 30% { color: #b69ab6; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
+  40% { color: #cbbccd; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
+  46% { color: #e5e8d6; text-shadow: -4px -4px 0 #77778c, 4px 4px 0 #27212d; }
+  62% { color: #e5e8d6; text-shadow: 4px 4px 0 #77778c, 8px 8px 0 #27212d; }
+  74% { color: #cbbccd; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
+  82%, 100% { color: #b69ab6; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
+}
+
+@media (max-width: 720px) {
+  .boon__header h2 { font-size: clamp(1.5rem, 6.4vw, 2.3rem); text-shadow: 3px 3px 0 #27212d; }
+}
+
+/* ============================================================================
+   Every case closes on the same offer, in the same place, at the same size:
+   a labelled row of store buttons pinned to the end of the section. The
+   geometry is fixed here once — width, height, grid and type scale — so the
+   skins below can only change surface: colour, edge, shadow, face and the way
+   the button answers a hover.
+   ========================================================================= */
+.game-store {
+  --store-width: 15.5rem;
+  --store-height: 3.6rem;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.6rem;
+  margin-bottom: var(--block-gap);
+}
+
+.game-store__label {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: var(--label-size);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .74;
+}
+
+.game-store__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.game-store__button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0 .75rem;
+  width: var(--store-width);
+  min-height: var(--store-height);
+  padding: .6rem .95rem;
+  border: 2px solid currentColor;
+  font-family: var(--mono);
+  line-height: 1;
+  transition: translate .2s steps(2, end), rotate .2s steps(2, end), scale .2s steps(2, end), box-shadow .2s steps(2, end);
+}
+
+.game-store__button i {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid currentColor;
+  font-family: "Syne", sans-serif;
+  font-size: .82rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.game-store__button b {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.game-store__button span {
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: .3rem;
+  font-size: .56rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .68;
+}
+
+.game-store__button em {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  font-size: 1rem;
+  font-style: normal;
+}
+
+.game-store--bronze .game-store__button i::before { content: "▶"; }
+.game-store--boon .game-store__button i::before { content: "✦"; }
+.game-store--flower .game-store__button i::before { content: "✿"; }
+.game-store--boxjam .game-store__button i::before { content: "□"; }
+.game-store--blob .game-store__button i::before { content: "●"; }
+.game-store--word .game-store__button i::before { content: "⌁"; }
+.game-store--card .game-store__button i::before { content: "♥"; }
+.game-store--sapper .game-store__button i::before { content: "✕"; }
+.game-store--lords .game-store__button i::before { content: "◌"; }
+
+.game-store--bronze .game-store__button {
+  border-color: #b8893b;
+  border-radius: 0;
+  color: #f4edda;
+  background: rgba(66, 46, 18, .9);
+  box-shadow: 5px 5px 0 #62431b;
+  font-family: "Azeret Mono", monospace;
+}
+.game-store--bronze .game-store__button:is(:hover, :focus-visible) { translate: .18rem 0; box-shadow: 3px 3px 0 #e9c46a; }
+
+.game-store--boon .game-store__button {
+  border-color: #27212d;
+  border-radius: 0;
+  color: #27212d;
+  background: #b69ab6;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, calc(100% - 6px) 3px, 100% 3px, 100% calc(100% - 6px), calc(100% - 3px) calc(100% - 6px), calc(100% - 3px) 100%, 6px 100%, 6px calc(100% - 3px), 0 calc(100% - 3px), 0 6px, 3px 6px, 3px 3px, 6px 3px);
+  box-shadow: none;
+  filter: drop-shadow(5px 5px 0 #27212d);
+  font-family: "Silkscreen", monospace;
+}
+.game-store--boon .game-store__button b { font-size: .74rem; letter-spacing: 0; }
+.game-store--boon .game-store__button:is(:hover, :focus-visible) { background: #d7c0d0; translate: 0 -.16rem; }
+
+.game-store--flower .game-store__button {
+  border-color: #173a2f;
+  border-radius: 1.1rem .3rem 1.1rem .3rem;
+  color: #173a2f;
+  background: #ff9fbd;
+  box-shadow: 5px 5px 0 #f9d052;
+  font-family: "Lilita One", sans-serif;
+}
+.game-store--flower .game-store__button b { font-size: .92rem; font-weight: 400; letter-spacing: .03em; }
+.game-store--flower .game-store__button:is(:hover, :focus-visible) { scale: 1.035; box-shadow: 3px 3px 0 #fff4d6; }
+
+.game-store--boxjam .game-store__button {
+  border-color: #102a42;
+  border-radius: .25rem;
+  color: #102a42;
+  background: #b7d7ff;
+  box-shadow: 5px 5px 0 #43a0ff;
+  font-family: "Fredoka", sans-serif;
+}
+.game-store--boxjam .game-store__button:is(:hover, :focus-visible) { translate: .14rem -.14rem; box-shadow: 3px 3px 0 #a5ff52; }
+
+.game-store--blob .game-store__button {
+  border-color: #30166e;
+  border-radius: 1.8rem;
+  color: #30166e;
+  background: #ffc94e;
+  box-shadow: 5px 5px 0 #70f2d1;
+  font-family: "Lilita One", sans-serif;
+}
+.game-store--blob .game-store__button i { border-radius: 50%; }
+.game-store--blob .game-store__button b { font-size: .92rem; font-weight: 400; letter-spacing: .03em; }
+.game-store--blob .game-store__button:is(:hover, :focus-visible) { scale: 1.06 .92; box-shadow: 3px 3px 0 #f25c88; }
+
+.game-store--word .game-store__button {
+  border-color: #201b42;
+  border-radius: 0;
+  color: #201b42;
+  background: #fff4e6;
+  box-shadow: 5px 5px 0 #e74c68;
+  font-family: "Fredoka", sans-serif;
+}
+.game-store--word .game-store__button:is(:hover, :focus-visible) { rotate: -1.4deg; box-shadow: 3px 3px 0 #201b42; }
+
+.game-store--card .game-store__button {
+  border-color: #f6ead4;
+  border-radius: .25rem .9rem .25rem .9rem;
+  color: #f7fbf2;
+  background: #246b55;
+  box-shadow: 5px 5px 0 rgba(31, 37, 51, .38);
+  font-family: "Lilita One", sans-serif;
+}
+.game-store--card .game-store__button b { font-size: .92rem; font-weight: 400; letter-spacing: .03em; }
+.game-store--card .game-store__button:is(:hover, :focus-visible) { rotate: -2deg; box-shadow: 3px 3px 0 #f0a72b; }
+
+.game-store--sapper .game-store__button {
+  border-color: #fff8dd;
+  border-radius: 0;
+  color: #1c321b;
+  background: #ffad25;
+  box-shadow: 5px 5px 0 #d83425;
+  font-family: "Bowlby One SC", sans-serif;
+}
+.game-store--sapper .game-store__button b { font-size: .86rem; font-weight: 400; letter-spacing: -.01em; }
+.game-store--sapper .game-store__button span { font-family: "Azeret Mono", monospace; }
+.game-store--sapper .game-store__button:is(:hover, :focus-visible) { translate: .12rem -.12rem; background: #ffe176; }
+
+.game-store--lords .game-store__button {
+  border-color: #24d3ec;
+  border-radius: .2rem;
+  color: #eaf9ff;
+  background: #122b43;
+  box-shadow: 5px 5px 0 #d8473b;
+  font-family: "Orbitron", sans-serif;
+}
+.game-store--lords .game-store__button b { font-size: .78rem; font-weight: 900; letter-spacing: -.02em; }
+.game-store--lords .game-store__button span { font-family: "Azeret Mono", monospace; }
+.game-store--lords .game-store__button:is(:hover, :focus-visible) { background: #173a58; box-shadow: 0 0 .7rem rgba(49, 216, 238, .6), 4px 4px 0 #d8473b; }
+
+@media (max-width: 720px) {
+  .game-store {
+    --store-width: 100%;
+    --store-height: 3.2rem;
+    gap: .8rem;
+  }
+  .game-store__row { width: 100%; }
+}
+
+/* ============================================================================
+   The fold control keeps a line of its own at the head of the case, so a case
+   that has just been opened is never covered by it. It is sticky from there
+   on: once the reader has scrolled past that line the control lifts off and
+   rides along over the copy, which is the price of staying reachable.
+   ========================================================================= */
+.case-collapse {
+  position: sticky;
+  top: .8rem;
+  margin-bottom: clamp(.5rem, .9vw, .9rem);
+}
+
+.game-foldable[data-revealing] .case-collapse {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ============================================================================
+   The header and the game feed are the two places the page speaks as hardware,
+   so both are dressed as the same worn tape deck the marquee already is: a
+   chroma-split wordmark on a scanned strip, and a viewfinder with tracking
+   noise, a torn head-switch edge and a counter that keeps rolling.
+   ========================================================================= */
+.site-header {
+  isolation: isolate;
+  border-bottom: 0;
+  background: linear-gradient(180deg, rgba(6, 6, 9, .94), rgba(6, 6, 9, .42) 74%, transparent);
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: .5;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(6, 6, 9, .6) 3px);
+}
+
+/* The deck's trim: one hairline that runs cyan to magenta through the lime. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  pointer-events: none;
+  opacity: .62;
+  background: linear-gradient(90deg, #00f0ff, rgba(223, 255, 54, .9) 46%, #ff2e88);
+}
+
+.brand__glyph {
+  position: relative;
+  z-index: 1;
+}
+
+.brand__glyph::before,
+.brand__glyph::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.brand__glyph::before { color: #00f0ff; animation: sign-tear-a 5.5s steps(1) infinite; }
+.brand__glyph::after { color: #ff2e88; animation: sign-tear-b 5.5s steps(1) infinite; }
+
+.site-nav a { transition: text-shadow .16s steps(2, end); }
+.site-nav a:hover { text-shadow: .055em 0 #ff2e88, -.045em 0 #00f0ff; }
+
+.site-nav a::after {
+  height: 2px;
+  background: linear-gradient(90deg, #00f0ff, var(--lime) 52%, #ff2e88);
+}
+
+.site-nav a:nth-of-type(even) span { color: #00f0ff; }
+
+.availability {
+  align-items: center;
+  padding: .38rem .62rem;
+  border: 1px solid rgba(223, 255, 54, .34);
+  background: rgba(6, 6, 9, .62);
+}
+
+/* ── The feed reads as a camcorder viewfinder ──────────────────────────── */
+.hero-stage__topline,
+.hero-stage__footer {
+  gap: .8rem;
+  background: rgba(6, 6, 9, .82);
+}
+
+.hero-stage__project,
+.hero-stage__counter { margin-left: auto; }
+.hero-stage__counter { color: var(--lime); font-variant-numeric: tabular-nums; }
+.hero-stage__footer .sound-toggle { margin-left: 0; }
+
+.hero-stage__rec {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  color: #ff2e88;
+}
+
+.hero-stage__rec i {
+  width: .42rem;
+  height: .42rem;
+  border-radius: 50%;
+  background: #ff2e88;
+  box-shadow: 0 0 .45rem #ff2e88;
+  animation: rec-blink 1.7s steps(1) infinite;
+}
+
+@keyframes rec-blink { 55%, 100% { opacity: .12; } }
+
+/* Chroma bleeding off both edges of the tape, the way a worn copy does. */
+.hero-stage__chroma {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  opacity: .3;
+  mix-blend-mode: screen;
+  background: linear-gradient(90deg, rgba(255, 46, 136, .5), transparent 16%, transparent 84%, rgba(0, 240, 255, .5));
+  transition: opacity .2s steps(2, end);
+}
+
+/* The head-switching band along the bottom edge, torn and jittering. */
+.hero-stage__scan {
+  box-shadow: inset 0 0 4.5rem 1.5rem rgba(4, 4, 7, .72);
+}
+
+.hero-stage__scan::after {
+  content: "";
+  position: absolute;
+  right: -6%;
+  bottom: 0;
+  left: -6%;
+  height: 4.5%;
+  opacity: .55;
+  background: repeating-linear-gradient(90deg, rgba(238, 237, 230, .18) 0 3px, rgba(6, 6, 9, .5) 3px 7px, rgba(0, 240, 255, .16) 7px 11px);
+  animation: head-switch .8s steps(4) infinite;
+}
+
+@keyframes head-switch { to { transform: translateX(-11px); } }
+
+/* One tracking band creeping down the picture, blurring what it crosses. */
+.hero-stage__tracking {
+  position: absolute;
+  z-index: 4;
+  right: 0;
+  left: 0;
+  height: 8%;
+  pointer-events: none;
+  background: linear-gradient(rgba(238, 237, 230, .05), rgba(0, 240, 255, .12), rgba(255, 46, 136, .09), rgba(238, 237, 230, .03));
+  -webkit-backdrop-filter: blur(1.4px) saturate(1.7);
+  backdrop-filter: blur(1.4px) saturate(1.7);
+  animation: stage-tracking 7s linear infinite;
+}
+
+@keyframes stage-tracking {
+  0% { top: -10%; opacity: 0; }
+  8%, 92% { opacity: 1; }
+  100% { top: 102%; opacity: 0; }
+}
+
+.hero-stage__tracking-label {
+  position: absolute;
+  z-index: 6;
+  top: 12%;
+  left: .9rem;
+  opacity: 0;
+  color: #00f0ff;
+  font-size: .55rem;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-shadow: 0 0 .5rem rgba(0, 240, 255, .7);
+}
+
+/* Changing channel is the one moment the picture is allowed to break up. */
+.hero-stage.is-switching .hero-stage__media { animation: stage-slip .42s steps(2, end); }
+.hero-stage.is-switching .hero-stage__chroma { opacity: .85; }
+.hero-stage.is-switching .hero-stage__tracking-label { animation: stage-flash .42s steps(1) ; }
+
+@keyframes stage-slip {
+  0% { translate: 0 0; scale: 1 1; filter: saturate(.8) contrast(1.15); }
+  22% { translate: -3.5% 0; scale: 1 1.05; filter: saturate(2.2) contrast(1.7) hue-rotate(14deg); }
+  48% { translate: 2.6% 0; scale: 1 .96; filter: saturate(1.6) contrast(1.4); }
+  74% { translate: -1.2% 0; filter: saturate(1.1) contrast(1.2); }
+  100% { translate: 0 0; scale: 1 1; filter: saturate(.8) contrast(1.15); }
+}
+
+@keyframes stage-flash {
+  0%, 74% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 720px) {
+  .hero-stage__tracking { height: 12%; }
+  /* One line in the strip: the REC lamp and which title is on tape. */
+  .hero-stage__counter,
+  .hero-stage__label { display: none; }
+}
+
+/* ============================================================================
+   The chrome — the header bar and the feed's two strips — is set in a bitmap
+   face, the way a camcorder burns its readout into the picture. Everything
+   here is small caps on a dark ground, so the pixel face has to run a little
+   larger and much tighter than the mono it replaces.
+   ========================================================================= */
+.site-header,
+.hero-stage__topline,
+.hero-stage__footer {
+  font-family: var(--osd);
+  font-weight: 400;
+  letter-spacing: .02em;
+}
+
+.site-header,
+.site-nav span { font-size: .68rem; }
+
+.hero-stage__topline,
+.hero-stage__footer { font-size: .58rem; letter-spacing: .03em; }
+
+.brand__glyph {
+  font-family: var(--osd);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.brand__name,
+.site-nav a,
+.availability span { font-weight: 700; }
+
+/* The bitmap face is wider than the mono it replaces, so the status line runs
+   a step smaller to hold one line down to the width where it is dropped. */
+.availability { font-size: .58rem; }
+
+.site-nav span { vertical-align: baseline; }
+
+/* ── Glitches, kept to a blink ─────────────────────────────────────────────
+   Nothing sweeps and nothing moves the layout. The counters drop out for a
+   couple of frames on their own clocks, and once in a while the whole readout
+   loses signal for a tenth of a second. */
+.site-nav span { animation: osd-dropout 7s steps(1) infinite; }
+.site-nav a:nth-of-type(2) span { animation-duration: 11s; animation-delay: -3s; }
+.site-nav a:nth-of-type(3) span { animation-duration: 9s; animation-delay: -6s; }
+.site-nav a:nth-of-type(4) span { animation-duration: 13s; animation-delay: -1s; }
+
+@keyframes osd-dropout {
+  0%, 95% { opacity: 1; }
+  96% { opacity: .12; }
+  97% { opacity: 1; }
+  98% { opacity: .3; }
+  100% { opacity: 1; }
+}
+
+.site-header { animation: osd-signal 17s steps(1) infinite; }
+
+@keyframes osd-signal {
+  0%, 97.4% { opacity: 1; filter: none; }
+  97.8% { opacity: .55; filter: contrast(1.6) brightness(1.3); }
+  98.3% { opacity: 1; }
+  98.7% { opacity: .72; filter: contrast(1.4); }
+  100% { opacity: 1; filter: none; }
+}
+
+.hero-stage__rec,
+.hero-stage__counter { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 720px) {
+  .site-header { font-size: .6rem; }
+  .brand__glyph { font-size: 1.05rem; }
+}
+
+/* Last word in the file, so it outranks every effect declared above it. */
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-nav span,
+  .brand__glyph::before,
+  .brand__glyph::after,
+  .hero-stage__tracking,
+  .hero-stage__scan::after,
+  .hero-stage__rec i,
+  .hero-stage.is-switching .hero-stage__media,
+  .hero-stage.is-switching .hero-stage__tracking-label { animation: none; }
+
+  .hero-stage__tracking { opacity: 0; }
+}
+
+/* ============================================================================
+   Contact reads as a channel list on a deck: three ways to reach the same
+   person, all at one size, each with its number and its address. One giant
+   word made the email look like the only door.
+   ========================================================================= */
+.contact__scan {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: .55;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(11, 11, 9, .055) 3px);
+}
+
+.contact > *:not(.contact__noise):not(.contact__scan) { position: relative; z-index: 1; }
+
+.contact__channels {
+  margin: clamp(2.4rem, 6vh, 4.5rem) 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(11, 11, 9, .35);
+  list-style: none;
+}
+
+.contact__channels li { border-bottom: 1px solid rgba(11, 11, 9, .35); }
+
+.contact__channel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "num name addr arrow";
+  align-items: center;
+  gap: 0 clamp(.9rem, 2.4vw, 2.4rem);
+  padding: clamp(.7rem, 1.5vw, 1.4rem) clamp(.5rem, 1.2vw, 1.1rem);
+  color: var(--ink);
+  transition: color .2s steps(2, end);
+}
+
+/* The selected row fills in, four chunks at a time. */
+.contact__channel::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s steps(4, end);
+}
+
+.contact__channel:is(:hover, :focus-visible) { color: var(--lime); }
+.contact__channel:is(:hover, :focus-visible)::before { transform: scaleX(1); }
+
+.contact__channel i {
+  font-family: var(--osd);
+  grid-area: num;
+  font-size: clamp(.6rem, .8vw, .8rem);
+  font-style: normal;
+  opacity: .55;
+}
+
+.contact__channel b {
+  grid-area: name;
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  font-weight: 800;
+  line-height: .82;
+  letter-spacing: -.06em;
+  text-transform: uppercase;
+  animation: channel-idle 13s steps(1) infinite;
+}
+
+.contact__channels li:nth-child(2) b { animation-duration: 17s; animation-delay: -5s; }
+.contact__channels li:nth-child(3) b { animation-duration: 21s; animation-delay: -11s; }
+
+/* Bad tracking on the name: a chroma split for two frames, then it settles. */
+@keyframes channel-idle {
+  0%, 95% { text-shadow: none; translate: 0 0; }
+  96.5% { text-shadow: .035em 0 #0097a8, -.028em 0 #c0175f; translate: -.008em 0; }
+  98% { text-shadow: -.028em 0 #0097a8, .035em 0 #c0175f; translate: .008em 0; }
+  100% { text-shadow: none; translate: 0 0; }
+}
+
+.contact__channel:is(:hover, :focus-visible) b { animation: channel-tear .4s steps(2, end); }
+
+@keyframes channel-tear {
+  0% { text-shadow: none; translate: 0 0; }
+  30% { text-shadow: .04em 0 #00e5ff, -.032em 0 #ff2e88; translate: -.012em 0; }
+  65% { text-shadow: -.032em 0 #00e5ff, .04em 0 #ff2e88; translate: .012em 0; }
+  100% { text-shadow: none; translate: 0 0; }
+}
+
+.contact__channel span {
+  grid-area: addr;
+  justify-self: end;
+  font-family: var(--osd);
+  font-size: clamp(.56rem, .72vw, .72rem);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  opacity: .62;
+}
+
+.contact__channel em {
+  grid-area: arrow;
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 2.2vw, 2rem);
+  font-style: normal;
+  font-weight: 800;
+  transition: translate .3s steps(3, end);
+}
+
+.contact__channel:is(:hover, :focus-visible) em { translate: .35rem -.35rem; }
+.contact__channel:is(:hover, :focus-visible) span { opacity: .8; }
+
+@media (max-width: 720px) {
+  .contact__channel {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "num name arrow"
+      "num addr arrow";
+    row-gap: .25rem;
+  }
+
+  .contact__channel i { align-self: start; padding-top: .35em; }
+  .contact__channel b { font-size: clamp(1.5rem, 8.6vw, 2.6rem); }
+  .contact__channel span { justify-self: start; }
+
+  /* The archive switch has to stack, or the wider readout face squeezes the
+     wordmark off the screen. */
+  .contact__switch {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .contact__switch span { max-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__channel b { animation: none; }
 }
