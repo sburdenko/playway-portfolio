@@ -8884,3 +8884,79 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 @media (prefers-reduced-motion: reduce) {
   .game-fold__badge::after { transition: none; }
 }
+
+/* ============================================================================
+   The spatial field carries the case stills, with the tracking HUD sitting on
+   top of them the way an AR overlay sits on a camera. The stills are graded
+   down hard: this is a viewfinder, not a gallery, and the wordmark and nodes
+   have to stay the brightest things in the frame.
+   ========================================================================= */
+.xr-hero__field { isolation: isolate; }
+
+.xr-hero__poster {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  opacity: 0;
+  background-position: center;
+  background-size: cover;
+  filter: saturate(.7) contrast(1.05);
+  transition: opacity .6s var(--ease);
+}
+
+.xr-hero__poster.is-active { opacity: .5; }
+
+.xr-hero__grade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 2px, rgba(7, 19, 29, .45) 3px),
+    radial-gradient(circle at center, rgba(7, 19, 29, .3), rgba(7, 19, 29, .82) 78%),
+    linear-gradient(rgba(112, 242, 209, .06), rgba(169, 140, 255, .08));
+}
+
+/* The HUD reads over the footage, so everything drawn on the field outranks it. */
+.xr-hero__field::before,
+.xr-hero__field::after { z-index: 2; }
+
+.xr-hero__field-status,
+.xr-hero__field-case,
+.xr-hero__field b,
+.xr-hero__field small,
+.xr-hero__node { z-index: 3; }
+
+.xr-hero__field-case {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #a8beca;
+  font-family: var(--osd);
+  font-size: var(--label-size);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* Changing case breaks the picture up for a few frames, as the game feed does. */
+.xr-hero__field[data-switching] .xr-hero__poster { animation: xr-feed-slip .4s steps(2, end); }
+
+@keyframes xr-feed-slip {
+  0% { translate: 0 0; filter: saturate(.7) contrast(1.05); }
+  25% { translate: -3% 0; filter: saturate(2) contrast(1.7) hue-rotate(-14deg); }
+  55% { translate: 2.2% 0; filter: saturate(1.4) contrast(1.3); }
+  100% { translate: 0 0; filter: saturate(.7) contrast(1.05); }
+}
+
+@media (max-width: 720px) {
+  .xr-hero__field-case { top: auto; right: 1rem; bottom: 2.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xr-hero__field[data-switching] .xr-hero__poster { animation: none; }
+}
+
+@media (max-width: 720px) {
+  .xr-hero__poster,
+  .xr-hero__grade,
+  .xr-hero__field-case { display: none; }
+}
