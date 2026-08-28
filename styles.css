@@ -354,12 +354,20 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   display: block;
 }
 
+/* A swapped word carries all of its candidates stacked in one grid cell: the
+   box is as wide as the longest of them, so the line never reflows mid-glitch.
+   The display has to out-specify whatever the word is normally laid out as. */
+[data-glitch-word] > span { grid-area: 1 / 1; }
+[data-glitch-word] > span:not([data-on]) { visibility: hidden; }
+
 .hero__title--teeth {
   position: relative;
   color: var(--lime);
   text-shadow: 0.04em 0 rgba(255, 90, 54, 0.75), -0.025em 0 rgba(120, 221, 255, 0.62);
-  animation: teeth-flicker 6.5s steps(1, end) infinite;
+  animation: teeth-flicker 3.2s steps(1, end) infinite;
 }
+
+.hero__title--teeth[data-glitch-word] { display: inline-grid; }
 
 .hero__title--teeth::before,
 .hero__title--teeth::after {
@@ -373,13 +381,13 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .hero__title--teeth::before {
   color: #80ddff;
   clip-path: inset(42% 0 38% 0);
-  animation: teeth-glitch-cyan 6.5s steps(1, end) infinite;
+  animation: teeth-glitch-cyan 3.2s steps(1, end) infinite;
 }
 
 .hero__title--teeth::after {
   color: var(--orange);
   clip-path: inset(8% 0 69% 0);
-  animation: teeth-glitch-orange 6.5s steps(1, end) infinite;
+  animation: teeth-glitch-orange 3.2s steps(1, end) infinite;
 }
 
 @keyframes teeth-flicker {
@@ -8981,12 +8989,13 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   mix-blend-mode: screen;
 }
 
-.about__header em::before { color: #00f0ff; animation: profile-tear-a 7s steps(1) infinite; }
-.about__header em::after { color: #ff2e88; animation: profile-tear-b 7s steps(1) infinite; }
+.about__header em::before { color: #00f0ff; animation: profile-tear-a 3.4s steps(1) infinite; }
+.about__header em::after { color: #ff2e88; animation: profile-tear-b 3.4s steps(1) infinite; }
 
 /* The word swaps for another one under the tear, so the base has to lose the
    page for those few frames — otherwise the text is caught changing. */
-.about__header em { animation: profile-tear-base 7s steps(1) infinite; }
+.about__header em { animation: profile-tear-base 3.4s steps(1) infinite; }
+.about__header em[data-glitch-word] { display: inline-grid; }
 
 /* The base drops its ink rather than its opacity: opacity on the word would
    isolate the two ghosts and kill their screen blend against the page. */
