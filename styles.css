@@ -8928,3 +8928,136 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   .xr-hero__grade,
   .xr-hero__field-case { display: none; }
 }
+
+/* ============================================================================
+   The profile sat in from the left edge by nearly a fifth of the screen, so it
+   read as a different page from the deck above it and the channel list below.
+   It starts at the gutter now and speaks the same language: a scanned ground,
+   a wordmark that loses register, and a numbered list built like the contact
+   channels — number, name, and what it is made of.
+   ========================================================================= */
+.about {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.about__scan {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  opacity: .55;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, .5) 3px);
+}
+
+.about > *:not(.about__scan) { position: relative; z-index: 1; }
+
+.about__header {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1rem, 1.8vw, 1.8rem);
+}
+
+.about__grid {
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  gap: clamp(2.5rem, 6vw, 7rem);
+  margin-left: 0;
+}
+
+/* The one word the section is about loses register, the way the wordmark in
+   the header does. */
+.about__header em {
+  position: relative;
+  display: inline-block;
+}
+
+.about__header em::before,
+.about__header em::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.about__header em::before { color: #00f0ff; animation: profile-tear-a 7s steps(1) infinite; }
+.about__header em::after { color: #ff2e88; animation: profile-tear-b 7s steps(1) infinite; }
+
+/* The word keeps its own colour between tears: two ghosts screened over it
+   full time would wash the orange out to white. */
+@keyframes profile-tear-a {
+  0%, 88% { opacity: 0; transform: none; clip-path: none; }
+  89% { opacity: .9; transform: translate(-.05em, -.02em); clip-path: inset(0 0 62% 0); }
+  93% { opacity: .9; transform: translate(.04em, .02em); clip-path: inset(58% 0 0 0); }
+  97% { opacity: .7; transform: translate(-.03em, 0); clip-path: inset(30% 0 38% 0); }
+  100% { opacity: 0; transform: none; clip-path: none; }
+}
+
+@keyframes profile-tear-b {
+  0%, 88% { opacity: 0; transform: none; clip-path: none; }
+  89% { opacity: .9; transform: translate(.05em, .02em); clip-path: inset(0 0 55% 0); }
+  93% { opacity: .9; transform: translate(-.04em, -.02em); clip-path: inset(64% 0 0 0); }
+  97% { opacity: .7; transform: translate(.03em, 0); clip-path: inset(26% 0 44% 0); }
+  100% { opacity: 0; transform: none; clip-path: none; }
+}
+
+/* ── Capabilities as a channel list ───────────────────────────────────────── */
+.capabilities { border-top: 1px solid rgba(238, 237, 230, .26); }
+
+.capabilities div {
+  position: relative;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
+  gap: 0 clamp(.8rem, 1.8vw, 1.8rem);
+  padding: clamp(1rem, 1.5vw, 1.5rem) clamp(.5rem, 1vw, 1rem);
+  border-bottom-color: rgba(238, 237, 230, .26);
+  transition: color .2s steps(2, end);
+}
+
+/* A lime rule runs down the row on approach, the way the channel rows fill. */
+.capabilities div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--lime);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform .3s steps(3, end);
+}
+
+.capabilities div:hover::before { transform: scaleY(1); }
+.capabilities div:hover { color: var(--paper); }
+.capabilities div:hover span { color: var(--lime); }
+
+.capabilities p {
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  letter-spacing: -.02em;
+}
+
+.capabilities div:hover p { animation: channel-tear .4s steps(2, end); }
+
+/* The numbers drop out on their own clocks, as the header's counters do. */
+.capabilities span { animation: osd-dropout 11s steps(1) infinite; }
+.capabilities div:nth-child(2) span { animation-duration: 14s; animation-delay: -4s; }
+.capabilities div:nth-child(3) span { animation-duration: 9s; animation-delay: -7s; }
+.capabilities div:nth-child(4) span { animation-duration: 16s; animation-delay: -2s; }
+.capabilities div:nth-child(5) span { animation-duration: 12s; animation-delay: -9s; }
+
+@media (max-width: 1100px) {
+  .about__grid { margin-left: 0; }
+}
+
+@media (max-width: 720px) {
+  .about__grid { grid-template-columns: minmax(0, 1fr); }
+  .capabilities div { grid-template-columns: 2rem minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__header em::before,
+  .about__header em::after,
+  .capabilities span,
+  .capabilities div:hover p { animation: none; }
+}
