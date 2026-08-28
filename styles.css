@@ -1119,9 +1119,64 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   width: clamp(5rem, 9vw, 9rem);
   aspect-ratio: 1;
   pointer-events: none;
-  border-radius: 50%;
-  background: #e4ead9;
-  box-shadow: 0 0 5rem 1.5rem rgba(228, 234, 217, 0.22), 0 0 14rem 6rem rgba(160, 180, 150, 0.12);
+  animation: boon-moon-bob 11s steps(1, end) infinite;
+}
+
+/* Fog crossing the hill: three banks at their own heights, weights and speeds,
+   the top one passing over the moon. Each band repeats every third of its own
+   width, so a drift of exactly that much loops with no seam, and the drift is
+   a transform — the bands cost a composite, not a repaint. */
+.boon__fog {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.boon__fog span {
+  position: absolute;
+  left: -50%;
+  width: 300%;
+  background-repeat: repeat-x;
+  background-size: 33.333% 100%;
+  will-change: transform;
+  animation: boon-fog-drift linear infinite;
+}
+
+/* The bank that crosses the moon. It carries the night rather than the light:
+   over the sky it is barely there, and over the moon it reads as the shadow
+   of a cloud going past — with a pale edge trailing it. */
+.boon__fog span:nth-child(1) {
+  top: 0;
+  height: 34%;
+  background-image:
+    radial-gradient(25% 64% at 26% 44%, rgba(14, 19, 16, .62), transparent 74%),
+    radial-gradient(18% 50% at 47% 56%, rgba(214, 226, 210, .16), transparent 76%),
+    radial-gradient(21% 54% at 71% 46%, rgba(14, 19, 16, .46), transparent 76%);
+  animation-duration: 74s;
+}
+
+.boon__fog span:nth-child(2) {
+  top: 32%;
+  height: 42%;
+  background-image:
+    radial-gradient(27% 58% at 33% 50%, rgba(190, 206, 188, .15), transparent 76%),
+    radial-gradient(20% 44% at 74% 38%, rgba(206, 218, 200, .13), transparent 78%);
+  animation-duration: 108s;
+  animation-direction: reverse;
+}
+
+.boon__fog span:nth-child(3) {
+  bottom: -6%;
+  height: 48%;
+  background-image:
+    radial-gradient(29% 64% at 30% 58%, rgba(178, 196, 176, .2), transparent 74%),
+    radial-gradient(22% 50% at 71% 46%, rgba(200, 214, 196, .15), transparent 78%);
+  animation-duration: 61s;
+}
+
+@keyframes boon-fog-drift {
+  to { transform: translateX(-33.333%); }
 }
 
 .boon .section-index {
@@ -1313,6 +1368,18 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   margin-top: var(--block-gap);
 }
 
+/* The stones are cut, not rounded: the arch climbs in steps on the same grid
+   the game is drawn on, and the picture is set into a rim of stone with a
+   mossy plinth under it. The palette is the one the graveyard's own stone
+   sprites are shaded with, so the field and the gallery are the same rock. */
+.boon-gallery {
+  --arch: polygon(
+    0 100%, 0 30%, 6% 30%, 6% 20%, 16% 20%, 16% 12%, 30% 12%, 30% 5%,
+    46% 5%, 46% 0, 54% 0, 54% 5%, 70% 5%, 70% 12%, 84% 12%, 84% 20%,
+    94% 20%, 94% 30%, 100% 30%, 100% 100%
+  );
+}
+
 .boon-gallery figure {
   position: relative;
   z-index: var(--depth, 1);
@@ -1320,14 +1387,32 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   grid-row: var(--row, auto);
   margin: var(--lift, 0) 0 0;
   aspect-ratio: var(--stone, 0.74);
+  padding: 14px 14px 30px;
   overflow: hidden;
-  border: 1px solid rgba(185, 196, 180, 0.3);
-  border-radius: 46% 46% 2px 2px / 22% 22% 0 0;
-  background: #10150f;
-  box-shadow: 0 0.9rem 2rem rgba(0, 0, 0, 0.6);
+  border: 0;
+  border-radius: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(23, 29, 21, .12) 0 2px, transparent 2px 6px),
+    linear-gradient(148deg, #c4cbb6 0%, #a9b09c 34%, #767d6f 70%, #585f52 100%);
+  clip-path: var(--arch);
+  filter: drop-shadow(7px 8px 0 rgba(16, 21, 15, .72));
   transform-origin: 50% 100%;
   rotate: var(--tilt, 0deg);
-  transition: rotate 0.8s var(--ease), scale 0.8s var(--ease), box-shadow 0.8s var(--ease);
+  transition: rotate 0.8s var(--ease), scale 0.8s var(--ease), filter 0.8s var(--ease);
+}
+
+/* The plinth the stone stands on, with moss along its lip. */
+.boon-gallery figure::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  height: 30px;
+  background:
+    repeating-linear-gradient(90deg, rgba(71, 96, 58, .9) 0 3px, transparent 3px 13px) 0 0 / 100% 4px no-repeat,
+    linear-gradient(#8e9684 0 3px, #6d7466 3px 60%, #4d5449 60%);
 }
 
 /* Back rank — four narrow columns of the 24, clustered rather than evenly
@@ -1343,10 +1428,113 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .boon-gallery figure:nth-child(7) { --col: 14 / 19; --row: 2; --depth: 8; --tilt: 4deg;    --stone: 0.78; --lift: -2.8rem; }
 .boon-gallery figure:nth-child(8) { --col: 19 / 24; --row: 2; --depth: 6; --tilt: -1.5deg; --stone: 0.68; --lift: -4.4rem; }
 
+/* The plot between the two back stones stood empty, so something lives in it:
+   a dead tree with a crow on the branch. The crow is two drawings of itself —
+   head up, and head down mid-caw — swapped on a step, the way the moon swaps
+   its glints. A second one crosses the gap now and then and is gone. */
+.boon-perch {
+  position: relative;
+  z-index: 6;
+  grid-column: 8 / 13;
+  grid-row: 1;
+  align-self: end;
+  justify-self: center;
+  width: min(100%, 11rem);
+  aspect-ratio: 24 / 32;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2032'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%2523161b15'%3E%3Crect%20x='10'%20y='31'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='31'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='31'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='31'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='31'%20width='1'%20height='1'/%3E%3Crect%20x='15'%20y='31'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='30'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='30'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='30'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='30'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='29'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='29'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='29'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='28'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='28'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='28'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='27'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='27'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='27'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='26'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='26'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='26'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='25'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='25'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='25'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='24'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='24'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='24'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='23'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='23'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='23'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='22'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='22'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='22'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='21'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='21'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='21'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='20'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='20'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='20'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='20'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='10'%20y='18'%20width='1'%20height='1'/%3E%3Crect%20x='10'%20y='17'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='16'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='15'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='14'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='15'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='14'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='15'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='15'%20y='18'%20width='1'%20height='1'/%3E%3Crect%20x='16'%20y='17'%20width='1'%20height='1'/%3E%3Crect%20x='16'%20y='16'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='15'%20width='1'%20height='1'/%3E%3Crect%20x='18'%20y='14'%20width='1'%20height='1'/%3E%3Crect%20x='18'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='19'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='20'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='18'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='19'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='16'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='15'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='18'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='17'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='16'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='15'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='14'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='10'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='5'%20width='1'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%25232f3a2b'%3E%3Crect%20x='11'%20y='26'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='28'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='25'%20width='1'%20height='1'/%3E%3Crect%20x='10'%20y='18'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='16'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='14'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='17'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='15'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='13'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E") center bottom / contain no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+  filter: drop-shadow(5px 6px 0 rgba(16, 21, 15, .45));
+}
+
+.boon-crow {
+  position: absolute;
+  top: 22%;
+  left: 54%;
+  width: 30%;
+  aspect-ratio: 16 / 13;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='1'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='2'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='6'%20width='5'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3Crect%20x='11'%20y='2'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+  image-rendering: pixelated;
+  animation: boon-crow-idle 8.4s steps(1, end) infinite;
+}
+
+/* The turn of the head, then the caw, then back to watching. */
+@keyframes boon-crow-idle {
+  0%, 52% { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='1'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='2'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='6'%20width='5'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3Crect%20x='11'%20y='2'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E"); translate: 0 0; }
+  56% { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='2'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='4'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='4'%20width='2'%20height='1'/%3E%3Crect%20x='13'%20y='5'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='6'%20width='5'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3C/g%3E%3C/svg%3E"); translate: 0 -3%; }
+  60% { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='1'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='2'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='6'%20width='5'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3Crect%20x='11'%20y='2'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E"); translate: 0 0; }
+  64% { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='2'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='4'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='4'%20width='2'%20height='1'/%3E%3Crect%20x='13'%20y='5'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='6'%20width='5'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3C/g%3E%3C/svg%3E"); translate: 0 -3%; }
+  70%, 100% { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='1'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='2'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='6'%20width='5'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3Crect%20x='11'%20y='2'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E"); translate: 0 0; }
+}
+
+/* Two more plots that stood empty: a cross gone off true at the end of the
+   back row, and a railing running out of the field behind the front stones. */
+.boon-relic {
+  align-self: end;
+  image-rendering: pixelated;
+  pointer-events: none;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.boon-relic--cross {
+  z-index: 3;
+  grid-column: 20 / 24;
+  grid-row: 1;
+  justify-self: center;
+  width: min(100%, 4.4rem);
+  aspect-ratio: 12 / 20;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2012%2020'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%2523191f18'%3E%3Crect%20x='5'%20y='3'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='14'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='15'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='16'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='17'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='18'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='3'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='14'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='15'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='16'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='17'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='18'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='19'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='19'%20width='1'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523323d2e'%3E%3Crect%20x='5'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='7'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E");
+  rotate: -5deg;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(4px 5px 0 rgba(16, 21, 15, .4));
+}
+
+.boon-relic--fence {
+  z-index: 1;
+  grid-column: 1 / 5;
+  grid-row: 2;
+  width: 100%;
+  aspect-ratio: 24 / 14;
+  margin-bottom: 1.2rem;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2014'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%2523171d16'%3E%3Crect%20x='2'%20y='3'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='2'%20width='1'%20height='1'/%3E%3Crect%20x='1'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='3'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='2'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='3'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='2'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='3'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='2'%20width='1'%20height='1'/%3E%3Crect%20x='16'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='18'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='3'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='5'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='7'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='8'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='9'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='11'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='12'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='13'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='2'%20width='1'%20height='1'/%3E%3Crect%20x='21'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='23'%20y='4'%20width='1'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='1'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='10'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='15'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='16'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='18'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='19'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='20'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='21'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='23'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='0'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='1'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='2'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='3'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='5'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='6'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='7'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='8'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='9'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='10'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='11'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='13'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='14'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='15'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='16'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='17'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='18'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='19'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='20'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='21'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='22'%20y='10'%20width='1'%20height='1'/%3E%3Crect%20x='23'%20y='10'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: .8;
+}
+
+.boon-flyby {
+  position: absolute;
+  top: 6%;
+  left: 0;
+  z-index: 12;
+  width: 3.4rem;
+  aspect-ratio: 16 / 13;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='1'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='2'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='6'%20y='2'%20width='4'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3Crect%20x='11'%20y='2'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+  image-rendering: pixelated;
+  pointer-events: none;
+  opacity: 0;
+  animation: boon-flyby-path 27s linear infinite, boon-flyby-wing .34s steps(1, end) infinite;
+}
+
+/* Across the gap between the ranks, dipping as it goes, then away. */
+@keyframes boon-flyby-path {
+  0%, 62% { translate: -8vw 0; opacity: 0; }
+  66% { translate: 4vw 2%; opacity: .85; }
+  78% { translate: 26vw -6%; opacity: .9; }
+  90% { translate: 48vw 4%; opacity: .85; }
+  96%, 100% { translate: 62vw -2%; opacity: 0; }
+}
+
+@keyframes boon-flyby-wing {
+  0% { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='1'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='2'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='6'%20y='2'%20width='4'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3Crect%20x='11'%20y='2'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E"); }
+  50% { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2013'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%25231a1f19'%3E%3Crect%20x='4'%20y='4'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='5'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='6'%20width='11'%20height='1'/%3E%3Crect%20x='2'%20y='7'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='8'%20width='8'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='3'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='3'%20height='1'/%3E%3Crect%20x='1'%20y='8'%20width='2'%20height='1'/%3E%3Crect%20x='9'%20y='1'%20width='4'%20height='1'/%3E%3Crect%20x='8'%20y='2'%20width='5'%20height='1'/%3E%3Crect%20x='8'%20y='3'%20width='5'%20height='1'/%3E%3Crect%20x='13'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='7'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='10'%20y='9'%20width='1'%20height='2'/%3E%3Crect%20x='6'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='11'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523272e25'%3E%3Crect%20x='5'%20y='6'%20width='5'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%2523c4cbb6'%3E%3Crect%20x='11'%20y='2'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E"); }
+}
+
 /* Haze over the back rank so the group reads as depth, not clutter. */
 .boon-gallery figure:nth-child(-n + 4)::after {
   content: "";
   position: absolute;
+  z-index: 1;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(to top, rgba(13, 18, 16, 0.62), rgba(13, 18, 16, 0.34));
@@ -1357,13 +1545,15 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   z-index: 20;
   rotate: 0deg;
   scale: 1.05;
-  box-shadow: 0 1.3rem 2.8rem rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(143, 168, 138, 0.75);
+  filter: drop-shadow(9px 10px 0 rgba(16, 21, 15, .8));
 }
 
 .boon-gallery figure:hover::after { opacity: 0; }
 
 .boon-gallery img {
+  width: 100%;
   height: 100%;
+  clip-path: var(--arch);
   object-fit: cover;
   image-rendering: pixelated;
   filter: saturate(0.42) brightness(0.62) contrast(1.1) hue-rotate(-8deg);
@@ -4266,13 +4456,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   100% { translate: 0.46em 0; opacity: 0; }
 }
 
-/* Boon Hill — no goal, no danger: the name surfaces out of the fog and sinks back. */
-.boon__header h2 em { animation: title-mist 13s ease-in-out infinite; }
-@keyframes title-mist {
-  0%, 100% { opacity: 0.45; filter: blur(0.02em); }
-  50% { opacity: 1; filter: blur(0); }
-}
-
 /* Flower Book — the title blooms literally. The O of FLOWER turns over and
    comes back a flower; the two O's of BOOK slide together, merge into one, and
    part again. Both flowers are the same five-circle motif as the divider, so
@@ -4374,15 +4557,35 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .blob__letter {
   display: inline-block;
-  animation: blob-title-letter 9s ease-in-out infinite;
+  animation: blob-title-letter 9s linear infinite;
 }
 
+/* Each segment gets its own curve. The letters lean back off the centre, are
+   snatched into it in half a second, and are thrown out again on a spring —
+   one easing across the whole cycle read as a plain shrink. */
 @keyframes blob-title-letter {
-  0%, 46% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; }
-  57% { translate: var(--dx) var(--dy); scale: 0.42; rotate: 0deg; opacity: 1; }
-  60%, 70% { translate: var(--dx) var(--dy); scale: 0.12; opacity: 0; }
-  74% { translate: calc(var(--dx) * -0.28) calc(var(--dy) * -0.28); scale: 1.22; rotate: var(--spin); opacity: 1; }
-  84%, 100% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; }
+  0%, 44% {
+    translate: 0 0; scale: 1; rotate: 0deg; opacity: 1;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+  }
+  47% {
+    translate: calc(var(--dx) * -0.07) calc(var(--dy) * -0.07);
+    scale: 1.06; rotate: calc(var(--spin) * -0.15); opacity: 1;
+    animation-timing-function: cubic-bezier(0.6, 0, 0.85, 0.3);
+  }
+  50.5% {
+    translate: calc(var(--dx) * 0.5 + var(--ax)) calc(var(--dy) * 0.5 + var(--ay));
+    scale: 0.88; rotate: calc(var(--spin) * 0.4); opacity: 1;
+    animation-timing-function: cubic-bezier(0.35, 0, 0.35, 1);
+  }
+  53% { translate: var(--dx) var(--dy); scale: 0.6 0.68; rotate: 0deg; opacity: 1; }
+  56%, 70% { translate: var(--dx) var(--dy); scale: 0.34; opacity: 0; }
+  74% {
+    translate: calc(var(--dx) * -0.3) calc(var(--dy) * -0.3);
+    scale: 1.24; rotate: var(--spin); opacity: 1;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  87%, 100% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; }
 }
 
 .blob__ball {
@@ -4396,20 +4599,32 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   background: radial-gradient(circle at 34% 28%, #ffe89b, #ffc62c 44%, #f25c88 112%);
   box-shadow: 0 0.05em 0 #a95e11, 0 0.11em 0.3em rgba(38, 20, 83, 0.45);
   opacity: 0;
-  scale: 0.12;
+  scale: 0;
   pointer-events: none;
-  animation: blob-title-ball 9s ease-in-out infinite;
+  animation: blob-title-ball 9s linear infinite;
 }
 
+/* The blob grows into the letters as they land, takes their impact, jiggles
+   it off, then winds up and bursts. */
 @keyframes blob-title-ball {
-  0%, 52% { opacity: 0; scale: 0.12; rotate: 0deg; border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%; }
-  58% { opacity: 1; scale: 0.82; }
-  62% { scale: 1.14; border-radius: 62% 38% 45% 55% / 42% 58% 44% 56%; }
-  66% { scale: 0.94; border-radius: 38% 62% 55% 45% / 58% 42% 56% 44%; }
-  70% { scale: 1.06; rotate: 300deg; border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%; }
-  72% { opacity: 1; scale: 1.38; rotate: 360deg; }
-  76%, 100% { opacity: 0; scale: 1.7; rotate: 360deg; }
+  0%, 45% {
+    opacity: 0; scale: 0; rotate: 0deg;
+    border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%;
+    animation-timing-function: cubic-bezier(0.7, 0, 0.6, 1);
+  }
+  49% { opacity: 1; scale: 0.3; }
+  53% { opacity: 1; scale: 0.92; }
+  56% { scale: 1.22 0.82; border-radius: 58% 42% 44% 56% / 44% 56% 42% 58%; }
+  59% { scale: 0.89 1.13; border-radius: 38% 62% 55% 45% / 58% 42% 56% 44%; }
+  62% { scale: 1.06 0.96; }
+  66% { scale: 1; rotate: 220deg; border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%; }
+  70% { scale: 0.84 1.18; rotate: 320deg; }
+  73% { opacity: 1; scale: 1.55; rotate: 360deg; }
+  76%, 100% { opacity: 0; scale: 1.85; rotate: 360deg; }
 }
+
+/* The panel runs the same title, in the one line it stands on there. */
+.game-fold--blob .game-fold__mark { position: relative; }
 
 /* Word Bend — the word bends. */
 .word:not(.solitaire) .word__header h2 em {
@@ -5433,6 +5648,30 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .featured.game-foldable { --fold-open-bottom: 2.5rem; }
 
+/* A folded case is clipped down to its cover, but the case study behind it was
+   still being styled, laid out, painted and animated — nine of them at once,
+   which is what made the height transition stutter. Skipping the render of
+   what the fold hides also stops the loops inside it; opening the case brings
+   all of it back, and the open height is measured after that. */
+.game-foldable:not([data-opening]):not([data-expanded]):not([data-closing]) .game-fold__content {
+  content-visibility: hidden;
+}
+
+.game-foldable[data-opening],
+.game-foldable[data-closing] { will-change: height; }
+
+/* While a case moves, the height transition relays out the page on every
+   frame; every other loop on the screen is competing for that same frame.
+   They hold for the second and a half it takes, and carry on afterwards. The
+   fold's own choreography lives on the cover, which is left running. */
+html[data-folding] :is(.game-fold__content, .rail, .hero) * {
+  animation-play-state: paused;
+}
+
+/* The scroll is placed deliberately while a case swaps; the browser's own
+   anchoring would be pulling against it in the same frame. */
+html[data-folding] { overflow-anchor: none; }
+
 .game-foldable[data-opening],
 .game-foldable[data-expanded],
 .game-foldable[data-closing] {
@@ -5970,12 +6209,10 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   line-height: .78;
   letter-spacing: .025em;
   text-shadow: 3px 3px 0 rgba(240, 236, 226, .3);
-  transform: rotate(-2deg);
 }
 
 .game-fold--boon:is(:hover, :focus-visible) .game-fold__mark {
-  color: #17141c;
-  transform: rotate(.5deg) translateX(.05em);
+  transform: translateX(.05em);
 }
 
 .game-fold--sapper .game-fold__mark {
@@ -6432,62 +6669,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   text-shadow: 0 .07em 0 #54217c, 0 .12em 0 #f0a72b, 0 .15em 0 rgba(31, 37, 51, .38);
 }
 
-.game-fold--bronze .game-fold__title { animation: cover-hoof 8s ease-in-out infinite; }
-.game-fold--boon .game-fold__title { animation: cover-boon 10s ease-in-out infinite; }
-.game-fold--flower .game-fold__title { animation: cover-flower 9s ease-in-out infinite; }
-.game-fold--boxjam .game-fold__title { animation: cover-boxjam 8s ease-in-out infinite; }
-.game-fold--blob .game-fold__title { animation: cover-blob 7s ease-in-out infinite; }
-.game-fold--word .game-fold__title { animation: cover-word 10s ease-in-out infinite; }
-.game-fold--card .game-fold__title { animation: cover-card 11s ease-in-out infinite; }
-.game-fold--sapper .game-fold__title { animation: cover-sapper 9s steps(1) infinite; }
-.game-fold--lords .game-fold__title { animation: cover-lords 9s ease-in-out infinite; }
-
-@keyframes cover-hoof {
-  0%, 68%, 100% { translate: 0 0; scale: 1; }
-  75% { translate: .03em -.05em; scale: 1.02 .96; }
-  82% { translate: 0 .02em; scale: .99 1.03; }
-}
-@keyframes cover-boon {
-  0%, 100% { translate: 0 0; rotate: 0deg; }
-  47% { translate: .025em -.035em; rotate: 1deg; }
-  54% { translate: -.02em .015em; rotate: -.7deg; }
-}
-@keyframes cover-flower {
-  0%, 62%, 100% { scale: 1; filter: saturate(1); }
-  70% { scale: 1.04 .95; filter: saturate(1.35); }
-  78% { scale: .98 1.03; }
-}
-@keyframes cover-boxjam {
-  0%, 64%, 100% { translate: 0 0; }
-  72% { translate: .07em -.04em; }
-  80% { translate: .02em .025em; }
-}
-@keyframes cover-blob {
-  0%, 58%, 100% { scale: 1; rotate: 0deg; }
-  66% { scale: 1.08 .88; rotate: -1deg; }
-  74% { scale: .93 1.08; rotate: 1deg; }
-}
-@keyframes cover-word {
-  0%, 66%, 100% { transform: skewX(0deg); }
-  76% { transform: skewX(-7deg); }
-  86% { transform: skewX(3deg); }
-}
-@keyframes cover-card {
-  0%, 62%, 100% { translate: 0 0; rotate: 0deg; color: #1f2533; }
-  70% { translate: 0 -.065em; rotate: -2deg; color: #c8102e; }
-  84% { translate: 0 -.03em; rotate: -1deg; color: #c8102e; }
-}
-@keyframes cover-sapper {
-  0%, 87%, 100% { translate: 0 0; }
-  89% { translate: .035em -.025em; }
-  91% { translate: -.03em .02em; }
-  93% { translate: .02em .01em; }
-}
-@keyframes cover-lords {
-  0%, 64%, 100% { letter-spacing: -.11em; filter: brightness(1); }
-  72% { letter-spacing: -.07em; filter: brightness(1.3) drop-shadow(0 0 .35rem rgba(49, 216, 238, .65)); }
-  82% { letter-spacing: -.125em; }
-}
+/* The panel wordmarks used to squash, skew and drift on their own loops. A
+   row of them all breathing at once read as restlessness, so they hold still;
+   the only wordmark that moves is the one whose game is about movement. */
 
 /* The Boon Hill wordmark is a single roadside sign on desktop. It only wraps
    where the device genuinely needs a narrower composition. */
@@ -6618,7 +6802,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   content: "";
   position: absolute;
   z-index: -1;
-  inset: .04em -.14em .1em;
+  inset: -.05em -.16em -.11em;
   border-radius: 999px;
   background: var(--pick-1);
   opacity: .88;
@@ -6641,8 +6825,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   66.67% { background-color: var(--pick-3); }
 }
 
-/* On the panel the two words stand side by side, as the logo does. */
-.game-fold--word .game-fold__title { white-space: nowrap; }
+/* On the panel the two words stand side by side, as the logo does — far
+   enough apart that the two capsules never touch. */
+.game-fold--word .game-fold__title { white-space: nowrap; word-spacing: .3em; }
 
 /* On the panel the three words stand in one line, the way the logo does. */
 .game-fold--blob .game-fold__title { white-space: nowrap; }
@@ -7147,46 +7332,68 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* The fold control rests in the top right corner of every case, so the moon
    moves inboard to keep that corner clear of it. */
 .boon__moon {
-  right: max(21vw, 13rem);
-  box-shadow: 0 0 4rem rgba(228, 234, 217, .16);
+  top: 4vw;
+  right: max(38vw, 23rem);
+  filter: drop-shadow(0 0 2.2rem rgba(228, 234, 217, .2));
+}
+
+/* The halo is its own layer so it can breathe without repainting the moon,
+   and it steps rather than fades — the moon is drawn in whole pixels. */
+.boon__moon::after {
+  content: "";
+  position: absolute;
+  inset: -70%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(228, 234, 217, .16), rgba(160, 180, 150, .06) 58%, transparent 72%);
+  animation: boon-moon-halo 7.6s steps(1, end) infinite;
+}
+
+@keyframes boon-moon-halo {
+  0%, 100% { opacity: .8; }
+  26% { opacity: 1; }
+  52% { opacity: .66; }
+  74% { opacity: .92; }
 }
 
 @media (max-width: 720px) {
   .boon__moon { right: 54vw; }
 }
 
+/* The moon is drawn on a 16x16 grid and scaled up, so its edge is made of
+   real pixels rather than a smoothed circle. Two faces of the same moon hold
+   the same craters and move their glints by one pixel; snapping between them
+   is the whole idle, along with a bob that also moves in whole pixels. */
 .boon__moon-round,
 .boon__moon-pixels {
   position: absolute;
   inset: 0;
   display: block;
-  background: #e5e8d6;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
 }
 
-.boon__moon-round {
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5);
-  animation: boon-moon-round 12s ease-in-out infinite;
-}
+.boon__moon-round { background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%23e5e8d6'%3E%3Crect%20x='6'%20y='0'%20width='4'%20height='1'/%3E%3Crect%20x='4'%20y='1'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='2'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='3'%20width='12'%20height='1'/%3E%3Crect%20x='1'%20y='4'%20width='14'%20height='1'/%3E%3Crect%20x='1'%20y='5'%20width='14'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='16'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='16'%20height='1'/%3E%3Crect%20x='0'%20y='8'%20width='16'%20height='1'/%3E%3Crect%20x='0'%20y='9'%20width='16'%20height='1'/%3E%3Crect%20x='1'%20y='10'%20width='14'%20height='1'/%3E%3Crect%20x='1'%20y='11'%20width='14'%20height='1'/%3E%3Crect%20x='2'%20y='12'%20width='12'%20height='1'/%3E%3Crect%20x='3'%20y='13'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='14'%20width='8'%20height='1'/%3E%3Crect%20x='6'%20y='15'%20width='4'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%23cdd2bd'%3E%3Crect%20x='12'%20y='10'%20width='3'%20height='1'/%3E%3Crect%20x='12'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='11'%20y='12'%20width='3'%20height='1'/%3E%3Crect%20x='10'%20y='13'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='14'%20width='3'%20height='1'/%3E%3Crect%20x='7'%20y='15'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%23c0c6ae'%3E%3Crect%20x='4'%20y='4'%20width='2'%20height='2'/%3E%3Crect%20x='9'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='6'%20y='9'%20width='3'%20height='2'/%3E%3Crect%20x='11'%20y='7'%20width='2'%20height='2'/%3E%3Crect%20x='3'%20y='10'%20width='1'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%23f6f8ec'%3E%3Crect%20x='7'%20y='2'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='5'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E"); }
 
 .boon__moon-pixels {
-  clip-path: polygon(31% 0, 69% 0, 69% 6%, 81% 6%, 81% 19%, 94% 19%, 94% 31%, 100% 31%, 100% 69%, 94% 69%, 94% 81%, 81% 81%, 81% 94%, 69% 94%, 69% 100%, 31% 100%, 31% 94%, 19% 94%, 19% 81%, 6% 81%, 6% 69%, 0 69%, 0 31%, 6% 31%, 6% 19%, 19% 19%, 19% 6%, 31% 6%);
-  box-shadow: 0 0 0 4px #77778c, 8px 8px 0 rgba(39, 33, 45, .5);
-  animation: boon-moon-pixels 12s ease-in-out infinite;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%20shape-rendering='crispEdges'%3E%3Cg%20fill='%23e5e8d6'%3E%3Crect%20x='6'%20y='0'%20width='4'%20height='1'/%3E%3Crect%20x='4'%20y='1'%20width='8'%20height='1'/%3E%3Crect%20x='3'%20y='2'%20width='10'%20height='1'/%3E%3Crect%20x='2'%20y='3'%20width='12'%20height='1'/%3E%3Crect%20x='1'%20y='4'%20width='14'%20height='1'/%3E%3Crect%20x='1'%20y='5'%20width='14'%20height='1'/%3E%3Crect%20x='0'%20y='6'%20width='16'%20height='1'/%3E%3Crect%20x='0'%20y='7'%20width='16'%20height='1'/%3E%3Crect%20x='0'%20y='8'%20width='16'%20height='1'/%3E%3Crect%20x='0'%20y='9'%20width='16'%20height='1'/%3E%3Crect%20x='1'%20y='10'%20width='14'%20height='1'/%3E%3Crect%20x='1'%20y='11'%20width='14'%20height='1'/%3E%3Crect%20x='2'%20y='12'%20width='12'%20height='1'/%3E%3Crect%20x='3'%20y='13'%20width='10'%20height='1'/%3E%3Crect%20x='4'%20y='14'%20width='8'%20height='1'/%3E%3Crect%20x='6'%20y='15'%20width='4'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%23cdd2bd'%3E%3Crect%20x='12'%20y='10'%20width='3'%20height='1'/%3E%3Crect%20x='12'%20y='11'%20width='3'%20height='1'/%3E%3Crect%20x='11'%20y='12'%20width='3'%20height='1'/%3E%3Crect%20x='10'%20y='13'%20width='3'%20height='1'/%3E%3Crect%20x='9'%20y='14'%20width='3'%20height='1'/%3E%3Crect%20x='7'%20y='15'%20width='3'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%23c0c6ae'%3E%3Crect%20x='4'%20y='4'%20width='2'%20height='2'/%3E%3Crect%20x='9'%20y='3'%20width='2'%20height='1'/%3E%3Crect%20x='6'%20y='9'%20width='3'%20height='2'/%3E%3Crect%20x='11'%20y='7'%20width='2'%20height='2'/%3E%3Crect%20x='3'%20y='10'%20width='1'%20height='1'/%3E%3C/g%3E%3Cg%20fill='%23f6f8ec'%3E%3Crect%20x='6'%20y='2'%20width='1'%20height='1'/%3E%3Crect%20x='12'%20y='6'%20width='1'%20height='1'/%3E%3Crect%20x='4'%20y='7'%20width='1'%20height='1'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0;
+  animation: boon-moon-glint 5.4s steps(1, end) infinite;
 }
 
-@keyframes boon-moon-round {
-  0%, 24%, 100% { opacity: 1; filter: blur(0); transform: scale(1); }
-  39% { opacity: .42; filter: blur(.16rem); transform: scale(.96); }
-  48%, 65% { opacity: 0; filter: blur(.3rem); transform: scale(.9); }
-  82% { opacity: .52; filter: blur(.12rem); transform: scale(.97); }
+@keyframes boon-moon-glint {
+  0%, 62% { opacity: 0; }
+  70%, 78% { opacity: 1; }
+  74% { opacity: 0; }
+  86%, 100% { opacity: 0; }
 }
 
-@keyframes boon-moon-pixels {
-  0%, 28%, 100% { opacity: 0; filter: blur(.22rem); transform: scale(.88); }
-  44% { opacity: 1; filter: blur(0); transform: scale(1); }
-  61% { opacity: 1; filter: blur(0); transform: scale(1); }
-  76% { opacity: 0; filter: blur(.18rem); transform: scale(.94); }
+/* One grid pixel is a sixteenth of the moon, so the bob is written as one. */
+@keyframes boon-moon-bob {
+  0%, 100% { translate: 0 0; }
+  30% { translate: 0 -6.25%; }
+  62% { translate: 0 6.25%; }
 }
 
 .boon__header h2,
@@ -7296,13 +7503,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   box-shadow: inset 2px 2px 0 rgba(228, 234, 217, .34), inset -2px -2px 0 rgba(28, 31, 27, .42);
 }
 
-.boon-gallery figure {
-  border: 4px solid #27212d;
-  box-shadow: 5px 5px 0 #b69ab6;
-}
-
 .boon-gallery figcaption {
-  border-top: 2px solid #27212d;
+  bottom: calc(30px + .5rem);
+  border: 2px solid #41473c;
   border-radius: 0;
   font-family: "Azeret Mono", monospace;
 }
@@ -7314,32 +7517,24 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
     linear-gradient(135deg, #3b3b55, #656983 55%, #28283c);
 }
 
+/* The pixel face is wide: the lockup is held to its own two lines rather than
+   broken into four by the column it sits in. */
 .game-fold--boon .game-fold__mark {
-  max-width: 13ch;
-  font-size: clamp(2.35rem, 3.9vw, 3.8rem);
-  text-shadow: 3px 3px 0 #27212d, 6px 6px 0 rgba(39, 33, 45, .42);
+  max-width: none;
+  text-shadow: none;
 }
 .game-fold--boon .game-fold__title {
   display: grid;
-  line-height: .77;
+  line-height: .9;
   white-space: normal;
   animation: none;
 }
-.game-fold--boon .game-fold__title-top {
+.game-fold--boon .game-fold__title-top { font-size: .82em; }
+.game-fold--boon :is(.game-fold__title-top, .game-fold__title-main) {
   display: block;
-  color: #f0ece2;
-  font-size: .82em;
+  justify-self: start;
   letter-spacing: .015em;
-}
-.game-fold--boon .game-fold__title-main {
-  display: block;
-  color: #b69ab6;
-  letter-spacing: .018em;
-  animation: boon-fold-mist 13s ease-in-out infinite;
-}
-@keyframes boon-fold-mist {
-  0%, 100% { opacity: .45; filter: blur(.035em); }
-  50% { opacity: 1; filter: blur(0); }
+  white-space: nowrap;
 }
 .game-fold--boon .game-fold__icon { border-radius: 0; image-rendering: pixelated; }
 .game-fold--boon .game-fold__meta b { font-family: "Bangers", cursive; }
@@ -7683,7 +7878,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 @media (max-width: 720px) {
-  .game-fold--boon .game-fold__mark { max-width: 14ch; font-size: clamp(1.9rem, 8.5vw, 2.55rem); }
+  .game-fold--boon .game-fold__mark { max-width: none; }
   .game-fold--boon .game-fold__title { white-space: normal; }
   :is(.featured, .flower, .boxjam, .blob, .word) { --head-gap: 1.2rem; }
   .flower__header h2,
@@ -7822,14 +8017,18 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   grid-row: 1;
 }
 
+/* Centred by a flex column rather than a grid row: a lockup taller than the
+   reserved box — two lines of a wide pixel face — overhangs a grid row on one
+   side only, which left that wordmark sitting low on its own panel. */
 .game-fold .game-fold__mark {
   grid-column: 2;
   grid-row: 1;
-  display: grid;
-  align-content: center;
-  justify-items: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   align-self: center;
-  height: var(--fold-mark-box);
+  min-height: var(--fold-mark-box);
   max-width: 100%;
   font-size: calc(var(--fold-mark-size) * var(--fold-mark-scale, 1));
 }
@@ -7840,17 +8039,22 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .game-fold .game-fold__mark::after { display: none; }
 
 .game-fold--bronze { --fold-mark-scale: 1; }
-.game-fold--boon { --fold-mark-scale: .82; }
+.game-fold--boon { --fold-mark-scale: .98; }
+
+/* The two-line pixel lockup has room to grow back on a narrow panel. */
+@media (max-width: 720px) {
+  .game-fold--boon { --fold-mark-scale: .82; }
+}
 .game-fold--flower { --fold-mark-scale: 1.12; }
 .game-fold--boxjam { --fold-mark-scale: .98; }
 .game-fold--blob { --fold-mark-scale: 1.12; }
 .game-fold--word { --fold-mark-scale: .98; }
-.game-fold--card { --fold-mark-scale: .84; }
-.game-fold--sapper { --fold-mark-scale: .86; }
+.game-fold--card { --fold-mark-scale: .92; }
+.game-fold--sapper { --fold-mark-scale: .94; }
 .game-fold--lords { --fold-mark-scale: .98; }
 
 .game-fold--bronze .game-fold__mark { max-width: none; }
-.game-fold--boon .game-fold__mark { max-width: 13ch; }
+.game-fold--boon .game-fold__mark { max-width: none; }
 .game-fold--card .game-fold__mark { max-width: 12ch; line-height: .92; }
 .game-fold--sapper .game-fold__mark { max-width: 14ch; }
 .game-fold--lords .game-fold__mark { max-width: 16ch; padding: 0; }
@@ -8012,9 +8216,9 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 /* ============================================================================
    Boon Hill is a 16-bit place, so its name is set in a pixel face rather than
-   a brush one. The wordmark answers the moon: while the moon holds its round
-   shape the name sits in its own shadow, and when the moon snaps to pixels the
-   name catches the same cold light. Both cycles run 12s, so they stay in step.
+   a brush one — and the name behaves like the place: the fog comes over it,
+   takes it apart and hands it back. The archive panel carries the same
+   wordmark and the same weather, one line behind the other.
    ========================================================================= */
 .boon__header h2 {
   color: #f0ece2;
@@ -8023,23 +8227,32 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   font-weight: 700;
   line-height: 1.12;
   letter-spacing: 0;
+}
+
+.boon-word {
+  display: inline-block;
+  color: #f0ece2;
+  font-family: "Silkscreen", monospace;
+  font-style: normal;
+  font-weight: 700;
+  -webkit-text-stroke: 0;
   text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34);
 }
 
-.boon__header h2 em {
-  color: #b69ab6;
-  font-style: normal;
-  -webkit-text-stroke: 0;
-  animation: boon-title-moon 12s steps(1, end) infinite;
+/* The fog only ever takes the name. The line above it is a caption and stays
+   where it is — a heading that comes and goes twice over is just noise. */
+.boon-word--name {
+  color: #cbbccd;
+  animation: boon-fog-dissolve 15s ease-in-out infinite;
 }
 
-@keyframes boon-title-moon {
-  0%, 30% { color: #b69ab6; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
-  40% { color: #cbbccd; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
-  46% { color: #e5e8d6; text-shadow: -4px -4px 0 #77778c, 4px 4px 0 #27212d; }
-  62% { color: #e5e8d6; text-shadow: 4px 4px 0 #77778c, 8px 8px 0 #27212d; }
-  74% { color: #cbbccd; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
-  82%, 100% { color: #b69ab6; text-shadow: 4px 4px 0 #27212d, 8px 8px 0 rgba(39, 33, 45, .34); }
+@keyframes boon-fog-dissolve {
+  0%, 26% { opacity: 1; filter: blur(0); scale: 1; }
+  44% { opacity: .74; filter: blur(.035em); scale: 1.006; }
+  58% { opacity: .4; filter: blur(.095em); scale: 1.018; }
+  66% { opacity: .32; filter: blur(.125em); scale: 1.024; }
+  80% { opacity: .76; filter: blur(.035em); scale: 1.008; }
+  92%, 100% { opacity: 1; filter: blur(0); scale: 1; }
 }
 
 @media (max-width: 720px) {

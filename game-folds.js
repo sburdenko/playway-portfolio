@@ -26,7 +26,8 @@ const FOLD_CONTROLS = {
 // panel as it does over the case study.
 const wordmarkOf = (item) => {
   if (item.logoTop) {
-    return `<span class="game-fold__title-top">${item.logoTop}</span><span class="game-fold__title-main">${item.logoMain}</span>`;
+    return `<span class="game-fold__title-top ${item.skin}-word ${item.skin}-word--top">${item.logoTop}</span>`
+      + `<span class="game-fold__title-main ${item.skin}-word ${item.skin}-word--name">${item.logoMain}</span>`;
   }
   if (item.logoParts) {
     return item.logoParts
@@ -69,13 +70,45 @@ const makeCollapse = (item) => {
   return button;
 };
 
+// The case is finished by its own height transition, with a fallback: a
+// transition that never runs — a backgrounded tab, a height that did not
+// change — would otherwise leave the case stuck half open for good.
+const FOLDING = "data-folding";
+
 const onHeightTransition = (section, callback) => {
-  const finish = (event) => {
-    if (event.target !== section || event.propertyName !== "height") return;
-    section.removeEventListener("transitionend", finish);
+  const duration = parseFloat(getComputedStyle(section).transitionDuration) * 1000 || 1350;
+  let settled = false;
+
+  const finish = () => {
+    if (settled) return;
+    settled = true;
+    section.removeEventListener("transitionend", onEnd);
+    window.clearTimeout(guard);
     callback();
   };
-  section.addEventListener("transitionend", finish);
+
+  const onEnd = (event) => {
+    if (event.target !== section || event.propertyName !== "height") return;
+    finish();
+  };
+
+  section.addEventListener("transitionend", onEnd);
+  const guard = window.setTimeout(finish, duration + 250);
+};
+
+const holdOtherMotion = () => document.documentElement.setAttribute(FOLDING, "");
+const releaseMotion = () => document.documentElement.removeAttribute(FOLDING);
+
+// Closing the case that was open takes its whole height out of the document,
+// and everything below it is pulled up by that much — including the panel the
+// reader has just clicked, which slides out from under the cursor. The panel
+// is pinned: whatever the change does to its place on screen is paid back in
+// scroll, so the only movement left is the one asked for afterwards.
+const holdPlace = (element, change) => {
+  const before = element.getBoundingClientRect().top;
+  change();
+  const drift = element.getBoundingClientRect().top - before;
+  if (drift) window.scrollTo({ top: window.scrollY + drift, behavior: "instant" });
 };
 
 const mount = (item) => {
@@ -110,10 +143,19 @@ const mount = (item) => {
   const open = () => {
     if (section.hasAttribute("data-opening") || section.hasAttribute("data-expanded")) return;
 
-    const activeCases = [...mountedCases.entries()].filter(([other]) => other !== section && other.hasAttribute("data-expanded"));
-    for (const [, activeCase] of activeCases) activeCase.close({ center: false, focus: false, instant: true });
+    holdOtherMotion();
 
-    if (section.hasAttribute("data-closing")) return;
+    const activeCases = [...mountedCases.entries()].filter(([other]) => other !== section && other.hasAttribute("data-expanded"));
+    if (activeCases.length) {
+      holdPlace(cover, () => {
+        for (const [, activeCase] of activeCases) activeCase.close({ center: false, focus: false, instant: true });
+      });
+    }
+
+    if (section.hasAttribute("data-closing")) {
+      releaseMotion();
+      return;
+    }
 
     window.scrollTo(0, section.getBoundingClientRect().top + window.scrollY);
     section.style.height = `${section.getBoundingClientRect().height}px`;
@@ -128,6 +170,7 @@ const mount = (item) => {
     });
 
     onHeightTransition(section, () => {
+      releaseMotion();
       section.removeAttribute("data-opening");
       section.removeAttribute("data-revealing");
       section.setAttribute("data-expanded", "");
@@ -146,6 +189,7 @@ const mount = (item) => {
 
     if (instant) {
       section.style.height = "";
+      releaseMotion();
       section.removeAttribute("data-expanded");
       content.setAttribute("inert", "");
       collapse.tabIndex = -1;
@@ -158,6 +202,7 @@ const mount = (item) => {
     const sectionTop = section.getBoundingClientRect().top + window.scrollY;
     const centeredScroll = Math.max(0, sectionTop - (window.innerHeight - collapsedHeight) / 2);
     return new Promise((resolve) => {
+      holdOtherMotion();
       section.style.height = `${section.getBoundingClientRect().height}px`;
       section.removeAttribute("data-expanded");
       section.setAttribute("data-closing", "");
@@ -170,6 +215,7 @@ const mount = (item) => {
       });
 
       onHeightTransition(section, () => {
+        releaseMotion();
         section.removeAttribute("data-closing");
         section.style.height = "";
         content.setAttribute("inert", "");
