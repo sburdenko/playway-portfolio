@@ -4626,6 +4626,192 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 /* The panel runs the same title, in the one line it stands on there. */
 .game-fold--blob .game-fold__mark { position: relative; }
 
+/* ============================================================================
+   Word Bend, playable. The board is the game's own: a dark panel of letter
+   tiles on the light section, words hidden along paths that turn corners, and
+   a found word drawn as one bent bar in its own colour. The bar is made of the
+   tiles themselves plus a bridge across each gap, so a corner joins cleanly
+   instead of reading as a row of separate squares.
+   ========================================================================= */
+.bendfield {
+  --bridge: clamp(.3rem, .55vw, .55rem);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  margin-bottom: var(--block-gap);
+}
+
+.bendfield__brief > span {
+  color: #76658d;
+  font-family: var(--mono);
+  font-size: var(--label-size);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.bendfield__brief h3 {
+  margin: .8rem 0 1rem;
+  color: #201b42;
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(1.9rem, 3.4vw, 3.4rem);
+  font-weight: 700;
+  line-height: .92;
+  letter-spacing: -.05em;
+  text-transform: uppercase;
+}
+
+.bendfield__brief h3 em { color: #e74c68; font-style: normal; }
+
+.bendfield__brief p {
+  margin: 0;
+  max-width: 34ch;
+  color: #40365c;
+  font-size: clamp(.8rem, 1vw, .95rem);
+  line-height: 1.5;
+}
+
+.bendfield__hud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.4rem;
+  margin: 1.4rem 0 .8rem;
+}
+
+.bendfield__hud span { display: flex; align-items: baseline; gap: .5rem; }
+.bendfield__hud b {
+  color: #201b42;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.bendfield__hud i,
+.bendfield__hud em {
+  color: #76658d;
+  font-family: var(--mono);
+  font-size: var(--label-size);
+  font-style: normal;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.bendfield__reset {
+  padding: .5rem 1rem;
+  color: #f4d6bd;
+  border: 0;
+  background: #201b42;
+  font-family: var(--mono);
+  font-size: var(--label-size);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.bendfield__reset:hover { background: #e74c68; }
+
+.bendfield__status {
+  min-height: 1.4em;
+  margin: 0 0 1rem;
+  color: #40365c;
+  font-family: var(--mono);
+  font-size: var(--label-size);
+  letter-spacing: .06em;
+}
+
+.bendfield__words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem .7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bendfield__words li {
+  padding: .3rem .6rem;
+  color: #40365c;
+  border: 2px solid rgba(32, 27, 66, .18);
+  font-family: var(--mono);
+  font-size: var(--label-size);
+  letter-spacing: .12em;
+}
+
+.bendfield__words li[data-found] {
+  color: #fff;
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
+.bendfield__grid {
+  display: grid;
+  width: min(100%, 30rem);
+  justify-self: center;
+  grid-template-columns: repeat(var(--size, 8), 1fr);
+  gap: var(--bridge);
+  padding: clamp(.8rem, 1.6vw, 1.6rem);
+  border-radius: 1.4rem;
+  background: #1b1726;
+  box-shadow: 0 1.4rem 3rem rgba(32, 27, 66, .28);
+  touch-action: none;
+}
+
+.bendfield__cell {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  color: #efe9ff;
+  border: 0;
+  border-radius: 28%;
+  background: #2a2438;
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(.7rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.bendfield__cell:hover { background: #372f4a; }
+
+.bendfield__cell[data-live] {
+  color: #201b42;
+  background: #efe9ff;
+}
+
+.bendfield__cell[data-found] {
+  z-index: 1;
+  color: #fff;
+  background: var(--ink);
+}
+
+/* The bridges that turn a run of tiles into one bent bar. */
+.bendfield__cell::before,
+.bendfield__cell::after {
+  content: "";
+  position: absolute;
+  background: var(--ink);
+  opacity: 0;
+}
+
+.bendfield__cell[data-found]::before,
+.bendfield__cell[data-found]::after { opacity: 1; }
+
+.bendfield__cell[data-prev="left"]::before,
+.bendfield__cell[data-next="left"]::after { top: 0; bottom: 0; right: 100%; width: var(--bridge); }
+.bendfield__cell[data-prev="right"]::before,
+.bendfield__cell[data-next="right"]::after { top: 0; bottom: 0; left: 100%; width: var(--bridge); }
+.bendfield__cell[data-prev="up"]::before,
+.bendfield__cell[data-next="up"]::after { left: 0; right: 0; bottom: 100%; height: var(--bridge); }
+.bendfield__cell[data-prev="down"]::before,
+.bendfield__cell[data-next="down"]::after { left: 0; right: 0; top: 100%; height: var(--bridge); }
+
+@media (max-width: 900px) {
+  .bendfield { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* Word Bend — the word bends. */
 .word:not(.solitaire) .word__header h2 em {
   transform-origin: 0 100%;

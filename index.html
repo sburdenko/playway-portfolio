@@ -684,6 +684,27 @@
             <div class="word__facts"><div><strong>1K+</strong><span>unique levels</span></div><div><strong>5.0</strong><span>App Store rating</span></div><div><strong>400+</strong><span>ratings</span></div><div><strong>iOS</strong><span>iPhone + iPad</span></div></div>
           </div>
         </div>
+
+        <div class="bendfield reveal">
+          <div class="bendfield__brief">
+            <span>Playable fragment</span>
+            <h3>Bend a word<br /><em>yourself</em></h3>
+            <p>
+              The loop from Word Bend: nothing is hidden in a straight line. Every
+              word runs along a path that turns corners. Drag across neighbouring
+              letters to trace one — or tap them one at a time. Five levels, each
+              wider, wordier and more crooked than the last.
+            </p>
+            <div class="bendfield__hud">
+              <span><b data-level-out>1</b><i>of 5 levels</i></span>
+              <span><b data-found>0</b><i>of <em data-total>3</em> found</i></span>
+              <button class="bendfield__reset interactive" type="button">Shuffle &#8635;</button>
+            </div>
+            <p class="bendfield__status" role="status">Drag across neighbours to trace a word — it turns corners.</p>
+            <ul class="bendfield__words" aria-label="Words to find"></ul>
+          </div>
+          <div class="bendfield__grid" role="group" aria-label="Word Bend letter grid"></div>
+        </div>
       <!--@rule:word-bend:end-->
       </section>
 
@@ -1047,6 +1068,7 @@
     <script type="module" src="/glitch-words.js"></script>
     <script type="module" src="/game-folds.js"></script>
     <script type="module" src="/blob-title.js"></script>
+    <script type="module" src="/word-bend.js"></script>
     <script type="module" src="/rail.js"></script>
   </body>
 </html>
