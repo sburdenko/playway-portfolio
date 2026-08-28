@@ -8984,6 +8984,18 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .about__header em::before { color: #00f0ff; animation: profile-tear-a 7s steps(1) infinite; }
 .about__header em::after { color: #ff2e88; animation: profile-tear-b 7s steps(1) infinite; }
 
+/* The word swaps for another one under the tear, so the base has to lose the
+   page for those few frames — otherwise the text is caught changing. */
+.about__header em { animation: profile-tear-base 7s steps(1) infinite; }
+
+/* The base drops its ink rather than its opacity: opacity on the word would
+   isolate the two ghosts and kill their screen blend against the page. */
+@keyframes profile-tear-base {
+  0%, 88%, 100% { color: var(--orange); }
+  89%, 93% { color: transparent; }
+  97% { color: rgba(255, 90, 54, .5); }
+}
+
 /* The word keeps its own colour between tears: two ghosts screened over it
    full time would wash the orange out to white. */
 @keyframes profile-tear-a {
@@ -9056,6 +9068,7 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .about__header em,
   .about__header em::before,
   .about__header em::after,
   .capabilities span,
