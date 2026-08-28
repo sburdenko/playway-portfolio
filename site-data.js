@@ -33,12 +33,14 @@ export const GAMES = [
     id: "blob-jam", num: "05", name: "Blob Sort Jam", rule: "blob",
     bg: "#4c2ca0", ink: "#fff9f0", accent: "#ffc94e",
     skin: "blob", tag: "SORT / CASUAL", signal: "●",
+    logoParts: [["Blob", "blob"], ["Sort", "sort"], ["Jam", "jam"]],
     image: "https://play-lh.googleusercontent.com/MIgFoxNl5IvZ6hP6gDL8AxyzTLQKKOx_lhPmxtE9rvuV-vKCCRN2YLWaGJMdobRjyhJVD8lCCfNJg8gzswvfvg=s512",
   },
   {
     id: "word-bend", num: "06", name: "Word Bend", rule: "word",
     bg: "#f4d6bd", ink: "#201b42", accent: "#e74c68",
     skin: "word", tag: "BEND / WORDPLAY", signal: "⌁",
+    logoParts: [["Word", "word"], ["Bend", "bend"]],
     image: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/45/0b/3c/450b3cad-fc96-c12e-cfd1-9b70de15f6aa/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg",
   },
   {

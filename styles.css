@@ -4368,50 +4368,47 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 }
 
 /* Blob Jam — the word behaves like the thing it names: the letters run
-   together into a blob, the blob turns over, and the word reforms. */
-.blob__header h2 em { position: relative; }
+   together into one blob, the blob turns over, and it bursts back into the
+   word. blob-title.js measures how far each letter has to travel. */
+.blob__header h2 { position: relative; }
 
-.bl-l {
+.blob__letter {
   display: inline-block;
-  animation: blob-letter 8s ease-in-out infinite;
+  animation: blob-title-letter 9s ease-in-out infinite;
 }
 
-/* How far each letter has to slide to land on the word's centre. */
-.bl-l:nth-child(1) { --pull: 1.27em; }
-.bl-l:nth-child(2) { --pull: 0.288em; }
-.bl-l:nth-child(3) { --pull: -0.982em; }
-
-@keyframes blob-letter {
-  0%, 58% { translate: 0 0; scale: 1; opacity: 1; }
-  66% { translate: var(--pull) 0; scale: 0.8; opacity: 1; }
-  70%, 84% { translate: var(--pull) 0; scale: 0.55; opacity: 0; }
-  88% { translate: var(--pull) 0; scale: 0.8; opacity: 1; }
-  96%, 100% { translate: 0 0; scale: 1; opacity: 1; }
+@keyframes blob-title-letter {
+  0%, 46% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; }
+  57% { translate: var(--dx) var(--dy); scale: 0.42; rotate: 0deg; opacity: 1; }
+  60%, 70% { translate: var(--dx) var(--dy); scale: 0.12; opacity: 0; }
+  74% { translate: calc(var(--dx) * -0.28) calc(var(--dy) * -0.28); scale: 1.22; rotate: var(--spin); opacity: 1; }
+  84%, 100% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; }
 }
 
-.blob__header h2 em::after {
-  content: "";
+.blob__ball {
   position: absolute;
-  bottom: 0.02em;
-  left: 50%;
-  width: 0.7em;
-  height: 0.7em;
-  margin-left: -0.35em;
+  top: var(--ball-y, 50%);
+  left: var(--ball-x, 50%);
+  width: 0.74em;
+  height: 0.74em;
+  margin: -0.37em 0 0 -0.37em;
   border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%;
-  background: #ffc94e;
+  background: radial-gradient(circle at 34% 28%, #ffe89b, #ffc62c 44%, #f25c88 112%);
+  box-shadow: 0 0.05em 0 #a95e11, 0 0.11em 0.3em rgba(38, 20, 83, 0.45);
   opacity: 0;
-  scale: 0.25;
+  scale: 0.12;
   pointer-events: none;
-  animation: blob-gather 8s ease-in-out infinite;
+  animation: blob-title-ball 9s ease-in-out infinite;
 }
 
-@keyframes blob-gather {
-  0%, 64% { opacity: 0; scale: 0.25; rotate: 0deg; }
-  70% { opacity: 1; scale: 1.08; }
-  73% { scale: 1; }
-  78% { scale: 1.05; }
-  84% { opacity: 1; scale: 1; rotate: 360deg; }
-  89%, 100% { opacity: 0; scale: 0.25; rotate: 360deg; }
+@keyframes blob-title-ball {
+  0%, 52% { opacity: 0; scale: 0.12; rotate: 0deg; border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%; }
+  58% { opacity: 1; scale: 0.82; }
+  62% { scale: 1.14; border-radius: 62% 38% 45% 55% / 42% 58% 44% 56%; }
+  66% { scale: 0.94; border-radius: 38% 62% 55% 45% / 58% 42% 56% 44%; }
+  70% { scale: 1.06; rotate: 300deg; border-radius: 47% 53% 62% 38% / 56% 44% 57% 43%; }
+  72% { opacity: 1; scale: 1.38; rotate: 360deg; }
+  76%, 100% { opacity: 0; scale: 1.7; rotate: 360deg; }
 }
 
 /* Word Bend — the word bends. */
@@ -6585,17 +6582,73 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 
 .blob__header h2 { line-height: .69; }
 .blob__header h2 em { color: #fff3dc; }
-.blob__word { display: inline-block; }
-.blob__word--blob { color: #ffc62c; text-shadow: 0 .06em 0 #a95e11, 0 .12em 0 rgba(38, 20, 83, .48); }
-.blob__word--sort { color: #fff3dc; text-shadow: 0 .06em 0 #aa5f45, 0 .12em 0 rgba(38, 20, 83, .48); }
-.blob__word--jam { color: #f25c88; text-shadow: 0 .06em 0 #a92c53, 0 .12em 0 rgba(38, 20, 83, .48); }
-.blob__word--jam { animation: blob-sort-jam 7s ease-in-out infinite; }
+.blob-word { display: inline-block; }
 
-@keyframes blob-sort-jam {
-  0%, 62%, 100% { translate: 0 0; scale: 1; }
-  71% { translate: 0 -.045em; scale: 1.05 .94; }
-  80% { translate: 0 .018em; scale: .98 1.03; }
+/* Word Bend — the wordmark the store icon wears: a golden WORD over a white
+   BEND, both cut out of the game's deep purple. The capsules are the game's
+   own found-word marks, sweeping across a word and clearing in a different
+   colour each round; the panel and the spread run the same pair. */
+.word-word {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  -webkit-text-stroke: .035em #3b1a6b;
+  paint-order: stroke fill;
 }
+
+.word-word--word {
+  --pick-1: #e74c68;
+  --pick-2: #43b8ff;
+  --pick-3: #7bd47a;
+  color: #ffc32e;
+  text-shadow: 0 .05em 0 #c9761a, 0 .1em 0 rgba(59, 26, 107, .55);
+}
+
+.word-word--bend {
+  --pick-1: #7b3fd4;
+  --pick-2: #ff9d2e;
+  --pick-3: #ff5ea8;
+  color: #fff8ef;
+  text-shadow: 0 .05em 0 #b39ad2, 0 .1em 0 rgba(59, 26, 107, .55);
+}
+
+/* Two clocks rather than one long list: the capsule is drawn and cleared on a
+   4s round, and the colour steps once per round over three of them. */
+.word-word::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: .04em -.14em .1em;
+  border-radius: 999px;
+  background: var(--pick-1);
+  opacity: .88;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  animation: word-pick-sweep 4s ease-in-out infinite, word-pick-colour 12s steps(1) infinite;
+}
+
+.word-word--bend::before { animation-delay: .7s; }
+
+@keyframes word-pick-sweep {
+  0%, 12% { transform: scaleX(0); opacity: .88; }
+  33%, 78% { transform: scaleX(1); opacity: .88; }
+  90%, 100% { transform: scaleX(1); opacity: 0; }
+}
+
+@keyframes word-pick-colour {
+  0% { background-color: var(--pick-1); }
+  33.34% { background-color: var(--pick-2); }
+  66.67% { background-color: var(--pick-3); }
+}
+
+/* On the panel the two words stand side by side, as the logo does. */
+.game-fold--word .game-fold__title { white-space: nowrap; }
+
+/* On the panel the three words stand in one line, the way the logo does. */
+.game-fold--blob .game-fold__title { white-space: nowrap; }
+.blob-word--blob { color: #ffc62c; text-shadow: 0 .06em 0 #a95e11, 0 .12em 0 rgba(38, 20, 83, .48); }
+.blob-word--sort { color: #fff3dc; text-shadow: 0 .06em 0 #aa5f45, 0 .12em 0 rgba(38, 20, 83, .48); }
+.blob-word--jam { color: #f25c88; text-shadow: 0 .06em 0 #a92c53, 0 .12em 0 rgba(38, 20, 83, .48); }
 
 /* Title blocks use deliberate line breaks where the original logo is stacked,
    rather than stretching a long wordmark across the whole archive row. */

@@ -22,11 +22,23 @@ const FOLD_CONTROLS = {
   lords: ["Exit orbit", "◌"],
 };
 
+// A game whose wordmark is coloured word by word wears the same one on its
+// panel as it does over the case study.
+const wordmarkOf = (item) => {
+  if (item.logoTop) {
+    return `<span class="game-fold__title-top">${item.logoTop}</span><span class="game-fold__title-main">${item.logoMain}</span>`;
+  }
+  if (item.logoParts) {
+    return item.logoParts
+      .map(([text, part]) => `<span class="${item.skin}-word ${item.skin}-word--${part}">${text}</span>`)
+      .join(" ");
+  }
+  return item.name;
+};
+
 const makeCover = (item, section) => {
   const button = document.createElement("button");
-  const wordmark = item.logoTop
-    ? `<span class="game-fold__title"><span class="game-fold__title-top">${item.logoTop}</span><span class="game-fold__title-main">${item.logoMain}</span></span>`
-    : `<span class="game-fold__title">${item.name}</span>`;
+  const wordmark = `<span class="game-fold__title">${wordmarkOf(item)}</span>`;
   button.className = `game-fold interactive${item.compact ? " game-fold--compact" : ""}${item.skin ? ` game-fold--${item.skin}` : ""}`;
   button.type = "button";
   button.setAttribute("aria-expanded", "false");
