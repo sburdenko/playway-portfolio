@@ -105,6 +105,10 @@ const samePath = (a, b) =>
 
 const mount = (root) => {
   const grid = root.querySelector(".bendfield__grid");
+  const lines = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  lines.setAttribute("class", "bendfield__lines");
+  lines.setAttribute("aria-hidden", "true");
+  lines.setAttribute("preserveAspectRatio", "none");
   const list = root.querySelector(".bendfield__words");
   const status = root.querySelector(".bendfield__status");
   const levelOut = root.querySelector("[data-level-out]");
@@ -120,23 +124,57 @@ const mount = (root) => {
   let drew = false;
   let advance = 0;
 
-  const cellAt = (index) => grid.children[index];
+  const cellAt = (index) => grid.querySelectorAll(".bendfield__cell")[index];
+
+  // The selection is one stroked line through the middle of the letters, with
+  // round caps and round joins — a bar of even width that turns corners, the
+  // way the game draws it. Colouring the tiles themselves gave beads on a
+  // string: the corners pinched and every gap showed.
+  const centreOf = (index) => {
+    const grid_box = grid.getBoundingClientRect();
+    const box = cellAt(index).getBoundingClientRect();
+    return {
+      x: box.left - grid_box.left + box.width / 2,
+      y: box.top - grid_box.top + box.height / 2,
+    };
+  };
+
+  const strokeWidth = () => {
+    const box = cellAt(0).getBoundingClientRect();
+    return box.width * 0.86;
+  };
+
+  const line = (path, ink, opacity) => {
+    const points = path.map(centreOf).map(({ x, y }) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+    const shape = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    shape.setAttribute("points", points);
+    shape.setAttribute("fill", "none");
+    shape.setAttribute("stroke", ink);
+    shape.setAttribute("stroke-width", String(strokeWidth()));
+    shape.setAttribute("stroke-linecap", "round");
+    shape.setAttribute("stroke-linejoin", "round");
+    if (opacity) shape.setAttribute("stroke-opacity", String(opacity));
+    return shape;
+  };
+
+  const draw = () => {
+    if (!board || !grid.querySelector(".bendfield__cell")) return;
+    const box = grid.getBoundingClientRect();
+    lines.setAttribute("viewBox", `0 0 ${box.width} ${box.height}`);
+    lines.replaceChildren(
+      ...board.words.filter((word) => word.found).map((word) => line(word.path, word.ink)),
+      ...(trace.length ? [line(trace, "#efe9ff", 0.42)] : []),
+    );
+  };
 
   const paintTrace = () => {
-    [...grid.children].forEach((cell, i) => cell.toggleAttribute("data-live", trace.includes(i)));
+    grid.querySelectorAll(".bendfield__cell").forEach((cell, i) => cell.toggleAttribute("data-live", trace.includes(i)));
+    draw();
   };
 
   const paintWord = (word) => {
-    word.path.forEach((index, i) => {
-      const cell = cellAt(index);
-      cell.style.setProperty("--ink", word.ink);
-      cell.setAttribute("data-found", "");
-      const prev = word.path[i - 1];
-      const next = word.path[i + 1];
-      const link = (other) => STEPS.find((step) => stepFrom(index, step, board.size) === other)?.to;
-      if (prev !== undefined) cell.setAttribute("data-prev", link(prev));
-      if (next !== undefined) cell.setAttribute("data-next", link(next));
-    });
+    word.path.forEach((index) => cellAt(index).setAttribute("data-found", ""));
+    draw();
   };
 
   const paintList = () => {
@@ -164,7 +202,7 @@ const mount = (root) => {
     drew = false;
     root.style.setProperty("--size", String(board.size));
     levelOut.textContent = String(level + 1);
-    grid.replaceChildren(...board.cells.map((cell, index) => {
+    grid.replaceChildren(lines, ...board.cells.map((cell, index) => {
       const button = document.createElement("button");
       button.className = "bendfield__cell";
       button.type = "button";
@@ -173,6 +211,7 @@ const mount = (root) => {
       return button;
     }));
     paintList();
+    draw();
     status.textContent = level === 0
       ? "Drag across neighbours to trace a word — it turns corners."
       : `Level ${level + 1}. ${board.words.length} words, and they bend more.`;
@@ -280,6 +319,7 @@ const mount = (root) => {
   });
 
   shuffle.addEventListener("click", build);
+  new ResizeObserver(draw).observe(grid);
   build();
 };
 
