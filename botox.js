@@ -2,6 +2,16 @@
 // trainee could walk round. This is that lesson: the standard 31-site chronic
 // migraine paradigm, on a head you turn, one injection at a time.
 import { CALM, onStage } from "./frames.js";
+import { fade, paletteOf } from "./app-skin.js";
+
+// VITA was a clinical white tool: a grey patient, the product's orange on
+// every site, and green once a site is done.
+const SKIN = {
+  head: "rgba(59, 59, 59, 0.2)",
+  shoulder: "rgba(59, 59, 59, 0.4)",
+  site: "#e2511e",
+  done: "#2f7f6f",
+};
 
 const BASE_DIST = 7.4;
 const IDLE_SPIN = 0.09;
@@ -159,6 +169,8 @@ const mount = (root) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const palette = paletteOf(root, SKIN);
+
   const view = { w: 0, h: 0, focal: 0 };
 
   const fit = () => {
@@ -245,8 +257,8 @@ const mount = (root) => {
         const age = Math.min(1, (clock - site.injected) / BLOOM_SECONDS);
         const spread = radius * (1.6 + age * 3.4);
         const glow = ctx.createRadialGradient(point.sx, point.sy, 0, point.sx, point.sy, spread);
-        glow.addColorStop(0, `rgba(255, 122, 184, ${0.5 * alpha})`);
-        glow.addColorStop(1, "rgba(255, 122, 184, 0)");
+        glow.addColorStop(0, fade(palette.site, 0.45 * alpha));
+        glow.addColorStop(1, fade(palette.site, 0));
         ctx.fillStyle = glow;
         ctx.beginPath();
         ctx.arc(point.sx, point.sy, spread, 0, Math.PI * 2);
@@ -254,7 +266,7 @@ const mount = (root) => {
 
         // The wave that runs out from the needle as the dose spreads.
         if (age < 1) {
-          ctx.strokeStyle = `rgba(255, 122, 184, ${(1 - age) * alpha})`;
+          ctx.strokeStyle = fade(palette.site, (1 - age) * alpha);
           ctx.lineWidth = 1.2;
           ctx.beginPath();
           ctx.arc(point.sx, point.sy, spread * 1.15, 0, Math.PI * 2);
@@ -266,16 +278,16 @@ const mount = (root) => {
       ctx.beginPath();
       ctx.arc(point.sx, point.sy, radius, 0, Math.PI * 2);
       if (site.injected > 0) {
-        ctx.fillStyle = `rgba(255, 122, 184, ${alpha})`;
+        ctx.fillStyle = fade(palette.site, alpha);
         ctx.fill();
       } else {
-        ctx.strokeStyle = hot ? `rgba(112, 242, 209, ${alpha})` : `rgba(234, 247, 255, ${0.55 * alpha})`;
+        ctx.strokeStyle = hot ? fade(palette.site, alpha) : fade(palette.shoulder, 0.9 * alpha);
         ctx.lineWidth = hot ? 1.8 : 1.1;
         ctx.stroke();
       }
 
       if (hot) {
-        ctx.strokeStyle = `rgba(112, 242, 209, ${0.8 * alpha})`;
+        ctx.strokeStyle = fade(palette.site, 0.8 * alpha);
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(point.sx, point.sy, radius + 6, 0, Math.PI * 2);
@@ -304,9 +316,9 @@ const mount = (root) => {
 
   const draw = () => {
     ctx.clearRect(0, 0, view.w, view.h);
-    stroke(SHOULDER_LINES, "rgba(234, 247, 255, 0.4)", 1.2);
-    stroke(NECK_LINES, "rgba(234, 247, 255, 0.16)", 1);
-    stroke(HEAD_LINES, "rgba(234, 247, 255, 0.16)", 1);
+    stroke(SHOULDER_LINES, palette.shoulder, 1.2);
+    stroke(NECK_LINES, palette.head, 1);
+    stroke(HEAD_LINES, palette.head, 1);
     drawSites();
   };
 

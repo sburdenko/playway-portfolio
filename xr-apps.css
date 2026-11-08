@@ -1,0 +1,1327 @@
+/* ═════════════════════════════════════════════════════════════════════════
+   The playable piece inside each XR case is a screen of the app it came from,
+   so it is dressed as that app and not as this site: the RAF100 tile is white
+   with a slate bar and a red button, the Fife tile is red and gold, the Brain
+   tile is azure, BP is white and green, and so on.
+
+   Every tile is an .app-screen. The shell reads a set of --app-* tokens, each
+   case states its own set once under [data-app], and the demos below spend
+   those tokens rather than naming a colour. The --draw-* tokens are the same
+   idea for the canvases: the scripts read them off the element, so a skin is
+   still one edit in one place.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+.app-screen {
+  /* The portfolio's own voice, kept as the fallback: a case that names no app
+     still comes out looking like the page around it. */
+  --app-ground: #0a1a26;
+  --app-stage: #07131d;
+  --app-edge: rgba(234, 247, 255, 0.2);
+  --app-ink: #eaf7ff;
+  --app-ink-soft: #a8beca;
+  --app-ink-faint: #89a8ba;
+  --app-rule: rgba(234, 247, 255, 0.2);
+  --app-line: rgba(234, 247, 255, 0.28);
+  --app-accent: #70f2d1;
+  --app-accent-ink: #07131d;
+  --app-accent-wash: rgba(112, 242, 209, 0.12);
+  --app-chrome: rgba(234, 247, 255, 0.06);
+  --app-chrome-ink: #eaf7ff;
+  --app-ui: var(--mono);
+  --app-title: var(--display);
+  --app-title-weight: 800;
+  --app-title-tracking: -0.03em;
+  --app-title-case: none;
+  --app-radius: 0px;
+
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--app-edge);
+  border-radius: var(--app-radius);
+  background: var(--app-ground);
+  font-family: var(--app-ui);
+}
+
+/* The app's own title bar. Back chevron, the screen you are on, the app's
+   name on the right — the furniture every one of these apps actually had. */
+.app-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem clamp(0.8rem, 1.6vw, 1.3rem);
+  background: var(--app-chrome);
+  color: var(--app-chrome-ink);
+}
+
+.app-bar i {
+  flex: none;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-bottom: 1.5px solid currentColor;
+  border-left: 1.5px solid currentColor;
+  opacity: 0.8;
+  rotate: 45deg;
+}
+
+.app-bar b {
+  font-family: var(--app-ui);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.app-bar span {
+  margin-left: auto;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+/* ── 01 RAF100 ──────────────────────────────────────────────────────────────
+   A white app with a slate bar, teal chips against the white, and the one red
+   button that starts things. The sky it draws on is the sky it was used under. */
+.app-screen[data-app="raf100"] {
+  --app-ground: #eef1f4;
+  --app-stage: #dbe8f1;
+  --app-edge: rgba(47, 58, 69, 0.22);
+  --app-ink: #2f3a45;
+  --app-ink-soft: #5d6d7e;
+  --app-ink-faint: #8795a2;
+  --app-rule: rgba(47, 58, 69, 0.14);
+  --app-line: rgba(47, 58, 69, 0.24);
+  --app-accent: #c8102e;
+  --app-accent-ink: #ffffff;
+  --app-accent-wash: rgba(200, 16, 46, 0.08);
+  --app-second: #5f9e8f;
+  --app-chrome: #5d6d7e;
+  --app-chrome-ink: #ffffff;
+  --app-ui: "Gill Sans", "Gill Sans MT", "Trebuchet MS", "Segoe UI", sans-serif;
+  --app-title: "Gill Sans", "Gill Sans MT", "Trebuchet MS", "Segoe UI", sans-serif;
+  --app-title-weight: 600;
+  --app-title-tracking: 0.01em;
+  --app-title-case: uppercase;
+  --app-radius: 3px;
+
+  --draw-grid: rgba(47, 58, 69, 0.1);
+  --draw-craft: #36454f;
+  --draw-ghost: rgba(54, 69, 79, 0.32);
+  --draw-slot: rgba(47, 58, 69, 0.26);
+  --draw-route: rgba(200, 16, 46, 0.45);
+  --draw-route-live: #c8102e;
+  --draw-trail: rgba(255, 255, 255, 0.9);
+}
+
+/* The service's own mark, where the app carried it. */
+.app-screen[data-app="raf100"] .squadron__stage::after {
+  content: "";
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  width: clamp(1.6rem, 2.4vw, 2.3rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.5;
+  background: radial-gradient(circle, #c8102e 0 27%, #ffffff 27% 54%, #1b3a73 54% 100%);
+}
+
+/* ── 02 In the Footsteps of Kings ───────────────────────────────────────────
+   A children's trail game: red ribbons, gold frames, everything rounded and
+   dropped on a shadow. */
+.app-screen[data-app="fife"] {
+  --app-ground: #46301c;
+  --app-stage: #8fd4ef;
+  --app-edge: rgba(242, 181, 56, 0.55);
+  --app-ink: #fff4dd;
+  --app-ink-soft: #e8cfa4;
+  --app-ink-faint: #c2a173;
+  --app-rule: rgba(242, 181, 56, 0.35);
+  --app-line: rgba(242, 181, 56, 0.55);
+  --app-accent: #f2b538;
+  --app-accent-ink: #5a2014;
+  --app-accent-wash: rgba(242, 181, 56, 0.18);
+  --app-second: #c3281f;
+  --app-chrome: #c3281f;
+  --app-chrome-ink: #ffe9b8;
+  --app-ui: "Trebuchet MS", "Segoe UI", var(--display), sans-serif;
+  --app-title: var(--display);
+  --app-title-weight: 800;
+  --app-title-case: uppercase;
+  --app-radius: 12px;
+
+  --draw-sky-top: #5ec3ea;
+  --draw-sky-bottom: #cdeaf6;
+  --draw-ground: #e3c689;
+  --draw-target: #c3281f;
+  --draw-ink: #46301c;
+  --draw-gold: #f2b538;
+}
+
+/* ── 03 The Brain in 3D ─────────────────────────────────────────────────────
+   One flat azure, white line icons, and a layer rail down the left of the
+   view: the app's whole interface is that rail. */
+.app-screen[data-app="brain"] {
+  --app-ground: #f1f4f6;
+  --app-stage: #e3eaef;
+  --app-edge: rgba(26, 42, 51, 0.18);
+  --app-ink: #16262f;
+  --app-ink-soft: #52656f;
+  --app-ink-faint: #7d8d96;
+  --app-rule: rgba(26, 42, 51, 0.14);
+  --app-line: rgba(26, 42, 51, 0.2);
+  --app-accent: #1ea2e6;
+  --app-accent-ink: #ffffff;
+  --app-accent-wash: rgba(30, 162, 230, 0.12);
+  --app-chrome: #1ea2e6;
+  --app-chrome-ink: #ffffff;
+  --app-ui: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+  --app-title: Rockwell, "Roboto Slab", Georgia, serif;
+  --app-title-weight: 700;
+  --app-title-tracking: -0.01em;
+  --app-radius: 4px;
+}
+
+/* ── 04 BP Process Lab ──────────────────────────────────────────────────────
+   White, clinical, and the only colour is the brand's green and yellow with
+   the cyan the fluid is drawn in. */
+.app-screen[data-app="bp"] {
+  --app-ground: #ffffff;
+  --app-stage: #f2f5f6;
+  --app-edge: rgba(43, 47, 49, 0.18);
+  --app-ink: #24282a;
+  --app-ink-soft: #5c6468;
+  --app-ink-faint: #8b9397;
+  --app-rule: rgba(43, 47, 49, 0.12);
+  --app-line: rgba(43, 47, 49, 0.2);
+  --app-accent: #009639;
+  --app-accent-ink: #ffffff;
+  --app-accent-wash: rgba(0, 150, 57, 0.1);
+  --app-second: #ffe800;
+  --app-chrome: #ffffff;
+  --app-chrome-ink: #006f3c;
+  --app-ui: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title-weight: 700;
+  --app-title-tracking: -0.02em;
+  --app-radius: 3px;
+
+  --draw-sky: #e7edef;
+  --draw-rock: rgba(43, 47, 49, 0.1);
+  --draw-strata: rgba(43, 47, 49, 0.16);
+  --draw-structure: #4a5457;
+  --draw-well: #24282a;
+  --draw-pay: rgba(0, 150, 57, 0.28);
+  --draw-flow: #29c5f6;
+}
+
+/* ── 05 Carlton Books / iSpace ──────────────────────────────────────────────
+   The book is printed white and cyan on black, with lime for anything
+   measured. The app is read off those pages, so it carries them. */
+.app-screen[data-app="carlton"] {
+  --app-ground: #05070e;
+  --app-stage: #02030a;
+  --app-edge: rgba(53, 195, 243, 0.3);
+  --app-ink: #ffffff;
+  --app-ink-soft: #9fb2c4;
+  --app-ink-faint: #70889c;
+  --app-rule: rgba(159, 178, 196, 0.24);
+  --app-line: rgba(159, 178, 196, 0.32);
+  --app-accent: #35c3f3;
+  --app-accent-ink: #02030a;
+  --app-accent-wash: rgba(53, 195, 243, 0.14);
+  --app-second: #c3e548;
+  --app-chrome: #0d1626;
+  --app-chrome-ink: #35c3f3;
+  --app-ui: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title-weight: 700;
+  --app-title-tracking: 0.02em;
+  --app-title-case: uppercase;
+  --app-radius: 2px;
+}
+
+/* ── 06 Rigby & Rigby ───────────────────────────────────────────────────────
+   The practice shows its work as a white card model under gallery light, so
+   the tile is that: paper, graphite and one ivory volume. */
+.app-screen[data-app="rigby"] {
+  --app-ground: #f5f4f2;
+  --app-stage: #eceae7;
+  --app-edge: rgba(35, 38, 42, 0.18);
+  --app-ink: #23262a;
+  --app-ink-soft: #6b7074;
+  --app-ink-faint: #9aa0a4;
+  --app-rule: rgba(35, 38, 42, 0.13);
+  --app-line: rgba(35, 38, 42, 0.2);
+  --app-accent: #23262a;
+  --app-accent-ink: #f5f4f2;
+  --app-accent-wash: rgba(35, 38, 42, 0.07);
+  --app-chrome: #ffffff;
+  --app-chrome-ink: #23262a;
+  --app-ui: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title-weight: 500;
+  --app-title-tracking: 0.04em;
+  --app-title-case: uppercase;
+  --app-radius: 2px;
+
+  --draw-paper: #eceae7;
+  --draw-grid: rgba(35, 38, 42, 0.07);
+  --draw-roads: rgba(35, 38, 42, 0.2);
+  --draw-context: rgba(35, 38, 42, 0.3);
+  --draw-trees: rgba(60, 86, 58, 0.5);
+  --draw-scheme: #23262a;
+}
+
+/* ── 07 Knebworth House ─────────────────────────────────────────────────────
+   A heritage time machine: gold tabs in small caps over the scene, parchment
+   under them, and burnt orange for the century you are standing in. */
+.app-screen[data-app="knebworth"] {
+  --app-ground: #241d16;
+  --app-stage: #3b3229;
+  --app-edge: rgba(217, 164, 52, 0.5);
+  --app-ink: #f6e8c8;
+  --app-ink-soft: #d3bc92;
+  --app-ink-faint: #a8936e;
+  --app-rule: rgba(217, 164, 52, 0.3);
+  --app-line: rgba(217, 164, 52, 0.5);
+  --app-accent: #d9a434;
+  --app-accent-ink: #2b1d0b;
+  --app-accent-wash: rgba(217, 164, 52, 0.16);
+  --app-second: #cf6a21;
+  --app-chrome: #3a2a16;
+  --app-chrome-ink: #e9c877;
+  --app-ui: Georgia, "Hoefler Text", "Times New Roman", serif;
+  --app-title: Georgia, "Hoefler Text", "Times New Roman", serif;
+  --app-title-weight: 700;
+  --app-title-tracking: 0.02em;
+  --app-radius: 6px;
+}
+
+/* ── 08 Allergan / VITA ─────────────────────────────────────────────────────
+   Virtual Injection Training: a clinical white tool with the product's
+   orange-red on every number that matters. */
+.app-screen[data-app="allergan"] {
+  --app-ground: #ffffff;
+  --app-stage: #f4f4f4;
+  --app-edge: rgba(59, 59, 59, 0.18);
+  --app-ink: #2e2e2e;
+  --app-ink-soft: #616161;
+  --app-ink-faint: #8f8f8f;
+  --app-rule: rgba(59, 59, 59, 0.12);
+  --app-line: rgba(59, 59, 59, 0.2);
+  --app-accent: #e2511e;
+  --app-accent-ink: #ffffff;
+  --app-accent-wash: rgba(226, 81, 30, 0.1);
+  --app-second: #2f7f6f;
+  --app-chrome: #ffffff;
+  --app-chrome-ink: #e2511e;
+  --app-ui: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --app-title-weight: 700;
+  --app-title-tracking: -0.02em;
+  --app-radius: 3px;
+
+  --draw-head: rgba(59, 59, 59, 0.3);
+  --draw-shoulder: rgba(59, 59, 59, 0.62);
+  --draw-site: #e2511e;
+  --draw-done: #2f7f6f;
+}
+
+/* A white app bar needs a hairline under it or it melts into the tile. */
+.app-screen[data-app="bp"] .app-bar,
+.app-screen[data-app="allergan"] .app-bar,
+.app-screen[data-app="rigby"] .app-bar { border-bottom: 1px solid var(--app-rule); }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   Shared furniture. Each demo below is laid out as it always was; what it
+   draws with now comes from the skin above.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+.app-screen > .anatomy,
+.app-screen > .rig,
+.app-screen > .orrery,
+.app-screen > .botox,
+.app-screen > .archer,
+.app-screen > .squadron,
+.app-screen > .eras,
+.app-screen > .model { margin: 0; border: 0; background: none; }
+
+/* An open case is washed by the colour of the app it is about, so the page
+   round the tile belongs to it too. */
+.xr-case[data-app="raf100"] { background: linear-gradient(90deg, transparent, rgba(200, 16, 46, 0.07)); }
+.xr-case[data-app="fife"] { background: linear-gradient(90deg, transparent, rgba(242, 181, 56, 0.07)); }
+.xr-case[data-app="brain"] { background: linear-gradient(90deg, transparent, rgba(30, 162, 230, 0.08)); }
+.xr-case[data-app="bp"] { background: linear-gradient(90deg, transparent, rgba(0, 150, 57, 0.08)); }
+.xr-case[data-app="carlton"] { background: linear-gradient(90deg, transparent, rgba(53, 195, 243, 0.07)); }
+.xr-case[data-app="rigby"] { background: linear-gradient(90deg, transparent, rgba(234, 232, 231, 0.06)); }
+.xr-case[data-app="knebworth"] { background: linear-gradient(90deg, transparent, rgba(217, 164, 52, 0.08)); }
+.xr-case[data-app="allergan"] { background: linear-gradient(90deg, transparent, rgba(226, 81, 30, 0.07)); }
+
+/* Where the tile goes in the case's media grid. */
+.xr-case--brain .app-screen,
+.xr-case--bp .app-screen,
+.xr-case--fife .app-screen { grid-column: 2; }
+.xr-case--raf .app-screen,
+.xr-case--carlton .app-screen,
+.xr-case[data-app="knebworth"] .app-screen,
+.xr-case--allergan .app-screen { grid-column: 1 / -1; }
+
+.xr-case--brain .xr-film,
+.xr-case--fife .xr-film,
+.xr-case--carlton .xr-film,
+.xr-case--allergan .xr-film { grid-column: 1; max-width: none; }
+
+/* ── Layered anatomy ─────────────────────────────────────────────────────── */
+.anatomy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 8.2;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+}
+
+/* The app's layer rail: flat azure keys stacked against the left edge of the
+   view itself, each one a picture of what it switches off. */
+.anatomy__toggles {
+  z-index: 1;
+  grid-area: 1 / 1;
+  align-self: center;
+  justify-self: start;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.anatomy__toggles button {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  width: clamp(3.1rem, 5vw, 4rem);
+  padding: 0.5rem 0.3rem;
+  border: 0;
+  background: var(--app-accent);
+  color: var(--app-accent-ink);
+  font-family: var(--app-ui);
+  font-size: 0.44rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  opacity: 0.42;
+  transition: opacity 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.anatomy__toggles button svg { width: 1.3rem; height: 1.3rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.anatomy__toggles button:hover { opacity: 0.75; }
+.anatomy__toggles button[aria-pressed="true"] { opacity: 1; }
+
+.anatomy__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+/* The readout sits on the floor of the panel, level with the head's chin. */
+.anatomy__panel .anatomy__hud { margin-top: auto; }
+
+.anatomy__stage {
+  position: relative;
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(30, 162, 230, 0.12), transparent 62%),
+    var(--app-stage);
+}
+
+/* A scanner pass, the way the app reads a body before it draws one. */
+.anatomy__stage::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 14%;
+  pointer-events: none;
+  background: linear-gradient(rgba(30, 162, 230, 0), rgba(30, 162, 230, 0.22), rgba(30, 162, 230, 0));
+  animation: anatomy-scan 5.5s ease-in-out infinite;
+}
+
+@keyframes anatomy-scan {
+  0%, 100% { top: -16%; }
+  50% { top: 102%; }
+}
+
+.anatomy__figure { width: auto; max-width: 100%; height: 100%; overflow: visible; }
+
+.anatomy__figure g {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 0.45s var(--ease);
+}
+
+.anatomy__figure g[data-hidden] { opacity: 0; }
+
+.anatomy[data-focus] .anatomy__figure g:not([data-hidden]) { opacity: 0.22; }
+.anatomy[data-focus="skin"] [data-group="skin"],
+.anatomy[data-focus="vessels"] [data-group="vessels"],
+.anatomy[data-focus="skull"] [data-group="skull"],
+.anatomy[data-focus="brain"] [data-group="brain"],
+.anatomy[data-focus="eyes"] [data-group="eyes"] { opacity: 1; }
+
+/* The app colours a body the way an anatomy plate does, not the way a HUD
+   does: skin sand, muscle red, bone bone, vessels blue. */
+.anatomy__figure [data-group="skin"] { stroke: #e0a479; }
+.anatomy__figure [data-group="vessels"] { stroke: #d8453f; stroke-width: 1.4; }
+.anatomy__figure [data-group="skull"] { stroke: #c8b48a; }
+.anatomy__figure [data-group="brain"] { stroke: #1ea2e6; }
+.anatomy__figure [data-group="eyes"] { stroke: #2f7f6f; }
+.anatomy__figure .anatomy__iris { fill: #2f7f6f; stroke: none; }
+
+.anatomy__panel > span {
+  color: var(--app-accent);
+  font-family: var(--app-ui);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.anatomy__panel > p {
+  margin: 0.6rem 0 1rem;
+  color: var(--app-ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.anatomy__hud {
+  display: flex;
+  gap: 1.4rem;
+  margin-top: 1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+.anatomy__hud span { display: grid; gap: 0.3rem; }
+.anatomy__hud b { color: var(--app-accent); font-family: var(--app-title); font-size: 1.3rem; font-weight: var(--app-title-weight); line-height: 1; text-transform: capitalize; }
+.anatomy__hud i { color: var(--app-ink-faint); font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* ── BP: one well in section ─────────────────────────────────────────────── */
+.rig {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 8.2;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+}
+
+.rig__stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--app-radius);
+  background: var(--app-stage);
+}
+
+.rig__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.rig__canvas:active { cursor: grabbing; }
+.rig__canvas:focus-visible { outline: 1px solid var(--app-accent); outline-offset: -1px; }
+
+.rig__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.rig__panel > span {
+  color: var(--app-accent);
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rig__panel > p {
+  margin: 0;
+  color: var(--app-ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.rig__key {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--app-ink);
+  font-size: 0.6rem;
+}
+
+.rig__key li { display: flex; align-items: center; gap: 0.55rem; }
+
+.rig__key i {
+  width: 1.1rem;
+  height: 0;
+  border-top: 2px solid;
+  flex: none;
+}
+
+.rig__key i[data-key="structure"] { color: #4a5457; }
+.rig__key i[data-key="well"] { color: #24282a; }
+.rig__key i[data-key="pay"] { color: var(--app-accent); }
+
+/* The readout sits on the floor of the panel, level with the seabed. */
+.rig__hud {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+.rig__hud span { display: grid; gap: 0.3rem; }
+.rig__hud b { color: var(--app-accent); font-family: var(--app-title); font-size: 1.3rem; font-weight: var(--app-title-weight); line-height: 1; }
+.rig__hud i { color: var(--app-ink-faint); font-size: 0.45rem; font-style: normal; letter-spacing: 0.12em; text-transform: uppercase; }
+.rig__hint { margin: 0; color: var(--app-ink-faint); font-size: 0.45rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* One screenshot beside it, on the same 16:9 as every other tile in the feed. */
+.xr-case--bp .xr-case__media > img {
+  grid-column: 1;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+/* ── Carlton: the solar system the book is about ─────────────────────────── */
+.xr-case--carlton .xr-case__media > img {
+  grid-column: 2;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+.orrery {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.32fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 5.3;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+}
+
+.orrery__stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(53, 195, 243, 0.08), transparent 62%),
+    var(--app-stage);
+}
+
+.orrery__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.orrery__canvas:active { cursor: grabbing; }
+.orrery__canvas:focus-visible { outline: 1px solid var(--app-accent); outline-offset: -1px; }
+
+.orrery__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.orrery__panel > span {
+  color: var(--app-accent);
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.orrery__panel > b {
+  color: var(--app-ink);
+  font-family: var(--app-title);
+  font-size: clamp(1.2rem, 1.9vw, 1.8rem);
+  font-weight: var(--app-title-weight);
+  line-height: 1.05;
+  letter-spacing: var(--app-title-tracking);
+  text-transform: var(--app-title-case);
+}
+
+.orrery__panel > p {
+  margin: 0;
+  color: var(--app-ink-soft);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.orrery__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.2rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+.orrery__hud span { display: grid; gap: 0.25rem; align-content: start; }
+.orrery__hud b { color: var(--app-second); font-family: var(--app-title); font-size: 0.95rem; font-weight: var(--app-title-weight); line-height: 1.05; }
+.orrery__hud i { color: var(--app-ink-faint); font-size: 0.42rem; font-style: normal; line-height: 1.4; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.orrery__hint,
+.orrery__zoom {
+  margin: 0;
+  color: var(--app-ink-faint);
+  font-size: 0.44rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.orrery__hint { grid-column: 1; }
+.orrery__zoom { grid-column: 2; justify-self: end; }
+.orrery__zoom b { color: var(--app-accent); font-size: 0.44rem; font-weight: 700; }
+
+/* ── Allergan: the procedure on a patient ────────────────────────────────── */
+.xr-case--allergan .xr-case__media > img {
+  grid-column: 2;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.botox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.34fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 6;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+}
+
+.botox__stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--app-radius);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(226, 81, 30, 0.07), transparent 60%),
+    var(--app-stage);
+}
+
+.botox__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.botox__canvas:active { cursor: grabbing; }
+.botox__canvas:focus-visible { outline: 1px solid var(--app-accent); outline-offset: -1px; }
+
+.botox__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.botox__panel > span {
+  color: var(--app-accent);
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.botox__panel > b {
+  color: var(--app-ink);
+  font-family: var(--app-title);
+  font-size: clamp(1.15rem, 1.8vw, 1.7rem);
+  font-weight: var(--app-title-weight);
+  line-height: 1.05;
+  letter-spacing: var(--app-title-tracking);
+}
+
+.botox__panel > p {
+  margin: 0;
+  color: var(--app-ink-soft);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.botox__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem 1.2rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+.botox__hud span { display: grid; gap: 0.25rem; align-content: start; }
+.botox__hud b { color: var(--app-accent); font-family: var(--app-title); font-size: 1.15rem; font-weight: var(--app-title-weight); line-height: 1; }
+.botox__hud i { color: var(--app-ink-faint); font-size: 0.42rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.botox__hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--app-ink-faint);
+  font-size: 0.44rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.botox__reset {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: var(--app-radius);
+  background: var(--app-accent);
+  color: var(--app-accent-ink);
+  font-family: var(--app-ui);
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.3s var(--ease);
+}
+
+.botox__reset:hover { filter: brightness(1.12); }
+
+/* Finished, the count stops being a target and becomes a result. */
+.botox[data-complete] .botox__hud b { color: var(--app-second); }
+
+/* ── Fife: a task from the trail ─────────────────────────────────────────── */
+.archer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.44fr);
+  align-items: stretch;
+  aspect-ratio: 16 / 8.2;
+  gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+}
+
+.archer__stage {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--app-accent);
+  border-radius: var(--app-radius);
+  background: var(--app-stage);
+}
+
+.archer__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.archer__canvas:focus-visible { outline: 1px solid var(--app-accent); outline-offset: -1px; }
+
+.archer__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.archer__panel > span {
+  color: var(--app-accent);
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.archer__panel > b {
+  color: var(--app-ink);
+  font-family: var(--app-title);
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  font-weight: var(--app-title-weight);
+  line-height: 1.05;
+  letter-spacing: var(--app-title-tracking);
+  text-transform: var(--app-title-case);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.archer__panel > p {
+  margin: 0;
+  color: var(--app-ink-soft);
+  font-size: 0.62rem;
+  line-height: 1.45;
+}
+
+.archer__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 0.9rem;
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+/* The trail's scores were red pills with a gold edge; so are these. */
+.archer__hud span {
+  display: grid;
+  gap: 0.2rem;
+  align-content: start;
+  justify-items: center;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--app-accent);
+  border-radius: 999px;
+  background: var(--app-second);
+}
+
+.archer__hud b { color: var(--app-ink); font-family: var(--app-title); font-size: 0.95rem; font-weight: var(--app-title-weight); line-height: 1; }
+.archer__hud i { color: var(--app-accent); font-size: 0.38rem; font-style: normal; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.archer__again {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 0.5rem 1.1rem;
+  border: 2px solid var(--app-accent);
+  border-radius: 999px;
+  background: var(--app-second);
+  color: var(--app-ink);
+  font-family: var(--app-ui);
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.archer__again:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+/* The medal the round earned, in the colour it is actually made of. */
+.archer[data-medal="gold"] .archer__panel > b { color: #ffd76a; }
+.archer[data-medal="silver"] .archer__panel > b { color: #e6ecf0; }
+.archer[data-medal="bronze"] .archer__panel > b { color: #e0a76b; }
+
+/* ── RAF100: build the flight, draw the route, fly it ────────────────────── */
+.squadron {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.36fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  aspect-ratio: 16 / 7.2;
+  gap: clamp(0.7rem, 1.2vw, 1.2rem);
+  padding: clamp(1.1rem, 2vw, 1.8rem);
+}
+
+/* The app's step control: one segmented bar, the step you are on filled in. */
+.squadron__tabs {
+  grid-column: 1 / -1;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+}
+
+.squadron__tabs button {
+  flex: 1;
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-left: 1px solid var(--app-line);
+  background: none;
+  color: var(--app-ink-soft);
+  font-family: var(--app-ui);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.4s var(--ease), background 0.4s var(--ease);
+}
+
+.squadron__tabs button:first-child { border-left: 0; }
+.squadron__tabs button:hover { background: var(--app-accent-wash); color: var(--app-ink); }
+
+.squadron__tabs button[aria-current="true"] {
+  background: var(--app-chrome);
+  color: var(--app-chrome-ink);
+}
+
+.squadron__stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--app-radius);
+  background: var(--app-stage);
+}
+
+.squadron__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+.squadron__canvas:active { cursor: grabbing; }
+.squadron__canvas:focus-visible { outline: 1px solid var(--app-accent); outline-offset: -1px; }
+
+.squadron__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.squadron__panel > b {
+  color: var(--app-ink);
+  font-family: var(--app-title);
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  font-weight: var(--app-title-weight);
+  line-height: 1.05;
+  letter-spacing: var(--app-title-tracking);
+  text-transform: var(--app-title-case);
+}
+
+.squadron__panel > p {
+  margin: 0;
+  color: var(--app-ink-soft);
+  font-size: 0.62rem;
+  line-height: 1.45;
+  min-height: 2.6em;
+}
+
+.squadron__group { display: grid; gap: 0.35rem; min-height: 0; }
+
+.squadron__group > span {
+  color: var(--app-ink-faint);
+  font-size: 0.42rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.squadron__group ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each aircraft is one of the app's list rows: a white card with a rule under
+   it and the year where the app put the date. */
+.squadron__group button {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.38rem 0.6rem;
+  border: 1px solid var(--app-rule);
+  border-radius: var(--app-radius);
+  background: #ffffff;
+  color: var(--app-ink);
+  font-family: var(--app-ui);
+  font-size: 0.48rem;
+  letter-spacing: 0.02em;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.squadron__group button:hover:not(:disabled) { border-color: var(--app-second); box-shadow: 0 1px 0 var(--app-second); }
+.squadron__group button:disabled { opacity: 0.4; cursor: default; }
+.squadron__group button b { font-weight: 600; }
+.squadron__group button i { color: var(--app-ink-faint); font-size: 0.4rem; font-style: normal; }
+
+.squadron__shapes button { padding: 0.38rem 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.squadron__shapes button[aria-pressed="true"] { border-color: var(--app-second); background: var(--app-second); color: #ffffff; }
+.squadron__shapes button[aria-pressed="true"] i { color: rgba(255, 255, 255, 0.75); }
+
+.squadron__group--roster ul { flex-direction: column; }
+.squadron__group--roster button { width: 100%; }
+.squadron__empty { color: var(--app-ink-faint); font-size: 0.44rem; letter-spacing: 0.04em; }
+
+.squadron__hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  margin-top: auto;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+.squadron__hud span { display: grid; gap: 0.2rem; align-content: start; }
+.squadron__hud b { color: var(--app-ink); font-family: var(--app-title); font-size: 1rem; font-weight: var(--app-title-weight); line-height: 1; }
+.squadron__hud i { color: var(--app-ink-faint); font-size: 0.4rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.squadron__hint {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--app-ink-faint);
+  font-size: 0.42rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* The app had one red bar per screen and it was the thing you pressed. */
+.squadron__clear {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 0;
+  border-radius: var(--app-radius);
+  background: var(--app-accent);
+  color: var(--app-accent-ink);
+  font-family: var(--app-ui);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: filter 0.3s var(--ease);
+}
+
+.squadron__clear:hover { filter: brightness(1.12); }
+
+/* Only the step you are on needs its controls. */
+.squadron[data-screen="route"] .squadron__group--pick,
+.squadron[data-screen="flight"] .squadron__group--pick,
+.squadron[data-screen="flight"] .squadron__group--roster { display: none; }
+
+/* ── Knebworth: the century dial ─────────────────────────────────────────── */
+.eras {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.7fr);
+  align-items: center;
+  gap: 3vw;
+  padding: clamp(1.4rem, 2.6vw, 2.4rem);
+}
+
+.eras__stage {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--app-radius);
+  background:
+    linear-gradient(to top, rgba(217, 164, 52, 0.14), transparent 60%),
+    var(--app-stage);
+}
+
+.eras__figure { width: min(100%, 26rem); height: auto; }
+
+.eras__figure g {
+  fill: none;
+  stroke: var(--app-ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 0.5s var(--ease);
+}
+
+.eras__figure g[data-hidden] { opacity: 0; }
+.eras__figure .eras__ground { stroke: var(--app-accent); }
+.eras__figure .eras__beam { stroke: rgba(217, 164, 52, 0.55); stroke-width: 1.4; }
+
+.eras__panel > span {
+  color: var(--app-accent);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eras__panel > p {
+  margin: 0.9rem 0 1.4rem;
+  color: var(--app-ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+/* The app's era bar: gold plates in small caps, the one you are standing in
+   burnt orange. */
+.eras__dial { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.eras__dial button {
+  display: grid;
+  gap: 0.1rem;
+  justify-items: center;
+  padding: 0.45rem 0.8rem;
+  border: 2px solid #b8842a;
+  border-radius: var(--app-radius);
+  background: linear-gradient(#f0c86f, #d9a434);
+  color: #43300f;
+  font-family: var(--app-title);
+  font-size: 0.6rem;
+  font-weight: 700;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: filter 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.eras__dial button i { font-size: 0.42rem; font-style: normal; font-variant-caps: normal; opacity: 0.7; }
+.eras__dial button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.eras__dial button[aria-pressed="true"] {
+  border-color: #8e3f12;
+  background: linear-gradient(#e08a3c, #cf6a21);
+  color: #fff3dd;
+}
+
+.eras__hud {
+  display: flex;
+  gap: 1.8rem;
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+.eras__hud span { display: grid; gap: 0.3rem; }
+.eras__hud b { color: var(--app-accent); font-family: var(--app-title); font-size: 1.15rem; font-weight: var(--app-title-weight); line-height: 1.15; }
+.eras__hud i { color: var(--app-ink-faint); font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* ── Rigby & Rigby: the massing model ────────────────────────────────────── */
+.model {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.62fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 3vw;
+  padding: clamp(1.4rem, 2.6vw, 2.4rem);
+}
+
+.model__panel > span {
+  color: var(--app-ink-faint);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.model__panel > p {
+  margin: 0.9rem 0 1.4rem;
+  color: var(--app-ink-soft);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.model__hud {
+  display: flex;
+  gap: 1.8rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--app-rule);
+}
+
+.model__hud span { display: grid; gap: 0.3rem; }
+.model__hud b { color: var(--app-ink); font-family: var(--app-title); font-size: 1.3rem; font-weight: var(--app-title-weight); line-height: 1; font-variant-numeric: tabular-nums; }
+.model__hud i { color: var(--app-ink-faint); font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.model__hint {
+  margin: 1rem 0 0;
+  color: var(--app-ink-faint);
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.model__canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 460 / 320;
+  border: 1px solid var(--app-rule);
+  border-radius: var(--app-radius);
+  background: var(--app-stage);
+  cursor: grab;
+  touch-action: none;
+}
+
+.model__canvas:active { cursor: grabbing; }
+.model__canvas:focus-visible { outline: 2px solid var(--app-accent); outline-offset: 2px; }
+
+/* The site model sits beside its render, not under it. */
+.xr-case__media:has(.model) > img { grid-column: 1; }
+.xr-case__media:has(.model) .app-screen { grid-column: 2; }
+
+.model__layers { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+
+.model__layers button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--app-line);
+  border-radius: var(--app-radius);
+  background: #ffffff;
+  color: var(--app-ink-soft);
+  font-family: var(--app-ui);
+  font-size: 0.48rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.model__layers button:hover { border-color: var(--app-ink); color: var(--app-ink); }
+.model__layers button[aria-pressed="true"] {
+  border-color: var(--app-ink);
+  background: var(--app-ink);
+  color: var(--app-accent-ink);
+}
+
+/* ── Phones: every tile becomes one column ───────────────────────────────── */
+@media (max-width: 720px) {
+  .anatomy,
+  .rig,
+  .eras,
+  .model,
+  .orrery,
+  .botox,
+  .archer,
+  .squadron {
+    grid-template-columns: 1fr;
+    aspect-ratio: auto;
+    gap: 1.4rem;
+  }
+
+  .xr-case--brain .app-screen,
+  .xr-case--bp .app-screen,
+  .xr-case--fife .app-screen,
+  .xr-case[data-app="knebworth"] .app-screen,
+  .xr-case__media:has(.model) .app-screen { grid-column: auto; }
+
+  .xr-case--carlton .xr-case__media > img,
+  .xr-case--allergan .xr-case__media > img { grid-column: auto; }
+
+  .anatomy__toggles { grid-area: auto; grid-auto-flow: column; justify-content: start; }
+  .anatomy__stage { grid-area: auto; }
+  .anatomy__toggles button { width: auto; min-width: 3.1rem; }
+  .anatomy__figure { width: min(100%, 14rem); height: auto; }
+  .anatomy__stage { min-height: 15rem; }
+  .rig__stage { aspect-ratio: 16 / 10; }
+  .orrery__stage { aspect-ratio: 1 / 1; }
+  .botox__stage { aspect-ratio: 3 / 4; }
+  .archer__stage { aspect-ratio: 16 / 10; }
+  .squadron { grid-template-rows: auto auto auto; }
+  .squadron__stage { aspect-ratio: 4 / 3; }
+}

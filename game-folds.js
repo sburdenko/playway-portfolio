@@ -1,17 +1,26 @@
 import { CALM } from "./frames.js";
 import { GAMES } from "./site-data.js";
 
-const XR_PALETTE = [
-  ["#102b3c", "#eaf7ff", "#70f2d1"],
-  ["#123b38", "#eaf7ff", "#70f2d1"],
-  ["#291f48", "#eaf7ff", "#a98cff"],
-  ["#2f390f", "#f3ffd0", "#dfff36"],
-];
+// A closed XR case wears the colours of the app inside it, the same way a
+// closed game wears its own. The ground, the ink and the one accent are taken
+// from the app itself: RAF's slate and red, bp's white and green, and so on.
+const XR_PALETTE = {
+  raf100: ["#5d6d7e", "#ffffff", "#c8102e"],
+  fife: ["#c3281f", "#ffe9b8", "#f2b538"],
+  brain: ["#1ea2e6", "#ffffff", "#0a3c57"],
+  bp: ["#f4f6f6", "#24282a", "#009639"],
+  carlton: ["#05070e", "#ffffff", "#35c3f3"],
+  rigby: ["#f5f4f2", "#23262a", "#8a6f45"],
+  knebworth: ["#3a2a16", "#f6e8c8", "#d9a434"],
+  allergan: ["#ffffff", "#2e2e2e", "#e2511e"],
+};
+
+const XR_FALLBACK = ["#102b3c", "#eaf7ff", "#70f2d1"];
 
 const mountedCases = new Map();
 
 const FOLD_CONTROLS = {
-  bronze: ["Return to Olympus", "▲"],
+  bronze: ["Return to Olympus", "↑"],
   boon: ["Leave the hill", "↟"],
   flower: ["Close the garden", "✿"],
   boxjam: ["Stack away", "□"],
@@ -234,7 +243,7 @@ const mount = (item) => {
 const games = GAMES.map((game) => ({ ...game, kind: "Game case" }));
 
 const xrCases = [...document.querySelectorAll(".xr-case")].map((section, index) => {
-  const [bg, ink, accent] = XR_PALETTE[index % XR_PALETTE.length];
+  const [bg, ink, accent] = XR_PALETTE[section.dataset.app] || XR_FALLBACK;
   const header = section.querySelector("header span");
   const heading = section.querySelector("h2");
   const name = heading.innerText.replace(/\s+/g, " ").trim();

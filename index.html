@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600&family=Bangers&family=Bevan&family=Bowlby+One+SC&family=Chakra+Petch:wght@700&family=Fredoka:wght@600;700&family=Lilita+One&family=Orbitron:wght@700..900&family=Silkscreen:wght@400;700&family=Syne:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600&family=Bangers&family=Bevan&family=Cinzel:wght@400;500;600;700&family=Bowlby+One+SC&family=Chakra+Petch:wght@700&family=Fredoka:wght@600;700&family=Lilita+One&family=Orbitron:wght@700..900&family=Silkscreen:wght@400;700&family=Syne:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css" />
@@ -231,18 +231,20 @@
         <div class="runner reveal" data-phase="ready">
           <div class="runner__brief">
             <span>Playable fragment</span>
-            <h3>One tap.<br /><em>The centaur handles the rest.</em></h3>
+            <h3>Run. Leap.<br /><em>Take flight.</em></h3>
             <p>
-              Tap to leap an obstacle. When an enemy enters the field, the centaur
-              looses arrows automatically — keep your rhythm and stay alive.
+              Cross the sacred grove and the ruins of Athena. Leap over spikes and
+              broken platforms while your bow fires automatically. Beyond the cliff,
+              wings awaken: tap again and again to stay aloft.
             </p>
           </div>
-          <canvas class="runner__canvas" tabindex="0" aria-label="Bronze Hoof runner. Tap to jump; the centaur fires automatically when an enemy appears."></canvas>
+          <canvas class="runner__canvas" tabindex="0" aria-label="Bronze Hoof playable tribute. Tap, Space or Arrow Up to jump. Arrows fire automatically. After the cliff, tap repeatedly to flap your wings."></canvas>
           <div class="runner__hud">
             <span><b data-score>0</b><i>distance</i></span>
             <span><b data-best>0</b><i>best run</i></span>
-            <p class="runner__hint">Tap the field to start</p>
+            <p class="runner__hint" aria-live="polite">Tap the field to start</p>
           </div>
+          <div class="runner__controls"><span data-stage>I · The sacred grove</span><button class="runner__action interactive" type="button">Begin trial</button></div>
         </div>
 
         <div class="run-strip reveal" aria-label="Bronze Hoof stage gallery">

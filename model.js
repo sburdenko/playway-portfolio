@@ -1,8 +1,20 @@
 import { CALM, onStage } from "./frames.js";
+import { paletteOf } from "./app-skin.js";
+
+// The practice shows a scheme as a white card model under gallery light: paper
+// ground, graphite context, the scheme itself the darkest line on the sheet.
+const SKIN = {
+  paper: "#eceae7",
+  grid: "rgba(35, 38, 42, 0.07)",
+  roads: "rgba(35, 38, 42, 0.22)",
+  context: "rgba(35, 38, 42, 0.3)",
+  trees: "rgba(60, 86, 58, 0.55)",
+  scheme: "#23262a",
+};
 
 const WORLD = { w: 460, h: 320 };
 const FOCAL = 620;
-const DIST = 15.5;
+const DIST = 36;
 const IDLE_SPIN = 0.13;
 
 // The massing, as boxes in metres: ground floor, cantilevered upper storey,
@@ -108,6 +120,8 @@ const mount = (root) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const palette = paletteOf(root, SKIN);
+
   canvas.width = WORLD.w;
   canvas.height = WORLD.h;
 
@@ -136,7 +150,7 @@ const mount = (root) => {
   };
 
   const drawTrees = () => {
-    ctx.strokeStyle = "rgba(112, 242, 209, 0.75)";
+    ctx.strokeStyle = palette.trees;
     ctx.lineWidth = 1;
     TREES.forEach((tree) => {
       const foot = project({ x: tree.x, y: 0, z: tree.z }, yaw, pitch);
@@ -153,15 +167,15 @@ const mount = (root) => {
   };
 
   const draw = () => {
-    ctx.fillStyle = "#07131d";
+    ctx.fillStyle = palette.paper;
     ctx.fillRect(0, 0, WORLD.w, WORLD.h);
     if (shown.has("site")) {
-      stroke(GRID, "rgba(112, 242, 209, 0.14)", 1);
-      stroke(ROADS, "rgba(112, 242, 209, 0.5)", 1.4);
+      stroke(GRID, palette.grid, 1);
+      stroke(ROADS, palette.roads, 1.4);
     }
-    if (shown.has("context")) stroke(CONTEXT_EDGES, "rgba(168, 190, 202, 0.45)", 1);
+    if (shown.has("context")) stroke(CONTEXT_EDGES, palette.context, 1);
     if (shown.has("trees")) drawTrees();
-    if (shown.has("massing")) stroke(MASSING_EDGES, "rgba(234, 247, 255, 0.9)", 1.15);
+    if (shown.has("massing")) stroke(MASSING_EDGES, palette.scheme, 1.3);
   };
 
   const loop = (now) => {

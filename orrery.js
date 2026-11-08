@@ -45,13 +45,13 @@ const PLANETS = [
   },
   {
     name: "Earth", au: 1, mkm: 149.6, years: 1, day: "24 hours", km: 6371,
-    tilt: 0, node: 0, colour: "#70f2d1", moonPlane: 5.1,
+    tilt: 0, node: 0, colour: "#3f9fe0", moonPlane: 5.1,
     note: "Its orbit is the flat one — every other tilt on screen is measured from it.",
     moons: [{ name: "Moon", km: 1737, r: 60.3, days: 27.3, kkm: 384 }],
   },
   {
     name: "Mars", au: 1.52, mkm: 227.9, years: 1.88, day: "24.6 hours", km: 3390,
-    tilt: 1.85, node: 49.6, colour: "#ff7ab8", moonPlane: 1.1, moons: [],
+    tilt: 1.85, node: 49.6, colour: "#c4553a", moonPlane: 1.1, moons: [],
     note: "Half Earth's width. Its two moons are 11 km rocks — too small to draw honestly.",
   },
   {
@@ -67,7 +67,7 @@ const PLANETS = [
   },
   {
     name: "Saturn", au: 9.54, mkm: 1434, years: 29.4, day: "10.7 hours", km: 58232,
-    tilt: 2.49, node: 113.7, colour: "#eaf7ff", ring: true, moonPlane: 26.7,
+    tilt: 2.49, node: 113.7, colour: "#e8d7a8", ring: true, moonPlane: 26.7,
     note: "Rings of ice and rock, and barely denser than water.",
     moons: [
       { name: "Rhea", km: 764, r: 8.7, days: 4.52, kkm: 527 },
@@ -308,7 +308,7 @@ const mount = (root) => {
     planet.moons.forEach((moon, moonIndex) => {
       strokeRing(
         ringOf((theta) => moonPoint(planet, moon, theta, centre)),
-        "rgba(234, 247, 255, 0.22)",
+        "rgba(159, 178, 196, 0.26)",
         1,
       );
       const position = moonPoint(planet, moon, moonAngle(moon, moonIndex), centre);
@@ -321,7 +321,7 @@ const mount = (root) => {
     targets.push({ ...body, planet, moon: null });
 
     if (planet.ring) {
-      ctx.strokeStyle = focused ? "#eaf7ff" : "rgba(234, 247, 255, 0.55)";
+      ctx.strokeStyle = focused ? "#ffffff" : "rgba(255, 255, 255, 0.5)";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.ellipse(
@@ -354,7 +354,7 @@ const mount = (root) => {
     targets.length = 0;
     ORBITS.forEach((ring, index) => {
       const lit = Boolean(held && held.planet === PLANETS[index]);
-      strokeRing(ring, lit ? "rgba(112, 242, 209, 0.55)" : "rgba(234, 247, 255, 0.16)", lit ? 1.2 : 1);
+      strokeRing(ring, lit ? "rgba(53, 195, 243, 0.75)" : "rgba(159, 178, 196, 0.2)", lit ? 1.2 : 1);
     });
     drawSun();
     PLANETS.forEach(drawPlanet);

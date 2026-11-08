@@ -2,6 +2,16 @@
 // castle, take up the bow. This is that bow: five arrows, a wind that changes
 // each shot, and the medal the app hands out at the end.
 import { onStage } from "./frames.js";
+import { fade, paletteOf } from "./app-skin.js";
+
+// The trail game was bright and storybook: a blue sky, sand underfoot, red and
+// gold on everything you could press. The skin states it; this spends it.
+const SKIN = {
+  ground: "#e3c689",
+  ink: "#46301c",
+  gold: "#f2b538",
+  target: "#c3281f",
+};
 
 const WORLD = { w: 100, h: 56 };
 const GROUND = 46;
@@ -15,18 +25,18 @@ const ARROWS = 5;
 
 // Rings from the middle out, as a fraction of the target's radius.
 const RINGS = [
-  { at: 0.2, score: 10, colour: "#ffd76a", name: "gold" },
-  { at: 0.4, score: 8, colour: "#ff7ab8", name: "red" },
-  { at: 0.6, score: 6, colour: "#70f2d1", name: "blue" },
-  { at: 0.8, score: 4, colour: "#8fb6cc", name: "black" },
-  { at: 1, score: 2, colour: "#eaf7ff", name: "outer" },
+  { at: 0.2, score: 10, colour: "#f5c53a", name: "gold" },
+  { at: 0.4, score: 8, colour: "#cf3a2c", name: "red" },
+  { at: 0.6, score: 6, colour: "#2f7fc4", name: "blue" },
+  { at: 0.8, score: 4, colour: "#3a3228", name: "black" },
+  { at: 1, score: 2, colour: "#fdf6e6", name: "outer" },
 ];
 
 const MEDALS = [
-  { from: 40, name: "Gold medal", colour: "#ffd76a" },
-  { from: 28, name: "Silver medal", colour: "#dfe9f2" },
-  { from: 16, name: "Bronze medal", colour: "#d79a63" },
-  { from: 0, name: "No medal", colour: "#89a8ba" },
+  { from: 40, name: "Gold medal", colour: "#f5c53a" },
+  { from: 28, name: "Silver medal", colour: "#e6ecf0" },
+  { from: 16, name: "Bronze medal", colour: "#e0a76b" },
+  { from: 0, name: "No medal", colour: "#c2a173" },
 ];
 
 const medalFor = (score) => MEDALS.find((medal) => score >= medal.from);
@@ -46,6 +56,7 @@ const mount = (root) => {
   const againButton = root.querySelector("[data-again]");
   if (!canvas || !stateOut || !noteOut || !scoreOut || !arrowsOut || !windOut || !againButton) return;
 
+  const skin = paletteOf(root, SKIN);
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
@@ -216,13 +227,13 @@ const mount = (root) => {
     [...RINGS].reverse().forEach((ring) => {
       ctx.beginPath();
       ctx.arc(sx(TARGET.x), sy(TARGET.y), su(TARGET.r * ring.at), 0, Math.PI * 2);
-      ctx.strokeStyle = ring.colour;
-      ctx.globalAlpha = 0.75;
-      ctx.lineWidth = 1.2;
+      ctx.fillStyle = ring.colour;
+      ctx.fill();
+      ctx.strokeStyle = fade(skin.ink, 0.35);
+      ctx.lineWidth = 1;
       ctx.stroke();
     });
-    ctx.globalAlpha = 1;
-    ctx.strokeStyle = "rgba(234, 247, 255, 0.45)";
+    ctx.strokeStyle = skin.ink;
     ctx.lineWidth = 1.4;
     ctx.beginPath();
     ctx.moveTo(sx(TARGET.x), sy(TARGET.y + TARGET.r));
@@ -234,7 +245,7 @@ const mount = (root) => {
   const drawArcher = () => {
     const hip = { x: BOW.x - 0.6, y: BOW.y + 3.4 };
     const shoulder = { x: BOW.x - 0.6, y: BOW.y + 0.4 };
-    ctx.strokeStyle = "rgba(234, 247, 255, 0.8)";
+    ctx.strokeStyle = skin.ink;
     ctx.lineWidth = 1.4;
     ctx.beginPath();
     ctx.moveTo(sx(hip.x), sy(hip.y));
@@ -270,8 +281,8 @@ const mount = (root) => {
     ctx.save();
     ctx.translate(bx, by);
     ctx.rotate(a);
-    ctx.strokeStyle = "#eaf7ff";
-    ctx.lineWidth = 1.6;
+    ctx.strokeStyle = "#7a4a21";
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(0, 0, su(3.4), -Math.PI * 0.42, Math.PI * 0.42);
     ctx.stroke();
@@ -279,7 +290,7 @@ const mount = (root) => {
     // String, pulled back by however long the shot has been held.
     const tipY = Math.sin(Math.PI * 0.42) * su(3.4);
     const tipX = Math.cos(Math.PI * 0.42) * su(3.4);
-    ctx.strokeStyle = "rgba(234, 247, 255, 0.7)";
+    ctx.strokeStyle = "#fdf6e6";
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(tipX, -tipY);
@@ -288,7 +299,7 @@ const mount = (root) => {
     ctx.stroke();
 
     if (phase === "ready" || phase === "drawing") {
-      ctx.strokeStyle = "#70f2d1";
+      ctx.strokeStyle = skin.gold;
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       ctx.moveTo(-pull, 0);
@@ -298,8 +309,8 @@ const mount = (root) => {
     ctx.restore();
 
     if (phase === "drawing") {
-      ctx.strokeStyle = "rgba(112, 242, 209, 0.85)";
-      ctx.lineWidth = 3;
+      ctx.strokeStyle = skin.target;
+      ctx.lineWidth = 4;
       ctx.beginPath();
       ctx.moveTo(sx(4), sy(GROUND + 4));
       ctx.lineTo(sx(4 + 16 * power), sy(GROUND + 4));
@@ -319,9 +330,9 @@ const mount = (root) => {
       const length = streak.len * (0.45 + strength * 0.75);
       const tailX = streak.x - dir * length;
       const grad = ctx.createLinearGradient(sx(tailX), 0, sx(streak.x), 0);
-      grad.addColorStop(0, "rgba(112, 242, 209, 0)");
-      grad.addColorStop(0.65, `rgba(112, 242, 209, ${0.09 + strength * 0.16})`);
-      grad.addColorStop(1, `rgba(112, 242, 209, ${0.16 + strength * 0.3})`);
+      grad.addColorStop(0, "rgba(255, 255, 255, 0)");
+      grad.addColorStop(0.65, `rgba(255, 255, 255, ${0.3 + strength * 0.3})`);
+      grad.addColorStop(1, `rgba(255, 255, 255, ${0.45 + strength * 0.4})`);
       ctx.strokeStyle = grad;
       ctx.lineWidth = 1;
 
@@ -343,7 +354,7 @@ const mount = (root) => {
       // The curl at the head, opening the way the wind blows.
       const radius = streak.curl * (0.4 + strength * 1.1);
       const spin = Math.sin(streak.phase) > 0 ? 1 : -1;
-      ctx.strokeStyle = `rgba(112, 242, 209, ${0.14 + strength * 0.26})`;
+      ctx.strokeStyle = `rgba(255, 255, 255, ${0.35 + strength * 0.35})`;
       ctx.beginPath();
       ctx.arc(
         sx(streak.x + dir * radius * 0.2),
@@ -374,8 +385,10 @@ const mount = (root) => {
     const box = canvas.getBoundingClientRect();
     ctx.clearRect(0, 0, box.width, box.height);
 
-    ctx.strokeStyle = "rgba(234, 247, 255, 0.28)";
-    ctx.lineWidth = 1;
+    ctx.fillStyle = skin.ground;
+    ctx.fillRect(0, sy(GROUND), box.width, box.height - sy(GROUND));
+    ctx.strokeStyle = fade(skin.ink, 0.35);
+    ctx.lineWidth = 1.4;
     ctx.beginPath();
     ctx.moveTo(sx(0), sy(GROUND));
     ctx.lineTo(sx(WORLD.w), sy(GROUND));
@@ -383,8 +396,8 @@ const mount = (root) => {
 
     drawWind();
     drawTarget();
-    landed.forEach((shaft) => drawArrow(shaft, shaft.ring ? shaft.ring.colour : "rgba(234, 247, 255, 0.35)"));
-    flying.forEach((shaft) => drawArrow({ ...shaft, angle: Math.atan2(shaft.vy, shaft.vx) }, "#eaf7ff"));
+    landed.forEach((shaft) => drawArrow(shaft, shaft.ring ? skin.ink : fade(skin.ink, 0.45)));
+    flying.forEach((shaft) => drawArrow({ ...shaft, angle: Math.atan2(shaft.vy, shaft.vx) }, skin.ink));
     drawArcher();
     drawBow();
   };

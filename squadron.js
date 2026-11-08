@@ -4,6 +4,19 @@
 // span and length are the real ones in metres, so each aircraft is drawn in
 // its own proportions rather than as a fighter of a different size.
 import { onStage } from "./frames.js";
+import { fade, paletteOf } from "./app-skin.js";
+
+// The RAF100 planner draws on chart paper, not on a HUD: slate aircraft, a red
+// route and white wake, all stated by the skin in xr-apps.css.
+const SKIN = {
+  grid: "rgba(47, 58, 69, 0.1)",
+  craft: "#36454f",
+  ghost: "rgba(54, 69, 79, 0.32)",
+  slot: "rgba(47, 58, 69, 0.28)",
+  route: "rgba(200, 16, 46, 0.5)",
+  "route-live": "#c8102e",
+  trail: "rgba(255, 255, 255, 0.8)",
+};
 
 const TYPES = [
   {
@@ -178,6 +191,8 @@ const mount = (root) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const skin = paletteOf(root, SKIN);
+
   const view = { w: 0, h: 0 };
   const fit = () => {
     const box = canvas.getBoundingClientRect();
@@ -290,13 +305,15 @@ const mount = (root) => {
     ctx.beginPath();
     SHAPES[type.id](ctx);
     ctx.restore();
-    ctx.lineWidth = ghost ? 0.9 : 1.2;
+    ctx.fillStyle = fade(colour, ghost ? 0.18 : 0.55);
+    ctx.fill();
+    ctx.lineWidth = ghost ? 0.9 : 1.3;
     ctx.strokeStyle = colour;
     ctx.stroke();
   };
 
   const drawGrid = () => {
-    ctx.strokeStyle = "rgba(112, 242, 209, 0.12)";
+    ctx.strokeStyle = skin.grid;
     ctx.lineWidth = 1;
     ctx.beginPath();
     for (let i = -60; i <= 60; i += 10) {
@@ -310,7 +327,7 @@ const mount = (root) => {
 
   const drawRoute = (highlight) => {
     if (path.length < 2) return;
-    ctx.strokeStyle = highlight ? "rgba(112, 242, 209, 0.75)" : "rgba(112, 242, 209, 0.4)";
+    ctx.strokeStyle = highlight ? skin["route-live"] : skin.route;
     ctx.lineWidth = 1.4;
     ctx.setLineDash(highlight ? [] : [6, 5]);
     ctx.beginPath();
@@ -321,11 +338,13 @@ const mount = (root) => {
     waypoints.forEach((point, i) => {
       ctx.beginPath();
       ctx.arc(px(point.x), py(point.y), 5, 0, Math.PI * 2);
-      ctx.strokeStyle = "#70f2d1";
-      ctx.lineWidth = 1.2;
+      ctx.fillStyle = "#ffffff";
+      ctx.fill();
+      ctx.strokeStyle = skin["route-live"];
+      ctx.lineWidth = 1.6;
       ctx.stroke();
-      ctx.fillStyle = "rgba(112, 242, 209, 0.75)";
-      ctx.font = "9px ui-monospace, monospace";
+      ctx.fillStyle = skin["route-live"];
+      ctx.font = "600 9px \"Gill Sans\", \"Trebuchet MS\", sans-serif";
       ctx.fillText(String(i + 1), px(point.x) + 8, py(point.y) - 6);
     });
   };
@@ -386,7 +405,7 @@ const mount = (root) => {
       const heading = -Math.PI / 2;
       const leader = { x: 0, y: 0 };
       frameSquadron(leader, heading);
-      ctx.strokeStyle = "rgba(112, 242, 209, 0.28)";
+      ctx.strokeStyle = skin.slot;
       ctx.setLineDash([3, 4]);
       emptySlots(leader, heading).forEach((slot) => {
         ctx.beginPath();
@@ -395,7 +414,7 @@ const mount = (root) => {
       });
       ctx.setLineDash([]);
       placeAircraft(leader, heading).forEach((slot) => {
-        drawAircraft(slot.type, slot.x, slot.y, heading, "#eaf7ff", false);
+        drawAircraft(slot.type, slot.x, slot.y, heading, skin.craft, false);
       });
       return;
     }
@@ -406,18 +425,18 @@ const mount = (root) => {
       if (path.length < 2) return;
       const start = along(path, 0);
       placeAircraft(start, start.heading).forEach((slot) => {
-        drawAircraft(slot.type, slot.x, slot.y, start.heading, "rgba(234, 247, 255, 0.5)", true);
+        drawAircraft(slot.type, slot.x, slot.y, start.heading, skin.ghost, true);
       });
       return;
     }
 
     // Each aircraft leaves the wake it actually flew, so a turn shows as a set
     // of curves that spread on the outside and tighten on the inside.
-    ctx.lineWidth = 1.1;
+    ctx.lineWidth = 1.6;
     craft.forEach((machine) => {
       for (let k = 1; k < machine.trail.length; k += 1) {
         const age = 1 - k / machine.trail.length;
-        ctx.strokeStyle = `rgba(112, 242, 209, ${0.32 * (1 - age)})`;
+        ctx.strokeStyle = fade(skin.trail, 1 - age);
         ctx.beginPath();
         ctx.moveTo(px(machine.trail[k - 1].x), py(machine.trail[k - 1].y));
         ctx.lineTo(px(machine.trail[k].x), py(machine.trail[k].y));
@@ -426,7 +445,7 @@ const mount = (root) => {
     });
 
     craft.forEach((machine) => {
-      drawAircraft(machine.type, machine.x, machine.y, machine.heading, "#eaf7ff", false);
+      drawAircraft(machine.type, machine.x, machine.y, machine.heading, skin.craft, false);
     });
   };
 

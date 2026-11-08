@@ -1,6 +1,7 @@
 // The BP app put a process on a table you could walk around. This is the same
 // move in a browser: one well, drawn in section, turned by dragging.
 import { CALM, onStage } from "./frames.js";
+import { paletteOf } from "./app-skin.js";
 
 const DIST = 34;
 const IDLE_SPIN = 0.1;
@@ -17,13 +18,14 @@ const DERRICK_BASE = 2.7;
 const DERRICK_TOP = 0.85;
 const RESERVOIR = { y: -17, rx: 7.5, rz: 3.4, cx: 7 };
 
-const PALETTE = {
-  surface: "rgba(112, 242, 209, 0.18)",
-  strata: "rgba(234, 247, 255, 0.14)",
-  structure: "rgba(234, 247, 255, 0.85)",
-  well: "#eaf7ff",
-  pay: "rgba(255, 122, 184, 0.75)",
-  flow: "#70f2d1",
+// BP's own white-and-green, with the cyan the app ran its fluids in.
+const SKIN = {
+  surface: "rgba(43, 47, 49, 0.14)",
+  strata: "rgba(43, 47, 49, 0.16)",
+  structure: "#4a5457",
+  well: "#24282a",
+  pay: "rgba(0, 150, 57, 0.5)",
+  flow: "#29c5f6",
 };
 
 const grid = () => {
@@ -193,6 +195,7 @@ const mount = (root) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
+  const palette = paletteOf(root, SKIN);
   const view = { w: 0, h: 0, focal: 0 };
 
   // The tile is a different shape on every screen, so the backing store follows
@@ -244,7 +247,7 @@ const mount = (root) => {
       if (!point) continue;
       const radius = Math.max(1.2, (view.focal * 0.09) / point.z);
       ctx.beginPath();
-      ctx.fillStyle = PALETTE.flow;
+      ctx.fillStyle = palette.flow;
       ctx.globalAlpha = 0.35 + 0.65 * Math.sin(Math.PI * fraction);
       ctx.arc(point.sx, point.sy, radius, 0, Math.PI * 2);
       ctx.fill();
@@ -254,13 +257,13 @@ const mount = (root) => {
 
   const draw = () => {
     ctx.clearRect(0, 0, view.w, view.h);
-    stroke(STRATA, PALETTE.strata, 1);
-    stroke(GRID, PALETTE.surface, 1);
-    stroke(RESERVOIR_EDGES, PALETTE.pay, 1.3);
-    stroke(WELL_EDGES, PALETTE.well, 1.6);
-    stroke(LEG_EDGES, PALETTE.structure, 1.1);
-    stroke(DECK_EDGES, PALETTE.structure, 1.15);
-    stroke(DERRICK_EDGES, PALETTE.structure, 1);
+    stroke(STRATA, palette.strata, 1);
+    stroke(GRID, palette.surface, 1);
+    stroke(RESERVOIR_EDGES, palette.pay, 1.3);
+    stroke(WELL_EDGES, palette.well, 1.6);
+    stroke(LEG_EDGES, palette.structure, 1.1);
+    stroke(DECK_EDGES, palette.structure, 1.15);
+    stroke(DERRICK_EDGES, palette.structure, 1);
     drawFlow();
   };
 

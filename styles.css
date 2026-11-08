@@ -3539,7 +3539,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
 .xr-film__play:hover i::before,.xr-film__play:focus-visible i::before { border-left-color:#07131d; }
 .video-embed__frame { position:absolute; z-index:6; inset:0; width:100%; height:100%; border:0; }
 .xr-film[data-state="playing"] > img,.xr-film[data-state="playing"] .xr-film__scan,.xr-film[data-state="playing"] .xr-film__bar,.xr-film[data-state="playing"] .xr-film__play,.xr-film[data-state="playing"]::before,.xr-film[data-state="playing"]::after { opacity:0; pointer-events:none; }
-.xr-case--fife { background:linear-gradient(90deg,transparent,rgba(112,242,209,.05)); }.xr-case--brain { background:linear-gradient(90deg,transparent,rgba(169,140,255,.07)); }.xr-case--bp { background:linear-gradient(90deg,transparent,rgba(223,255,54,.06)); }
 .xr-page__footer { display:flex; justify-content:space-between; gap:2rem; padding:2rem var(--gutter); border-top:1px solid rgba(234,247,255,.2); color:#89a8ba; }.xr-page__footer a { color:#eaf7ff; }
 /* A closing count of what the visitor just scrolled past, in the same
    number-grid language every section uses. */
@@ -4425,13 +4424,13 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   animation: hoof-foe 7s linear infinite;
 }
 @keyframes hoof-foe {
-  0%, 19% { translate: 2.2em 0; scale: 1; rotate: 0deg; opacity: 0; color: #d8382c; }
+  0%, 19% { translate: 2.2em 0; scale: 1; rotate: 0deg; opacity: 0; color: #bd715b; }
   23% { opacity: 1; }
   40% { translate: 0 0; }
   46% { translate: 0 -0.07em; }
   52% { translate: 0 0; }
-  57% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; color: #d8382c; }
-  59% { scale: 1.28; color: #fff3d0; }
+  57% { translate: 0 0; scale: 1; rotate: 0deg; opacity: 1; color: #bd715b; }
+  59% { scale: 1.06; color: #fff3d0; }
   64% { translate: 0.12em 0.14em; scale: 0.12; rotate: 38deg; opacity: 0; }
   100% { translate: 2.2em 0; opacity: 0; }
 }
@@ -4864,952 +4863,6 @@ main > :not(.hero):not(.xr):not(.marquee) { order: 4; }
   96%, 100% { transform: none; }
 }
 
-/* Layered anatomy: the case's app peels a body apart, so this does too.
-   Every layer is drawn as line work and switched from the panel beside it. */
-/* Sits beside the film rather than under it, so the case stays one screen. */
-.xr-case--brain .xr-film { grid-column: 1; max-width: none; }
-
-.anatomy {
-  grid-column: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-  align-items: stretch;
-  aspect-ratio: 16 / 9;
-  gap: clamp(0.9rem, 1.6vw, 1.6rem);
-  padding: clamp(1.1rem, 2vw, 1.8rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #0a1a26;
-}
-
-.anatomy__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  min-width: 0;
-}
-
-/* The readout sits on the floor of the panel, level with the head's chin. */
-.anatomy__panel .anatomy__hud { margin-top: auto; }
-
-.anatomy__stage {
-  position: relative;
-  display: grid;
-  place-items: center;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 38%, rgba(112, 242, 209, 0.09), transparent 62%),
-    repeating-linear-gradient(0deg, rgba(112, 242, 209, 0.05) 0 1px, transparent 1px 2.4rem),
-    repeating-linear-gradient(90deg, rgba(112, 242, 209, 0.05) 0 1px, transparent 1px 2.4rem);
-}
-
-/* A scanner pass, the way the app reads a body before it draws one. */
-.anatomy__stage::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  left: 0;
-  height: 14%;
-  pointer-events: none;
-  background: linear-gradient(rgba(112, 242, 209, 0), rgba(112, 242, 209, 0.16), rgba(112, 242, 209, 0));
-  animation: anatomy-scan 5.5s ease-in-out infinite;
-}
-
-@keyframes anatomy-scan {
-  0%, 100% { top: -16%; }
-  50% { top: 102%; }
-}
-
-.anatomy__figure { width: auto; max-width: 100%; height: 100%; overflow: visible; }
-
-.anatomy__figure g {
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: opacity 0.45s var(--ease);
-}
-
-.anatomy__figure g[data-hidden] { opacity: 0; }
-
-.anatomy[data-focus] .anatomy__figure g:not([data-hidden]) { opacity: 0.22; }
-.anatomy[data-focus="skin"] [data-group="skin"],
-.anatomy[data-focus="vessels"] [data-group="vessels"],
-.anatomy[data-focus="skull"] [data-group="skull"],
-.anatomy[data-focus="brain"] [data-group="brain"],
-.anatomy[data-focus="eyes"] [data-group="eyes"] { opacity: 1; }
-
-.anatomy__figure [data-group="skin"] { stroke: rgba(234, 247, 255, 0.4); }
-.anatomy__figure [data-group="vessels"] { stroke: #ff7ab8; stroke-width: 1.4; }
-.anatomy__figure [data-group="skull"] { stroke: #eaf7ff; }
-.anatomy__figure [data-group="brain"] { stroke: #a98cff; }
-.anatomy__figure [data-group="eyes"] { stroke: #70f2d1; }
-.anatomy__figure .anatomy__iris { fill: #70f2d1; stroke: none; }
-
-.anatomy__panel > span {
-  color: #70f2d1;
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.anatomy__panel > p {
-  margin: 0.6rem 0 1rem;
-  color: #a8beca;
-  font-size: 0.72rem;
-  line-height: 1.6;
-}
-
-.anatomy__toggles { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-.anatomy__toggles button {
-  padding: 0.55rem 0.8rem;
-  border: 1px solid rgba(234, 247, 255, 0.28);
-  background: none;
-  color: #a8beca;
-  font-family: var(--mono);
-  font-size: 0.52rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
-}
-
-.anatomy__toggles button:hover { border-color: #70f2d1; color: #eaf7ff; }
-
-.anatomy__toggles button[aria-pressed="true"] {
-  border-color: #70f2d1;
-  background: rgba(112, 242, 209, 0.12);
-  color: #eaf7ff;
-}
-
-.anatomy__hud {
-  display: flex;
-  gap: 1.4rem;
-  margin-top: 1rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.anatomy__hud span { display: grid; gap: 0.3rem; }
-.anatomy__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.3rem; font-weight: 800; line-height: 1; text-transform: capitalize; }
-
-/* ─────────────────────────────────────────────────────────────────────────
-   BP built a process you could walk around a table to understand. This is the
-   same well in section — derrick, the turn to horizontal, the rock it was
-   drilled for — turned by dragging rather than by walking.
-   ───────────────────────────────────────────────────────────────────────── */
-.rig {
-  grid-column: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  align-items: stretch;
-  aspect-ratio: 16 / 9;
-  gap: clamp(0.9rem, 1.6vw, 1.6rem);
-  padding: clamp(1.1rem, 2vw, 1.8rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #0a1a26;
-}
-
-.rig__stage {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 30%, rgba(112, 242, 209, 0.08), transparent 60%),
-    #07131d;
-}
-
-.rig__canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  touch-action: none;
-}
-
-.rig__canvas:active { cursor: grabbing; }
-.rig__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
-
-.rig__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  min-width: 0;
-}
-
-.rig__panel > span {
-  color: #70f2d1;
-  font-size: 0.48rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.rig__panel > p {
-  margin: 0;
-  color: #a8beca;
-  font-size: 0.72rem;
-  line-height: 1.55;
-}
-
-.rig__key {
-  display: grid;
-  gap: 0.45rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  color: #d1e0e8;
-  font-size: 0.6rem;
-}
-
-.rig__key li { display: flex; align-items: center; gap: 0.55rem; }
-
-.rig__key i {
-  width: 1.1rem;
-  height: 0;
-  border-top: 2px solid;
-  flex: none;
-}
-
-.rig__key i[data-key="structure"] { color: rgba(234, 247, 255, 0.85); }
-.rig__key i[data-key="well"] { color: #eaf7ff; }
-.rig__key i[data-key="pay"] { color: #ff7ab8; }
-
-/* The readout sits on the floor of the panel, level with the seabed. */
-.rig__hud {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: auto;
-  padding-top: 1.1rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.rig__hud span { display: grid; gap: 0.3rem; }
-.rig__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.3rem; font-weight: 800; line-height: 1; }
-.rig__hud i { color: #89a8ba; font-size: 0.45rem; font-style: normal; letter-spacing: 0.12em; text-transform: uppercase; }
-.rig__hint { margin: 0; color: #89a8ba; font-size: 0.45rem; letter-spacing: 0.12em; text-transform: uppercase; }
-
-/* One screenshot beside it, on the same 16:9 as every other tile in the feed. */
-.xr-case--bp .xr-case__media > img {
-  grid-column: 1;
-  min-height: 0;
-  max-height: none;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
-/* ─────────────────────────────────────────────────────────────────────────
-   The book this was made for is about space, so the case carries the subject:
-   the film and the page photo pair up on top, and the system itself runs the
-   full width beneath them.
-   ───────────────────────────────────────────────────────────────────────── */
-.xr-case--carlton .xr-film { grid-column: 1; max-width: none; }
-
-.xr-case--carlton .xr-case__media > img {
-  grid-column: 2;
-  min-height: 0;
-  max-height: none;
-  aspect-ratio: 16 / 9;
-  object-fit: contain;
-}
-
-.orrery {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.32fr);
-  align-items: stretch;
-  aspect-ratio: 16 / 5.6;
-  gap: clamp(0.9rem, 1.6vw, 1.6rem);
-  padding: clamp(1.1rem, 2vw, 1.8rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #060d1a;
-}
-
-.orrery__stage {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(112, 242, 209, 0.07), transparent 62%),
-    #050a14;
-}
-
-.orrery__canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  touch-action: none;
-}
-
-.orrery__canvas:active { cursor: grabbing; }
-.orrery__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
-
-.orrery__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 0;
-}
-
-.orrery__panel > span {
-  color: #70f2d1;
-  font-size: 0.48rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.orrery__panel > b {
-  color: #eaf7ff;
-  font-family: var(--display);
-  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.orrery__panel > p {
-  margin: 0;
-  color: #a8beca;
-  font-size: 0.7rem;
-  line-height: 1.5;
-}
-
-.orrery__hud {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem 1.2rem;
-  margin-top: auto;
-  padding-top: 0.9rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.orrery__hud span { display: grid; gap: 0.25rem; align-content: start; }
-.orrery__hud b { color: #70f2d1; font-family: var(--display); font-size: 0.95rem; font-weight: 800; line-height: 1.05; }
-.orrery__hud i { color: #89a8ba; font-size: 0.42rem; font-style: normal; line-height: 1.4; letter-spacing: 0.1em; text-transform: uppercase; }
-
-.orrery__hint,
-.orrery__zoom {
-  margin: 0;
-  color: #89a8ba;
-  font-size: 0.44rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.orrery__hint { grid-column: 1; }
-.orrery__zoom { grid-column: 2; justify-self: end; }
-.orrery__zoom b { color: #70f2d1; font-family: var(--mono); font-size: 0.44rem; font-weight: 500; }
-
-/* ─────────────────────────────────────────────────────────────────────────
-   The Allergan app taught injection procedures on a 3D patient you could walk
-   round. Same lesson here: the film and a screen from the app pair up, and the
-   procedure itself runs the full width under them.
-   ───────────────────────────────────────────────────────────────────────── */
-.xr-case--allergan .xr-film { grid-column: 1; max-width: none; }
-
-.xr-case--allergan .xr-case__media > img {
-  grid-column: 2;
-  min-height: 0;
-  max-height: none;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
-.botox {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.34fr);
-  align-items: stretch;
-  aspect-ratio: 16 / 6.4;
-  gap: clamp(0.9rem, 1.6vw, 1.6rem);
-  padding: clamp(1.1rem, 2vw, 1.8rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #0a1a26;
-}
-
-.botox__stage {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 40%, rgba(255, 122, 184, 0.08), transparent 60%),
-    #07131d;
-}
-
-.botox__canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  touch-action: none;
-}
-
-.botox__canvas:active { cursor: grabbing; }
-.botox__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
-
-.botox__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-width: 0;
-}
-
-.botox__panel > span {
-  color: #ff7ab8;
-  font-size: 0.48rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.botox__panel > b {
-  color: #eaf7ff;
-  font-family: var(--display);
-  font-size: clamp(1.3rem, 2vw, 1.9rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-}
-
-.botox__panel > p {
-  margin: 0;
-  color: #a8beca;
-  font-size: 0.68rem;
-  line-height: 1.5;
-}
-
-.botox__hud {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.7rem 1.2rem;
-  margin-top: auto;
-  padding-top: 0.9rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.botox__hud span { display: grid; gap: 0.25rem; align-content: start; }
-.botox__hud b { color: #ff7ab8; font-family: var(--display); font-size: 1.15rem; font-weight: 800; line-height: 1; }
-.botox__hud i { color: #89a8ba; font-size: 0.42rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
-
-.botox__hint {
-  grid-column: 1 / -1;
-  margin: 0;
-  color: #89a8ba;
-  font-size: 0.44rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.botox__reset {
-  grid-column: 1 / -1;
-  justify-self: start;
-  padding: 0.45rem 0.8rem;
-  border: 1px solid rgba(234, 247, 255, 0.28);
-  background: none;
-  color: #eaf7ff;
-  font-family: var(--mono);
-  font-size: 0.44rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
-}
-
-.botox__reset:hover { border-color: #ff7ab8; color: #ff7ab8; }
-
-/* Finished, the count stops being a target and becomes a result. */
-.botox[data-complete] .botox__hud b { color: #70f2d1; }
-
-/* ─────────────────────────────────────────────────────────────────────────
-   Every stop on the Fife trail set the visitor a task and handed out a medal
-   for it. The bow is the one that fits in a tile, so it sits beside the film
-   the way the tasks sat beside the storyteller.
-   ───────────────────────────────────────────────────────────────────────── */
-.xr-case--fife .xr-film { grid-column: 1; max-width: none; }
-
-.archer {
-  grid-column: 2;
-  /* Without this the tile takes its width from its own contents and ends up
-     shorter than the film beside it. */
-  width: 100%;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.44fr);
-  align-items: stretch;
-  aspect-ratio: 16 / 9;
-  gap: clamp(0.9rem, 1.6vw, 1.6rem);
-  padding: clamp(1.1rem, 2vw, 1.8rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #0a1a26;
-}
-
-.archer__stage {
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(112, 242, 209, 0.06), transparent 62%),
-    #07131d;
-}
-
-.archer__canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: crosshair;
-  touch-action: none;
-}
-
-.archer__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
-
-.archer__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  min-width: 0;
-}
-
-.archer__panel > span {
-  color: #70f2d1;
-  font-size: 0.46rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.archer__panel > b {
-  color: #eaf7ff;
-  font-family: var(--display);
-  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-}
-
-.archer__panel > p {
-  margin: 0;
-  color: #a8beca;
-  font-size: 0.62rem;
-  line-height: 1.45;
-}
-
-.archer__hud {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem 0.9rem;
-  margin-top: auto;
-  padding-top: 0.8rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.archer__hud span { display: grid; gap: 0.2rem; align-content: start; }
-.archer__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.05rem; font-weight: 800; line-height: 1; }
-.archer__hud i { color: #89a8ba; font-size: 0.4rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
-
-.archer__again {
-  grid-column: 1 / -1;
-  justify-self: start;
-  padding: 0.4rem 0.75rem;
-  border: 1px solid rgba(234, 247, 255, 0.28);
-  background: none;
-  color: #eaf7ff;
-  font-family: var(--mono);
-  font-size: 0.42rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
-}
-
-.archer__again:hover { border-color: #70f2d1; color: #70f2d1; }
-
-/* The medal the round earned, in the colour it is actually made of. */
-.archer[data-medal="gold"] .archer__panel > b { color: #ffd76a; }
-.archer[data-medal="silver"] .archer__panel > b { color: #dfe9f2; }
-.archer[data-medal="bronze"] .archer__panel > b { color: #d79a63; }
-
-/* ─────────────────────────────────────────────────────────────────────────
-   RAF100 put a century of aircraft over a real place. Three steps, one tile:
-   build the flight, draw where it goes, then fly it and follow it.
-   ───────────────────────────────────────────────────────────────────────── */
-.squadron {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.36fr);
-  grid-template-rows: auto minmax(0, 1fr);
-  aspect-ratio: 16 / 7.6;
-  gap: clamp(0.7rem, 1.2vw, 1.2rem);
-  padding: clamp(1.1rem, 2vw, 1.8rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #0a1a26;
-}
-
-.squadron__tabs {
-  grid-column: 1 / -1;
-  display: flex;
-  gap: 0.4rem;
-}
-
-.squadron__tabs button {
-  padding: 0.45rem 0.9rem;
-  border: 1px solid rgba(234, 247, 255, 0.24);
-  background: none;
-  color: #a8beca;
-  font-family: var(--mono);
-  font-size: 0.46rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.4s var(--ease), color 0.4s var(--ease), background 0.4s var(--ease);
-}
-
-.squadron__tabs button:hover { color: #eaf7ff; border-color: rgba(234, 247, 255, 0.5); }
-
-.squadron__tabs button[aria-current="true"] {
-  border-color: #70f2d1;
-  background: rgba(112, 242, 209, 0.12);
-  color: #70f2d1;
-}
-
-.squadron__stage {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 40%, rgba(112, 242, 209, 0.07), transparent 62%),
-    #07131d;
-}
-
-.squadron__canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  touch-action: none;
-}
-
-.squadron__canvas:active { cursor: grabbing; }
-.squadron__canvas:focus-visible { outline: 1px solid #70f2d1; outline-offset: -1px; }
-
-.squadron__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.squadron__panel > b {
-  color: #eaf7ff;
-  font-family: var(--display);
-  font-size: clamp(1.1rem, 1.7vw, 1.6rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-}
-
-.squadron__panel > p {
-  margin: 0;
-  color: #a8beca;
-  font-size: 0.62rem;
-  line-height: 1.45;
-  min-height: 2.6em;
-}
-
-.squadron__group { display: grid; gap: 0.35rem; min-height: 0; }
-
-.squadron__group > span {
-  color: #70f2d1;
-  font-size: 0.42rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.squadron__group ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.squadron__group button {
-  display: grid;
-  gap: 0.1rem;
-  padding: 0.32rem 0.5rem;
-  border: 1px solid rgba(234, 247, 255, 0.22);
-  background: none;
-  color: #d1e0e8;
-  font-family: var(--mono);
-  font-size: 0.44rem;
-  letter-spacing: 0.06em;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.35s var(--ease), color 0.35s var(--ease);
-}
-
-.squadron__group button:hover:not(:disabled) { border-color: #70f2d1; color: #eaf7ff; }
-.squadron__group button:disabled { opacity: 0.35; cursor: default; }
-.squadron__group button b { font-weight: 500; }
-.squadron__group button i { color: #7e97a6; font-size: 0.4rem; font-style: normal; }
-
-.squadron__shapes button { padding: 0.32rem 0.55rem; text-transform: uppercase; }
-.squadron__shapes button[aria-pressed="true"] { border-color: #70f2d1; color: #70f2d1; }
-
-.squadron__group--roster ul { flex-direction: column; }
-.squadron__group--roster button { width: 100%; }
-.squadron__empty { color: #6f8899; font-size: 0.44rem; letter-spacing: 0.06em; }
-
-.squadron__hud {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem 1rem;
-  margin-top: auto;
-  padding-top: 0.7rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.squadron__hud span { display: grid; gap: 0.2rem; align-content: start; }
-.squadron__hud b { color: #70f2d1; font-family: var(--display); font-size: 1rem; font-weight: 800; line-height: 1; }
-.squadron__hud i { color: #89a8ba; font-size: 0.4rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
-
-.squadron__hint {
-  grid-column: 1 / -1;
-  margin: 0;
-  color: #89a8ba;
-  font-size: 0.42rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.squadron__clear {
-  grid-column: 1 / -1;
-  justify-self: start;
-  padding: 0.38rem 0.7rem;
-  border: 1px solid rgba(234, 247, 255, 0.28);
-  background: none;
-  color: #eaf7ff;
-  font-family: var(--mono);
-  font-size: 0.42rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
-}
-
-.squadron__clear:hover { border-color: #70f2d1; color: #70f2d1; }
-
-/* Only the step you are on needs its controls. */
-.squadron[data-screen="route"] .squadron__group--pick,
-.squadron[data-screen="flight"] .squadron__group--pick,
-.squadron[data-screen="flight"] .squadron__group--roster { display: none; }
-
-.anatomy__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
-
-/* Knebworth's VR piece drops you into the same grounds in five centuries.
-   The dial swaps which century is drawn. */
-.eras {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.7fr);
-  align-items: center;
-  gap: 4vw;
-  margin-top: 0.7rem;
-  padding: clamp(1.4rem, 2.6vw, 2.6rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #0a1a26;
-}
-
-.eras__stage {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16 / 10;
-  background:
-    linear-gradient(to top, rgba(112, 242, 209, 0.08), transparent 60%),
-    repeating-linear-gradient(90deg, rgba(112, 242, 209, 0.05) 0 1px, transparent 1px 2.4rem);
-}
-
-.eras__figure { width: min(100%, 26rem); height: auto; }
-
-.eras__figure g {
-  fill: none;
-  stroke: #eaf7ff;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: opacity 0.5s var(--ease);
-}
-
-.eras__figure g[data-hidden] { opacity: 0; }
-.eras__figure .eras__ground { stroke: rgba(112, 242, 209, 0.55); }
-
-.eras__panel > span {
-  color: #70f2d1;
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.eras__panel > p {
-  margin: 0.9rem 0 1.4rem;
-  color: #a8beca;
-  font-size: 0.72rem;
-  line-height: 1.6;
-}
-
-.eras__dial { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-.eras__dial button {
-  padding: 0.55rem 0.8rem;
-  border: 1px solid rgba(234, 247, 255, 0.28);
-  background: none;
-  color: #a8beca;
-  font-family: var(--mono);
-  font-size: 0.52rem;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
-}
-
-.eras__dial button:hover { border-color: #70f2d1; color: #eaf7ff; }
-.eras__dial button[aria-pressed="true"] {
-  border-color: #70f2d1;
-  background: rgba(112, 242, 209, 0.12);
-  color: #eaf7ff;
-}
-
-.eras__hud {
-  display: flex;
-  gap: 1.8rem;
-  margin-top: 1.4rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.eras__hud span { display: grid; gap: 0.3rem; }
-.eras__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.15rem; font-weight: 800; line-height: 1.15; }
-.eras__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
-
-/* Rigby & Rigby build real-time architecture, so the case carries a massing
-   you can walk round rather than a still of one. */
-.model {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(15rem, 0.62fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 4vw;
-  margin-top: 0.7rem;
-  padding: clamp(1.4rem, 2.6vw, 2.6rem);
-  border: 1px solid rgba(234, 247, 255, 0.2);
-  background: #0a1a26;
-}
-
-.model__panel > span {
-  color: #70f2d1;
-  font-size: 0.55rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.model__panel > p {
-  margin: 0.9rem 0 1.4rem;
-  color: #a8beca;
-  font-size: 0.72rem;
-  line-height: 1.6;
-}
-
-.model__hud {
-  display: flex;
-  gap: 1.8rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid rgba(234, 247, 255, 0.2);
-}
-
-.model__hud span { display: grid; gap: 0.3rem; }
-.model__hud b { color: #70f2d1; font-family: var(--display); font-size: 1.3rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
-.model__hud i { color: #a8beca; font-size: 0.5rem; font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; }
-
-.model__hint {
-  margin: 1rem 0 0;
-  color: #a8beca;
-  font-size: 0.52rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.model__canvas {
-  display: block;
-  width: 100%;
-  aspect-ratio: 460 / 320;
-  border: 1px solid rgba(112, 242, 209, 0.28);
-  background: #07131d;
-  cursor: grab;
-  touch-action: none;
-}
-
-.model__canvas:active { cursor: grabbing; }
-.model__canvas:focus-visible { outline: 2px solid #70f2d1; outline-offset: 2px; }
-
-/* The site model sits beside its render, not under it. */
-.xr-case__media:has(.model) > img { grid-column: 1; }
-.model { grid-column: 2; margin-top: 0; }
-
-.model__layers { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.2rem; }
-
-.model__layers button {
-  padding: 0.5rem 0.7rem;
-  border: 1px solid rgba(234, 247, 255, 0.28);
-  background: none;
-  color: #a8beca;
-  font-family: var(--mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
-}
-
-.model__layers button:hover { border-color: #70f2d1; color: #eaf7ff; }
-.model__layers button[aria-pressed="true"] {
-  border-color: #70f2d1;
-  background: rgba(112, 242, 209, 0.12);
-  color: #eaf7ff;
-}
-
-/* Searchlights and stage beams read as light, not structure. */
-.eras__figure .eras__beam { stroke: rgba(112, 242, 209, 0.5); stroke-width: 1.4; }
-
-/* ─────────────────────────────────────────────────────────────────────────
-   The four case-study pieces are declared below the breakpoints above, so a
-   phone layout stated up there loses to them on source order alone. Stacking
-   them has to happen here, after the fact — including releasing the second
-   column, which no longer exists once the media row is a single track.
-   ───────────────────────────────────────────────────────────────────────── */
-@media (max-width: 720px) {
-  .anatomy,
-  .rig,
-  .eras,
-  .model,
-  .orrery,
-  .botox,
-  .archer,
-  .squadron {
-    grid-column: auto;
-    grid-template-columns: 1fr;
-    aspect-ratio: auto;
-    gap: 1.4rem;
-  }
-
-  /* Pinned to the second column, this one would starve the first of width. */
-  .xr-case--carlton .xr-case__media > img { grid-column: auto; }
-
-  .anatomy__figure { width: min(100%, 14rem); height: auto; }
-  .anatomy__stage { min-height: 15rem; }
-  .rig__stage { aspect-ratio: 16 / 10; }
-  .orrery__stage { aspect-ratio: 1 / 1; }
-  .botox__stage { aspect-ratio: 3 / 4; }
-  .archer__stage { aspect-ratio: 16 / 10; }
-  .squadron { grid-template-rows: auto auto auto; }
-  .squadron__stage { aspect-ratio: 4 / 3; }
-  .xr-case--allergan .xr-case__media > img { grid-column: auto; }
-}
 
 /* Each case begins as a compact archive cover and can fold back into it. */
 .game-foldable {
@@ -7212,10 +6265,9 @@ html[data-folding] { overflow-anchor: none; }
   text-shadow: .04em .05em 0 #721016, -.03em -.03em 0 #3ce8fb;
 }
 
-/* Bronze Hoof is the mythic outlier: its expanded case uses the same heavy
-   slab display face as its game logo and Azeret Mono for every UI/detail line. */
+/* Inscribed capitals and patinated stone frame the Bronze Hoof chapter. */
 .featured {
-  --display: "Bevan", serif;
+  --display: "Cinzel", Georgia, serif;
   --mono: "Azeret Mono", monospace;
   --bronze-meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 16'%3E%3Cpath d='M1 15V2h15v9H8V6h24v5h-8v-5h23v9' fill='none' stroke='%23d5a94e' stroke-width='2'/%3E%3C/svg%3E");
   color: #f4edda;
@@ -7243,7 +6295,7 @@ html[data-folding] { overflow-anchor: none; }
 
 .featured .section-heading h2,
 .game-fold--bronze .game-fold__mark {
-  font-family: "Bevan", serif;
+  font-family: "Cinzel", Georgia, serif;
   font-weight: 400;
   letter-spacing: -.085em;
 }
@@ -7429,25 +6481,35 @@ html[data-folding] { overflow-anchor: none; }
 }
 
 .featured .case-collapse {
-  border: 1px solid #d5a94e;
-  border-radius: 0;
-  padding: .34rem .42rem .34rem .68rem;
-  color: #f8edcf;
-  background:
-    var(--bronze-meander) 0 50% / 2.4rem .8rem repeat-x,
-    #171208;
-  box-shadow: 3px 3px 0 #6d4a1c;
-  font-family: var(--mono);
+  height: 2.8rem;
+  padding: .6rem .8rem .6rem 1rem;
+  gap: .9rem;
+  border: 1px solid #ede3c9;
+  border-radius: 3px;
+  color: #193136;
+  background: #ede3c9;
+  box-shadow: 0 3px 12px #081b2433;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .045em;
+  backdrop-filter: none;
 }
 
-.featured .case-collapse span { padding-inline: .12rem; background: #171208; }
+.featured .case-collapse span { padding: 0; background: none; }
 .featured .case-collapse i {
-  border: 1px solid #d5a94e;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-left: 1px solid #19313630;
   border-radius: 0;
-  color: #171208;
-  background: #e9c46a;
-  font-family: var(--display);
+  padding-left: .65rem;
+  color: inherit;
+  background: none;
+  font: 1.2rem Arial, sans-serif;
 }
+.featured .case-collapse:hover { background: #fff4d9; border-color: #fff4d9; }
+.featured .case-collapse:focus-visible { outline-color: #ede3c9; }
 
 /* The cover and open case share one quiet temple surface: a pair of friezes,
    worn stone behind the lettering, no decorative noise in the reading area. */
@@ -7477,7 +6539,7 @@ html[data-folding] { overflow-anchor: none; }
 .game-fold--bronze .game-fold__meta i { font-family: "Azeret Mono", monospace; }
 
 .game-fold--bronze .game-fold__meta b {
-  font-family: "Bevan", serif;
+  font-family: "Cinzel", Georgia, serif;
   font-weight: 400;
   text-shadow: 1px 2px 0 #573814;
 }
@@ -7984,25 +7046,16 @@ html[data-folding] { overflow-anchor: none; }
   text-shadow: .014em .02em 0 rgba(245, 237, 214, .55), .04em .065em 0 #655134, .075em .11em 0 rgba(18, 14, 9, .88);
 }
 
-.featured .hoof__f {
-  color: #c9793b;
-  background: linear-gradient(105deg, #6d321f 0 8%, #e2a15d 24% 45%, #a64d2b 65%, #f1c27c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: .018em #4b2117;
-  text-shadow: .018em .03em 0 #f3ca86, .055em .085em 0 #692c1d, .08em .115em 0 rgba(20, 12, 8, .9);
+.featured .hoof__f,
+.featured .hoof__foe {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
 }
 
-.featured .hoof__foe {
-  color: #9c3d31;
-  background: linear-gradient(100deg, #542019, #c8533e 45%, #7b2c24 75%, #e07959);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: .028em #35130f;
-  text-shadow: .035em .06em 0 #4a1714, .065em .1em 0 rgba(15, 8, 7, .86);
-}
+.featured .hoof__f { color: #d8bc80; }
+.featured .hoof__foe { color: #bd715b; }
 
 /* Every case signs its exit in the same visual language as its cover. */
 .boon .case-collapse { border-radius: .15rem .9rem .15rem .9rem; background-color: #d9c9d2; }
@@ -8083,7 +7136,7 @@ html[data-folding] { overflow-anchor: none; }
 .case-collapse i { width: 1.45rem; height: 1.45rem; font-size: .8rem; }
 .case-collapse:hover i { transform: none; }
 
-.featured .case-collapse:hover i { animation: collapse-stride .42s ease-out; }
+.featured .case-collapse:hover i { transform: translateY(-2px); }
 .boon .case-collapse:hover i { animation: collapse-sway .48s ease-in-out; }
 .flower .case-collapse:hover i { animation: collapse-bloom .44s ease-out; }
 .boxjam .case-collapse:hover i { animation: collapse-drop .36s ease-out; }
@@ -9526,4 +8579,51 @@ html[data-folding] { overflow-anchor: none; }
   .about__header em::after,
   .capabilities span,
   .capabilities div:hover p { animation: none; }
+}
+
+/* Bronze Hoof: temple inscriptions, limestone and Aegean patina. */
+.featured {
+  background: radial-gradient(ellipse at 80% 15%, #3b675738, transparent 45%), linear-gradient(135deg, #111f24, #1c3032 55%, #101f26);
+}
+.featured .section-heading h2,
+.featured .section-heading h2 em,
+.game-fold--bronze .game-fold__mark {
+  font-family: "Cinzel", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  background: none;
+  color: #eee5cc;
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke: 0;
+  text-shadow: 0 2px 0 #556253;
+}
+.featured .project-quote,
+.featured .stats,
+.featured .runner {
+  border: 1px solid #b7b38b66;
+  background: linear-gradient(135deg, #d0d2b609, #0d20253b);
+  box-shadow: none;
+}
+.featured .project-quote { border-top: 3px double #b7b38b80; border-bottom: 3px double #b7b38b80; }
+.featured .project-quote::before { content: "ARETE / THE PURSUIT OF EXCELLENCE"; color: #bfc9ad; letter-spacing: .16em; }
+.featured .project-quote p { font-size: clamp(2rem, 3.6vw, 4rem); font-weight: 500; line-height: 1.18; letter-spacing: -.025em; }
+.featured .stats div { border-color: #b7b38b40; background: none; }
+.featured .stats strong { font-weight: 500; letter-spacing: -.035em; }
+.featured .runner { border-top: 3px double #b7b38b80; }
+.featured .runner__brief h3 { color: #eee5cc; text-shadow: none; font-weight: 500; line-height: 1.12; letter-spacing: .01em; }
+.featured .runner__brief h3 em { color: #c4d4b2; }
+.featured .runner__canvas { aspect-ratio: 2 / 1; border: 1px solid #a9b59a80; outline: none; image-rendering: auto; cursor: pointer; }
+.featured .runner__hud { flex-wrap: wrap; }
+.featured .runner__hint { width: 100%; margin: 0; min-height: 2.6em; line-height: 1.6; }
+.runner__controls { grid-column: 2; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.runner__controls > span { color: #cad1b8; font-size: .65rem; }
+.runner__action { border: 1px solid #bcb486; background: #d9d6b8; color: #183139; padding: .85rem 1.35rem; font: 600 .75rem "Cinzel", Georgia, serif; letter-spacing: .06em; cursor: pointer; touch-action: manipulation; }
+.runner__action:hover { background: #f3e9c8; }
+.runner__action:focus-visible { outline: 2px solid #f3e9c8; outline-offset: 4px; }
+.featured .feature-frame { border: 1px solid #b7b38b80; box-shadow: none; }
+.game-fold--bronze .game-fold__meta b { font-family: "Cinzel", Georgia, serif; text-shadow: none; }
+@media (max-width: 980px) {
+  .runner__controls { grid-column: 1 / -1; flex-wrap: wrap; }
+  .featured .runner__brief h3 { font-size: 2rem; }
+  .featured .runner__canvas { min-height: 0; }
 }
